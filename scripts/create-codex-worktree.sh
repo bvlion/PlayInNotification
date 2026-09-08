@@ -104,7 +104,7 @@ cleanup() {
   if [[ "$is_target_worktree_created" == true && ( -e "$target_worktree" || -L "$target_worktree" ) ]]; then
     if ! rm -rf -- "$target_worktree"; then
       printf '作成先を削除できませんでした。確認後に次を実行してください:\n  rm -rf -- %q\n' \
-        "$target_worktree" "$target_worktree" >&2
+        "$target_worktree" >&2
     fi
   fi
   if git -C "$source_worktree" show-ref --verify --quiet "refs/heads/${branch_name}"; then
