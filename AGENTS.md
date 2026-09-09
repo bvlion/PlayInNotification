@@ -6,7 +6,7 @@ PlayInNotification は、通知エリアを主なプレイ場所として30秒�
 
 普段のプレイは通知から完結することを基本とし、アプリ本体は設定と成績確認を主な役割とします。
 
-AndroidアプリはJetpack Composeで実装します。`compileSdk`と`targetSdk`は37、`minSdk`は31です。applicationIdは`net.ambitious.android.info.bvlion.playinnotification`です。
+AndroidアプリはJetpack Composeで実装します。`compileSdk`と`targetSdk`は37、`minSdk`は31です。applicationIdは`net.ambitious.android.playinnotification`です。
 
 UIの配色はDynamic Colorを基本とします。
 
