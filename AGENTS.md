@@ -23,8 +23,9 @@ UIの配色はDynamic Colorを基本とします。
 ## Worktree
 
 - Codexは、現在のworktreeと対応ブランチ内だけを変更してください。
-- 他のworktreeや、`scripts/create-codex-worktree.sh`を実行したコピー元worktreeを変更しないでください。
-- Issue用worktreeは、コピー元worktreeで`scripts/create-codex-worktree.sh <Issue番号> <接尾辞>`を実行して作成してください。
+- Codex Remote等で作業開始時点から専用worktreeが用意されている場合は、そのworktreeをそのまま使用し、`scripts/create-codex-worktree.sh`を追加実行しないでください。
+- 手元の既存worktreeからIssue用worktreeを新しく作成する場合は、コピー元worktreeで`scripts/create-codex-worktree.sh <Issue番号> <接尾辞>`を実行してください。
+- 他のworktreeや、手元で`scripts/create-codex-worktree.sh`を実行した場合のコピー元worktreeを変更しないでください。
 
 ## 開発方針
 
