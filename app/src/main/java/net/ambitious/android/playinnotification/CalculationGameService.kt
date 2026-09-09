@@ -26,6 +26,7 @@ class CalculationGameService : Service() {
   private val gameStatisticsRepository by lazy { GameStatisticsRepository(applicationContext) }
   private val gameStatisticsScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
   private var sessionDeadline = 0L
+  private var sessionDifficulty = CALCULATION_LEVEL_ONE_DIFFICULTY
   private var questionNumber = 0
   private var currentQuestion: CalculationQuestion? = null
   private var sessionResult = CalculationSessionResult()
@@ -45,7 +46,7 @@ class CalculationGameService : Service() {
       gameStatisticsRepository.recordCompletedSession(
         sessionResult = sessionResult,
         gameGenre = CALCULATION_GAME_GENRE,
-        difficulty = CALCULATION_LEVEL_ONE_DIFFICULTY,
+        difficulty = sessionDifficulty,
         completedSessionDate = LocalDate.now(),
       )
       withContext(Dispatchers.Main) {
@@ -59,7 +60,8 @@ class CalculationGameService : Service() {
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
     when (intent?.action) {
-      ACTION_START -> startSession()
+      ACTION_START_LEVEL_ONE -> startSession(CALCULATION_LEVEL_ONE_DIFFICULTY)
+      ACTION_START_LEVEL_TWO -> startSession(CALCULATION_LEVEL_TWO_DIFFICULTY)
       ACTION_ANSWER -> handleAnswer(intent)
     }
     return START_NOT_STICKY
@@ -75,7 +77,7 @@ class CalculationGameService : Service() {
 
   override fun onBind(intent: Intent?): IBinder? = null
 
-  private fun startSession() {
+  private fun startSession(difficulty: Int) {
     handler.removeCallbacks(finishSession)
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = getSystemService(PowerManager::class.java).newWakeLock(
@@ -86,8 +88,10 @@ class CalculationGameService : Service() {
       acquire(SESSION_DURATION_MILLISECONDS + WAKE_LOCK_TIMEOUT_MARGIN_MILLISECONDS)
     }
     isSessionActive = true
+    sessionDifficulty = difficulty
     sessionDeadline = SystemClock.elapsedRealtime() + SESSION_DURATION_MILLISECONDS
     questionNumber = 0
+    currentQuestion = null
     sessionResult = CalculationSessionResult()
     isCompletingSession = false
     latestCompletedSessionResult = null
@@ -113,7 +117,7 @@ class CalculationGameService : Service() {
       CalculationAnswerResult.create(
         question = question,
         answer = answer,
-        questionDifficulty = CALCULATION_LEVEL_ONE_DIFFICULTY,
+        questionDifficulty = sessionDifficulty,
       ),
     )
     showNextQuestion(isStartingForegroundService = false)
@@ -121,7 +125,10 @@ class CalculationGameService : Service() {
 
   private fun showNextQuestion(isStartingForegroundService: Boolean) {
     questionNumber += 1
-    currentQuestion = CalculationQuestion.create()
+    currentQuestion = CalculationQuestion.create(
+      difficulty = sessionDifficulty,
+      previousQuestion = currentQuestion,
+    )
     val notification = createQuestionNotification(currentQuestion!!)
     if (isStartingForegroundService) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
@@ -179,8 +186,10 @@ class CalculationGameService : Service() {
   companion object {
     private const val NOTIFICATION_CHANNEL_ID = "game_notifications"
     private const val NOTIFICATION_ID = 1
-    private const val ACTION_START =
+    private const val ACTION_START_LEVEL_ONE =
       "net.ambitious.android.playinnotification.action.START_CALCULATION_LEVEL_ONE"
+    private const val ACTION_START_LEVEL_TWO =
+      "net.ambitious.android.playinnotification.action.START_CALCULATION_LEVEL_TWO"
     private const val ACTION_ANSWER =
       "net.ambitious.android.playinnotification.action.ANSWER_CALCULATION"
     private const val EXTRA_QUESTION_NUMBER = "question_number"
@@ -189,6 +198,7 @@ class CalculationGameService : Service() {
     private const val WAKE_LOCK_TIMEOUT_MARGIN_MILLISECONDS = 1_000L
     private const val CALCULATION_GAME_GENRE = "calculation"
     private const val CALCULATION_LEVEL_ONE_DIFFICULTY = 1
+    private const val CALCULATION_LEVEL_TWO_DIFFICULTY = 2
 
     @Volatile
     var isSessionActive = false
@@ -212,25 +222,40 @@ class CalculationGameService : Service() {
 
     fun showGameSelection(context: Context) {
       createNotificationChannel(context)
-      val startIntent = Intent(context, CalculationGameService::class.java)
-        .setAction(ACTION_START)
-      val startPendingIntent = PendingIntent.getForegroundService(
+      val startLevelOneIntent = Intent(context, CalculationGameService::class.java)
+        .setAction(ACTION_START_LEVEL_ONE)
+      val startLevelOnePendingIntent = PendingIntent.getForegroundService(
         context,
-        0,
-        startIntent,
+        CALCULATION_LEVEL_ONE_DIFFICULTY,
+        startLevelOneIntent,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+      )
+      val startLevelTwoIntent = Intent(context, CalculationGameService::class.java)
+        .setAction(ACTION_START_LEVEL_TWO)
+      val startLevelTwoPendingIntent = PendingIntent.getForegroundService(
+        context,
+        CALCULATION_LEVEL_TWO_DIFFICULTY,
+        startLevelTwoIntent,
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
       )
       val notification = Notification.Builder(context, NOTIFICATION_CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_launcher_foreground)
         .setContentTitle(context.getString(R.string.game_selection_title))
-        .setContentText(context.getString(R.string.calculation_level_one_description))
+        .setContentText(context.getString(R.string.calculation_description))
         .setOngoing(true)
         .setOnlyAlertOnce(true)
         .addAction(
           Notification.Action.Builder(
             null,
             context.getString(R.string.calculation_level_one),
-            startPendingIntent,
+            startLevelOnePendingIntent,
+          ).build(),
+        )
+        .addAction(
+          Notification.Action.Builder(
+            null,
+            context.getString(R.string.calculation_level_two),
+            startLevelTwoPendingIntent,
           ).build(),
         )
         .build()
