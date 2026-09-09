@@ -22,6 +22,7 @@ class CalculationGameService : Service() {
 
   private val finishSession = Runnable {
     currentQuestion = null
+    isSessionActive = false
     stopForeground(STOP_FOREGROUND_REMOVE)
     stopSelf()
     showGameSelection(this)
@@ -37,6 +38,7 @@ class CalculationGameService : Service() {
 
   override fun onDestroy() {
     handler.removeCallbacks(finishSession)
+    isSessionActive = false
     super.onDestroy()
   }
 
@@ -44,6 +46,7 @@ class CalculationGameService : Service() {
 
   private fun startSession() {
     handler.removeCallbacks(finishSession)
+    isSessionActive = true
     sessionDeadline = SystemClock.elapsedRealtime() + SESSION_DURATION_MILLISECONDS
     questionNumber = 0
     showNextQuestion(isStartingForegroundService = true)
@@ -133,6 +136,10 @@ class CalculationGameService : Service() {
     private const val EXTRA_QUESTION_NUMBER = "question_number"
     private const val EXTRA_ANSWER = "answer"
     private const val SESSION_DURATION_MILLISECONDS = 30_000L
+
+    @Volatile
+    var isSessionActive = false
+      private set
 
     fun createNotificationChannel(context: Context) {
       val channel = NotificationChannel(

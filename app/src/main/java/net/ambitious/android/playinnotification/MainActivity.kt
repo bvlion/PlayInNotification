@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
   private val notificationPermissionLauncher = registerForActivityResult(
     ActivityResultContracts.RequestPermission(),
   ) { isGranted ->
-    if (isGranted) {
+    if (isGranted && !CalculationGameService.isSessionActive) {
       CalculationGameService.showGameSelection(this)
     }
   }
@@ -35,11 +35,9 @@ class MainActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
     CalculationGameService.createNotificationChannel(this)
     if (
-      Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-      checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+      Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+      checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
     ) {
-      CalculationGameService.showGameSelection(this)
-    } else {
       notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
@@ -67,6 +65,17 @@ class MainActivity : ComponentActivity() {
           }
         }
       }
+    }
+  }
+
+  override fun onResume() {
+    super.onResume()
+    if (
+      (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+        checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) &&
+      !CalculationGameService.isSessionActive
+    ) {
+      CalculationGameService.showGameSelection(this)
     }
   }
 }
