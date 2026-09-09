@@ -6,6 +6,8 @@ PlayInNotification は、通知エリアを主なプレイ場所として30秒�
 
 普段のプレイは通知から完結することを基本とし、アプリ本体は設定と成績確認を主な役割とします。
 
+AndroidアプリはKotlinとAndroid標準Viewで実装し、単一の`app`モジュールで構成します。`compileSdk`と`targetSdk`は37、`minSdk`は23です。
+
 確定済みのプロダクト仕様はGitHub Issueを正とし、`AGENTS.md`へ重複して記載しません。
 
 ## Worktree
@@ -44,7 +46,12 @@ PlayInNotification は、通知エリアを主なプレイ場所として30秒�
 
 ## ビルドとテスト
 
-- Gradleプロジェクト初期化後は、リポジトリ同梱のGradle Wrapperを使用してください。
+- JDK 17とAndroid SDK Platform 37を使用してください。
+- Gradleはリポジトリ同梱のGradle Wrapperを使用してください。
+- unit testは`./gradlew testDebugUnitTest`で実行してください。
+- lintは`./gradlew lintDebug`で実行してください。
+- debug buildは`./gradlew assembleDebug`で実行してください。
+- Pull RequestのCIと同じ一括検証は`./gradlew testDebugUnitTest lintDebug assembleDebug`で実行してください。
 - 変更後は`git diff --check`を実行してください。
 - documentationやrepository運用設定のみの変更では、Gradleによる検証は不要です。
 - Androidのproductionコード、テスト、build設定等へ影響する変更では、変更範囲に対応するunit test、lint、buildを実行してください。
