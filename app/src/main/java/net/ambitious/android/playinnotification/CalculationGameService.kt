@@ -20,11 +20,13 @@ class CalculationGameService : Service() {
   private var sessionDeadline = 0L
   private var questionNumber = 0
   private var currentQuestion: CalculationQuestion? = null
+  private var sessionResult = CalculationSessionResult()
   private var sessionWakeLock: PowerManager.WakeLock? = null
 
   private val finishSession = Runnable {
     currentQuestion = null
     isSessionActive = false
+    latestCompletedSessionResult = sessionResult
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = null
     stopForeground(STOP_FOREGROUND_REMOVE)
@@ -63,15 +65,18 @@ class CalculationGameService : Service() {
     isSessionActive = true
     sessionDeadline = SystemClock.elapsedRealtime() + SESSION_DURATION_MILLISECONDS
     questionNumber = 0
+    sessionResult = CalculationSessionResult()
+    latestCompletedSessionResult = null
     showNextQuestion(isStartingForegroundService = true)
     handler.postDelayed(finishSession, SESSION_DURATION_MILLISECONDS)
   }
 
   private fun handleAnswer(intent: Intent) {
     val question = currentQuestion ?: return
+    val answer = intent.getIntExtra(EXTRA_ANSWER, Int.MIN_VALUE)
     if (
       intent.getIntExtra(EXTRA_QUESTION_NUMBER, -1) != questionNumber ||
-      intent.getIntExtra(EXTRA_ANSWER, Int.MIN_VALUE) !in question.choices
+      answer !in question.choices
     ) {
       return
     }
@@ -80,6 +85,13 @@ class CalculationGameService : Service() {
       return
     }
 
+    sessionResult = sessionResult.addAnswerResult(
+      CalculationAnswerResult.create(
+        question = question,
+        answer = answer,
+        questionDifficulty = CALCULATION_LEVEL_ONE_DIFFICULTY,
+      ),
+    )
     showNextQuestion(isStartingForegroundService = false)
   }
 
@@ -151,9 +163,14 @@ class CalculationGameService : Service() {
     private const val EXTRA_ANSWER = "answer"
     private const val SESSION_DURATION_MILLISECONDS = 30_000L
     private const val WAKE_LOCK_TIMEOUT_MARGIN_MILLISECONDS = 1_000L
+    private const val CALCULATION_LEVEL_ONE_DIFFICULTY = 1
 
     @Volatile
     var isSessionActive = false
+      private set
+
+    @Volatile
+    internal var latestCompletedSessionResult: CalculationSessionResult? = null
       private set
 
     fun createNotificationChannel(context: Context) {
