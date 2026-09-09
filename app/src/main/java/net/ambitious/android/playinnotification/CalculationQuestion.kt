@@ -12,6 +12,7 @@ internal data class CalculationQuestion(
     CalculationOperator.ADDITION -> leftOperand + rightOperand
     CalculationOperator.SUBTRACTION -> leftOperand - rightOperand
     CalculationOperator.MULTIPLICATION -> leftOperand * rightOperand
+    CalculationOperator.DIVISION -> leftOperand / rightOperand
   }
 
   companion object {
@@ -22,22 +23,29 @@ internal data class CalculationQuestion(
     ): CalculationQuestion {
       var question: CalculationQuestion
       do {
-        val operator = if (difficulty == 2 && random.nextBoolean()) {
+        val operator = if (difficulty == 3 && random.nextBoolean()) {
+          CalculationOperator.DIVISION
+        } else if (difficulty in 2..3 && random.nextBoolean()) {
           CalculationOperator.MULTIPLICATION
         } else if (random.nextBoolean()) {
           CalculationOperator.ADDITION
         } else {
           CalculationOperator.SUBTRACTION
         }
-        val operandRange = if (operator == CalculationOperator.MULTIPLICATION) 2..9 else {
-          if (difficulty == 2) 1..9 else 0..9
+        val operandRange = if (
+          operator == CalculationOperator.MULTIPLICATION ||
+          operator == CalculationOperator.DIVISION
+        ) {
+          2..9
+        } else {
+          if (difficulty in 2..3) 1..9 else 0..9
         }
         val firstOperand = operandRange.random(random)
         val secondOperand = operandRange.random(random)
-        val leftOperand = if (operator == CalculationOperator.SUBTRACTION) {
-          maxOf(firstOperand, secondOperand)
-        } else {
-          firstOperand
+        val leftOperand = when (operator) {
+          CalculationOperator.SUBTRACTION -> maxOf(firstOperand, secondOperand)
+          CalculationOperator.DIVISION -> firstOperand * secondOperand
+          else -> firstOperand
         }
         val rightOperand = if (operator == CalculationOperator.SUBTRACTION) {
           minOf(firstOperand, secondOperand)
@@ -48,8 +56,9 @@ internal data class CalculationQuestion(
           CalculationOperator.ADDITION -> leftOperand + rightOperand
           CalculationOperator.SUBTRACTION -> leftOperand - rightOperand
           CalculationOperator.MULTIPLICATION -> leftOperand * rightOperand
+          CalculationOperator.DIVISION -> leftOperand / rightOperand
         }
-        val wrongAnswerRange = if (difficulty == 2) 0..81 else 0..18
+        val wrongAnswerRange = if (difficulty in 2..3) 0..81 else 0..18
         val wrongAnswers = wrongAnswerRange
           .filter { it != correctAnswer }
           .shuffled(random)
@@ -62,7 +71,7 @@ internal data class CalculationQuestion(
           choices = (wrongAnswers + correctAnswer).shuffled(random),
         )
       } while (
-        difficulty == 2 &&
+        difficulty in 2..3 &&
         question.leftOperand == previousQuestion?.leftOperand &&
         question.rightOperand == previousQuestion.rightOperand &&
         question.operator == previousQuestion.operator
@@ -77,4 +86,5 @@ internal enum class CalculationOperator(val symbol: String) {
   ADDITION("+"),
   SUBTRACTION("−"),
   MULTIPLICATION("×"),
+  DIVISION("÷"),
 }

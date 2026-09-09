@@ -5,6 +5,7 @@
   <string name="game_selection_title">ゲームを選択</string>
   <string name="calculation_level_one">計算 Lv1</string>
   <string name="calculation_level_two">計算 Lv2</string>
+  <string name="calculation_level_three">計算 Lv3</string>
   <string name="calculation_description">難易度を選んで30秒プレイ</string>
   <string name="calculation_question">%1$d %2$s %3$d = ?</string>
   <string name="calculation_time_remaining">残り30秒</string>
