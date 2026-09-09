@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.os.PowerManager
 import android.os.SystemClock
 
 class CalculationGameService : Service() {
@@ -19,10 +20,13 @@ class CalculationGameService : Service() {
   private var sessionDeadline = 0L
   private var questionNumber = 0
   private var currentQuestion: CalculationQuestion? = null
+  private var sessionWakeLock: PowerManager.WakeLock? = null
 
   private val finishSession = Runnable {
     currentQuestion = null
     isSessionActive = false
+    sessionWakeLock?.takeIf { it.isHeld }?.release()
+    sessionWakeLock = null
     stopForeground(STOP_FOREGROUND_REMOVE)
     stopSelf()
     showGameSelection(this)
@@ -39,6 +43,8 @@ class CalculationGameService : Service() {
   override fun onDestroy() {
     handler.removeCallbacks(finishSession)
     isSessionActive = false
+    sessionWakeLock?.takeIf { it.isHeld }?.release()
+    sessionWakeLock = null
     super.onDestroy()
   }
 
@@ -46,6 +52,14 @@ class CalculationGameService : Service() {
 
   private fun startSession() {
     handler.removeCallbacks(finishSession)
+    sessionWakeLock?.takeIf { it.isHeld }?.release()
+    sessionWakeLock = getSystemService(PowerManager::class.java).newWakeLock(
+      PowerManager.PARTIAL_WAKE_LOCK,
+      "$packageName:calculation-game",
+    ).apply {
+      setReferenceCounted(false)
+      acquire(SESSION_DURATION_MILLISECONDS + WAKE_LOCK_TIMEOUT_MARGIN_MILLISECONDS)
+    }
     isSessionActive = true
     sessionDeadline = SystemClock.elapsedRealtime() + SESSION_DURATION_MILLISECONDS
     questionNumber = 0
@@ -127,7 +141,7 @@ class CalculationGameService : Service() {
   }
 
   companion object {
-    private const val NOTIFICATION_CHANNEL_ID = "game"
+    private const val NOTIFICATION_CHANNEL_ID = "game_notifications"
     private const val NOTIFICATION_ID = 1
     private const val ACTION_START =
       "net.ambitious.android.playinnotification.action.START_CALCULATION_LEVEL_ONE"
@@ -136,6 +150,7 @@ class CalculationGameService : Service() {
     private const val EXTRA_QUESTION_NUMBER = "question_number"
     private const val EXTRA_ANSWER = "answer"
     private const val SESSION_DURATION_MILLISECONDS = 30_000L
+    private const val WAKE_LOCK_TIMEOUT_MARGIN_MILLISECONDS = 1_000L
 
     @Volatile
     var isSessionActive = false
@@ -145,8 +160,11 @@ class CalculationGameService : Service() {
       val channel = NotificationChannel(
         NOTIFICATION_CHANNEL_ID,
         context.getString(R.string.game_notification_channel_name),
-        NotificationManager.IMPORTANCE_DEFAULT,
-      )
+        NotificationManager.IMPORTANCE_LOW,
+      ).apply {
+        setSound(null, null)
+        enableVibration(false)
+      }
       context.getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
     }
 
