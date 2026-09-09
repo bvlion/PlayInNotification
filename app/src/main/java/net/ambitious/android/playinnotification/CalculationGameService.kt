@@ -62,6 +62,7 @@ class CalculationGameService : Service() {
     when (intent?.action) {
       ACTION_START_LEVEL_ONE -> startSession(CALCULATION_LEVEL_ONE_DIFFICULTY)
       ACTION_START_LEVEL_TWO -> startSession(CALCULATION_LEVEL_TWO_DIFFICULTY)
+      ACTION_START_LEVEL_THREE -> startSession(CALCULATION_LEVEL_THREE_DIFFICULTY)
       ACTION_ANSWER -> handleAnswer(intent)
     }
     return START_NOT_STICKY
@@ -190,6 +191,8 @@ class CalculationGameService : Service() {
       "net.ambitious.android.playinnotification.action.START_CALCULATION_LEVEL_ONE"
     private const val ACTION_START_LEVEL_TWO =
       "net.ambitious.android.playinnotification.action.START_CALCULATION_LEVEL_TWO"
+    private const val ACTION_START_LEVEL_THREE =
+      "net.ambitious.android.playinnotification.action.START_CALCULATION_LEVEL_THREE"
     private const val ACTION_ANSWER =
       "net.ambitious.android.playinnotification.action.ANSWER_CALCULATION"
     private const val EXTRA_QUESTION_NUMBER = "question_number"
@@ -199,6 +202,7 @@ class CalculationGameService : Service() {
     private const val CALCULATION_GAME_GENRE = "calculation"
     private const val CALCULATION_LEVEL_ONE_DIFFICULTY = 1
     private const val CALCULATION_LEVEL_TWO_DIFFICULTY = 2
+    private const val CALCULATION_LEVEL_THREE_DIFFICULTY = 3
 
     @Volatile
     var isSessionActive = false
@@ -238,6 +242,14 @@ class CalculationGameService : Service() {
         startLevelTwoIntent,
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
       )
+      val startLevelThreeIntent = Intent(context, CalculationGameService::class.java)
+        .setAction(ACTION_START_LEVEL_THREE)
+      val startLevelThreePendingIntent = PendingIntent.getForegroundService(
+        context,
+        CALCULATION_LEVEL_THREE_DIFFICULTY,
+        startLevelThreeIntent,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+      )
       val notification = Notification.Builder(context, NOTIFICATION_CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_launcher_foreground)
         .setContentTitle(context.getString(R.string.game_selection_title))
@@ -256,6 +268,13 @@ class CalculationGameService : Service() {
             null,
             context.getString(R.string.calculation_level_two),
             startLevelTwoPendingIntent,
+          ).build(),
+        )
+        .addAction(
+          Notification.Action.Builder(
+            null,
+            context.getString(R.string.calculation_level_three),
+            startLevelThreePendingIntent,
           ).build(),
         )
         .build()
