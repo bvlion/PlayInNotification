@@ -23,14 +23,15 @@ UIの配色はDynamic Colorを基本とします。
 ## Worktree
 
 - Codexは、現在のworktreeと対応ブランチ内だけを変更してください。
-- 他のworktreeや、`scripts/create-codex-worktree.sh`を実行したコピー元worktreeを変更しないでください。
-- Issue用worktreeは、コピー元worktreeで`scripts/create-codex-worktree.sh <Issue番号> <接尾辞>`を実行して作成してください。
+- Codex Remote等で作業開始時点から専用worktreeが用意されている場合は、そのworktreeをそのまま使用し、`scripts/create-codex-worktree.sh`を追加実行しないでください。
+- 手元の既存worktreeからIssue用worktreeを新しく作成する場合は、コピー元worktreeで`scripts/create-codex-worktree.sh <Issue番号> <接尾辞>`を実行してください。
+- 他のworktreeや、手元で`scripts/create-codex-worktree.sh`を実行した場合のコピー元worktreeを変更しないでください。
 
 ## 開発方針
 
 - 依頼またはIssueの範囲に必要な変更へ集中し、無関係な変更を同じPull Requestへ混ぜないでください。
 - 実装前に関連する既存コード、呼び出し元、既存テストを確認してください。
-- 既存の設計、パッケージ構成、命名、記述形式がある場合はそれを優先してください。
+- 既存の設計、パッケージ構造、命名、記述形式がある場合はそれを優先してください。
 - 仕様が不明確で複数の妥当な実装がある場合は、推測で決めず実装前にユーザーへ確認してください。
 - 確定済みの仕様を、実装都合だけを理由に変更しないでください。
 - 現在のIssueに不要な機能や抽象化を先回りして追加しないでください。
