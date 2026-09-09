@@ -29,7 +29,7 @@ branch_suffix="$2"
 [[ "$issue_number" =~ ^[1-9][0-9]*$ ]] || die "Issue番号には1以上の整数を指定してください。"
 [[ "$branch_suffix" =~ ^[a-z0-9]+([._-][a-z0-9]+)*$ ]] || die "接尾辞には小文字英数字と区切り文字（.、_、-）を指定してください。"
 
-branch_name="agent/issue-${issue_number}-${branch_suffix}"
+branch_name="codex/${branch_suffix}"
 git check-ref-format --branch "$branch_name" >/dev/null || die "ブランチ名がGitの形式に適合しません: ${branch_name}"
 
 source_worktree=$(git rev-parse --show-toplevel 2>/dev/null) || die "Git worktree内で実行してください。"

@@ -66,7 +66,7 @@ PlayInNotification は、通知エリアを主なプレイ場所として30秒�
 ## Git と Pull Request
 
 - `main`へ直接commit / pushせず、専用branchとPull Requestを使用してください。
-- branch名は原則として`agent/<short-task-name>`としてください。
+- Codexのbranchは`codex/<short-task-name>`、Claudeのbranchは`claude/<short-task-name>`、ChatGPTのbranchは`chatgpt/<short-task-name>`としてください。
 - commit件名は英語の命令形で簡潔に記述してください。
 - Issue対応を依頼された場合は、調査、実装、検証、commit、pushを行い、Pull RequestをReady for reviewとして作成してください。
 - Pull Request本文には対応Issue、目的または原因、変更内容、最終的な検証結果を記載してください。
