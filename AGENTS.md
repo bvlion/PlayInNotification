@@ -6,9 +6,19 @@ PlayInNotification は、通知エリアを主なプレイ場所として30秒�
 
 普段のプレイは通知から完結することを基本とし、アプリ本体は設定と成績確認を主な役割とします。
 
-AndroidアプリはKotlinとAndroid標準Viewで実装し、単一の`app`モジュールで構成します。`compileSdk`と`targetSdk`は37、`minSdk`は23です。
+AndroidアプリはJetpack Composeで実装します。`compileSdk`と`targetSdk`は37、`minSdk`は31です。applicationIdは`net.ambitious.android.info.bvlion.playinnotification`です。
+
+UIの配色はDynamic Colorを基本とします。
 
 確定済みのプロダクト仕様はGitHub Issueを正とし、`AGENTS.md`へ重複して記載しません。
+
+## Android開発方針
+
+- 新しい実装では、対応時点のAndroid公式推奨と現在の標準的な実装を優先してください。
+- 古いAPIや旧来の実装を、依存関係やコード量を減らせるという理由だけで選ばないでください。
+- 「必要最小限」は、現在の標準的な実装を土台にしたうえで、Issueに不要な依存関係、互換処理、抽象化、機能を追加しないという意味で扱ってください。
+- UIやデザインは、現在のAndroidのデザイン体系とシステム連携を優先してください。
+- 非推奨のAPIや、明確に後継がある旧方式を新規実装へ採用しないでください。
 
 ## Worktree
 
@@ -18,7 +28,7 @@ AndroidアプリはKotlinとAndroid標準Viewで実装し、単一の`app`モジ
 
 ## 開発方針
 
-- 依頼またはIssueのscopeに必要な変更へ集中し、無関係な変更を同じPull Requestへ混ぜないでください。
+- 依頼またはIssueの範囲に必要な変更へ集中し、無関係な変更を同じPull Requestへ混ぜないでください。
 - 実装前に関連する既存コード、呼び出し元、既存テストを確認してください。
 - 既存の設計、パッケージ構成、命名、記述形式がある場合はそれを優先してください。
 - 仕様が不明確で複数の妥当な実装がある場合は、推測で決めず実装前にユーザーへ確認してください。
@@ -29,7 +39,7 @@ AndroidアプリはKotlinとAndroid標準Viewで実装し、単一の`app`モジ
 ## コーディング規約
 
 - `.editorconfig`に従ってください。
-- productionコードの識別子は通常のKotlin命名規則に従い、日本語化しないでください。
+- 本番コードの識別子は通常のKotlin命名規則に従い、日本語化しないでください。
 - アプリ側で定義するユーザー向け文言はAndroid string resourcesで管理してください。
 
 ### コメント
@@ -48,13 +58,13 @@ AndroidアプリはKotlinとAndroid標準Viewで実装し、単一の`app`モジ
 
 - JDK 17とAndroid SDK Platform 37を使用してください。
 - Gradleはリポジトリ同梱のGradle Wrapperを使用してください。
-- unit testは`./gradlew testDebugUnitTest`で実行してください。
+- ユニットテストは`./gradlew testDebugUnitTest`で実行してください。
 - lintは`./gradlew lintDebug`で実行してください。
-- debug buildは`./gradlew assembleDebug`で実行してください。
+- デバッグビルドは`./gradlew assembleDebug`で実行してください。
 - Pull RequestのCIと同じ一括検証は`./gradlew testDebugUnitTest lintDebug assembleDebug`で実行してください。
 - 変更後は`git diff --check`を実行してください。
-- documentationやrepository運用設定のみの変更では、Gradleによる検証は不要です。
-- Androidのproductionコード、テスト、build設定等へ影響する変更では、変更範囲に対応するunit test、lint、buildを実行してください。
+- ドキュメントやリポジトリ運用設定のみの変更では、Gradleによる検証は不要です。
+- Androidの本番コード、テスト、ビルド設定等へ影響する変更では、変更範囲に対応するユニットテスト、lint、ビルドを実行してください。
 - 実行できなかった検証や失敗した検証を成功扱いにせず、実行内容と理由を報告してください。
 
 ## UI確認
@@ -84,9 +94,9 @@ AndroidアプリはKotlinとAndroid標準Viewで実装し、単一の`app`モジ
 - 破壊的操作、追加の認証、依頼範囲外の変更が必要な場合は、実行前にユーザーへ確認してください。
 - Pull Requestを自動Approveしないでください。
 
-## Review
+## レビュー
 
-- Claude / Codex等へ実装やreviewを依頼した場合、後から確認する必要のある作業結果や判断はGitHub上に残してください。指示内容を言い換えただけの報告は不要です。
+- Claude / Codex等へ実装やレビューを依頼した場合、後から確認する必要のある作業結果や判断はGitHub上に残してください。指示内容を言い換えただけの報告は不要です。
 - 作業中に確認できる既存のreview threadは、判断済みのまま未resolvedで放置しないでください。
 - 指摘へ対応した場合は、対応内容を簡潔に返信してresolveしてください。
 - 対応不要と判断した場合は、理由を簡潔に返信してresolveしてください。
@@ -100,8 +110,8 @@ reviewのseverityをそのまま修正優先度として扱わないでくださ
 
 高速操作、狭いrace window、特殊な端末状態、I/O障害、fault injection、テスト用Fake等が必要な場合は、その条件と現実の発生可能性を明示してください。
 
-論理的に到達可能、またはunit testで再現可能というだけではproduction修正の理由にしないでください。
+論理的に到達可能、またはunit testで再現可能というだけでは本番コードの修正理由にしないでください。
 
 発生頻度、実害、不可逆性、修正による複雑化、新規不具合リスクを比較して対応を判断してください。
 
-security、privacy、データ破損・喪失等は、低頻度でも被害の大きさを考慮してください。
+セキュリティ、プライバシー、データ破損・喪失等は、低頻度でも被害の大きさを考慮してください。
