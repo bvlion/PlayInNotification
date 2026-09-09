@@ -14,24 +14,47 @@ import android.os.IBinder
 import android.os.Looper
 import android.os.PowerManager
 import android.os.SystemClock
+import java.time.LocalDate
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CalculationGameService : Service() {
   private val handler = Handler(Looper.getMainLooper())
+  private val gameStatisticsRepository by lazy { GameStatisticsRepository(applicationContext) }
+  private val gameStatisticsScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
   private var sessionDeadline = 0L
   private var questionNumber = 0
   private var currentQuestion: CalculationQuestion? = null
   private var sessionResult = CalculationSessionResult()
   private var sessionWakeLock: PowerManager.WakeLock? = null
+  private var isCompletingSession = false
 
   private val finishSession = Runnable {
+    if (!isSessionActive || isCompletingSession) {
+      return@Runnable
+    }
+    isCompletingSession = true
     currentQuestion = null
-    isSessionActive = false
     latestCompletedSessionResult = sessionResult
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = null
-    stopForeground(STOP_FOREGROUND_REMOVE)
-    stopSelf()
-    showGameSelection(this)
+    gameStatisticsScope.launch {
+      gameStatisticsRepository.recordCompletedSession(
+        sessionResult = sessionResult,
+        gameGenre = CALCULATION_GAME_GENRE,
+        difficulty = CALCULATION_LEVEL_ONE_DIFFICULTY,
+        completedSessionDate = LocalDate.now(),
+      )
+      withContext(Dispatchers.Main) {
+        isSessionActive = false
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopSelf()
+        showGameSelection(this@CalculationGameService)
+      }
+    }
   }
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -66,6 +89,7 @@ class CalculationGameService : Service() {
     sessionDeadline = SystemClock.elapsedRealtime() + SESSION_DURATION_MILLISECONDS
     questionNumber = 0
     sessionResult = CalculationSessionResult()
+    isCompletingSession = false
     latestCompletedSessionResult = null
     showNextQuestion(isStartingForegroundService = true)
     handler.postDelayed(finishSession, SESSION_DURATION_MILLISECONDS)
@@ -163,6 +187,7 @@ class CalculationGameService : Service() {
     private const val EXTRA_ANSWER = "answer"
     private const val SESSION_DURATION_MILLISECONDS = 30_000L
     private const val WAKE_LOCK_TIMEOUT_MARGIN_MILLISECONDS = 1_000L
+    private const val CALCULATION_GAME_GENRE = "calculation"
     private const val CALCULATION_LEVEL_ONE_DIFFICULTY = 1
 
     @Volatile
