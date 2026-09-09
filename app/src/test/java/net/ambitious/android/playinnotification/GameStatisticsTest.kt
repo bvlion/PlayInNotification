@@ -1,0 +1,82 @@
+package net.ambitious.android.playinnotification
+
+import java.time.LocalDate
+import org.junit.Assert.assertEquals
+import org.junit.Test
+
+class GameStatisticsTest {
+  @Test
+  fun `完了したセッションは成績へ累積される`() {
+    val statistics = GameStatistics().addCompletedSession(
+      sessionResult = CalculationSessionResult(answerCount = 4, earnedPoints = 10),
+      gameGenre = "calculation",
+      difficulty = 1,
+      completedSessionDate = LocalDate.of(2026, 9, 9),
+    )
+
+    assertEquals(4, statistics.answerCount)
+    assertEquals(1, statistics.playCount)
+    assertEquals(10, statistics.earnedPoints)
+    assertEquals(1, statistics.streakDayCount)
+  }
+
+  @Test
+  fun `自己ベストはゲームジャンルと難易度ごとに保持される`() {
+    val firstStatistics = GameStatistics().addCompletedSession(
+      sessionResult = CalculationSessionResult(earnedPoints = 10),
+      gameGenre = "calculation",
+      difficulty = 1,
+      completedSessionDate = LocalDate.of(2026, 9, 9),
+    )
+    val statistics = firstStatistics
+      .addCompletedSession(
+        sessionResult = CalculationSessionResult(earnedPoints = 8),
+        gameGenre = "calculation",
+        difficulty = 1,
+        completedSessionDate = LocalDate.of(2026, 9, 10),
+      )
+      .addCompletedSession(
+        sessionResult = CalculationSessionResult(earnedPoints = 7),
+        gameGenre = "calculation",
+        difficulty = 2,
+        completedSessionDate = LocalDate.of(2026, 9, 11),
+      )
+
+    assertEquals(10, statistics.bestPointsByGame.getValue("calculation:1"))
+    assertEquals(7, statistics.bestPointsByGame.getValue("calculation:2"))
+  }
+
+  @Test
+  fun `同じ日に複数回完了してもStreakは一日だけ進む`() {
+    val firstStatistics = GameStatistics().addCompletedSession(
+      sessionResult = CalculationSessionResult(),
+      gameGenre = "calculation",
+      difficulty = 1,
+      completedSessionDate = LocalDate.of(2026, 9, 9),
+    )
+    val statistics = firstStatistics.addCompletedSession(
+      sessionResult = CalculationSessionResult(),
+      gameGenre = "calculation",
+      difficulty = 1,
+      completedSessionDate = LocalDate.of(2026, 9, 9),
+    )
+
+    assertEquals(1, statistics.streakDayCount)
+  }
+
+  @Test
+  fun `連続しない完了日はStreakを一日からやり直す`() {
+    val firstStatistics = GameStatistics(
+      streakDayCount = 3,
+      lastCompletedSessionDate = LocalDate.of(2026, 9, 7),
+    )
+    val statistics = firstStatistics.addCompletedSession(
+      sessionResult = CalculationSessionResult(),
+      gameGenre = "calculation",
+      difficulty = 1,
+      completedSessionDate = LocalDate.of(2026, 9, 9),
+    )
+
+    assertEquals(1, statistics.streakDayCount)
+  }
+}

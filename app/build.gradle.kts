@@ -30,5 +30,6 @@ dependencies {
   implementation(composeBom)
   implementation("androidx.activity:activity-compose:1.13.0")
   implementation("androidx.compose.material3:material3")
+  implementation("androidx.datastore:datastore-preferences:1.2.1")
   testImplementation("junit:junit:4.13.2")
 }
