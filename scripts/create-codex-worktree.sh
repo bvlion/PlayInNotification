@@ -151,8 +151,8 @@ printf '\nCodex用worktreeを作成しました。\n'
 printf '  Issue: #%s\n' "$issue_number"
 printf '  ブランチ: %s\n' "$branch_name"
 printf '  worktree: %s\n' "$target_worktree"
-printf '\n次の手順:\n'
+printf '\n既にCodexを起動している場合は、このworktreeを作業対象として続行してください。\n'
+printf '新しくCodexを起動する場合:\n'
 printf '  cd %q\n' "$target_worktree"
 printf '  codex\n'
-printf '  Permissionを手動でFull Accessに変更してください。\n'
-printf '  Codexへの依頼: Issue #%sを対応してください\n' "$issue_number"
+printf '\nCodexへの依頼: Issue #%sを対応してください\n' "$issue_number"
