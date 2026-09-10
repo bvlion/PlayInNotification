@@ -150,12 +150,23 @@ class CalculationGameService : Service() {
     val builder = Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
       .setSmallIcon(R.drawable.ic_launcher_foreground)
       .setContentTitle(
-        getString(
-          R.string.calculation_question,
-          question.leftOperand,
-          question.operator.symbol,
-          question.rightOperand,
-        ),
+        if (question.thirdOperand == null || question.secondOperator == null) {
+          getString(
+            R.string.calculation_question,
+            question.leftOperand,
+            question.operator.symbol,
+            question.rightOperand,
+          )
+        } else {
+          getString(
+            R.string.calculation_compound_question,
+            question.leftOperand,
+            question.operator.symbol,
+            question.rightOperand,
+            question.secondOperator.symbol,
+            question.thirdOperand,
+          )
+        },
       )
       .setContentText(getString(R.string.calculation_time_remaining))
       .setWhen(System.currentTimeMillis() + (sessionDeadline - SystemClock.elapsedRealtime()))

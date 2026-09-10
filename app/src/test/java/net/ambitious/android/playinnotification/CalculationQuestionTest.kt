@@ -192,4 +192,90 @@ class CalculationQuestionTest {
       previousQuestion = question
     }
   }
+
+  @Test
+  fun `Lv4は異なる2つの演算子と3つの値を使い通常の優先順位で計算する`() {
+    val random = Random(9)
+    val generatedOperatorPairs = mutableSetOf<Pair<CalculationOperator, CalculationOperator>>()
+
+    repeat(10_000) {
+      val question = CalculationQuestion.create(difficulty = 4, random = random)
+      val secondOperator = requireNotNull(question.secondOperator)
+      val thirdOperand = requireNotNull(question.thirdOperand)
+      generatedOperatorPairs += question.operator to secondOperator
+
+      assertTrue(question.leftOperand in 1..9)
+      assertTrue(question.rightOperand in 1..9)
+      assertTrue(thirdOperand in 1..9)
+      assertTrue(question.operator != secondOperator)
+      if (
+        question.operator == CalculationOperator.MULTIPLICATION ||
+        question.operator == CalculationOperator.DIVISION
+      ) {
+        assertTrue(question.leftOperand in 2..9)
+        assertTrue(question.rightOperand in 2..9)
+      }
+      if (
+        secondOperator == CalculationOperator.MULTIPLICATION ||
+        secondOperator == CalculationOperator.DIVISION
+      ) {
+        assertTrue(question.rightOperand in 2..9)
+        assertTrue(thirdOperand in 2..9)
+      }
+      assertTrue(question.correctAnswer >= 0)
+      assertEquals(3, question.choices.size)
+      assertEquals(3, question.choices.distinct().size)
+      assertTrue(question.correctAnswer in question.choices)
+    }
+
+    assertEquals(12, generatedOperatorPairs.size)
+  }
+
+  @Test
+  fun `Lv4は掛け算と割り算を足し算と引き算より先に計算する`() {
+    val multiplicationQuestion = CalculationQuestion(
+      leftOperand = 2,
+      rightOperand = 3,
+      operator = CalculationOperator.ADDITION,
+      choices = listOf(12, 14, 20),
+      thirdOperand = 4,
+      secondOperator = CalculationOperator.MULTIPLICATION,
+    )
+    val divisionQuestion = CalculationQuestion(
+      leftOperand = 9,
+      rightOperand = 6,
+      operator = CalculationOperator.SUBTRACTION,
+      choices = listOf(6, 7, 8),
+      thirdOperand = 3,
+      secondOperator = CalculationOperator.DIVISION,
+    )
+
+    assertEquals(14, multiplicationQuestion.correctAnswer)
+    assertEquals(7, divisionQuestion.correctAnswer)
+  }
+
+  @Test
+  fun `Lv4は直前と同じ問題を連続して出題しない`() {
+    val random = Random(10)
+    var previousQuestion: CalculationQuestion? = null
+
+    repeat(1_000) {
+      val question = CalculationQuestion.create(
+        difficulty = 4,
+        previousQuestion = previousQuestion,
+        random = random,
+      )
+
+      if (previousQuestion != null) {
+        assertTrue(
+          question.leftOperand != previousQuestion.leftOperand ||
+            question.rightOperand != previousQuestion.rightOperand ||
+            question.operator != previousQuestion.operator ||
+            question.thirdOperand != previousQuestion.thirdOperand ||
+            question.secondOperator != previousQuestion.secondOperator,
+        )
+      }
+      previousQuestion = question
+    }
+  }
 }
