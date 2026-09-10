@@ -9,8 +9,9 @@ internal data class CalculationQuestion(
   val choices: List<Int>,
   val thirdOperand: Int? = null,
   val secondOperator: CalculationOperator? = null,
+  val missingOperandIndex: Int? = null,
 ) {
-  val correctAnswer = if (thirdOperand == null || secondOperator == null) {
+  val calculationResult = if (thirdOperand == null || secondOperator == null) {
     when (operator) {
       CalculationOperator.ADDITION -> leftOperand + rightOperand
       CalculationOperator.SUBTRACTION -> leftOperand - rightOperand
@@ -44,6 +45,12 @@ internal data class CalculationQuestion(
       CalculationOperator.DIVISION -> leftResult / thirdOperand
     }
   }
+  val correctAnswer = when (missingOperandIndex) {
+    0 -> leftOperand
+    1 -> rightOperand
+    2 -> requireNotNull(thirdOperand)
+    else -> calculationResult
+  }
 
   companion object {
     fun create(
@@ -51,7 +58,7 @@ internal data class CalculationQuestion(
       difficulty: Int = 1,
       previousQuestion: CalculationQuestion? = null,
     ): CalculationQuestion {
-      if (difficulty == 4) {
+      if (difficulty in 4..5) {
         while (true) {
           val operator = CalculationOperator.entries.random(random)
           val secondOperator = CalculationOperator.entries
@@ -114,24 +121,34 @@ internal data class CalculationQuestion(
           if (correctAnswer < 0) {
             continue
           }
-          val wrongAnswers = (0..90)
-            .filter { it != correctAnswer }
+          val missingOperandIndex = if (difficulty == 5) (0..2).random(random) else null
+          val answer = when (missingOperandIndex) {
+            0 -> leftOperand
+            1 -> rightOperand
+            2 -> thirdOperand
+            else -> correctAnswer
+          }
+          val wrongAnswerRange = if (difficulty == 5) 0..9 else 0..90
+          val wrongAnswers = wrongAnswerRange
+            .filter { it != answer }
             .shuffled(random)
             .take(2)
           val question = CalculationQuestion(
             leftOperand = leftOperand,
             rightOperand = rightOperand,
             operator = operator,
-            choices = (wrongAnswers + correctAnswer).shuffled(random),
+            choices = (wrongAnswers + answer).shuffled(random),
             thirdOperand = thirdOperand,
             secondOperator = secondOperator,
+            missingOperandIndex = missingOperandIndex,
           )
           if (
             question.leftOperand == previousQuestion?.leftOperand &&
             question.rightOperand == previousQuestion.rightOperand &&
             question.operator == previousQuestion.operator &&
             question.thirdOperand == previousQuestion.thirdOperand &&
-            question.secondOperator == previousQuestion.secondOperator
+            question.secondOperator == previousQuestion.secondOperator &&
+            question.missingOperandIndex == previousQuestion.missingOperandIndex
           ) {
             continue
           }

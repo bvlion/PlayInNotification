@@ -150,7 +150,38 @@ class CalculationGameService : Service() {
     val builder = Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
       .setSmallIcon(R.drawable.ic_launcher_foreground)
       .setContentTitle(
-        if (question.thirdOperand == null || question.secondOperator == null) {
+        if (
+          question.missingOperandIndex != null &&
+          question.thirdOperand != null &&
+          question.secondOperator != null
+        ) {
+          when (question.missingOperandIndex) {
+            0 -> getString(
+              R.string.calculation_missing_left_operand_question,
+              question.operator.symbol,
+              question.rightOperand,
+              question.secondOperator.symbol,
+              question.thirdOperand,
+              question.calculationResult,
+            )
+            1 -> getString(
+              R.string.calculation_missing_right_operand_question,
+              question.leftOperand,
+              question.operator.symbol,
+              question.secondOperator.symbol,
+              question.thirdOperand,
+              question.calculationResult,
+            )
+            else -> getString(
+              R.string.calculation_missing_third_operand_question,
+              question.leftOperand,
+              question.operator.symbol,
+              question.rightOperand,
+              question.secondOperator.symbol,
+              question.calculationResult,
+            )
+          }
+        } else if (question.thirdOperand == null || question.secondOperator == null) {
           getString(
             R.string.calculation_question,
             question.leftOperand,

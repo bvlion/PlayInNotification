@@ -53,11 +53,18 @@ class GameStatisticsTest {
         difficulty = 4,
         completedSessionDate = LocalDate.of(2026, 9, 13),
       )
+      .addCompletedSession(
+        sessionResult = CalculationSessionResult(earnedPoints = 15),
+        gameGenre = "calculation",
+        difficulty = 5,
+        completedSessionDate = LocalDate.of(2026, 9, 14),
+      )
 
     assertEquals(10, statistics.bestPointsByGame.getValue("calculation:1"))
     assertEquals(7, statistics.bestPointsByGame.getValue("calculation:2"))
     assertEquals(9, statistics.bestPointsByGame.getValue("calculation:3"))
     assertEquals(12, statistics.bestPointsByGame.getValue("calculation:4"))
+    assertEquals(15, statistics.bestPointsByGame.getValue("calculation:5"))
   }
 
   @Test
