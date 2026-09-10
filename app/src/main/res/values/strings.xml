@@ -9,6 +9,9 @@
   <string name="calculation_description">難易度を選んで30秒プレイ</string>
   <string name="calculation_question">%1$d %2$s %3$d = ?</string>
   <string name="calculation_compound_question">%1$d %2$s %3$d %4$s %5$d = ?</string>
+  <string name="calculation_missing_left_operand_question">? %1$s %2$d %3$s %4$d = %5$d</string>
+  <string name="calculation_missing_right_operand_question">%1$d %2$s ? %3$s %4$d = %5$d</string>
+  <string name="calculation_missing_third_operand_question">%1$d %2$s %3$d %4$s ? = %5$d</string>
   <string name="calculation_time_remaining">残り30秒</string>
   <string name="game_difficulty_settings_title">ゲーム難易度</string>
   <string name="calculation_game">計算</string>
