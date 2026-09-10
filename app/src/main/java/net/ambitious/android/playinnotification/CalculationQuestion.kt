@@ -7,12 +7,42 @@ internal data class CalculationQuestion(
   val rightOperand: Int,
   val operator: CalculationOperator,
   val choices: List<Int>,
+  val thirdOperand: Int? = null,
+  val secondOperator: CalculationOperator? = null,
 ) {
-  val correctAnswer = when (operator) {
-    CalculationOperator.ADDITION -> leftOperand + rightOperand
-    CalculationOperator.SUBTRACTION -> leftOperand - rightOperand
-    CalculationOperator.MULTIPLICATION -> leftOperand * rightOperand
-    CalculationOperator.DIVISION -> leftOperand / rightOperand
+  val correctAnswer = if (thirdOperand == null || secondOperator == null) {
+    when (operator) {
+      CalculationOperator.ADDITION -> leftOperand + rightOperand
+      CalculationOperator.SUBTRACTION -> leftOperand - rightOperand
+      CalculationOperator.MULTIPLICATION -> leftOperand * rightOperand
+      CalculationOperator.DIVISION -> leftOperand / rightOperand
+    }
+  } else if (secondOperator.precedence > operator.precedence) {
+    val rightResult = when (secondOperator) {
+      CalculationOperator.ADDITION -> rightOperand + thirdOperand
+      CalculationOperator.SUBTRACTION -> rightOperand - thirdOperand
+      CalculationOperator.MULTIPLICATION -> rightOperand * thirdOperand
+      CalculationOperator.DIVISION -> rightOperand / thirdOperand
+    }
+    when (operator) {
+      CalculationOperator.ADDITION -> leftOperand + rightResult
+      CalculationOperator.SUBTRACTION -> leftOperand - rightResult
+      CalculationOperator.MULTIPLICATION -> leftOperand * rightResult
+      CalculationOperator.DIVISION -> leftOperand / rightResult
+    }
+  } else {
+    val leftResult = when (operator) {
+      CalculationOperator.ADDITION -> leftOperand + rightOperand
+      CalculationOperator.SUBTRACTION -> leftOperand - rightOperand
+      CalculationOperator.MULTIPLICATION -> leftOperand * rightOperand
+      CalculationOperator.DIVISION -> leftOperand / rightOperand
+    }
+    when (secondOperator) {
+      CalculationOperator.ADDITION -> leftResult + thirdOperand
+      CalculationOperator.SUBTRACTION -> leftResult - thirdOperand
+      CalculationOperator.MULTIPLICATION -> leftResult * thirdOperand
+      CalculationOperator.DIVISION -> leftResult / thirdOperand
+    }
   }
 
   companion object {
@@ -21,6 +51,94 @@ internal data class CalculationQuestion(
       difficulty: Int = 1,
       previousQuestion: CalculationQuestion? = null,
     ): CalculationQuestion {
+      if (difficulty == 4) {
+        while (true) {
+          val operator = CalculationOperator.entries.random(random)
+          val secondOperator = CalculationOperator.entries
+            .filter { it != operator }
+            .random(random)
+          val leftOperand = (1..9).random(random)
+          val rightOperand = (1..9).random(random)
+          val thirdOperand = (1..9).random(random)
+          if (
+            (operator.precedence == MULTIPLICATIVE_PRECEDENCE &&
+              (leftOperand == 1 || rightOperand == 1)) ||
+            (secondOperator.precedence == MULTIPLICATIVE_PRECEDENCE &&
+              (rightOperand == 1 || thirdOperand == 1))
+          ) {
+            continue
+          }
+
+          val correctAnswer = if (secondOperator.precedence > operator.precedence) {
+            if (
+              secondOperator == CalculationOperator.DIVISION &&
+              rightOperand % thirdOperand != 0
+            ) {
+              continue
+            }
+            val rightResult = when (secondOperator) {
+              CalculationOperator.ADDITION -> rightOperand + thirdOperand
+              CalculationOperator.SUBTRACTION -> rightOperand - thirdOperand
+              CalculationOperator.MULTIPLICATION -> rightOperand * thirdOperand
+              CalculationOperator.DIVISION -> rightOperand / thirdOperand
+            }
+            when (operator) {
+              CalculationOperator.ADDITION -> leftOperand + rightResult
+              CalculationOperator.SUBTRACTION -> leftOperand - rightResult
+              CalculationOperator.MULTIPLICATION -> leftOperand * rightResult
+              CalculationOperator.DIVISION -> leftOperand / rightResult
+            }
+          } else {
+            if (operator == CalculationOperator.DIVISION && leftOperand % rightOperand != 0) {
+              continue
+            }
+            val leftResult = when (operator) {
+              CalculationOperator.ADDITION -> leftOperand + rightOperand
+              CalculationOperator.SUBTRACTION -> leftOperand - rightOperand
+              CalculationOperator.MULTIPLICATION -> leftOperand * rightOperand
+              CalculationOperator.DIVISION -> leftOperand / rightOperand
+            }
+            if (
+              secondOperator == CalculationOperator.DIVISION &&
+              leftResult % thirdOperand != 0
+            ) {
+              continue
+            }
+            when (secondOperator) {
+              CalculationOperator.ADDITION -> leftResult + thirdOperand
+              CalculationOperator.SUBTRACTION -> leftResult - thirdOperand
+              CalculationOperator.MULTIPLICATION -> leftResult * thirdOperand
+              CalculationOperator.DIVISION -> leftResult / thirdOperand
+            }
+          }
+          if (correctAnswer < 0) {
+            continue
+          }
+          val wrongAnswers = (0..90)
+            .filter { it != correctAnswer }
+            .shuffled(random)
+            .take(2)
+          val question = CalculationQuestion(
+            leftOperand = leftOperand,
+            rightOperand = rightOperand,
+            operator = operator,
+            choices = (wrongAnswers + correctAnswer).shuffled(random),
+            thirdOperand = thirdOperand,
+            secondOperator = secondOperator,
+          )
+          if (
+            question.leftOperand == previousQuestion?.leftOperand &&
+            question.rightOperand == previousQuestion.rightOperand &&
+            question.operator == previousQuestion.operator &&
+            question.thirdOperand == previousQuestion.thirdOperand &&
+            question.secondOperator == previousQuestion.secondOperator
+          ) {
+            continue
+          }
+          return question
+        }
+      }
+
       var question: CalculationQuestion
       do {
         val operator = if (difficulty == 3 && random.nextBoolean()) {
@@ -79,12 +197,17 @@ internal data class CalculationQuestion(
 
       return question
     }
+
+    private const val MULTIPLICATIVE_PRECEDENCE = 2
   }
 }
 
-internal enum class CalculationOperator(val symbol: String) {
-  ADDITION("+"),
-  SUBTRACTION("−"),
-  MULTIPLICATION("×"),
-  DIVISION("÷"),
+internal enum class CalculationOperator(
+  val symbol: String,
+  val precedence: Int,
+) {
+  ADDITION("+", 1),
+  SUBTRACTION("−", 1),
+  MULTIPLICATION("×", 2),
+  DIVISION("÷", 2),
 }

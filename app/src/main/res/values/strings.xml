@@ -8,6 +8,7 @@
   <string name="calculation_level_three">計算 Lv3</string>
   <string name="calculation_description">難易度を選んで30秒プレイ</string>
   <string name="calculation_question">%1$d %2$s %3$d = ?</string>
+  <string name="calculation_compound_question">%1$d %2$s %3$d %4$s %5$d = ?</string>
   <string name="calculation_time_remaining">残り30秒</string>
   <string name="game_difficulty_settings_title">ゲーム難易度</string>
   <string name="calculation_game">計算</string>

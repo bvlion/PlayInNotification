@@ -50,6 +50,18 @@ class CalculationSessionResultTest {
   }
 
   @Test
+  fun `Lv4の回答はLv4の倍率でポイントを獲得する`() {
+    val answerResult = CalculationAnswerResult.create(
+      question = question,
+      answer = question.correctAnswer,
+      questionDifficulty = 4,
+    )
+
+    assertTrue(answerResult.isCorrect)
+    assertEquals(12, answerResult.earnedPoints)
+  }
+
+  @Test
   fun `回答結果から回答数と獲得ポイントを集計する`() {
     val sessionResult = CalculationSessionResult()
       .addAnswerResult(
