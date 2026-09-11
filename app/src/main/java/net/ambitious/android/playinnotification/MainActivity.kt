@@ -50,7 +50,9 @@ class MainActivity : ComponentActivity() {
       !CalculationGameService.isSessionActive &&
       !DifficultKanjiGameService.isSessionActive
     ) {
-      CalculationGameService.showGameSelection(this)
+      lifecycleScope.launch {
+        CalculationGameService.showGameSelection(this@MainActivity)
+      }
     }
   }
 
@@ -119,6 +121,15 @@ class MainActivity : ComponentActivity() {
                       gameDifficultySettingsRepository.setCalculationDifficulty(
                         calculationDifficulty.roundToInt(),
                       )
+                      if (
+                        (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+                          checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) ==
+                          PackageManager.PERMISSION_GRANTED) &&
+                        !CalculationGameService.isSessionActive &&
+                        !DifficultKanjiGameService.isSessionActive
+                      ) {
+                        CalculationGameService.showGameSelection(this@MainActivity)
+                      }
                     }
                   },
                   valueRange = 1f..5f,
@@ -150,6 +161,15 @@ class MainActivity : ComponentActivity() {
                       gameDifficultySettingsRepository.setDifficultKanjiDifficulty(
                         difficultKanjiDifficulty.roundToInt(),
                       )
+                      if (
+                        (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+                          checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) ==
+                          PackageManager.PERMISSION_GRANTED) &&
+                        !CalculationGameService.isSessionActive &&
+                        !DifficultKanjiGameService.isSessionActive
+                      ) {
+                        CalculationGameService.showGameSelection(this@MainActivity)
+                      }
                     }
                   },
                   valueRange = 1f..5f,
@@ -171,7 +191,9 @@ class MainActivity : ComponentActivity() {
       !CalculationGameService.isSessionActive &&
       !DifficultKanjiGameService.isSessionActive
     ) {
-      CalculationGameService.showGameSelection(this)
+      lifecycleScope.launch {
+        CalculationGameService.showGameSelection(this@MainActivity)
+      }
     }
   }
 }

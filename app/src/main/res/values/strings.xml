@@ -3,6 +3,7 @@
   <string name="app_name">PlayInNotification</string>
   <string name="game_notification_channel_name">ゲーム</string>
   <string name="game_selection_title">ゲームを選択</string>
+  <string name="game_selection_description">30秒プレイするゲームを選択</string>
   <string name="calculation_level_one">計算 Lv1</string>
   <string name="calculation_level_two">計算 Lv2</string>
   <string name="calculation_level_three">計算 Lv3</string>
