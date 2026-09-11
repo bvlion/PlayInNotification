@@ -19,6 +19,12 @@ android {
     compose = true
   }
 
+  sourceSets {
+    getByName("test") {
+      resources.directories.add("src/main/assets")
+    }
+  }
+
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
