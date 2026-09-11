@@ -56,6 +56,7 @@ class DifficultKanjiGameService : Service() {
         isSessionActive = false
         stopForeground(STOP_FOREGROUND_REMOVE)
         stopSelf()
+        CalculationGameService.showGameSelection(this@DifficultKanjiGameService)
       }
     }
   }

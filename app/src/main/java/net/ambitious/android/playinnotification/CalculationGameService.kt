@@ -18,6 +18,7 @@ import java.time.LocalDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -26,7 +27,7 @@ class CalculationGameService : Service() {
   private val gameStatisticsRepository by lazy { GameStatisticsRepository(applicationContext) }
   private val gameStatisticsScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
   private var sessionDeadline = 0L
-  private var sessionDifficulty = CALCULATION_LEVEL_ONE_DIFFICULTY
+  private var sessionDifficulty = INITIAL_DIFFICULTY
   private var questionNumber = 0
   private var currentQuestion: CalculationQuestion? = null
   private var sessionResult = GameSessionResult()
@@ -60,9 +61,9 @@ class CalculationGameService : Service() {
 
   override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
     when (intent?.action) {
-      ACTION_START_LEVEL_ONE -> startSession(CALCULATION_LEVEL_ONE_DIFFICULTY)
-      ACTION_START_LEVEL_TWO -> startSession(CALCULATION_LEVEL_TWO_DIFFICULTY)
-      ACTION_START_LEVEL_THREE -> startSession(CALCULATION_LEVEL_THREE_DIFFICULTY)
+      ACTION_START -> intent.getIntExtra(EXTRA_DIFFICULTY, INVALID_DIFFICULTY)
+        .takeIf { it in DIFFICULTY_RANGE }
+        ?.let(::startSession)
       ACTION_ANSWER -> handleAnswer(intent)
     }
     return START_NOT_STICKY
@@ -228,22 +229,19 @@ class CalculationGameService : Service() {
   companion object {
     private const val NOTIFICATION_CHANNEL_ID = "game_notifications"
     private const val NOTIFICATION_ID = 1
-    private const val ACTION_START_LEVEL_ONE =
-      "net.ambitious.android.playinnotification.action.START_CALCULATION_LEVEL_ONE"
-    private const val ACTION_START_LEVEL_TWO =
-      "net.ambitious.android.playinnotification.action.START_CALCULATION_LEVEL_TWO"
-    private const val ACTION_START_LEVEL_THREE =
-      "net.ambitious.android.playinnotification.action.START_CALCULATION_LEVEL_THREE"
+    private const val ACTION_START =
+      "net.ambitious.android.playinnotification.action.START_CALCULATION"
     private const val ACTION_ANSWER =
       "net.ambitious.android.playinnotification.action.ANSWER_CALCULATION"
+    private const val EXTRA_DIFFICULTY = "difficulty"
     private const val EXTRA_QUESTION_NUMBER = "question_number"
     private const val EXTRA_ANSWER = "answer"
     private const val SESSION_DURATION_MILLISECONDS = 30_000L
     private const val WAKE_LOCK_TIMEOUT_MARGIN_MILLISECONDS = 1_000L
     private const val CALCULATION_GAME_GENRE = "calculation"
-    private const val CALCULATION_LEVEL_ONE_DIFFICULTY = 1
-    private const val CALCULATION_LEVEL_TWO_DIFFICULTY = 2
-    private const val CALCULATION_LEVEL_THREE_DIFFICULTY = 3
+    private const val INITIAL_DIFFICULTY = 1
+    private const val INVALID_DIFFICULTY = 0
+    private val DIFFICULTY_RANGE = 1..5
 
     @Volatile
     var isSessionActive = false
@@ -265,57 +263,47 @@ class CalculationGameService : Service() {
       context.getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
     }
 
-    fun showGameSelection(context: Context) {
+    suspend fun showGameSelection(context: Context) {
       createNotificationChannel(context)
-      val startLevelOneIntent = Intent(context, CalculationGameService::class.java)
-        .setAction(ACTION_START_LEVEL_ONE)
-      val startLevelOnePendingIntent = PendingIntent.getForegroundService(
+      val gameDifficultySettings = GameDifficultySettingsRepository(context)
+        .gameDifficultySettings
+        .first()
+      val startCalculationIntent = Intent(context, CalculationGameService::class.java)
+        .setAction(ACTION_START)
+        .putExtra(EXTRA_DIFFICULTY, gameDifficultySettings.calculationDifficulty)
+      val startCalculationPendingIntent = PendingIntent.getForegroundService(
         context,
-        CALCULATION_LEVEL_ONE_DIFFICULTY,
-        startLevelOneIntent,
+        0,
+        startCalculationIntent,
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
       )
-      val startLevelTwoIntent = Intent(context, CalculationGameService::class.java)
-        .setAction(ACTION_START_LEVEL_TWO)
-      val startLevelTwoPendingIntent = PendingIntent.getForegroundService(
+      val startDifficultKanjiPendingIntent = PendingIntent.getForegroundService(
         context,
-        CALCULATION_LEVEL_TWO_DIFFICULTY,
-        startLevelTwoIntent,
-        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-      )
-      val startLevelThreeIntent = Intent(context, CalculationGameService::class.java)
-        .setAction(ACTION_START_LEVEL_THREE)
-      val startLevelThreePendingIntent = PendingIntent.getForegroundService(
-        context,
-        CALCULATION_LEVEL_THREE_DIFFICULTY,
-        startLevelThreeIntent,
+        0,
+        DifficultKanjiGameService.createStartIntent(
+          context,
+          gameDifficultySettings.difficultKanjiDifficulty,
+        ),
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
       )
       val notification = Notification.Builder(context, NOTIFICATION_CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_launcher_foreground)
         .setContentTitle(context.getString(R.string.game_selection_title))
-        .setContentText(context.getString(R.string.calculation_description))
+        .setContentText(context.getString(R.string.game_selection_description))
         .setOngoing(true)
         .setOnlyAlertOnce(true)
         .addAction(
           Notification.Action.Builder(
             null,
-            context.getString(R.string.calculation_level_one),
-            startLevelOnePendingIntent,
+            context.getString(R.string.calculation_game),
+            startCalculationPendingIntent,
           ).build(),
         )
         .addAction(
           Notification.Action.Builder(
             null,
-            context.getString(R.string.calculation_level_two),
-            startLevelTwoPendingIntent,
-          ).build(),
-        )
-        .addAction(
-          Notification.Action.Builder(
-            null,
-            context.getString(R.string.calculation_level_three),
-            startLevelThreePendingIntent,
+            context.getString(R.string.difficult_kanji_game),
+            startDifficultKanjiPendingIntent,
           ).build(),
         )
         .build()
