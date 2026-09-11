@@ -30,7 +30,20 @@ internal data class DifficultKanjiQuestion(
           }
         }
       }
-      val correctEntry = entries.random(random)
+      val correctEntry = entries
+        .filter { entry ->
+          previousQuestion == null || when (previousQuestion.direction) {
+            DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> {
+              entry.writtenForm != previousQuestion.prompt ||
+                entry.reading != previousQuestion.correctAnswer
+            }
+            DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> {
+              entry.writtenForm != previousQuestion.correctAnswer ||
+                entry.reading != previousQuestion.prompt
+            }
+          }
+        }
+        .random(random)
       val correctAnswer = when (direction) {
         DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> correctEntry.reading
         DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> correctEntry.writtenForm

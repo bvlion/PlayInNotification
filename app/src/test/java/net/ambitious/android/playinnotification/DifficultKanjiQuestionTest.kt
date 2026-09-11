@@ -84,4 +84,39 @@ class DifficultKanjiQuestionTest {
     }
   }
 
+  @Test
+  fun `連続して生成した問題は同じ語を出題しない`() {
+    (1..5).forEach { difficulty ->
+      val firstQuestion = DifficultKanjiQuestion.create(
+        entriesByDifficulty = entriesByDifficulty,
+        difficulty = difficulty,
+        random = Random(difficulty),
+      )
+      val secondQuestion = DifficultKanjiQuestion.create(
+        entriesByDifficulty = entriesByDifficulty,
+        difficulty = difficulty,
+        random = Random(difficulty),
+        previousQuestion = firstQuestion,
+      )
+      val firstEntry = when (firstQuestion.direction) {
+        DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> {
+          DifficultKanjiEntry(firstQuestion.prompt, firstQuestion.correctAnswer)
+        }
+        DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> {
+          DifficultKanjiEntry(firstQuestion.correctAnswer, firstQuestion.prompt)
+        }
+      }
+      val secondEntry = when (secondQuestion.direction) {
+        DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> {
+          DifficultKanjiEntry(secondQuestion.prompt, secondQuestion.correctAnswer)
+        }
+        DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> {
+          DifficultKanjiEntry(secondQuestion.correctAnswer, secondQuestion.prompt)
+        }
+      }
+
+      assertTrue(firstEntry != secondEntry)
+    }
+  }
+
 }
