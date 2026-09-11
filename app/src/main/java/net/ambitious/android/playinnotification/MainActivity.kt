@@ -1,9 +1,12 @@
 package net.ambitious.android.playinnotification
 
 import android.Manifest
+import android.app.NotificationManager
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -17,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -26,6 +30,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -38,6 +43,8 @@ import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+  private var isGameNotificationEnabled by mutableStateOf(false)
+
   private val gameDifficultySettingsRepository by lazy {
     GameDifficultySettingsRepository(applicationContext)
   }
@@ -45,6 +52,10 @@ class MainActivity : ComponentActivity() {
   private val notificationPermissionLauncher = registerForActivityResult(
     ActivityResultContracts.RequestPermission(),
   ) { isGranted ->
+    val notificationManager = getSystemService(NotificationManager::class.java)
+    isGameNotificationEnabled = notificationManager.areNotificationsEnabled() &&
+      notificationManager.getNotificationChannel(CalculationGameService.NOTIFICATION_CHANNEL_ID)
+        .importance != NotificationManager.IMPORTANCE_NONE
     if (
       isGranted &&
       !CalculationGameService.isSessionActive &&
@@ -59,6 +70,10 @@ class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     CalculationGameService.createNotificationChannel(this)
+    val notificationManager = getSystemService(NotificationManager::class.java)
+    isGameNotificationEnabled = notificationManager.areNotificationsEnabled() &&
+      notificationManager.getNotificationChannel(CalculationGameService.NOTIFICATION_CHANNEL_ID)
+        .importance != NotificationManager.IMPORTANCE_NONE
     if (
       Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
       checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
@@ -93,6 +108,33 @@ class MainActivity : ComponentActivity() {
               .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
           ) {
+            if (!isGameNotificationEnabled) {
+              Card(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                  modifier = Modifier.padding(24.dp),
+                  verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                  Text(
+                    text = stringResource(R.string.notification_disabled_title),
+                    style = MaterialTheme.typography.titleLarge,
+                  )
+                  Text(
+                    text = stringResource(R.string.notification_disabled_description),
+                    style = MaterialTheme.typography.bodyLarge,
+                  )
+                  Button(
+                    onClick = {
+                      startActivity(
+                        Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                          .putExtra(Settings.EXTRA_APP_PACKAGE, packageName),
+                      )
+                    },
+                  ) {
+                    Text(text = stringResource(R.string.open_notification_settings))
+                  }
+                }
+              }
+            }
             Text(
               text = stringResource(R.string.game_difficulty_settings_title),
               style = MaterialTheme.typography.headlineMedium,
@@ -185,9 +227,12 @@ class MainActivity : ComponentActivity() {
 
   override fun onResume() {
     super.onResume()
+    val notificationManager = getSystemService(NotificationManager::class.java)
+    isGameNotificationEnabled = notificationManager.areNotificationsEnabled() &&
+      notificationManager.getNotificationChannel(CalculationGameService.NOTIFICATION_CHANNEL_ID)
+        .importance != NotificationManager.IMPORTANCE_NONE
     if (
-      (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-        checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) &&
+      isGameNotificationEnabled &&
       !CalculationGameService.isSessionActive &&
       !DifficultKanjiGameService.isSessionActive
     ) {

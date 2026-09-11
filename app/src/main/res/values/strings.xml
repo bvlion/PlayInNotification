@@ -2,6 +2,9 @@
 <resources>
   <string name="app_name">PlayInNotification</string>
   <string name="game_notification_channel_name">ゲーム</string>
+  <string name="notification_disabled_title">通知が無効です</string>
+  <string name="notification_disabled_description">通知からゲームを始めるには、Androidの設定で通知を許可してください。</string>
+  <string name="open_notification_settings">通知設定を開く</string>
   <string name="game_selection_title">ゲームを選択</string>
   <string name="game_selection_description">30秒プレイするゲームを選択</string>
   <string name="calculation_level_one">計算 Lv1</string>
