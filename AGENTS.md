@@ -58,7 +58,8 @@ UIの配色はDynamic Colorを基本とします。
 
 ## ビルドとテスト
 
-- JDK 17とAndroid SDK Platform 37を使用してください。
+- Gradle / CIの実行環境にはJDK 25 LTS、Android SDK Platform 37を使用してください。
+- Javaの`sourceCompatibility` / `targetCompatibility`は17を維持してください。
 - Gradleはリポジトリ同梱のGradle Wrapperを使用してください。
 - ユニットテストは`./gradlew testDebugUnitTest`で実行してください。
 - lintは`./gradlew lintDebug`で実行してください。
