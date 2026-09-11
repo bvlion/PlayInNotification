@@ -15,7 +15,7 @@ internal class GameStatisticsRepository(
   private val context: Context,
 ) {
   suspend fun recordCompletedSession(
-    sessionResult: CalculationSessionResult,
+    sessionResult: GameSessionResult,
     gameGenre: String,
     difficulty: Int,
     completedSessionDate: LocalDate,

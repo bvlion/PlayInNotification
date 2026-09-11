@@ -5,19 +5,11 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class CalculationSessionResultTest {
-  private val question = CalculationQuestion(
-    leftOperand = 4,
-    rightOperand = 2,
-    operator = CalculationOperator.ADDITION,
-    choices = listOf(5, 6, 7),
-  )
-
+class GameSessionResultTest {
   @Test
   fun `正解の回答は問題難易度の3倍のポイントを獲得する`() {
-    val answerResult = CalculationAnswerResult.create(
-      question = question,
-      answer = question.correctAnswer,
+    val answerResult = GameAnswerResult.create(
+      isCorrect = true,
       questionDifficulty = 2,
     )
 
@@ -27,9 +19,8 @@ class CalculationSessionResultTest {
 
   @Test
   fun `不正解の回答は問題難易度と同じポイントを獲得する`() {
-    val answerResult = CalculationAnswerResult.create(
-      question = question,
-      answer = 5,
+    val answerResult = GameAnswerResult.create(
+      isCorrect = false,
       questionDifficulty = 2,
     )
 
@@ -39,9 +30,8 @@ class CalculationSessionResultTest {
 
   @Test
   fun `Lv3の回答はLv3の倍率でポイントを獲得する`() {
-    val answerResult = CalculationAnswerResult.create(
-      question = question,
-      answer = question.correctAnswer,
+    val answerResult = GameAnswerResult.create(
+      isCorrect = true,
       questionDifficulty = 3,
     )
 
@@ -51,9 +41,8 @@ class CalculationSessionResultTest {
 
   @Test
   fun `Lv4の回答はLv4の倍率でポイントを獲得する`() {
-    val answerResult = CalculationAnswerResult.create(
-      question = question,
-      answer = question.correctAnswer,
+    val answerResult = GameAnswerResult.create(
+      isCorrect = true,
       questionDifficulty = 4,
     )
 
@@ -63,9 +52,8 @@ class CalculationSessionResultTest {
 
   @Test
   fun `Lv5の回答はLv5の倍率でポイントを獲得する`() {
-    val answerResult = CalculationAnswerResult.create(
-      question = question,
-      answer = question.correctAnswer,
+    val answerResult = GameAnswerResult.create(
+      isCorrect = true,
       questionDifficulty = 5,
     )
 
@@ -75,18 +63,16 @@ class CalculationSessionResultTest {
 
   @Test
   fun `回答結果から回答数と獲得ポイントを集計する`() {
-    val sessionResult = CalculationSessionResult()
+    val sessionResult = GameSessionResult()
       .addAnswerResult(
-        CalculationAnswerResult.create(
-          question = question,
-          answer = question.correctAnswer,
+        GameAnswerResult.create(
+          isCorrect = true,
           questionDifficulty = 1,
         ),
       )
       .addAnswerResult(
-        CalculationAnswerResult.create(
-          question = question,
-          answer = 5,
+        GameAnswerResult.create(
+          isCorrect = false,
           questionDifficulty = 1,
         ),
       )

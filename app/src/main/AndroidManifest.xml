@@ -23,6 +23,10 @@
       android:name=".CalculationGameService"
       android:exported="false"
       android:foregroundServiceType="shortService" />
+    <service
+      android:name=".DifficultKanjiGameService"
+      android:exported="false"
+      android:foregroundServiceType="shortService" />
   </application>
 
 </manifest>

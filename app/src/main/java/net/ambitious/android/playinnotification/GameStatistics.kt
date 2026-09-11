@@ -11,7 +11,7 @@ internal data class GameStatistics(
   val bestPointsByGame: Map<String, Long> = emptyMap(),
 ) {
   fun addCompletedSession(
-    sessionResult: CalculationSessionResult,
+    sessionResult: GameSessionResult,
     gameGenre: String,
     difficulty: Int,
     completedSessionDate: LocalDate,

@@ -29,7 +29,7 @@ class CalculationGameService : Service() {
   private var sessionDifficulty = CALCULATION_LEVEL_ONE_DIFFICULTY
   private var questionNumber = 0
   private var currentQuestion: CalculationQuestion? = null
-  private var sessionResult = CalculationSessionResult()
+  private var sessionResult = GameSessionResult()
   private var sessionWakeLock: PowerManager.WakeLock? = null
   private var isCompletingSession = false
 
@@ -93,7 +93,7 @@ class CalculationGameService : Service() {
     sessionDeadline = SystemClock.elapsedRealtime() + SESSION_DURATION_MILLISECONDS
     questionNumber = 0
     currentQuestion = null
-    sessionResult = CalculationSessionResult()
+    sessionResult = GameSessionResult()
     isCompletingSession = false
     latestCompletedSessionResult = null
     showNextQuestion(isStartingForegroundService = true)
@@ -115,9 +115,8 @@ class CalculationGameService : Service() {
     }
 
     sessionResult = sessionResult.addAnswerResult(
-      CalculationAnswerResult.create(
-        question = question,
-        answer = answer,
+      GameAnswerResult.create(
+        isCorrect = answer == question.correctAnswer,
         questionDifficulty = sessionDifficulty,
       ),
     )
@@ -199,7 +198,7 @@ class CalculationGameService : Service() {
           )
         },
       )
-      .setContentText(getString(R.string.calculation_time_remaining))
+      .setContentText(getString(R.string.game_time_remaining))
       .setWhen(System.currentTimeMillis() + (sessionDeadline - SystemClock.elapsedRealtime()))
       .setUsesChronometer(true)
       .setChronometerCountDown(true)
@@ -251,7 +250,7 @@ class CalculationGameService : Service() {
       private set
 
     @Volatile
-    internal var latestCompletedSessionResult: CalculationSessionResult? = null
+    internal var latestCompletedSessionResult: GameSessionResult? = null
       private set
 
     fun createNotificationChannel(context: Context) {
