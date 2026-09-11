@@ -45,7 +45,11 @@ class MainActivity : ComponentActivity() {
   private val notificationPermissionLauncher = registerForActivityResult(
     ActivityResultContracts.RequestPermission(),
   ) { isGranted ->
-    if (isGranted && !CalculationGameService.isSessionActive) {
+    if (
+      isGranted &&
+      !CalculationGameService.isSessionActive &&
+      !DifficultKanjiGameService.isSessionActive
+    ) {
       CalculationGameService.showGameSelection(this)
     }
   }
@@ -164,7 +168,8 @@ class MainActivity : ComponentActivity() {
     if (
       (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
         checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) &&
-      !CalculationGameService.isSessionActive
+      !CalculationGameService.isSessionActive &&
+      !DifficultKanjiGameService.isSessionActive
     ) {
       CalculationGameService.showGameSelection(this)
     }

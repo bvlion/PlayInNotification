@@ -1,17 +1,15 @@
 package net.ambitious.android.playinnotification
 
-internal data class CalculationAnswerResult(
+internal data class GameAnswerResult(
   val isCorrect: Boolean,
   val earnedPoints: Int,
 ) {
   companion object {
     fun create(
-      question: CalculationQuestion,
-      answer: Int,
+      isCorrect: Boolean,
       questionDifficulty: Int,
-    ): CalculationAnswerResult {
-      val isCorrect = answer == question.correctAnswer
-      return CalculationAnswerResult(
+    ): GameAnswerResult {
+      return GameAnswerResult(
         isCorrect = isCorrect,
         earnedPoints = (if (isCorrect) CORRECT_ANSWER_POINTS else INCORRECT_ANSWER_POINTS) *
           questionDifficulty,
@@ -23,11 +21,11 @@ internal data class CalculationAnswerResult(
   }
 }
 
-internal data class CalculationSessionResult(
+internal data class GameSessionResult(
   val answerCount: Int = 0,
   val earnedPoints: Int = 0,
 ) {
-  fun addAnswerResult(answerResult: CalculationAnswerResult): CalculationSessionResult = copy(
+  fun addAnswerResult(answerResult: GameAnswerResult): GameSessionResult = copy(
     answerCount = answerCount + 1,
     earnedPoints = earnedPoints + answerResult.earnedPoints,
   )
