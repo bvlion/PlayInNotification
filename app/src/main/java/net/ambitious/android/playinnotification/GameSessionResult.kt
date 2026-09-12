@@ -11,12 +11,21 @@ internal data class GameAnswerResult(
     ): GameAnswerResult {
       return GameAnswerResult(
         isCorrect = isCorrect,
-        earnedPoints = (if (isCorrect) CORRECT_ANSWER_POINTS else INCORRECT_ANSWER_POINTS) *
-          questionDifficulty,
+        earnedPoints = if (isCorrect) {
+          when (questionDifficulty) {
+            1 -> 3
+            2 -> 4
+            3 -> 6
+            4 -> 7
+            5 -> 9
+            else -> error("Unsupported question difficulty: $questionDifficulty")
+          }
+        } else {
+          INCORRECT_ANSWER_POINTS
+        },
       )
     }
 
-    private const val CORRECT_ANSWER_POINTS = 3
     private const val INCORRECT_ANSWER_POINTS = 1
   }
 }

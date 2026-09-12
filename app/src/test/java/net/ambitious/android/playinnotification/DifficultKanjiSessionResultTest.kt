@@ -14,20 +14,22 @@ class DifficultKanjiSessionResultTest {
   )
 
   @Test
-  fun `Lv1からLv5の正解は難易度の3倍のポイントを獲得する`() {
-    (1..5).forEach { difficulty ->
+  fun `Lv1からLv5の正解は難易度ごとのポイントを獲得する`() {
+    val expectedPoints = listOf(3, 4, 6, 7, 9)
+
+    expectedPoints.forEachIndexed { index, points ->
       val answerResult = GameAnswerResult.create(
         isCorrect = question.correctAnswer == "ひとで",
-        questionDifficulty = difficulty,
+        questionDifficulty = index + 1,
       )
 
       assertTrue(answerResult.isCorrect)
-      assertEquals(difficulty * 3, answerResult.earnedPoints)
+      assertEquals(points, answerResult.earnedPoints)
     }
   }
 
   @Test
-  fun `Lv1からLv5の不正解は難易度と同じポイントを獲得する`() {
+  fun `Lv1からLv5の不正解は1ポイントを獲得する`() {
     (1..5).forEach { difficulty ->
       val answerResult = GameAnswerResult.create(
         isCorrect = question.correctAnswer == "くらげ",
@@ -35,7 +37,7 @@ class DifficultKanjiSessionResultTest {
       )
 
       assertFalse(answerResult.isCorrect)
-      assertEquals(difficulty, answerResult.earnedPoints)
+      assertEquals(1, answerResult.earnedPoints)
     }
   }
 
@@ -46,6 +48,6 @@ class DifficultKanjiSessionResultTest {
       .addAnswerResult(GameAnswerResult.create(isCorrect = false, questionDifficulty = 5))
 
     assertEquals(2, sessionResult.answerCount)
-    assertEquals(20, sessionResult.earnedPoints)
+    assertEquals(10, sessionResult.earnedPoints)
   }
 }

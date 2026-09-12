@@ -7,58 +7,31 @@ import org.junit.Test
 
 class GameSessionResultTest {
   @Test
-  fun `正解の回答は問題難易度の3倍のポイントを獲得する`() {
-    val answerResult = GameAnswerResult.create(
-      isCorrect = true,
-      questionDifficulty = 2,
-    )
+  fun `Lv1からLv5の正解は難易度ごとのポイントを獲得する`() {
+    val expectedPoints = listOf(3, 4, 6, 7, 9)
 
-    assertTrue(answerResult.isCorrect)
-    assertEquals(6, answerResult.earnedPoints)
+    expectedPoints.forEachIndexed { index, points ->
+      val answerResult = GameAnswerResult.create(
+        isCorrect = true,
+        questionDifficulty = index + 1,
+      )
+
+      assertTrue(answerResult.isCorrect)
+      assertEquals(points, answerResult.earnedPoints)
+    }
   }
 
   @Test
-  fun `不正解の回答は問題難易度と同じポイントを獲得する`() {
-    val answerResult = GameAnswerResult.create(
-      isCorrect = false,
-      questionDifficulty = 2,
-    )
+  fun `Lv1からLv5の不正解は1ポイントを獲得する`() {
+    (1..5).forEach { difficulty ->
+      val answerResult = GameAnswerResult.create(
+        isCorrect = false,
+        questionDifficulty = difficulty,
+      )
 
-    assertFalse(answerResult.isCorrect)
-    assertEquals(2, answerResult.earnedPoints)
-  }
-
-  @Test
-  fun `Lv3の回答はLv3の倍率でポイントを獲得する`() {
-    val answerResult = GameAnswerResult.create(
-      isCorrect = true,
-      questionDifficulty = 3,
-    )
-
-    assertTrue(answerResult.isCorrect)
-    assertEquals(9, answerResult.earnedPoints)
-  }
-
-  @Test
-  fun `Lv4の回答はLv4の倍率でポイントを獲得する`() {
-    val answerResult = GameAnswerResult.create(
-      isCorrect = true,
-      questionDifficulty = 4,
-    )
-
-    assertTrue(answerResult.isCorrect)
-    assertEquals(12, answerResult.earnedPoints)
-  }
-
-  @Test
-  fun `Lv5の回答はLv5の倍率でポイントを獲得する`() {
-    val answerResult = GameAnswerResult.create(
-      isCorrect = true,
-      questionDifficulty = 5,
-    )
-
-    assertTrue(answerResult.isCorrect)
-    assertEquals(15, answerResult.earnedPoints)
+      assertFalse(answerResult.isCorrect)
+      assertEquals(1, answerResult.earnedPoints)
+    }
   }
 
   @Test
