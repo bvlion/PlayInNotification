@@ -241,7 +241,6 @@ class CalculationGameService : Service() {
           )
         },
       )
-      .setContentText(getString(R.string.game_time_remaining))
       .setWhen(System.currentTimeMillis() + (sessionDeadline - SystemClock.elapsedRealtime()))
       .setUsesChronometer(true)
       .setChronometerCountDown(true)

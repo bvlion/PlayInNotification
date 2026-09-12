@@ -7,15 +7,16 @@ import org.junit.Test
 
 class CalculationQuestionTest {
   @Test
-  fun `生成した問題は1桁の数値による足し算または引き算になる`() {
+  fun `Lv1は0を加減せず答えが正の1桁の足し算または引き算になる`() {
     val random = Random(1)
     val generatedOperators = mutableSetOf<CalculationOperator>()
 
     repeat(1_000) {
       val question = CalculationQuestion.create(random)
 
-      assertTrue(question.leftOperand in 0..9)
-      assertTrue(question.rightOperand in 0..9)
+      assertTrue(question.leftOperand in 1..9)
+      assertTrue(question.rightOperand in 1..9)
+      assertTrue(question.correctAnswer > 0)
       generatedOperators += question.operator
       when (question.operator) {
         CalculationOperator.ADDITION -> {
@@ -37,8 +38,30 @@ class CalculationQuestionTest {
   }
 
   @Test
-  fun `選択肢は正解を含む重複しない3択になる`() {
+  fun `Lv1は直前と同じ問題を連続して出題しない`() {
     val random = Random(2)
+    var previousQuestion: CalculationQuestion? = null
+
+    repeat(1_000) {
+      val question = CalculationQuestion.create(
+        previousQuestion = previousQuestion,
+        random = random,
+      )
+
+      if (previousQuestion != null) {
+        assertTrue(
+          question.leftOperand != previousQuestion.leftOperand ||
+            question.rightOperand != previousQuestion.rightOperand ||
+            question.operator != previousQuestion.operator,
+        )
+      }
+      previousQuestion = question
+    }
+  }
+
+  @Test
+  fun `選択肢は正解を含む重複しない3択になる`() {
+    val random = Random(13)
 
     repeat(1_000) {
       val question = CalculationQuestion.create(random)

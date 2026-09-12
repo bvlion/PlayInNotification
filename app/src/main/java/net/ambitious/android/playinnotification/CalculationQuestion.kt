@@ -173,7 +173,7 @@ internal data class CalculationQuestion(
         ) {
           2..9
         } else {
-          if (difficulty in 2..3) 1..9 else 0..9
+          1..9
         }
         val firstOperand = operandRange.random(random)
         val secondOperand = operandRange.random(random)
@@ -206,10 +206,11 @@ internal data class CalculationQuestion(
           choices = (wrongAnswers + correctAnswer).shuffled(random),
         )
       } while (
-        difficulty in 2..3 &&
-        question.leftOperand == previousQuestion?.leftOperand &&
-        question.rightOperand == previousQuestion.rightOperand &&
-        question.operator == previousQuestion.operator
+        (difficulty == 1 && question.correctAnswer == 0) ||
+        (difficulty in 1..3 &&
+          question.leftOperand == previousQuestion?.leftOperand &&
+          question.rightOperand == previousQuestion.rightOperand &&
+          question.operator == previousQuestion.operator)
       )
 
       return question
