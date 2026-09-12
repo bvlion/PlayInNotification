@@ -6,7 +6,8 @@
 
 ## 開発環境
 
-- JDK 17
+- JDK 25 LTS（Gradle / CI実行環境）
+- Java target 17
 - Android SDK Platform 37
 
 ## ビルドと検証
