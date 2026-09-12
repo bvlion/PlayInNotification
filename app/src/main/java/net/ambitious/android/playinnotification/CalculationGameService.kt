@@ -227,7 +227,7 @@ class CalculationGameService : Service() {
   }
 
   companion object {
-    private const val NOTIFICATION_CHANNEL_ID = "game_notifications"
+    internal const val NOTIFICATION_CHANNEL_ID = "game_notifications"
     private const val NOTIFICATION_ID = 1
     private const val ACTION_START =
       "net.ambitious.android.playinnotification.action.START_CALCULATION"
@@ -265,6 +265,16 @@ class CalculationGameService : Service() {
 
     suspend fun showGameSelection(context: Context) {
       createNotificationChannel(context)
+      val notificationManager = context.getSystemService(NotificationManager::class.java)
+      if (
+        CalculationGameService.isSessionActive ||
+        DifficultKanjiGameService.isSessionActive ||
+        !notificationManager.areNotificationsEnabled() ||
+        notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID).importance ==
+        NotificationManager.IMPORTANCE_NONE
+      ) {
+        return
+      }
       val gameDifficultySettings = GameDifficultySettingsRepository(context)
         .gameDifficultySettings
         .first()
@@ -307,7 +317,9 @@ class CalculationGameService : Service() {
           ).build(),
         )
         .build()
-      context.getSystemService(NotificationManager::class.java).notify(NOTIFICATION_ID, notification)
+      if (!CalculationGameService.isSessionActive && !DifficultKanjiGameService.isSessionActive) {
+        notificationManager.notify(NOTIFICATION_ID, notification)
+      }
     }
   }
 }
