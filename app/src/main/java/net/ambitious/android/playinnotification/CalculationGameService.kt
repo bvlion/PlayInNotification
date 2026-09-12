@@ -14,6 +14,7 @@ import android.os.IBinder
 import android.os.Looper
 import android.os.PowerManager
 import android.os.SystemClock
+import android.view.accessibility.AccessibilityManager
 import java.time.LocalDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -149,7 +150,12 @@ class CalculationGameService : Service() {
       isShowingAnswerFeedback = false
       showNextQuestion(isStartingForegroundService = false)
     }.also {
-      handler.postDelayed(it, ANSWER_FEEDBACK_DURATION_MILLISECONDS)
+      val answerFeedbackDurationMilliseconds =
+        getSystemService(AccessibilityManager::class.java).getRecommendedTimeoutMillis(
+          ANSWER_FEEDBACK_DURATION_MILLISECONDS,
+          AccessibilityManager.FLAG_CONTENT_TEXT,
+        )
+      handler.postDelayed(it, answerFeedbackDurationMilliseconds.toLong())
     }
   }
 
@@ -277,7 +283,7 @@ class CalculationGameService : Service() {
     private const val EXTRA_QUESTION_NUMBER = "question_number"
     private const val EXTRA_ANSWER = "answer"
     private const val SESSION_DURATION_MILLISECONDS = 30_000L
-    private const val ANSWER_FEEDBACK_DURATION_MILLISECONDS = 600L
+    private const val ANSWER_FEEDBACK_DURATION_MILLISECONDS = 600
     private const val WAKE_LOCK_TIMEOUT_MARGIN_MILLISECONDS = 1_000L
     private const val CALCULATION_GAME_GENRE = "calculation"
     private const val INITIAL_DIFFICULTY = 1
