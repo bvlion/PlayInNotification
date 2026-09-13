@@ -14,10 +14,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -39,14 +42,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import java.time.LocalDate
 import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
   private var isGameNotificationEnabled by mutableStateOf(false)
+  private var currentDate by mutableStateOf(LocalDate.now())
 
   private val gameDifficultySettingsRepository by lazy {
     GameDifficultySettingsRepository(applicationContext)
+  }
+
+  private val gameStatisticsRepository by lazy {
+    GameStatisticsRepository(applicationContext)
   }
 
   private val notificationPermissionLauncher = registerForActivityResult(
@@ -86,6 +95,17 @@ class MainActivity : ComponentActivity() {
       val context = LocalContext.current
       val gameDifficultySettings by gameDifficultySettingsRepository.gameDifficultySettings
         .collectAsStateWithLifecycle(initialValue = GameDifficultySettings())
+      val gameStatistics by gameStatisticsRepository.gameStatistics
+        .collectAsStateWithLifecycle(initialValue = GameStatistics())
+      val lastCompletedSessionDate = gameStatistics.lastCompletedSessionDate
+      val displayedStreakDayCount = if (
+        lastCompletedSessionDate == null ||
+        lastCompletedSessionDate < currentDate.minusDays(1)
+      ) {
+        0
+      } else {
+        gameStatistics.streakDayCount
+      }
       var calculationDifficulty by remember(gameDifficultySettings.calculationDifficulty) {
         mutableFloatStateOf(gameDifficultySettings.calculationDifficulty.toFloat())
       }
@@ -131,6 +151,85 @@ class MainActivity : ComponentActivity() {
                     },
                   ) {
                     Text(text = stringResource(R.string.open_notification_settings))
+                  }
+                }
+              }
+            }
+            Text(
+              text = stringResource(R.string.statistics_title),
+              style = MaterialTheme.typography.headlineMedium,
+            )
+            Card(modifier = Modifier.fillMaxWidth()) {
+              Column(
+                modifier = Modifier.padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+              ) {
+                Text(
+                  text = stringResource(
+                    R.string.growth_level_value,
+                    gameStatistics.growthLevel,
+                  ),
+                  style = MaterialTheme.typography.headlineSmall,
+                )
+                Text(
+                  text = stringResource(R.string.statistics_encouragement),
+                  style = MaterialTheme.typography.bodyLarge,
+                )
+                Text(
+                  text = stringResource(
+                    R.string.streak_day_count,
+                    displayedStreakDayCount,
+                  ),
+                  style = MaterialTheme.typography.titleMedium,
+                )
+                Text(
+                  text = stringResource(
+                    R.string.answer_count,
+                    gameStatistics.answerCount,
+                  ),
+                  style = MaterialTheme.typography.titleMedium,
+                )
+                Text(
+                  text = stringResource(
+                    R.string.play_count,
+                    gameStatistics.playCount,
+                  ),
+                  style = MaterialTheme.typography.titleMedium,
+                )
+              }
+            }
+            Text(
+              text = stringResource(R.string.personal_best_title),
+              style = MaterialTheme.typography.headlineMedium,
+            )
+            Card(modifier = Modifier.fillMaxWidth()) {
+              Column(
+                modifier = Modifier.padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+              ) {
+                listOf(
+                  R.string.calculation_game to "calculation",
+                  R.string.difficult_kanji_game to "difficult_kanji",
+                ).forEach { (gameNameResource, gameGenre) ->
+                  Text(
+                    text = stringResource(gameNameResource),
+                    style = MaterialTheme.typography.titleLarge,
+                  )
+                  (1..5).forEach { difficulty ->
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                      Text(
+                        text = stringResource(R.string.game_difficulty_level, difficulty),
+                        style = MaterialTheme.typography.bodyLarge,
+                      )
+                      Spacer(modifier = Modifier.width(16.dp))
+                      Text(
+                        text = stringResource(
+                          R.string.personal_best_points,
+                          gameStatistics.bestPointsByGame["$gameGenre:$difficulty"] ?: 0,
+                        ),
+                        style = MaterialTheme.typography.bodyLarge,
+                      )
+                    }
                   }
                 }
               }
@@ -227,6 +326,7 @@ class MainActivity : ComponentActivity() {
 
   override fun onResume() {
     super.onResume()
+    currentDate = LocalDate.now()
     val notificationManager = getSystemService(NotificationManager::class.java)
     isGameNotificationEnabled = notificationManager.areNotificationsEnabled() &&
       notificationManager.getNotificationChannel(CalculationGameService.NOTIFICATION_CHANNEL_ID)

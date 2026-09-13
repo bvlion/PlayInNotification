@@ -25,4 +25,12 @@
   <string name="calculation_game">計算</string>
   <string name="difficult_kanji_game">難読漢字</string>
   <string name="game_difficulty_level">Lv%1$d</string>
+  <string name="statistics_title">成績</string>
+  <string name="growth_level_value">成長 Lv%1$d</string>
+  <string name="statistics_encouragement">続けた分だけ、しっかり成長しています。</string>
+  <string name="streak_day_count">Streak %1$d日</string>
+  <string name="answer_count">これまでに%1$d問回答</string>
+  <string name="play_count">30秒プレイを%1$d回達成</string>
+  <string name="personal_best_title">自己ベスト</string>
+  <string name="personal_best_points">%1$dポイント</string>
 </resources>
