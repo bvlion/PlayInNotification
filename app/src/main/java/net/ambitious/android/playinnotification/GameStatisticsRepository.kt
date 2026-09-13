@@ -8,12 +8,17 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.core.stringPreferencesKey
 import java.time.LocalDate
+import kotlinx.coroutines.flow.map
 
 private val Context.gameStatisticsDataStore by preferencesDataStore(name = "game_statistics")
 
 internal class GameStatisticsRepository(
   private val context: Context,
 ) {
+  val gameStatistics = context.gameStatisticsDataStore.data.map { preferences ->
+    preferences.toGameStatistics()
+  }
+
   suspend fun recordCompletedSession(
     sessionResult: GameSessionResult,
     gameGenre: String,
@@ -21,7 +26,7 @@ internal class GameStatisticsRepository(
     completedSessionDate: LocalDate,
   ) {
     context.gameStatisticsDataStore.edit { preferences ->
-      val currentStatistics = preferences.toGameStatistics(gameGenre, difficulty)
+      val currentStatistics = preferences.toGameStatistics()
       val updatedStatistics = currentStatistics.addCompletedSession(
         sessionResult = sessionResult,
         gameGenre = gameGenre,
@@ -38,18 +43,18 @@ internal class GameStatisticsRepository(
     }
   }
 
-  private fun Preferences.toGameStatistics(
-    gameGenre: String,
-    difficulty: Int,
-  ): GameStatistics {
-    val gameKey = "$gameGenre:$difficulty"
+  private fun Preferences.toGameStatistics(): GameStatistics {
     return GameStatistics(
       answerCount = this[ANSWER_COUNT_KEY] ?: 0,
       playCount = this[PLAY_COUNT_KEY] ?: 0,
       earnedPoints = this[EARNED_POINTS_KEY] ?: 0,
       streakDayCount = this[STREAK_DAY_COUNT_KEY] ?: 0,
       lastCompletedSessionDate = this[LAST_COMPLETED_SESSION_DATE_KEY]?.let(LocalDate::parse),
-      bestPointsByGame = mapOf(gameKey to (this[bestPointsKey(gameGenre, difficulty)] ?: 0)),
+      bestPointsByGame = GAME_GENRES.flatMap { gameGenre ->
+        DIFFICULTY_RANGE.map { difficulty ->
+          "$gameGenre:$difficulty" to (this[bestPointsKey(gameGenre, difficulty)] ?: 0)
+        }
+      }.toMap(),
     )
   }
 
@@ -63,5 +68,7 @@ internal class GameStatisticsRepository(
     val STREAK_DAY_COUNT_KEY = intPreferencesKey("streak_day_count")
     val LAST_COMPLETED_SESSION_DATE_KEY = stringPreferencesKey("last_completed_session_date")
     const val BEST_POINTS_KEY_PREFIX = "best_points_"
+    val GAME_GENRES = listOf("calculation", "difficult_kanji")
+    val DIFFICULTY_RANGE = 1..5
   }
 }
