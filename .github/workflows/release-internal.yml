@@ -1,0 +1,59 @@
+name: Release Internal
+
+on:
+  push:
+    tags:
+      - "v*"
+
+concurrency:
+  group: release-internal-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  release-internal:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up JDK
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Decode release keystore
+        env:
+          RELEASE_JKS: ${{ secrets.RELEASE_JKS }}
+        run: printf '%s' "$RELEASE_JKS" | base64 --decode > release.jks
+
+      - name: Decode Google Play service account
+        env:
+          GOOGLE_PLAY_SERVICE_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_JSON }}
+        run: printf '%s' "$GOOGLE_PLAY_SERVICE_JSON" | base64 --decode > google-play-service.json
+
+      - name: Build signed release bundle
+        env:
+          KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: ./gradlew :app:bundleRelease
+
+      - name: Upload to Google Play internal track
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: google-play-service.json
+          packageName: net.ambitious.android.playinnotification
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: internal
+          status: completed
+
+      - name: Remove decoded secrets
+        if: always()
+        run: rm -f release.jks google-play-service.json

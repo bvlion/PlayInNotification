@@ -3,6 +3,8 @@ plugins {
   id("org.jetbrains.kotlin.plugin.compose")
 }
 
+val releaseKeystoreFile = rootProject.file("release.jks")
+
 android {
   namespace = "net.ambitious.android.playinnotification"
   compileSdk = 37
@@ -13,6 +15,23 @@ android {
     targetSdk = 37
     versionCode = 1
     versionName = "1.0"
+  }
+
+  val releaseSigningConfig = if (releaseKeystoreFile.exists()) {
+    signingConfigs.create("release") {
+      storeFile = releaseKeystoreFile
+      storePassword = System.getenv("KEYSTORE_PASSWORD")
+      keyAlias = System.getenv("KEYSTORE_ALIAS")
+      keyPassword = System.getenv("KEYSTORE_PASSWORD")
+    }
+  } else {
+    null
+  }
+
+  buildTypes {
+    release {
+      signingConfig = releaseSigningConfig
+    }
   }
 
   buildFeatures {
