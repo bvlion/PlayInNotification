@@ -10,6 +10,25 @@ internal data class GameStatistics(
   val lastCompletedSessionDate: LocalDate? = null,
   val bestPointsByGame: Map<String, Long> = emptyMap(),
 ) {
+  val growthLevel: Int
+    get() {
+      val earnedPointFactor = earnedPoints / POINTS_PER_GROWTH_LEVEL_STEP
+      var lowestGrowthLevel = 1
+      var highestGrowthLevel = Int.MAX_VALUE
+
+      while (lowestGrowthLevel < highestGrowthLevel) {
+        val growthLevel = lowestGrowthLevel + (highestGrowthLevel - lowestGrowthLevel + 1) / 2
+        val requiredPointFactor = growthLevel.toLong() * (growthLevel - 1)
+        if (requiredPointFactor <= earnedPointFactor) {
+          lowestGrowthLevel = growthLevel
+        } else {
+          highestGrowthLevel = growthLevel - 1
+        }
+      }
+
+      return lowestGrowthLevel
+    }
+
   fun addCompletedSession(
     sessionResult: GameSessionResult,
     gameGenre: String,
@@ -32,5 +51,9 @@ internal data class GameStatistics(
       lastCompletedSessionDate = completedSessionDate,
       bestPointsByGame = bestPointsByGame + (gameKey to maxOf(currentBestPoints, sessionResult.earnedPoints.toLong())),
     )
+  }
+
+  private companion object {
+    const val POINTS_PER_GROWTH_LEVEL_STEP = 50
   }
 }

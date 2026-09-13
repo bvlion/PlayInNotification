@@ -6,6 +6,26 @@ import org.junit.Test
 
 class GameStatisticsTest {
   @Test
+  fun `累積獲得ポイントが次の必要ポイント未満なら成長レベルは上がらない`() {
+    assertEquals(1, GameStatistics(earnedPoints = 99).growthLevel)
+    assertEquals(2, GameStatistics(earnedPoints = 299).growthLevel)
+    assertEquals(3, GameStatistics(earnedPoints = 599).growthLevel)
+  }
+
+  @Test
+  fun `累積獲得ポイントが必要ポイントに達すると成長レベルが上がる`() {
+    assertEquals(2, GameStatistics(earnedPoints = 100).growthLevel)
+    assertEquals(3, GameStatistics(earnedPoints = 300).growthLevel)
+    assertEquals(4, GameStatistics(earnedPoints = 600).growthLevel)
+    assertEquals(5, GameStatistics(earnedPoints = 1_000).growthLevel)
+  }
+
+  @Test
+  fun `大きな累積獲得ポイントから成長レベルを算出できる`() {
+    assertEquals(100_000, GameStatistics(earnedPoints = 499_995_000_000).growthLevel)
+  }
+
+  @Test
   fun `完了したセッションは成績へ累積される`() {
     val statistics = GameStatistics().addCompletedSession(
       sessionResult = GameSessionResult(answerCount = 4, earnedPoints = 10),
