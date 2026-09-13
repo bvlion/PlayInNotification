@@ -42,11 +42,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import java.time.LocalDate
 import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
   private var isGameNotificationEnabled by mutableStateOf(false)
+  private var currentDate by mutableStateOf(LocalDate.now())
 
   private val gameDifficultySettingsRepository by lazy {
     GameDifficultySettingsRepository(applicationContext)
@@ -95,6 +97,15 @@ class MainActivity : ComponentActivity() {
         .collectAsStateWithLifecycle(initialValue = GameDifficultySettings())
       val gameStatistics by gameStatisticsRepository.gameStatistics
         .collectAsStateWithLifecycle(initialValue = GameStatistics())
+      val lastCompletedSessionDate = gameStatistics.lastCompletedSessionDate
+      val displayedStreakDayCount = if (
+        lastCompletedSessionDate == null ||
+        lastCompletedSessionDate < currentDate.minusDays(1)
+      ) {
+        0
+      } else {
+        gameStatistics.streakDayCount
+      }
       var calculationDifficulty by remember(gameDifficultySettings.calculationDifficulty) {
         mutableFloatStateOf(gameDifficultySettings.calculationDifficulty.toFloat())
       }
@@ -167,7 +178,7 @@ class MainActivity : ComponentActivity() {
                 Text(
                   text = stringResource(
                     R.string.streak_day_count,
-                    gameStatistics.streakDayCount,
+                    displayedStreakDayCount,
                   ),
                   style = MaterialTheme.typography.titleMedium,
                 )
@@ -315,6 +326,7 @@ class MainActivity : ComponentActivity() {
 
   override fun onResume() {
     super.onResume()
+    currentDate = LocalDate.now()
     val notificationManager = getSystemService(NotificationManager::class.java)
     isGameNotificationEnabled = notificationManager.areNotificationsEnabled() &&
       notificationManager.getNotificationChannel(CalculationGameService.NOTIFICATION_CHANNEL_ID)
