@@ -31,6 +31,9 @@ android {
   buildTypes {
     release {
       signingConfig = releaseSigningConfig
+      optimization {
+        enable = true
+      }
     }
   }
 
