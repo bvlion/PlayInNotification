@@ -49,6 +49,25 @@ class DifficultKanjiGameService : Service() {
     currentQuestion = null
     val completedSessionResult = sessionResult
     latestCompletedSessionResult = completedSessionResult
+    val resultSummary = getString(
+      R.string.session_result_summary,
+      completedSessionResult.answerCount,
+      completedSessionResult.correctAnswerCount,
+      completedSessionResult.incorrectAnswerCount,
+    )
+    val notificationManager = getSystemService(NotificationManager::class.java)
+    notificationManager.notify(
+      NOTIFICATION_ID,
+      Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_launcher_foreground)
+        .setContentTitle(getString(R.string.session_finished_title))
+        .setContentText(resultSummary)
+        .setOngoing(true)
+        .setOnlyAlertOnce(true)
+        .setCategory(Notification.CATEGORY_STATUS)
+        .setStyle(Notification.BigTextStyle().bigText(resultSummary))
+        .build(),
+    )
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = null
     gameStatisticsScope.launch {
@@ -59,8 +78,6 @@ class DifficultKanjiGameService : Service() {
         completedSessionDate = LocalDate.now(),
       )
       withContext(Dispatchers.Main) {
-        isSessionActive = false
-        stopForeground(STOP_FOREGROUND_REMOVE)
         val viewAnswersIntent = Intent(
           this@DifficultKanjiGameService,
           SessionAnswersActivity::class.java,
@@ -89,12 +106,6 @@ class DifficultKanjiGameService : Service() {
           Intent(this@DifficultKanjiGameService, GameNotificationActionReceiver::class.java)
             .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),
           PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-        )
-        val resultSummary = getString(
-          R.string.session_result_summary,
-          completedSessionResult.answerCount,
-          completedSessionResult.correctAnswerCount,
-          completedSessionResult.incorrectAnswerCount,
         )
         val previousLevel = previousStatistics.growthLevel
         val updatedLevel = updatedStatistics.growthLevel
@@ -156,10 +167,12 @@ class DifficultKanjiGameService : Service() {
         } else {
           resultNotificationBuilder.setStyle(Notification.BigTextStyle().bigText(resultSummary))
         }
-        getSystemService(NotificationManager::class.java).notify(
+        notificationManager.notify(
           NOTIFICATION_ID,
           resultNotificationBuilder.build(),
         )
+        isSessionActive = false
+        stopForeground(STOP_FOREGROUND_DETACH)
         stopSelf()
       }
     }
