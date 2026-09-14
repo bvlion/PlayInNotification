@@ -13,6 +13,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
@@ -105,6 +106,11 @@ class CalculationGameService : Service() {
           .setOngoing(true)
           .setOnlyAlertOnce(true)
           .setCategory(Notification.CATEGORY_STATUS)
+          .addExtras(
+            Bundle().apply {
+              putBoolean(EXTRA_IS_RESULT_NOTIFICATION, true)
+            },
+          )
           .addAction(
             Notification.Action.Builder(
               null,
@@ -152,7 +158,6 @@ class CalculationGameService : Service() {
           NOTIFICATION_ID,
           resultNotificationBuilder.build(),
         )
-        isResultNotificationShowing = true
         stopSelf()
       }
     }
@@ -196,7 +201,6 @@ class CalculationGameService : Service() {
     sessionResult = GameSessionResult()
     isCompletingSession = false
     latestCompletedSessionResult = null
-    isResultNotificationShowing = false
     showNextQuestion(isStartingForegroundService = true)
     handler.postDelayed(finishSession, SESSION_DURATION_MILLISECONDS)
   }
@@ -350,7 +354,10 @@ class CalculationGameService : Service() {
           )
         },
       )
-      .setWhen(System.currentTimeMillis() + (sessionDeadline - SystemClock.elapsedRealtime()))
+      .setWhen(
+        System.currentTimeMillis() +
+          maxOf(0L, sessionDeadline - SystemClock.elapsedRealtime()),
+      )
       .setUsesChronometer(true)
       .setChronometerCountDown(true)
       .setOngoing(true)
@@ -388,6 +395,7 @@ class CalculationGameService : Service() {
     private const val EXTRA_DIFFICULTY = "difficulty"
     private const val EXTRA_QUESTION_NUMBER = "question_number"
     private const val EXTRA_ANSWER = "answer"
+    internal const val EXTRA_IS_RESULT_NOTIFICATION = "is_result_notification"
     private const val SESSION_DURATION_MILLISECONDS = 30_000L
     private const val WAKE_LOCK_TIMEOUT_MARGIN_MILLISECONDS = 1_000L
     private const val CALCULATION_GAME_GENRE = "calculation"
@@ -402,9 +410,6 @@ class CalculationGameService : Service() {
     @Volatile
     internal var latestCompletedSessionResult: GameSessionResult? = null
       private set
-
-    @Volatile
-    internal var isResultNotificationShowing = false
 
     fun createNotificationChannel(context: Context) {
       val channel = NotificationChannel(
@@ -424,6 +429,10 @@ class CalculationGameService : Service() {
     ) {
       createNotificationChannel(context)
       val notificationManager = context.getSystemService(NotificationManager::class.java)
+      val isResultNotificationShowing = notificationManager.activeNotifications.any {
+        it.id == NOTIFICATION_ID &&
+          it.notification.extras.getBoolean(EXTRA_IS_RESULT_NOTIFICATION)
+      }
       if (
         CalculationGameService.isSessionActive ||
         DifficultKanjiGameService.isSessionActive ||
@@ -478,7 +487,6 @@ class CalculationGameService : Service() {
         .build()
       if (!CalculationGameService.isSessionActive && !DifficultKanjiGameService.isSessionActive) {
         notificationManager.notify(NOTIFICATION_ID, notification)
-        isResultNotificationShowing = false
       }
     }
   }

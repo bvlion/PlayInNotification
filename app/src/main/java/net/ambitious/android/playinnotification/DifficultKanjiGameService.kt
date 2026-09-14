@@ -13,6 +13,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
@@ -107,6 +108,11 @@ class DifficultKanjiGameService : Service() {
           .setOngoing(true)
           .setOnlyAlertOnce(true)
           .setCategory(Notification.CATEGORY_STATUS)
+          .addExtras(
+            Bundle().apply {
+              putBoolean(CalculationGameService.EXTRA_IS_RESULT_NOTIFICATION, true)
+            },
+          )
           .addAction(
             Notification.Action.Builder(
               null,
@@ -154,7 +160,6 @@ class DifficultKanjiGameService : Service() {
           NOTIFICATION_ID,
           resultNotificationBuilder.build(),
         )
-        CalculationGameService.isResultNotificationShowing = true
         stopSelf()
       }
     }
@@ -199,7 +204,6 @@ class DifficultKanjiGameService : Service() {
     sessionResult = GameSessionResult()
     isCompletingSession = false
     latestCompletedSessionResult = null
-    CalculationGameService.isResultNotificationShowing = false
     showNextQuestion(isStartingForegroundService = true)
     handler.postDelayed(finishSession, SESSION_DURATION_MILLISECONDS)
   }
@@ -278,7 +282,10 @@ class DifficultKanjiGameService : Service() {
       .setSmallIcon(R.drawable.ic_launcher_foreground)
       .setContentTitle(title)
       .setContentText(getString(R.string.game_time_remaining))
-      .setWhen(System.currentTimeMillis() + (sessionDeadline - SystemClock.elapsedRealtime()))
+      .setWhen(
+        System.currentTimeMillis() +
+          maxOf(0L, sessionDeadline - SystemClock.elapsedRealtime()),
+      )
       .setUsesChronometer(true)
       .setChronometerCountDown(true)
       .setOngoing(true)
