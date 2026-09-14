@@ -17,20 +17,30 @@
   <string name="calculation_missing_right_operand_question">%1$d %2$s ? %3$s %4$d = %5$d</string>
   <string name="calculation_missing_third_operand_question">%1$d %2$s %3$d %4$s ? = %5$d</string>
   <string name="game_time_remaining">残り30秒</string>
-  <string name="correct_answer_feedback">正解</string>
-  <string name="incorrect_answer_feedback">不正解（正解: %1$s）</string>
+  <string name="correct_answer_result">正解</string>
+  <string name="incorrect_answer_result">不正解</string>
   <string name="difficult_kanji_written_form_to_reading_question">「%1$s」の読みは？</string>
   <string name="difficult_kanji_reading_to_written_form_question">「%1$s」の表記は？</string>
   <string name="game_difficulty_settings_title">ゲーム難易度</string>
   <string name="calculation_game">計算</string>
   <string name="difficult_kanji_game">難読漢字</string>
-  <string name="game_difficulty_level">Lv%1$d</string>
+  <string name="game_difficulty_level">難易度 Lv%1$d</string>
   <string name="statistics_title">成績</string>
-  <string name="growth_level_value">成長 Lv%1$d</string>
+  <string name="growth_level_value">レベル Lv%1$d</string>
   <string name="statistics_encouragement">続けた分だけ、しっかり成長しています。</string>
   <string name="streak_day_count">Streak %1$d日</string>
   <string name="answer_count">これまでに%1$d問回答</string>
   <string name="play_count">30秒プレイを%1$d回達成</string>
   <string name="personal_best_title">自己ベスト</string>
   <string name="personal_best_points">%1$dポイント</string>
+  <string name="session_finished_title">30秒プレイ終了</string>
+  <string name="session_result_summary">回答数 %1$d問・正解数 %2$d問・不正解数 %3$d問</string>
+  <string name="level_up">レベルアップ！</string>
+  <string name="level_change">Lv%1$d → Lv%2$d</string>
+  <string name="level_up_with_change">レベルアップ！ Lv%1$d → Lv%2$d</string>
+  <string name="view_session_answers">今回の回答を見る</string>
+  <string name="choose_game">ゲームを選ぶ</string>
+  <string name="session_answers_title">今回の回答</string>
+  <string name="selected_answer">選んだ回答: %1$s</string>
+  <string name="no_session_answers">今回の回答はありません。</string>
 </resources>

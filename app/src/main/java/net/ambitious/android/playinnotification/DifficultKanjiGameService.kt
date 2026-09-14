@@ -8,13 +8,16 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.os.PowerManager
 import android.os.SystemClock
-import android.view.accessibility.AccessibilityManager
 import java.time.LocalDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,24 +39,20 @@ class DifficultKanjiGameService : Service() {
   private var sessionResult = GameSessionResult()
   private var sessionWakeLock: PowerManager.WakeLock? = null
   private var isCompletingSession = false
-  private var isShowingAnswerFeedback = false
-  private var showNextQuestionAfterFeedback: Runnable? = null
 
   private val finishSession = Runnable {
     if (!isSessionActive || isCompletingSession) {
       return@Runnable
     }
     isCompletingSession = true
-    showNextQuestionAfterFeedback?.let(handler::removeCallbacks)
-    showNextQuestionAfterFeedback = null
-    isShowingAnswerFeedback = false
     currentQuestion = null
-    latestCompletedSessionResult = sessionResult
+    val completedSessionResult = sessionResult
+    latestCompletedSessionResult = completedSessionResult
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = null
     gameStatisticsScope.launch {
-      gameStatisticsRepository.recordCompletedSession(
-        sessionResult = sessionResult,
+      val (previousStatistics, updatedStatistics) = gameStatisticsRepository.recordCompletedSession(
+        sessionResult = completedSessionResult,
         gameGenre = DIFFICULT_KANJI_GAME_GENRE,
         difficulty = sessionDifficulty,
         completedSessionDate = LocalDate.now(),
@@ -61,8 +60,102 @@ class DifficultKanjiGameService : Service() {
       withContext(Dispatchers.Main) {
         isSessionActive = false
         stopForeground(STOP_FOREGROUND_REMOVE)
+        val viewAnswersIntent = Intent(
+          this@DifficultKanjiGameService,
+          SessionAnswersActivity::class.java,
+        )
+          .putStringArrayListExtra(
+            SessionAnswersActivity.EXTRA_QUESTIONS,
+            ArrayList(completedSessionResult.answerResults.map { it.question }),
+          )
+          .putStringArrayListExtra(
+            SessionAnswersActivity.EXTRA_SELECTED_ANSWERS,
+            ArrayList(completedSessionResult.answerResults.map { it.selectedAnswer }),
+          )
+          .putExtra(
+            SessionAnswersActivity.EXTRA_CORRECTNESS,
+            completedSessionResult.answerResults.map { it.isCorrect }.toBooleanArray(),
+          )
+        val viewAnswersPendingIntent = PendingIntent.getActivity(
+          this@DifficultKanjiGameService,
+          0,
+          viewAnswersIntent,
+          PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+        val showGameSelectionPendingIntent = PendingIntent.getBroadcast(
+          this@DifficultKanjiGameService,
+          0,
+          Intent(this@DifficultKanjiGameService, GameNotificationActionReceiver::class.java)
+            .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),
+          PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+        val resultSummary = getString(
+          R.string.session_result_summary,
+          completedSessionResult.answerCount,
+          completedSessionResult.correctAnswerCount,
+          completedSessionResult.incorrectAnswerCount,
+        )
+        val previousLevel = previousStatistics.growthLevel
+        val updatedLevel = updatedStatistics.growthLevel
+        val resultNotificationBuilder = Notification.Builder(
+          this@DifficultKanjiGameService,
+          NOTIFICATION_CHANNEL_ID,
+        )
+          .setSmallIcon(R.drawable.ic_launcher_foreground)
+          .setContentTitle(getString(R.string.session_finished_title))
+          .setContentText(resultSummary)
+          .setOngoing(true)
+          .setOnlyAlertOnce(true)
+          .setCategory(Notification.CATEGORY_STATUS)
+          .addAction(
+            Notification.Action.Builder(
+              null,
+              getString(R.string.view_session_answers),
+              viewAnswersPendingIntent,
+            ).build(),
+          )
+          .addAction(
+            Notification.Action.Builder(
+              null,
+              getString(R.string.choose_game),
+              showGameSelectionPendingIntent,
+            ).build(),
+          )
+        if (updatedLevel > previousLevel) {
+          val levelChange = getString(R.string.level_change, previousLevel, updatedLevel)
+          val levelUpImage = Bitmap.createBitmap(1024, 512, Bitmap.Config.ARGB_8888)
+          val canvas = Canvas(levelUpImage)
+          val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            textAlign = Paint.Align.CENTER
+            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+          }
+          canvas.drawColor(getColor(android.R.color.system_accent1_700))
+          paint.color = getColor(android.R.color.system_accent1_50)
+          paint.textSize = 72f
+          canvas.drawText(getString(R.string.level_up), 512f, 190f, paint)
+          paint.textSize = 104f
+          canvas.drawText(levelChange, 512f, 350f, paint)
+          resultNotificationBuilder
+            .setSubText(
+              getString(R.string.level_up_with_change, previousLevel, updatedLevel),
+            )
+            .setStyle(
+              Notification.BigPictureStyle()
+                .bigPicture(levelUpImage)
+                .setBigContentTitle(
+                  getString(R.string.level_up_with_change, previousLevel, updatedLevel),
+                )
+                .setSummaryText(resultSummary),
+            )
+        } else {
+          resultNotificationBuilder.setStyle(Notification.BigTextStyle().bigText(resultSummary))
+        }
+        getSystemService(NotificationManager::class.java).notify(
+          NOTIFICATION_ID,
+          resultNotificationBuilder.build(),
+        )
+        CalculationGameService.isResultNotificationShowing = true
         stopSelf()
-        CalculationGameService.showGameSelection(this@DifficultKanjiGameService)
       }
     }
   }
@@ -79,9 +172,6 @@ class DifficultKanjiGameService : Service() {
 
   override fun onDestroy() {
     handler.removeCallbacks(finishSession)
-    showNextQuestionAfterFeedback?.let(handler::removeCallbacks)
-    showNextQuestionAfterFeedback = null
-    isShowingAnswerFeedback = false
     isSessionActive = false
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = null
@@ -92,9 +182,6 @@ class DifficultKanjiGameService : Service() {
 
   private fun startSession(difficulty: Int) {
     handler.removeCallbacks(finishSession)
-    showNextQuestionAfterFeedback?.let(handler::removeCallbacks)
-    showNextQuestionAfterFeedback = null
-    isShowingAnswerFeedback = false
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = getSystemService(PowerManager::class.java).newWakeLock(
       PowerManager.PARTIAL_WAKE_LOCK,
@@ -112,14 +199,12 @@ class DifficultKanjiGameService : Service() {
     sessionResult = GameSessionResult()
     isCompletingSession = false
     latestCompletedSessionResult = null
+    CalculationGameService.isResultNotificationShowing = false
     showNextQuestion(isStartingForegroundService = true)
     handler.postDelayed(finishSession, SESSION_DURATION_MILLISECONDS)
   }
 
   private fun handleAnswer(intent: Intent) {
-    if (isShowingAnswerFeedback) {
-      return
-    }
     val question = currentQuestion ?: return
     val answer = intent.getStringExtra(EXTRA_ANSWER) ?: return
     if (
@@ -134,32 +219,25 @@ class DifficultKanjiGameService : Service() {
     }
 
     val isCorrect = answer == question.correctAnswer
+    val questionText = when (question.direction) {
+      DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> getString(
+        R.string.difficult_kanji_written_form_to_reading_question,
+        question.prompt,
+      )
+      DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> getString(
+        R.string.difficult_kanji_reading_to_written_form_question,
+        question.prompt,
+      )
+    }
     sessionResult = sessionResult.addAnswerResult(
       GameAnswerResult.create(
+        question = questionText,
+        selectedAnswer = answer,
         isCorrect = isCorrect,
         questionDifficulty = sessionDifficulty,
       ),
     )
-    isShowingAnswerFeedback = true
-    getSystemService(NotificationManager::class.java).notify(
-      NOTIFICATION_ID,
-      createQuestionNotification(question, isCorrect),
-    )
-    showNextQuestionAfterFeedback = Runnable {
-      showNextQuestionAfterFeedback = null
-      if (!isSessionActive || isCompletingSession) {
-        return@Runnable
-      }
-      isShowingAnswerFeedback = false
-      showNextQuestion(isStartingForegroundService = false)
-    }.also {
-      val answerFeedbackDurationMilliseconds =
-        getSystemService(AccessibilityManager::class.java).getRecommendedTimeoutMillis(
-          ANSWER_FEEDBACK_DURATION_MILLISECONDS,
-          AccessibilityManager.FLAG_CONTENT_TEXT,
-        )
-      handler.postDelayed(it, answerFeedbackDurationMilliseconds.toLong())
-    }
+    showNextQuestion(isStartingForegroundService = false)
   }
 
   private fun showNextQuestion(isStartingForegroundService: Boolean) {
@@ -185,23 +263,16 @@ class DifficultKanjiGameService : Service() {
     }
   }
 
-  private fun createQuestionNotification(
-    question: DifficultKanjiQuestion,
-    isCorrect: Boolean? = null,
-  ): Notification {
-    val title = when (isCorrect) {
-      true -> getString(R.string.correct_answer_feedback)
-      false -> getString(R.string.incorrect_answer_feedback, question.correctAnswer)
-      null -> when (question.direction) {
-        DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> getString(
-          R.string.difficult_kanji_written_form_to_reading_question,
-          question.prompt,
-        )
-        DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> getString(
-          R.string.difficult_kanji_reading_to_written_form_question,
-          question.prompt,
-        )
-      }
+  private fun createQuestionNotification(question: DifficultKanjiQuestion): Notification {
+    val title = when (question.direction) {
+      DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> getString(
+        R.string.difficult_kanji_written_form_to_reading_question,
+        question.prompt,
+      )
+      DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> getString(
+        R.string.difficult_kanji_reading_to_written_form_question,
+        question.prompt,
+      )
     }
     val builder = Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
       .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -214,22 +285,20 @@ class DifficultKanjiGameService : Service() {
       .setOnlyAlertOnce(true)
       .setCategory(Notification.CATEGORY_SERVICE)
 
-    if (isCorrect == null) {
-      question.choices.forEachIndexed { index, choice ->
-        val answerIntent = Intent(this, DifficultKanjiGameService::class.java)
-          .setAction(ACTION_ANSWER)
-          .putExtra(EXTRA_QUESTION_NUMBER, questionNumber)
-          .putExtra(EXTRA_ANSWER, choice)
-        val answerPendingIntent = PendingIntent.getService(
-          this,
-          questionNumber * 3 + index,
-          answerIntent,
-          PendingIntent.FLAG_CANCEL_CURRENT or
-            PendingIntent.FLAG_ONE_SHOT or
-            PendingIntent.FLAG_IMMUTABLE,
-        )
-        builder.addAction(Notification.Action.Builder(null, choice, answerPendingIntent).build())
-      }
+    question.choices.forEachIndexed { index, choice ->
+      val answerIntent = Intent(this, DifficultKanjiGameService::class.java)
+        .setAction(ACTION_ANSWER)
+        .putExtra(EXTRA_QUESTION_NUMBER, questionNumber)
+        .putExtra(EXTRA_ANSWER, choice)
+      val answerPendingIntent = PendingIntent.getService(
+        this,
+        questionNumber * 3 + index,
+        answerIntent,
+        PendingIntent.FLAG_CANCEL_CURRENT or
+          PendingIntent.FLAG_ONE_SHOT or
+          PendingIntent.FLAG_IMMUTABLE,
+      )
+      builder.addAction(Notification.Action.Builder(null, choice, answerPendingIntent).build())
     }
 
     return builder.build()
@@ -258,7 +327,6 @@ class DifficultKanjiGameService : Service() {
     private const val EXTRA_QUESTION_NUMBER = "question_number"
     private const val EXTRA_ANSWER = "answer"
     private const val SESSION_DURATION_MILLISECONDS = 30_000L
-    private const val ANSWER_FEEDBACK_DURATION_MILLISECONDS = 600
     private const val WAKE_LOCK_TIMEOUT_MARGIN_MILLISECONDS = 1_000L
     private const val DIFFICULT_KANJI_GAME_GENRE = "difficult_kanji"
     private const val INITIAL_DIFFICULTY = 1
