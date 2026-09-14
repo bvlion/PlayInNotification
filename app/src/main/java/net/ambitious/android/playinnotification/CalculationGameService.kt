@@ -8,13 +8,17 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.os.PowerManager
 import android.os.SystemClock
-import android.view.accessibility.AccessibilityManager
 import java.time.LocalDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,33 +38,140 @@ class CalculationGameService : Service() {
   private var sessionResult = GameSessionResult()
   private var sessionWakeLock: PowerManager.WakeLock? = null
   private var isCompletingSession = false
-  private var isShowingAnswerFeedback = false
-  private var showNextQuestionAfterFeedback: Runnable? = null
 
   private val finishSession = Runnable {
     if (!isSessionActive || isCompletingSession) {
       return@Runnable
     }
     isCompletingSession = true
-    showNextQuestionAfterFeedback?.let(handler::removeCallbacks)
-    showNextQuestionAfterFeedback = null
-    isShowingAnswerFeedback = false
     currentQuestion = null
-    latestCompletedSessionResult = sessionResult
+    val completedSessionResult = sessionResult
+    latestCompletedSessionResult = completedSessionResult
+    val resultSummary = getString(
+      R.string.session_result_summary,
+      completedSessionResult.answerCount,
+      completedSessionResult.correctAnswerCount,
+      completedSessionResult.incorrectAnswerCount,
+    )
+    val notificationManager = getSystemService(NotificationManager::class.java)
+    notificationManager.notify(
+      NOTIFICATION_ID,
+      Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_launcher_foreground)
+        .setContentTitle(getString(R.string.session_finished_title))
+        .setContentText(resultSummary)
+        .setOngoing(true)
+        .setOnlyAlertOnce(true)
+        .setCategory(Notification.CATEGORY_STATUS)
+        .setStyle(Notification.BigTextStyle().bigText(resultSummary))
+        .build(),
+    )
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = null
     gameStatisticsScope.launch {
-      gameStatisticsRepository.recordCompletedSession(
-        sessionResult = sessionResult,
+      val (previousStatistics, updatedStatistics) = gameStatisticsRepository.recordCompletedSession(
+        sessionResult = completedSessionResult,
         gameGenre = CALCULATION_GAME_GENRE,
         difficulty = sessionDifficulty,
         completedSessionDate = LocalDate.now(),
       )
       withContext(Dispatchers.Main) {
+        val viewAnswersIntent = Intent(
+          this@CalculationGameService,
+          SessionAnswersActivity::class.java,
+        )
+          .putStringArrayListExtra(
+            SessionAnswersActivity.EXTRA_QUESTIONS,
+            ArrayList(completedSessionResult.answerResults.map { it.question }),
+          )
+          .putStringArrayListExtra(
+            SessionAnswersActivity.EXTRA_SELECTED_ANSWERS,
+            ArrayList(completedSessionResult.answerResults.map { it.selectedAnswer }),
+          )
+          .putExtra(
+            SessionAnswersActivity.EXTRA_CORRECTNESS,
+            completedSessionResult.answerResults.map { it.isCorrect }.toBooleanArray(),
+          )
+        val viewAnswersPendingIntent = PendingIntent.getActivity(
+          this@CalculationGameService,
+          0,
+          viewAnswersIntent,
+          PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+        val showGameSelectionPendingIntent = PendingIntent.getBroadcast(
+          this@CalculationGameService,
+          0,
+          Intent(this@CalculationGameService, GameNotificationActionReceiver::class.java)
+            .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),
+          PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
+        val previousLevel = previousStatistics.growthLevel
+        val updatedLevel = updatedStatistics.growthLevel
+        val resultNotificationBuilder = Notification.Builder(
+          this@CalculationGameService,
+          NOTIFICATION_CHANNEL_ID,
+        )
+          .setSmallIcon(R.drawable.ic_launcher_foreground)
+          .setContentTitle(getString(R.string.session_finished_title))
+          .setContentText(resultSummary)
+          .setOngoing(true)
+          .setOnlyAlertOnce(true)
+          .setCategory(Notification.CATEGORY_STATUS)
+          .addExtras(
+            Bundle().apply {
+              putBoolean(EXTRA_IS_RESULT_NOTIFICATION, true)
+            },
+          )
+          .addAction(
+            Notification.Action.Builder(
+              null,
+              getString(R.string.view_session_answers),
+              viewAnswersPendingIntent,
+            ).build(),
+          )
+          .addAction(
+            Notification.Action.Builder(
+              null,
+              getString(R.string.choose_game),
+              showGameSelectionPendingIntent,
+            ).build(),
+          )
+        if (updatedLevel > previousLevel) {
+          val levelChange = getString(R.string.level_change, previousLevel, updatedLevel)
+          val levelUpImage = Bitmap.createBitmap(1024, 512, Bitmap.Config.ARGB_8888)
+          val canvas = Canvas(levelUpImage)
+          val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            textAlign = Paint.Align.CENTER
+            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+          }
+          canvas.drawColor(getColor(android.R.color.system_accent1_700))
+          paint.color = getColor(android.R.color.system_accent1_50)
+          paint.textSize = 72f
+          canvas.drawText(getString(R.string.level_up), 512f, 190f, paint)
+          paint.textSize = 104f
+          canvas.drawText(levelChange, 512f, 350f, paint)
+          resultNotificationBuilder
+            .setSubText(
+              getString(R.string.level_up_with_change, previousLevel, updatedLevel),
+            )
+            .setStyle(
+              Notification.BigPictureStyle()
+                .bigPicture(levelUpImage)
+                .setBigContentTitle(
+                  getString(R.string.level_up_with_change, previousLevel, updatedLevel),
+                )
+                .setSummaryText(resultSummary),
+            )
+        } else {
+          resultNotificationBuilder.setStyle(Notification.BigTextStyle().bigText(resultSummary))
+        }
+        notificationManager.notify(
+          NOTIFICATION_ID,
+          resultNotificationBuilder.build(),
+        )
         isSessionActive = false
-        stopForeground(STOP_FOREGROUND_REMOVE)
+        stopForeground(STOP_FOREGROUND_DETACH)
         stopSelf()
-        showGameSelection(this@CalculationGameService)
       }
     }
   }
@@ -77,9 +188,6 @@ class CalculationGameService : Service() {
 
   override fun onDestroy() {
     handler.removeCallbacks(finishSession)
-    showNextQuestionAfterFeedback?.let(handler::removeCallbacks)
-    showNextQuestionAfterFeedback = null
-    isShowingAnswerFeedback = false
     isSessionActive = false
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = null
@@ -90,9 +198,6 @@ class CalculationGameService : Service() {
 
   private fun startSession(difficulty: Int) {
     handler.removeCallbacks(finishSession)
-    showNextQuestionAfterFeedback?.let(handler::removeCallbacks)
-    showNextQuestionAfterFeedback = null
-    isShowingAnswerFeedback = false
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = getSystemService(PowerManager::class.java).newWakeLock(
       PowerManager.PARTIAL_WAKE_LOCK,
@@ -114,9 +219,6 @@ class CalculationGameService : Service() {
   }
 
   private fun handleAnswer(intent: Intent) {
-    if (isShowingAnswerFeedback) {
-      return
-    }
     val question = currentQuestion ?: return
     val answer = intent.getIntExtra(EXTRA_ANSWER, Int.MIN_VALUE)
     if (
@@ -131,32 +233,63 @@ class CalculationGameService : Service() {
     }
 
     val isCorrect = answer == question.correctAnswer
+    val questionText = if (
+      question.missingOperandIndex != null &&
+      question.thirdOperand != null &&
+      question.secondOperator != null
+    ) {
+      when (question.missingOperandIndex) {
+        0 -> getString(
+          R.string.calculation_missing_left_operand_question,
+          question.operator.symbol,
+          question.rightOperand,
+          question.secondOperator.symbol,
+          question.thirdOperand,
+          question.calculationResult,
+        )
+        1 -> getString(
+          R.string.calculation_missing_right_operand_question,
+          question.leftOperand,
+          question.operator.symbol,
+          question.secondOperator.symbol,
+          question.thirdOperand,
+          question.calculationResult,
+        )
+        else -> getString(
+          R.string.calculation_missing_third_operand_question,
+          question.leftOperand,
+          question.operator.symbol,
+          question.rightOperand,
+          question.secondOperator.symbol,
+          question.calculationResult,
+        )
+      }
+    } else if (question.thirdOperand == null || question.secondOperator == null) {
+      getString(
+        R.string.calculation_question,
+        question.leftOperand,
+        question.operator.symbol,
+        question.rightOperand,
+      )
+    } else {
+      getString(
+        R.string.calculation_compound_question,
+        question.leftOperand,
+        question.operator.symbol,
+        question.rightOperand,
+        question.secondOperator.symbol,
+        question.thirdOperand,
+      )
+    }
     sessionResult = sessionResult.addAnswerResult(
       GameAnswerResult.create(
+        question = questionText,
+        selectedAnswer = answer.toString(),
         isCorrect = isCorrect,
         questionDifficulty = sessionDifficulty,
       ),
     )
-    isShowingAnswerFeedback = true
-    getSystemService(NotificationManager::class.java).notify(
-      NOTIFICATION_ID,
-      createQuestionNotification(question, isCorrect),
-    )
-    showNextQuestionAfterFeedback = Runnable {
-      showNextQuestionAfterFeedback = null
-      if (!isSessionActive || isCompletingSession) {
-        return@Runnable
-      }
-      isShowingAnswerFeedback = false
-      showNextQuestion(isStartingForegroundService = false)
-    }.also {
-      val answerFeedbackDurationMilliseconds =
-        getSystemService(AccessibilityManager::class.java).getRecommendedTimeoutMillis(
-          ANSWER_FEEDBACK_DURATION_MILLISECONDS,
-          AccessibilityManager.FLAG_CONTENT_TEXT,
-        )
-      handler.postDelayed(it, answerFeedbackDurationMilliseconds.toLong())
-    }
+    showNextQuestion(isStartingForegroundService = false)
   }
 
   private fun showNextQuestion(isStartingForegroundService: Boolean) {
@@ -181,18 +314,11 @@ class CalculationGameService : Service() {
     }
   }
 
-  private fun createQuestionNotification(
-    question: CalculationQuestion,
-    isCorrect: Boolean? = null,
-  ): Notification {
+  private fun createQuestionNotification(question: CalculationQuestion): Notification {
     val builder = Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
       .setSmallIcon(R.drawable.ic_launcher_foreground)
       .setContentTitle(
-        if (isCorrect == true) {
-          getString(R.string.correct_answer_feedback)
-        } else if (isCorrect == false) {
-          getString(R.string.incorrect_answer_feedback, question.correctAnswer.toString())
-        } else if (
+        if (
           question.missingOperandIndex != null &&
           question.thirdOperand != null &&
           question.secondOperator != null
@@ -241,31 +367,32 @@ class CalculationGameService : Service() {
           )
         },
       )
-      .setWhen(System.currentTimeMillis() + (sessionDeadline - SystemClock.elapsedRealtime()))
+      .setWhen(
+        System.currentTimeMillis() +
+          maxOf(0L, sessionDeadline - SystemClock.elapsedRealtime()),
+      )
       .setUsesChronometer(true)
       .setChronometerCountDown(true)
       .setOngoing(true)
       .setOnlyAlertOnce(true)
       .setCategory(Notification.CATEGORY_SERVICE)
 
-    if (isCorrect == null) {
-      question.choices.forEachIndexed { index, choice ->
-        val answerIntent = Intent(this, CalculationGameService::class.java)
-          .setAction(ACTION_ANSWER)
-          .putExtra(EXTRA_QUESTION_NUMBER, questionNumber)
-          .putExtra(EXTRA_ANSWER, choice)
-        val answerPendingIntent = PendingIntent.getService(
-          this,
-          questionNumber * 3 + index,
-          answerIntent,
-          PendingIntent.FLAG_CANCEL_CURRENT or
-            PendingIntent.FLAG_ONE_SHOT or
-            PendingIntent.FLAG_IMMUTABLE,
-        )
-        builder.addAction(
-          Notification.Action.Builder(null, choice.toString(), answerPendingIntent).build(),
-        )
-      }
+    question.choices.forEachIndexed { index, choice ->
+      val answerIntent = Intent(this, CalculationGameService::class.java)
+        .setAction(ACTION_ANSWER)
+        .putExtra(EXTRA_QUESTION_NUMBER, questionNumber)
+        .putExtra(EXTRA_ANSWER, choice)
+      val answerPendingIntent = PendingIntent.getService(
+        this,
+        questionNumber * 3 + index,
+        answerIntent,
+        PendingIntent.FLAG_CANCEL_CURRENT or
+          PendingIntent.FLAG_ONE_SHOT or
+          PendingIntent.FLAG_IMMUTABLE,
+      )
+      builder.addAction(
+        Notification.Action.Builder(null, choice.toString(), answerPendingIntent).build(),
+      )
     }
 
     return builder.build()
@@ -281,8 +408,8 @@ class CalculationGameService : Service() {
     private const val EXTRA_DIFFICULTY = "difficulty"
     private const val EXTRA_QUESTION_NUMBER = "question_number"
     private const val EXTRA_ANSWER = "answer"
+    internal const val EXTRA_IS_RESULT_NOTIFICATION = "is_result_notification"
     private const val SESSION_DURATION_MILLISECONDS = 30_000L
-    private const val ANSWER_FEEDBACK_DURATION_MILLISECONDS = 600
     private const val WAKE_LOCK_TIMEOUT_MARGIN_MILLISECONDS = 1_000L
     private const val CALCULATION_GAME_GENRE = "calculation"
     private const val INITIAL_DIFFICULTY = 1
@@ -309,12 +436,20 @@ class CalculationGameService : Service() {
       context.getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
     }
 
-    suspend fun showGameSelection(context: Context) {
+    suspend fun showGameSelection(
+      context: Context,
+      shouldReplaceResult: Boolean = false,
+    ) {
       createNotificationChannel(context)
       val notificationManager = context.getSystemService(NotificationManager::class.java)
+      val isResultNotificationShowing = notificationManager.activeNotifications.any {
+        it.id == NOTIFICATION_ID &&
+          it.notification.extras.getBoolean(EXTRA_IS_RESULT_NOTIFICATION)
+      }
       if (
         CalculationGameService.isSessionActive ||
         DifficultKanjiGameService.isSessionActive ||
+        (isResultNotificationShowing && !shouldReplaceResult) ||
         !notificationManager.areNotificationsEnabled() ||
         notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID).importance ==
         NotificationManager.IMPORTANCE_NONE

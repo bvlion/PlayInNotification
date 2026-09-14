@@ -24,10 +24,12 @@ internal class GameStatisticsRepository(
     gameGenre: String,
     difficulty: Int,
     completedSessionDate: LocalDate,
-  ) {
+  ): Pair<GameStatistics, GameStatistics> {
+    lateinit var previousStatistics: GameStatistics
+    lateinit var updatedStatistics: GameStatistics
     context.gameStatisticsDataStore.edit { preferences ->
-      val currentStatistics = preferences.toGameStatistics()
-      val updatedStatistics = currentStatistics.addCompletedSession(
+      previousStatistics = preferences.toGameStatistics()
+      updatedStatistics = previousStatistics.addCompletedSession(
         sessionResult = sessionResult,
         gameGenre = gameGenre,
         difficulty = difficulty,
@@ -41,6 +43,7 @@ internal class GameStatisticsRepository(
       preferences[bestPointsKey(gameGenre, difficulty)] =
         updatedStatistics.bestPointsByGame.getValue("$gameGenre:$difficulty")
     }
+    return previousStatistics to updatedStatistics
   }
 
   private fun Preferences.toGameStatistics(): GameStatistics {

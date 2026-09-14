@@ -12,6 +12,8 @@ class GameSessionResultTest {
 
     expectedPoints.forEachIndexed { index, points ->
       val answerResult = GameAnswerResult.create(
+        question = "1 + 1 = ?",
+        selectedAnswer = "2",
         isCorrect = true,
         questionDifficulty = index + 1,
       )
@@ -25,6 +27,8 @@ class GameSessionResultTest {
   fun `Lv1からLv5の不正解は1ポイントを獲得する`() {
     (1..5).forEach { difficulty ->
       val answerResult = GameAnswerResult.create(
+        question = "1 + 1 = ?",
+        selectedAnswer = "3",
         isCorrect = false,
         questionDifficulty = difficulty,
       )
@@ -39,18 +43,30 @@ class GameSessionResultTest {
     val sessionResult = GameSessionResult()
       .addAnswerResult(
         GameAnswerResult.create(
+          question = "1 + 1 = ?",
+          selectedAnswer = "2",
           isCorrect = true,
           questionDifficulty = 1,
         ),
       )
       .addAnswerResult(
         GameAnswerResult.create(
+          question = "2 + 2 = ?",
+          selectedAnswer = "5",
           isCorrect = false,
           questionDifficulty = 1,
         ),
       )
 
     assertEquals(2, sessionResult.answerCount)
+    assertEquals(1, sessionResult.correctAnswerCount)
+    assertEquals(1, sessionResult.incorrectAnswerCount)
     assertEquals(4, sessionResult.earnedPoints)
+    assertEquals("1 + 1 = ?", sessionResult.answerResults[0].question)
+    assertEquals("2", sessionResult.answerResults[0].selectedAnswer)
+    assertTrue(sessionResult.answerResults[0].isCorrect)
+    assertEquals("2 + 2 = ?", sessionResult.answerResults[1].question)
+    assertEquals("5", sessionResult.answerResults[1].selectedAnswer)
+    assertFalse(sessionResult.answerResults[1].isCorrect)
   }
 }
