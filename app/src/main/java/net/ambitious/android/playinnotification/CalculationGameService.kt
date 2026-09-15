@@ -214,8 +214,11 @@ class CalculationGameService : Service() {
     sessionResult = GameSessionResult()
     isCompletingSession = false
     latestCompletedSessionResult = null
+    handler.postDelayed(
+      finishSession,
+      maxOf(0L, sessionDeadline - SystemClock.elapsedRealtime()),
+    )
     showNextQuestion(isStartingForegroundService = true)
-    handler.postDelayed(finishSession, SESSION_DURATION_MILLISECONDS)
   }
 
   private fun handleAnswer(intent: Intent) {

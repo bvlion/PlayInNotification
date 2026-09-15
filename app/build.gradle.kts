@@ -41,6 +41,10 @@ android {
     compose = true
   }
 
+  testOptions {
+    unitTests.isIncludeAndroidResources = true
+  }
+
   sourceSets {
     getByName("test") {
       resources.directories.add("src/main/assets")
@@ -61,4 +65,5 @@ dependencies {
   implementation("androidx.datastore:datastore-preferences:1.2.1")
   implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
   testImplementation("junit:junit:4.13.2")
+  testImplementation("org.robolectric:robolectric:4.17")
 }
