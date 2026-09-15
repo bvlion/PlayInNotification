@@ -153,15 +153,9 @@ class DifficultKanjiGameService : Service() {
           paint.textSize = 104f
           canvas.drawText(levelChange, 512f, 350f, paint)
           resultNotificationBuilder
-            .setSubText(
-              getString(R.string.level_up_with_change, previousLevel, updatedLevel),
-            )
             .setStyle(
               Notification.BigPictureStyle()
                 .bigPicture(levelUpImage)
-                .setBigContentTitle(
-                  getString(R.string.level_up_with_change, previousLevel, updatedLevel),
-                )
                 .setSummaryText(resultSummary),
             )
         } else {
