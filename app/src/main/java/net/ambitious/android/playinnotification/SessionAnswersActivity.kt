@@ -1,5 +1,6 @@
 package net.ambitious.android.playinnotification
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,6 +27,10 @@ import androidx.compose.ui.unit.dp
 class SessionAnswersActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    sendBroadcast(
+      Intent(this, GameNotificationActionReceiver::class.java)
+        .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),
+    )
     val questions = intent.getStringArrayListExtra(EXTRA_QUESTIONS).orEmpty()
     val selectedAnswers = intent.getStringArrayListExtra(EXTRA_SELECTED_ANSWERS).orEmpty()
     val correctness = intent.getBooleanArrayExtra(EXTRA_CORRECTNESS) ?: booleanArrayOf()
@@ -99,6 +104,15 @@ class SessionAnswersActivity : ComponentActivity() {
         }
       }
     }
+  }
+
+  override fun onNewIntent(intent: Intent) {
+    super.onNewIntent(intent)
+    setIntent(intent)
+    sendBroadcast(
+      Intent(this, GameNotificationActionReceiver::class.java)
+        .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),
+    )
   }
 
   companion object {

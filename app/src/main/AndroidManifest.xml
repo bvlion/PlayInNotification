@@ -22,7 +22,8 @@
     </activity>
     <activity
       android:name=".SessionAnswersActivity"
-      android:exported="false" />
+      android:exported="false"
+      android:launchMode="singleTop" />
     <service
       android:name=".CalculationGameService"
       android:exported="false"
