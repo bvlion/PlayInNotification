@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -60,6 +61,7 @@ class SessionAnswersActivity : ComponentActivity() {
               .fillMaxSize()
               .safeDrawingPadding()
               .padding(24.dp),
+            contentPadding = PaddingValues(bottom = 24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
           ) {
             item {
