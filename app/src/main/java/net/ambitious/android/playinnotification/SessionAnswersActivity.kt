@@ -1,5 +1,6 @@
 package net.ambitious.android.playinnotification
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,20 +20,33 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 class SessionAnswersActivity : ComponentActivity() {
+  internal var answers by mutableStateOf(Bundle())
+    private set
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    val questions = intent.getStringArrayListExtra(EXTRA_QUESTIONS).orEmpty()
-    val selectedAnswers = intent.getStringArrayListExtra(EXTRA_SELECTED_ANSWERS).orEmpty()
-    val correctness = intent.getBooleanArrayExtra(EXTRA_CORRECTNESS) ?: booleanArrayOf()
-    val answerCount = minOf(questions.size, selectedAnswers.size, correctness.size)
-
+    answers = savedInstanceState?.getBundle(SAVED_ANSWERS) ?: intent.extras ?: Bundle()
+    if (savedInstanceState == null) {
+      sendBroadcast(
+        Intent(this, GameNotificationActionReceiver::class.java)
+          .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),
+      )
+    }
     enableEdgeToEdge()
     setContent {
+      val currentAnswers = answers
+      val questions = currentAnswers.getStringArrayList(EXTRA_QUESTIONS).orEmpty()
+      val selectedAnswers = currentAnswers.getStringArrayList(EXTRA_SELECTED_ANSWERS).orEmpty()
+      val correctness = currentAnswers.getBooleanArray(EXTRA_CORRECTNESS) ?: booleanArrayOf()
+      val answerCount = minOf(questions.size, selectedAnswers.size, correctness.size)
       val colorScheme = if (isSystemInDarkTheme()) {
         dynamicDarkColorScheme(this)
       } else {
@@ -101,7 +115,23 @@ class SessionAnswersActivity : ComponentActivity() {
     }
   }
 
+  override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    outState.putBundle(SAVED_ANSWERS, answers)
+  }
+
+  override fun onNewIntent(intent: Intent) {
+    super.onNewIntent(intent)
+    setIntent(intent)
+    answers = intent.extras ?: Bundle()
+    sendBroadcast(
+      Intent(this, GameNotificationActionReceiver::class.java)
+        .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),
+    )
+  }
+
   companion object {
+    private const val SAVED_ANSWERS = "saved_answers"
     internal const val EXTRA_QUESTIONS = "questions"
     internal const val EXTRA_SELECTED_ANSWERS = "selected_answers"
     internal const val EXTRA_CORRECTNESS = "correctness"
