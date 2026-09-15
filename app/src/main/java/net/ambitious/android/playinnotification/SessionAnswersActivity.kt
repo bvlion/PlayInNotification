@@ -28,24 +28,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 class SessionAnswersActivity : ComponentActivity() {
-  internal var answersIntent by mutableStateOf(Intent())
+  internal var answers by mutableStateOf(Bundle())
     private set
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    answersIntent = intent
-    sendBroadcast(
-      Intent(this, GameNotificationActionReceiver::class.java)
-        .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),
-    )
+    answers = savedInstanceState?.getBundle(SAVED_ANSWERS) ?: intent.extras ?: Bundle()
+    if (savedInstanceState == null) {
+      sendBroadcast(
+        Intent(this, GameNotificationActionReceiver::class.java)
+          .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),
+      )
+    }
     enableEdgeToEdge()
     setContent {
-      val currentAnswersIntent = answersIntent
-      val questions = currentAnswersIntent.getStringArrayListExtra(EXTRA_QUESTIONS).orEmpty()
-      val selectedAnswers = currentAnswersIntent
-        .getStringArrayListExtra(EXTRA_SELECTED_ANSWERS).orEmpty()
-      val correctness = currentAnswersIntent.getBooleanArrayExtra(EXTRA_CORRECTNESS)
-        ?: booleanArrayOf()
+      val currentAnswers = answers
+      val questions = currentAnswers.getStringArrayList(EXTRA_QUESTIONS).orEmpty()
+      val selectedAnswers = currentAnswers.getStringArrayList(EXTRA_SELECTED_ANSWERS).orEmpty()
+      val correctness = currentAnswers.getBooleanArray(EXTRA_CORRECTNESS) ?: booleanArrayOf()
       val answerCount = minOf(questions.size, selectedAnswers.size, correctness.size)
       val colorScheme = if (isSystemInDarkTheme()) {
         dynamicDarkColorScheme(this)
@@ -115,10 +115,15 @@ class SessionAnswersActivity : ComponentActivity() {
     }
   }
 
+  override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    outState.putBundle(SAVED_ANSWERS, answers)
+  }
+
   override fun onNewIntent(intent: Intent) {
     super.onNewIntent(intent)
     setIntent(intent)
-    answersIntent = intent
+    answers = intent.extras ?: Bundle()
     sendBroadcast(
       Intent(this, GameNotificationActionReceiver::class.java)
         .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),
@@ -126,6 +131,7 @@ class SessionAnswersActivity : ComponentActivity() {
   }
 
   companion object {
+    private const val SAVED_ANSWERS = "saved_answers"
     internal const val EXTRA_QUESTIONS = "questions"
     internal const val EXTRA_SELECTED_ANSWERS = "selected_answers"
     internal const val EXTRA_CORRECTNESS = "correctness"
