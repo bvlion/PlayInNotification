@@ -154,6 +154,9 @@ class CalculationGameService : Service() {
             .setStyle(
               Notification.BigPictureStyle()
                 .bigPicture(levelUpImage)
+                .setContentDescription(
+                  getString(R.string.level_up_with_change, previousLevel, updatedLevel),
+                )
                 .setSummaryText(resultSummary),
             )
         } else {
