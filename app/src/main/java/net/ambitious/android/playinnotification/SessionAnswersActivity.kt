@@ -20,24 +20,33 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 class SessionAnswersActivity : ComponentActivity() {
+  internal var answersIntent by mutableStateOf(Intent())
+    private set
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    answersIntent = intent
     sendBroadcast(
       Intent(this, GameNotificationActionReceiver::class.java)
         .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),
     )
-    val questions = intent.getStringArrayListExtra(EXTRA_QUESTIONS).orEmpty()
-    val selectedAnswers = intent.getStringArrayListExtra(EXTRA_SELECTED_ANSWERS).orEmpty()
-    val correctness = intent.getBooleanArrayExtra(EXTRA_CORRECTNESS) ?: booleanArrayOf()
-    val answerCount = minOf(questions.size, selectedAnswers.size, correctness.size)
-
     enableEdgeToEdge()
     setContent {
+      val currentAnswersIntent = answersIntent
+      val questions = currentAnswersIntent.getStringArrayListExtra(EXTRA_QUESTIONS).orEmpty()
+      val selectedAnswers = currentAnswersIntent
+        .getStringArrayListExtra(EXTRA_SELECTED_ANSWERS).orEmpty()
+      val correctness = currentAnswersIntent.getBooleanArrayExtra(EXTRA_CORRECTNESS)
+        ?: booleanArrayOf()
+      val answerCount = minOf(questions.size, selectedAnswers.size, correctness.size)
       val colorScheme = if (isSystemInDarkTheme()) {
         dynamicDarkColorScheme(this)
       } else {
@@ -109,6 +118,7 @@ class SessionAnswersActivity : ComponentActivity() {
   override fun onNewIntent(intent: Intent) {
     super.onNewIntent(intent)
     setIntent(intent)
+    answersIntent = intent
     sendBroadcast(
       Intent(this, GameNotificationActionReceiver::class.java)
         .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),

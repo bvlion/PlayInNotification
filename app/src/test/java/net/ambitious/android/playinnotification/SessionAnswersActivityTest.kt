@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Build
+import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -53,6 +54,63 @@ class SessionAnswersActivityTest {
           broadcastIntent.action,
         )
       }
+    } finally {
+      activityController.destroy()
+    }
+  }
+
+  @Test
+  fun `最前面で新しいセッションの回答を開くと表示元の回答内容が更新される`() {
+    val application = RuntimeEnvironment.getApplication()
+    val previousAnswersIntent = Intent(application, SessionAnswersActivity::class.java)
+      .putStringArrayListExtra(
+        SessionAnswersActivity.EXTRA_QUESTIONS,
+        arrayListOf("1 + 1 = ?"),
+      )
+      .putStringArrayListExtra(
+        SessionAnswersActivity.EXTRA_SELECTED_ANSWERS,
+        arrayListOf("2"),
+      )
+      .putExtra(SessionAnswersActivity.EXTRA_CORRECTNESS, booleanArrayOf(true))
+    val activityController = Robolectric.buildActivity(
+      SessionAnswersActivity::class.java,
+      previousAnswersIntent,
+    ).create()
+
+    try {
+      val activity = activityController.get()
+      assertEquals(
+        arrayListOf("1 + 1 = ?"),
+        activity.answersIntent.getStringArrayListExtra(SessionAnswersActivity.EXTRA_QUESTIONS),
+      )
+
+      val newAnswersIntent = Intent(application, SessionAnswersActivity::class.java)
+        .putStringArrayListExtra(
+          SessionAnswersActivity.EXTRA_QUESTIONS,
+          arrayListOf("「海星」の読みは？", "「海月」の読みは？"),
+        )
+        .putStringArrayListExtra(
+          SessionAnswersActivity.EXTRA_SELECTED_ANSWERS,
+          arrayListOf("ひとで", "なまこ"),
+        )
+        .putExtra(SessionAnswersActivity.EXTRA_CORRECTNESS, booleanArrayOf(true, false))
+
+      activityController.newIntent(newAnswersIntent)
+
+      assertEquals(
+        arrayListOf("「海星」の読みは？", "「海月」の読みは？"),
+        activity.answersIntent.getStringArrayListExtra(SessionAnswersActivity.EXTRA_QUESTIONS),
+      )
+      assertEquals(
+        arrayListOf("ひとで", "なまこ"),
+        activity.answersIntent.getStringArrayListExtra(
+          SessionAnswersActivity.EXTRA_SELECTED_ANSWERS,
+        ),
+      )
+      assertArrayEquals(
+        booleanArrayOf(true, false),
+        activity.answersIntent.getBooleanArrayExtra(SessionAnswersActivity.EXTRA_CORRECTNESS),
+      )
     } finally {
       activityController.destroy()
     }
