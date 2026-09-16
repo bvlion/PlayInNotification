@@ -51,15 +51,33 @@ internal data class DifficultKanjiQuestion(
         DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> correctEntry.writtenForm
       }
       val wrongAnswers = entries
+        .filter { it != correctEntry }
+        .shuffled(random)
+        .sortedWith(
+          compareByDescending<DifficultKanjiEntry> {
+            it.reading.commonPrefixWith(correctEntry.reading).length +
+              it.reading.commonSuffixWith(correctEntry.reading).length
+          }.thenByDescending {
+            it.reading.count(correctEntry.reading::contains)
+          }.thenBy {
+            kotlin.math.abs(it.reading.length - correctEntry.reading.length)
+          }.thenByDescending {
+            when (direction) {
+              DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> 0
+              DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> {
+                it.writtenForm.commonPrefixWith(correctEntry.writtenForm).length +
+                  it.writtenForm.commonSuffixWith(correctEntry.writtenForm).length
+              }
+            }
+          },
+        )
+        .take(2)
         .map {
           when (direction) {
             DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> it.reading
             DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> it.writtenForm
           }
         }
-        .filter { it != correctAnswer }
-        .shuffled(random)
-        .take(2)
 
       require(wrongAnswers.size == 2) { "3択の誤答候補を構成できません" }
       return DifficultKanjiQuestion(
