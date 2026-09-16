@@ -1,0 +1,10 @@
+{
+  "name": "play-in-notification-docs",
+  "private": true,
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "marked": "18.0.9"
+  }
+}
