@@ -7,6 +7,52 @@ import org.junit.Test
 
 class CalculationQuestionTest {
   @Test
+  fun `Lv1からLv5で同一セッション内の過去の問題を再出題しない`() {
+    (1..5).forEach { difficulty ->
+      val random = Random(difficulty + 20)
+      val askedQuestions = mutableListOf<CalculationQuestion>()
+      var previousQuestion: CalculationQuestion? = null
+
+      repeat(30) {
+        val question = CalculationQuestion.create(
+          difficulty = difficulty,
+          previousQuestion = previousQuestion,
+          askedQuestions = askedQuestions,
+          random = random,
+        )
+
+        assertTrue(askedQuestions.none {
+          it.leftOperand == question.leftOperand &&
+            it.rightOperand == question.rightOperand &&
+            it.operator == question.operator &&
+            it.thirdOperand == question.thirdOperand &&
+            it.secondOperator == question.secondOperator &&
+            it.missingOperandIndex == question.missingOperandIndex
+        })
+        askedQuestions += question
+        previousQuestion = question
+      }
+    }
+  }
+
+  @Test
+  fun `新しいセッションでは以前に出た計算問題を再出題できる`() {
+    (1..5).forEach { difficulty ->
+      val firstQuestion = CalculationQuestion.create(
+        difficulty = difficulty,
+        random = Random(difficulty + 30),
+      )
+      val nextSessionQuestion = CalculationQuestion.create(
+        difficulty = difficulty,
+        random = Random(difficulty + 30),
+        askedQuestions = emptyList(),
+      )
+
+      assertEquals(firstQuestion, nextSessionQuestion)
+    }
+  }
+
+  @Test
   fun `Lv1は0を加減せず答えが正の1桁の足し算または引き算になる`() {
     val random = Random(1)
     val generatedOperators = mutableSetOf<CalculationOperator>()

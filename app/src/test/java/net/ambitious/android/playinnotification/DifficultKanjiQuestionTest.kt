@@ -14,6 +14,56 @@ class DifficultKanjiQuestionTest {
     )
 
   @Test
+  fun `Lv1からLv5で同一セッション内の過去の語を再出題しない`() {
+    (1..5).forEach { difficulty ->
+      val random = Random(difficulty + 20)
+      val askedEntries = mutableListOf<DifficultKanjiEntry>()
+      var previousQuestion: DifficultKanjiQuestion? = null
+
+      repeat(30) {
+        val question = DifficultKanjiQuestion.create(
+          entriesByDifficulty = entriesByDifficulty,
+          difficulty = difficulty,
+          previousQuestion = previousQuestion,
+          askedEntries = askedEntries,
+          random = random,
+        )
+        val entry = when (question.direction) {
+          DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> {
+            DifficultKanjiEntry(question.prompt, question.correctAnswer)
+          }
+          DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> {
+            DifficultKanjiEntry(question.correctAnswer, question.prompt)
+          }
+        }
+
+        assertTrue(entry !in askedEntries)
+        askedEntries += entry
+        previousQuestion = question
+      }
+    }
+  }
+
+  @Test
+  fun `新しいセッションでは以前に出た難読漢字の語を再出題できる`() {
+    (1..5).forEach { difficulty ->
+      val firstQuestion = DifficultKanjiQuestion.create(
+        entriesByDifficulty = entriesByDifficulty,
+        difficulty = difficulty,
+        random = Random(difficulty + 30),
+      )
+      val nextSessionQuestion = DifficultKanjiQuestion.create(
+        entriesByDifficulty = entriesByDifficulty,
+        difficulty = difficulty,
+        random = Random(difficulty + 30),
+        askedEntries = emptyList(),
+      )
+
+      assertEquals(firstQuestion, nextSessionQuestion)
+    }
+  }
+
+  @Test
   fun `Lv1からLv5で表記から読みを選ぶ3択問題を生成できる`() {
     (1..5).forEach { difficulty ->
       val question = DifficultKanjiQuestion.create(
