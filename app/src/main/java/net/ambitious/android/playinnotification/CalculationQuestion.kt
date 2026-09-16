@@ -57,6 +57,7 @@ internal data class CalculationQuestion(
       random: Random = Random.Default,
       difficulty: Int = 1,
       previousQuestion: CalculationQuestion? = null,
+      askedQuestions: Collection<CalculationQuestion> = emptyList(),
     ): CalculationQuestion {
       if (difficulty in 4..5) {
         while (true) {
@@ -143,12 +144,20 @@ internal data class CalculationQuestion(
             missingOperandIndex = missingOperandIndex,
           )
           if (
-            question.leftOperand == previousQuestion?.leftOperand &&
-            question.rightOperand == previousQuestion.rightOperand &&
-            question.operator == previousQuestion.operator &&
-            question.thirdOperand == previousQuestion.thirdOperand &&
-            question.secondOperator == previousQuestion.secondOperator &&
-            question.missingOperandIndex == previousQuestion.missingOperandIndex
+            askedQuestions.any {
+              question.leftOperand == it.leftOperand &&
+                question.rightOperand == it.rightOperand &&
+                question.operator == it.operator &&
+                question.thirdOperand == it.thirdOperand &&
+                question.secondOperator == it.secondOperator &&
+                question.missingOperandIndex == it.missingOperandIndex
+            } ||
+            (question.leftOperand == previousQuestion?.leftOperand &&
+              question.rightOperand == previousQuestion.rightOperand &&
+              question.operator == previousQuestion.operator &&
+              question.thirdOperand == previousQuestion.thirdOperand &&
+              question.secondOperator == previousQuestion.secondOperator &&
+              question.missingOperandIndex == previousQuestion.missingOperandIndex)
           ) {
             continue
           }
@@ -207,6 +216,11 @@ internal data class CalculationQuestion(
         )
       } while (
         (difficulty == 1 && question.correctAnswer == 0) ||
+        askedQuestions.any {
+          question.leftOperand == it.leftOperand &&
+            question.rightOperand == it.rightOperand &&
+            question.operator == it.operator
+        } ||
         (difficulty in 1..3 &&
           question.leftOperand == previousQuestion?.leftOperand &&
           question.rightOperand == previousQuestion.rightOperand &&

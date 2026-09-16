@@ -37,6 +37,7 @@ class DifficultKanjiGameService : Service() {
   private var sessionDifficulty = INITIAL_DIFFICULTY
   private var questionNumber = 0
   private var currentQuestion: DifficultKanjiQuestion? = null
+  private val askedEntries = mutableListOf<DifficultKanjiEntry>()
   private var sessionResult = GameSessionResult()
   private var sessionWakeLock: PowerManager.WakeLock? = null
   private var isCompletingSession = false
@@ -211,6 +212,7 @@ class DifficultKanjiGameService : Service() {
     sessionDeadline = SystemClock.elapsedRealtime() + SESSION_DURATION_MILLISECONDS
     questionNumber = 0
     currentQuestion = null
+    askedEntries.clear()
     sessionResult = GameSessionResult()
     isCompletingSession = false
     latestCompletedSessionResult = null
@@ -259,12 +261,22 @@ class DifficultKanjiGameService : Service() {
 
   private fun showNextQuestion(isStartingForegroundService: Boolean) {
     questionNumber += 1
-    currentQuestion = DifficultKanjiQuestion.create(
+    val question = DifficultKanjiQuestion.create(
       entriesByDifficulty = entriesByDifficulty,
       difficulty = sessionDifficulty,
       previousQuestion = currentQuestion,
+      askedEntries = askedEntries,
     )
-    val notification = createQuestionNotification(currentQuestion!!)
+    currentQuestion = question
+    askedEntries += when (question.direction) {
+      DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> {
+        DifficultKanjiEntry(question.prompt, question.correctAnswer)
+      }
+      DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> {
+        DifficultKanjiEntry(question.correctAnswer, question.prompt)
+      }
+    }
+    val notification = createQuestionNotification(question)
     if (isStartingForegroundService) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
         startForeground(

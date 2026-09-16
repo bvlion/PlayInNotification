@@ -35,6 +35,7 @@ class CalculationGameService : Service() {
   private var sessionDifficulty = INITIAL_DIFFICULTY
   private var questionNumber = 0
   private var currentQuestion: CalculationQuestion? = null
+  private val askedQuestions = mutableListOf<CalculationQuestion>()
   private var sessionResult = GameSessionResult()
   private var sessionWakeLock: PowerManager.WakeLock? = null
   private var isCompletingSession = false
@@ -208,6 +209,7 @@ class CalculationGameService : Service() {
     sessionDeadline = SystemClock.elapsedRealtime() + SESSION_DURATION_MILLISECONDS
     questionNumber = 0
     currentQuestion = null
+    askedQuestions.clear()
     sessionResult = GameSessionResult()
     isCompletingSession = false
     latestCompletedSessionResult = null
@@ -294,11 +296,14 @@ class CalculationGameService : Service() {
 
   private fun showNextQuestion(isStartingForegroundService: Boolean) {
     questionNumber += 1
-    currentQuestion = CalculationQuestion.create(
+    val question = CalculationQuestion.create(
       difficulty = sessionDifficulty,
       previousQuestion = currentQuestion,
+      askedQuestions = askedQuestions,
     )
-    val notification = createQuestionNotification(currentQuestion!!)
+    currentQuestion = question
+    askedQuestions += question
+    val notification = createQuestionNotification(question)
     if (isStartingForegroundService) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
         startForeground(
