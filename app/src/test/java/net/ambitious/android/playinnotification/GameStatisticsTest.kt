@@ -41,7 +41,7 @@ class GameStatisticsTest {
   }
 
   @Test
-  fun `自己ベストはゲームジャンルと難易度ごとに保持される`() {
+  fun `計算の自己ベストはLv1からLv5を通じて最高記録だけが保持される`() {
     val firstStatistics = GameStatistics().addCompletedSession(
       sessionResult = GameSessionResult(earnedPoints = 10),
       gameGenre = "calculation",
@@ -80,16 +80,17 @@ class GameStatisticsTest {
         completedSessionDate = LocalDate.of(2026, 9, 14),
       )
 
-    assertEquals(10, statistics.bestPointsByGame.getValue("calculation:1"))
-    assertEquals(7, statistics.bestPointsByGame.getValue("calculation:2"))
-    assertEquals(9, statistics.bestPointsByGame.getValue("calculation:3"))
-    assertEquals(12, statistics.bestPointsByGame.getValue("calculation:4"))
-    assertEquals(15, statistics.bestPointsByGame.getValue("calculation:5"))
+    assertEquals(15, statistics.bestPointsByGame.getValue("calculation"))
   }
 
   @Test
-  fun `難読漢字の自己ベストはLv1からLv5で個別に保持される`() {
-    var statistics = GameStatistics()
+  fun `難読漢字の自己ベストはLv1からLv5を通じて最高記録だけが保持される`() {
+    var statistics = GameStatistics().addCompletedSession(
+      sessionResult = GameSessionResult(earnedPoints = 11),
+      gameGenre = "calculation",
+      difficulty = 1,
+      completedSessionDate = LocalDate.of(2026, 9, 9),
+    )
 
     (1..5).forEach { difficulty ->
       statistics = statistics.addCompletedSession(
@@ -100,12 +101,8 @@ class GameStatisticsTest {
       )
     }
 
-    (1..5).forEach { difficulty ->
-      assertEquals(
-        (difficulty * 3).toLong(),
-        statistics.bestPointsByGame.getValue("difficult_kanji:$difficulty"),
-      )
-    }
+    assertEquals(15, statistics.bestPointsByGame.getValue("difficult_kanji"))
+    assertEquals(11, statistics.bestPointsByGame.getValue("calculation"))
   }
 
   @Test

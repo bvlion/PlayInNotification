@@ -40,8 +40,7 @@ internal class GameStatisticsRepository(
       preferences[EARNED_POINTS_KEY] = updatedStatistics.earnedPoints
       preferences[STREAK_DAY_COUNT_KEY] = updatedStatistics.streakDayCount
       preferences[LAST_COMPLETED_SESSION_DATE_KEY] = completedSessionDate.toString()
-      preferences[bestPointsKey(gameGenre, difficulty)] =
-        updatedStatistics.bestPointsByGame.getValue("$gameGenre:$difficulty")
+      preferences[bestPointsKey(gameGenre)] = updatedStatistics.bestPointsByGame.getValue(gameGenre)
     }
     return previousStatistics to updatedStatistics
   }
@@ -53,16 +52,13 @@ internal class GameStatisticsRepository(
       earnedPoints = this[EARNED_POINTS_KEY] ?: 0,
       streakDayCount = this[STREAK_DAY_COUNT_KEY] ?: 0,
       lastCompletedSessionDate = this[LAST_COMPLETED_SESSION_DATE_KEY]?.let(LocalDate::parse),
-      bestPointsByGame = GAME_GENRES.flatMap { gameGenre ->
-        DIFFICULTY_RANGE.map { difficulty ->
-          "$gameGenre:$difficulty" to (this[bestPointsKey(gameGenre, difficulty)] ?: 0)
-        }
-      }.toMap(),
+      bestPointsByGame = GAME_GENRES.associateWith { gameGenre ->
+        this[bestPointsKey(gameGenre)] ?: 0
+      },
     )
   }
 
-  private fun bestPointsKey(gameGenre: String, difficulty: Int) =
-    longPreferencesKey("$BEST_POINTS_KEY_PREFIX${gameGenre}_$difficulty")
+  private fun bestPointsKey(gameGenre: String) = longPreferencesKey("$BEST_POINTS_KEY_PREFIX$gameGenre")
 
   private companion object {
     val ANSWER_COUNT_KEY = longPreferencesKey("answer_count")
@@ -72,6 +68,5 @@ internal class GameStatisticsRepository(
     val LAST_COMPLETED_SESSION_DATE_KEY = stringPreferencesKey("last_completed_session_date")
     const val BEST_POINTS_KEY_PREFIX = "best_points_"
     val GAME_GENRES = listOf("calculation", "difficult_kanji")
-    val DIFFICULTY_RANGE = 1..5
   }
 }

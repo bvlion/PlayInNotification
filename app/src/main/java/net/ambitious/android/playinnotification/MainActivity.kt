@@ -14,13 +14,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -215,22 +212,13 @@ class MainActivity : ComponentActivity() {
                     text = stringResource(gameNameResource),
                     style = MaterialTheme.typography.titleLarge,
                   )
-                  (1..5).forEach { difficulty ->
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                      Text(
-                        text = stringResource(R.string.game_difficulty_level, difficulty),
-                        style = MaterialTheme.typography.bodyLarge,
-                      )
-                      Spacer(modifier = Modifier.width(16.dp))
-                      Text(
-                        text = stringResource(
-                          R.string.personal_best_points,
-                          gameStatistics.bestPointsByGame["$gameGenre:$difficulty"] ?: 0,
-                        ),
-                        style = MaterialTheme.typography.bodyLarge,
-                      )
-                    }
-                  }
+                  Text(
+                    text = stringResource(
+                      R.string.personal_best_points,
+                      gameStatistics.bestPointsByGame[gameGenre] ?: 0,
+                    ),
+                    style = MaterialTheme.typography.bodyLarge,
+                  )
                 }
               }
             }

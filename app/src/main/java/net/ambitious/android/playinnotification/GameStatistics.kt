@@ -35,8 +35,7 @@ internal data class GameStatistics(
     difficulty: Int,
     completedSessionDate: LocalDate,
   ): GameStatistics {
-    val gameKey = "$gameGenre:$difficulty"
-    val currentBestPoints = bestPointsByGame[gameKey] ?: 0
+    val currentBestPoints = bestPointsByGame[gameGenre] ?: 0
     val nextStreakDayCount = when {
       lastCompletedSessionDate == completedSessionDate -> streakDayCount
       lastCompletedSessionDate == completedSessionDate.minusDays(1) -> streakDayCount + 1
@@ -49,7 +48,9 @@ internal data class GameStatistics(
       earnedPoints = earnedPoints + sessionResult.earnedPoints,
       streakDayCount = nextStreakDayCount,
       lastCompletedSessionDate = completedSessionDate,
-      bestPointsByGame = bestPointsByGame + (gameKey to maxOf(currentBestPoints, sessionResult.earnedPoints.toLong())),
+      bestPointsByGame = bestPointsByGame + (
+        gameGenre to maxOf(currentBestPoints, sessionResult.earnedPoints.toLong())
+      ),
     )
   }
 
