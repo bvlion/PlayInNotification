@@ -4,16 +4,19 @@ import android.Manifest
 import android.app.NotificationManager
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,16 +33,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import java.time.LocalDate
@@ -90,10 +96,10 @@ class MainActivity : ComponentActivity() {
       notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
-    enableEdgeToEdge()
     setContent {
       val context = LocalContext.current
       val uriHandler = LocalUriHandler.current
+      val isDarkTheme = isSystemInDarkTheme()
       val gameDifficultySettings by gameDifficultySettingsRepository.gameDifficultySettings
         .collectAsStateWithLifecycle(initialValue = GameDifficultySettings())
       val gameStatistics by gameStatisticsRepository.gameStatistics
@@ -113,13 +119,31 @@ class MainActivity : ComponentActivity() {
       var difficultKanjiDifficulty by remember(gameDifficultySettings.difficultKanjiDifficulty) {
         mutableFloatStateOf(gameDifficultySettings.difficultKanjiDifficulty.toFloat())
       }
-      val colorScheme = if (isSystemInDarkTheme()) {
+      val colorScheme = if (isDarkTheme) {
         dynamicDarkColorScheme(context)
       } else {
         dynamicLightColorScheme(context)
       }
 
+      SideEffect {
+        val systemBarStyle = if (isDarkTheme) {
+          SystemBarStyle.dark(Color.argb(0x80, 0x1b, 0x1b, 0x1b))
+        } else {
+          SystemBarStyle.light(
+            Color.argb(0x80, 0xff, 0xff, 0xff),
+            Color.argb(0x80, 0x1b, 0x1b, 0x1b),
+          )
+        }
+        enableEdgeToEdge(
+          statusBarStyle = systemBarStyle,
+          navigationBarStyle = systemBarStyle,
+        )
+      }
+
       MaterialTheme(colorScheme = colorScheme) {
+        val auxiliaryLinkTextStyle = MaterialTheme.typography.labelLarge.copy(
+          fontSize = 15.sp,
+        )
         Surface(modifier = Modifier.fillMaxSize()) {
           Column(
             modifier = Modifier
@@ -173,42 +197,71 @@ class MainActivity : ComponentActivity() {
                   color = MaterialTheme.colorScheme.primary,
                   style = MaterialTheme.typography.headlineSmall,
                 )
-                Text(
-                  text = stringResource(R.string.answer_title),
-                  style = MaterialTheme.typography.titleMedium,
-                )
-                Text(
-                  text = stringResource(
-                    R.string.play_count,
-                    gameStatistics.playCount,
-                  ),
-                  style = MaterialTheme.typography.titleLarge,
-                )
-                Text(
-                  text = stringResource(
-                    R.string.answer_count,
-                    gameStatistics.answerCount,
-                  ),
-                  style = MaterialTheme.typography.titleLarge,
-                )
-                Text(
-                  text = stringResource(R.string.day_count_title),
-                  style = MaterialTheme.typography.titleMedium,
-                )
-                Text(
-                  text = stringResource(
-                    R.string.total_day_count,
-                    gameStatistics.totalDayCount,
-                  ),
-                  style = MaterialTheme.typography.titleLarge,
-                )
-                Text(
-                  text = stringResource(
-                    R.string.streak_day_count,
-                    displayedStreakDayCount,
-                  ),
-                  style = MaterialTheme.typography.titleLarge,
-                )
+                Row(
+                  modifier = Modifier.fillMaxWidth(),
+                  horizontalArrangement = Arrangement.spacedBy(24.dp),
+                  verticalAlignment = Alignment.Top,
+                ) {
+                  Text(
+                    text = stringResource(R.string.answer_title),
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.titleMedium,
+                  )
+                  Column(
+                    modifier = Modifier.weight(2f),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                  ) {
+                    Text(
+                      text = stringResource(
+                        R.string.play_count,
+                        gameStatistics.playCount,
+                      ),
+                      color = MaterialTheme.colorScheme.primary,
+                      style = MaterialTheme.typography.titleLarge,
+                    )
+                    Text(
+                      text = stringResource(
+                        R.string.answer_count,
+                        gameStatistics.answerCount,
+                      ),
+                      color = MaterialTheme.colorScheme.primary,
+                      style = MaterialTheme.typography.titleLarge,
+                    )
+                  }
+                }
+                HorizontalDivider()
+                Row(
+                  modifier = Modifier.fillMaxWidth(),
+                  horizontalArrangement = Arrangement.spacedBy(24.dp),
+                  verticalAlignment = Alignment.Top,
+                ) {
+                  Text(
+                    text = stringResource(R.string.day_count_title),
+                    modifier = Modifier.weight(1f),
+                    style = MaterialTheme.typography.titleMedium,
+                  )
+                  Column(
+                    modifier = Modifier.weight(2f),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                  ) {
+                    Text(
+                      text = stringResource(
+                        R.string.total_day_count,
+                        gameStatistics.totalDayCount,
+                      ),
+                      color = MaterialTheme.colorScheme.primary,
+                      style = MaterialTheme.typography.titleLarge,
+                    )
+                    Text(
+                      text = stringResource(
+                        R.string.streak_day_count,
+                        displayedStreakDayCount,
+                      ),
+                      color = MaterialTheme.colorScheme.primary,
+                      style = MaterialTheme.typography.titleLarge,
+                    )
+                  }
+                }
               }
             }
             Text(
@@ -223,18 +276,30 @@ class MainActivity : ComponentActivity() {
                 listOf(
                   R.string.calculation_game to "calculation",
                   R.string.difficult_kanji_game to "difficult_kanji",
-                ).forEach { (gameNameResource, gameGenre) ->
-                  Text(
-                    text = stringResource(gameNameResource),
-                    style = MaterialTheme.typography.titleLarge,
-                  )
-                  Text(
-                    text = stringResource(
-                      R.string.personal_best_points,
-                      gameStatistics.bestPointsByGame[gameGenre] ?: 0,
-                    ),
-                    style = MaterialTheme.typography.bodyLarge,
-                  )
+                ).forEachIndexed { index, (gameNameResource, gameGenre) ->
+                  if (index > 0) {
+                    HorizontalDivider()
+                  }
+                  Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(24.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                  ) {
+                    Text(
+                      text = stringResource(gameNameResource),
+                      modifier = Modifier.weight(1f),
+                      style = MaterialTheme.typography.titleMedium,
+                    )
+                    Text(
+                      text = stringResource(
+                        R.string.personal_best_points,
+                        gameStatistics.bestPointsByGame[gameGenre] ?: 0,
+                      ),
+                      modifier = Modifier.weight(2f),
+                      color = MaterialTheme.colorScheme.primary,
+                      style = MaterialTheme.typography.titleLarge,
+                    )
+                  }
                 }
               }
             }
@@ -331,21 +396,30 @@ class MainActivity : ComponentActivity() {
                   )
                 },
               ) {
-                Text(text = stringResource(R.string.write_supportive_review))
+                Text(
+                  text = stringResource(R.string.write_supportive_review),
+                  style = auxiliaryLinkTextStyle,
+                )
               }
               TextButton(
                 onClick = {
                   uriHandler.openUri(getString(R.string.feedback_url))
                 },
               ) {
-                Text(text = stringResource(R.string.send_feedback))
+                Text(
+                  text = stringResource(R.string.send_feedback),
+                  style = auxiliaryLinkTextStyle,
+                )
               }
               TextButton(
                 onClick = {
                   uriHandler.openUri(getString(R.string.privacy_policy_url))
                 },
               ) {
-                Text(text = stringResource(R.string.privacy_policy))
+                Text(
+                  text = stringResource(R.string.privacy_policy),
+                  style = auxiliaryLinkTextStyle,
+                )
               }
               Text(
                 text = stringResource(R.string.app_version, BuildConfig.VERSION_NAME),
