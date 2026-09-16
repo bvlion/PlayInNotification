@@ -116,6 +116,62 @@ class DifficultKanjiQuestionTest {
   }
 
   @Test
+  fun `表記から読みでは正解の読みと近い候補を誤答にする`() {
+    val question = DifficultKanjiQuestion.create(
+      entriesByDifficulty = mapOf(
+        1 to listOf(
+          DifficultKanjiEntry("鶯", "うぐいす"),
+          DifficultKanjiEntry("鶉", "うずら"),
+          DifficultKanjiEntry("鰻", "うなぎ"),
+          DifficultKanjiEntry("山茶花", "さざんか"),
+          DifficultKanjiEntry("鸚鵡", "おうむ"),
+        ),
+      ),
+      difficulty = 1,
+      random = object : Random() {
+        override fun nextBits(bitCount: Int): Int = 0
+      },
+      previousQuestion = DifficultKanjiQuestion(
+        direction = DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM,
+        prompt = "",
+        choices = emptyList(),
+        correctAnswer = "",
+      ),
+    )
+
+    assertEquals("うぐいす", question.correctAnswer)
+    assertEquals(setOf("うずら", "うなぎ"), question.choices.filter { it != question.correctAnswer }.toSet())
+  }
+
+  @Test
+  fun `読みから表記では正解の読みと近い候補の表記を誤答にする`() {
+    val question = DifficultKanjiQuestion.create(
+      entriesByDifficulty = mapOf(
+        1 to listOf(
+          DifficultKanjiEntry("鶯", "うぐいす"),
+          DifficultKanjiEntry("鶉", "うずら"),
+          DifficultKanjiEntry("鰻", "うなぎ"),
+          DifficultKanjiEntry("山茶花", "さざんか"),
+          DifficultKanjiEntry("鸚鵡", "おうむ"),
+        ),
+      ),
+      difficulty = 1,
+      random = object : Random() {
+        override fun nextBits(bitCount: Int): Int = 0
+      },
+      previousQuestion = DifficultKanjiQuestion(
+        direction = DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING,
+        prompt = "",
+        choices = emptyList(),
+        correctAnswer = "",
+      ),
+    )
+
+    assertEquals("鶯", question.correctAnswer)
+    assertEquals(setOf("鶉", "鰻"), question.choices.filter { it != question.correctAnswer }.toSet())
+  }
+
+  @Test
   fun `連続して生成した問題は表記から読みと読みから表記を混在させる`() {
     (1..5).forEach { difficulty ->
       val firstQuestion = DifficultKanjiQuestion.create(
