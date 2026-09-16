@@ -22,10 +22,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.getValue
@@ -35,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -90,6 +93,7 @@ class MainActivity : ComponentActivity() {
     enableEdgeToEdge()
     setContent {
       val context = LocalContext.current
+      val uriHandler = LocalUriHandler.current
       val gameDifficultySettings by gameDifficultySettingsRepository.gameDifficultySettings
         .collectAsStateWithLifecycle(initialValue = GameDifficultySettings())
       val gameStatistics by gameStatisticsRepository.gameStatistics
@@ -166,31 +170,11 @@ class MainActivity : ComponentActivity() {
                     R.string.growth_level_value,
                     gameStatistics.growthLevel,
                   ),
+                  color = MaterialTheme.colorScheme.primary,
                   style = MaterialTheme.typography.headlineSmall,
                 )
                 Text(
-                  text = stringResource(R.string.statistics_encouragement),
-                  style = MaterialTheme.typography.bodyLarge,
-                )
-                Text(
-                  text = stringResource(
-                    R.string.total_day_count,
-                    gameStatistics.totalDayCount,
-                  ),
-                  style = MaterialTheme.typography.titleMedium,
-                )
-                Text(
-                  text = stringResource(
-                    R.string.streak_day_count,
-                    displayedStreakDayCount,
-                  ),
-                  style = MaterialTheme.typography.titleMedium,
-                )
-                Text(
-                  text = stringResource(
-                    R.string.answer_count,
-                    gameStatistics.answerCount,
-                  ),
+                  text = stringResource(R.string.answer_title),
                   style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
@@ -198,7 +182,32 @@ class MainActivity : ComponentActivity() {
                     R.string.play_count,
                     gameStatistics.playCount,
                   ),
+                  style = MaterialTheme.typography.titleLarge,
+                )
+                Text(
+                  text = stringResource(
+                    R.string.answer_count,
+                    gameStatistics.answerCount,
+                  ),
+                  style = MaterialTheme.typography.titleLarge,
+                )
+                Text(
+                  text = stringResource(R.string.day_count_title),
                   style = MaterialTheme.typography.titleMedium,
+                )
+                Text(
+                  text = stringResource(
+                    R.string.total_day_count,
+                    gameStatistics.totalDayCount,
+                  ),
+                  style = MaterialTheme.typography.titleLarge,
+                )
+                Text(
+                  text = stringResource(
+                    R.string.streak_day_count,
+                    displayedStreakDayCount,
+                  ),
+                  style = MaterialTheme.typography.titleLarge,
                 )
               }
             }
@@ -312,6 +321,38 @@ class MainActivity : ComponentActivity() {
                   steps = 3,
                 )
               }
+            }
+            Column(modifier = Modifier.fillMaxWidth()) {
+              HorizontalDivider()
+              TextButton(
+                onClick = {
+                  uriHandler.openUri(
+                    getString(R.string.google_play_url, packageName),
+                  )
+                },
+              ) {
+                Text(text = stringResource(R.string.write_supportive_review))
+              }
+              TextButton(
+                onClick = {
+                  uriHandler.openUri(getString(R.string.feedback_url))
+                },
+              ) {
+                Text(text = stringResource(R.string.send_feedback))
+              }
+              TextButton(
+                onClick = {
+                  uriHandler.openUri(getString(R.string.privacy_policy_url))
+                },
+              ) {
+                Text(text = stringResource(R.string.privacy_policy))
+              }
+              Text(
+                text = stringResource(R.string.app_version, BuildConfig.VERSION_NAME),
+                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.bodySmall,
+              )
             }
           }
         }
