@@ -174,6 +174,13 @@ class MainActivity : ComponentActivity() {
                 )
                 Text(
                   text = stringResource(
+                    R.string.total_day_count,
+                    gameStatistics.totalDayCount,
+                  ),
+                  style = MaterialTheme.typography.titleMedium,
+                )
+                Text(
+                  text = stringResource(
                     R.string.streak_day_count,
                     displayedStreakDayCount,
                   ),
