@@ -37,6 +37,7 @@ class GameStatisticsTest {
     assertEquals(4, statistics.answerCount)
     assertEquals(1, statistics.playCount)
     assertEquals(10, statistics.earnedPoints)
+    assertEquals(1, statistics.totalDayCount)
     assertEquals(1, statistics.streakDayCount)
   }
 
@@ -106,7 +107,26 @@ class GameStatisticsTest {
   }
 
   @Test
-  fun `同じ日に複数回完了してもStreakは一日だけ進む`() {
+  fun `同じ日に複数回完了しても日数は一日だけ進む`() {
+    val firstStatistics = GameStatistics().addCompletedSession(
+      sessionResult = GameSessionResult(),
+      gameGenre = "calculation",
+      difficulty = 1,
+      completedSessionDate = LocalDate.of(2026, 9, 9),
+    )
+    val statistics = firstStatistics.addCompletedSession(
+      sessionResult = GameSessionResult(),
+      gameGenre = "difficult_kanji",
+      difficulty = 1,
+      completedSessionDate = LocalDate.of(2026, 9, 9),
+    )
+
+    assertEquals(1, statistics.totalDayCount)
+    assertEquals(1, statistics.streakDayCount)
+  }
+
+  @Test
+  fun `別の日に完了すると累計日数が増える`() {
     val firstStatistics = GameStatistics().addCompletedSession(
       sessionResult = GameSessionResult(),
       gameGenre = "calculation",
@@ -117,14 +137,30 @@ class GameStatisticsTest {
       sessionResult = GameSessionResult(),
       gameGenre = "calculation",
       difficulty = 1,
-      completedSessionDate = LocalDate.of(2026, 9, 9),
+      completedSessionDate = LocalDate.of(2026, 9, 10),
     )
 
-    assertEquals(1, statistics.streakDayCount)
+    assertEquals(2, statistics.totalDayCount)
   }
 
   @Test
-  fun `連続しない完了日はStreakを一日からやり直す`() {
+  fun `連続する完了日は連続日数が進む`() {
+    val firstStatistics = GameStatistics(
+      streakDayCount = 3,
+      lastCompletedSessionDate = LocalDate.of(2026, 9, 8),
+    )
+    val statistics = firstStatistics.addCompletedSession(
+      sessionResult = GameSessionResult(),
+      gameGenre = "calculation",
+      difficulty = 1,
+      completedSessionDate = LocalDate.of(2026, 9, 9),
+    )
+
+    assertEquals(4, statistics.streakDayCount)
+  }
+
+  @Test
+  fun `連続しない完了日は連続日数を一日からやり直す`() {
     val firstStatistics = GameStatistics(
       streakDayCount = 3,
       lastCompletedSessionDate = LocalDate.of(2026, 9, 7),

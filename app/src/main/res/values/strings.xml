@@ -28,7 +28,8 @@
   <string name="statistics_title">成績</string>
   <string name="growth_level_value">レベル %1$d</string>
   <string name="statistics_encouragement">続けた分だけ、しっかり成長しています。</string>
-  <string name="streak_day_count">Streak %1$d日</string>
+  <string name="total_day_count">累計 %1$d日</string>
+  <string name="streak_day_count">連続 %1$d日</string>
   <string name="answer_count">これまでに%1$d問回答</string>
   <string name="play_count">30秒プレイを%1$d回達成</string>
   <string name="personal_best_title">自己ベスト</string>

@@ -6,6 +6,7 @@ internal data class GameStatistics(
   val answerCount: Long = 0,
   val playCount: Long = 0,
   val earnedPoints: Long = 0,
+  val totalDayCount: Int = 0,
   val streakDayCount: Int = 0,
   val lastCompletedSessionDate: LocalDate? = null,
   val bestPointsByGame: Map<String, Long> = emptyMap(),
@@ -36,6 +37,11 @@ internal data class GameStatistics(
     completedSessionDate: LocalDate,
   ): GameStatistics {
     val currentBestPoints = bestPointsByGame[gameGenre] ?: 0
+    val nextTotalDayCount = if (lastCompletedSessionDate == completedSessionDate) {
+      totalDayCount
+    } else {
+      totalDayCount + 1
+    }
     val nextStreakDayCount = when {
       lastCompletedSessionDate == completedSessionDate -> streakDayCount
       lastCompletedSessionDate == completedSessionDate.minusDays(1) -> streakDayCount + 1
@@ -46,6 +52,7 @@ internal data class GameStatistics(
       answerCount = answerCount + sessionResult.answerCount,
       playCount = playCount + 1,
       earnedPoints = earnedPoints + sessionResult.earnedPoints,
+      totalDayCount = nextTotalDayCount,
       streakDayCount = nextStreakDayCount,
       lastCompletedSessionDate = completedSessionDate,
       bestPointsByGame = bestPointsByGame + (

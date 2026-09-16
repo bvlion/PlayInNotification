@@ -38,6 +38,7 @@ internal class GameStatisticsRepository(
       preferences[ANSWER_COUNT_KEY] = updatedStatistics.answerCount
       preferences[PLAY_COUNT_KEY] = updatedStatistics.playCount
       preferences[EARNED_POINTS_KEY] = updatedStatistics.earnedPoints
+      preferences[TOTAL_DAY_COUNT_KEY] = updatedStatistics.totalDayCount
       preferences[STREAK_DAY_COUNT_KEY] = updatedStatistics.streakDayCount
       preferences[LAST_COMPLETED_SESSION_DATE_KEY] = completedSessionDate.toString()
       preferences[bestPointsKey(gameGenre)] = updatedStatistics.bestPointsByGame.getValue(gameGenre)
@@ -50,6 +51,7 @@ internal class GameStatisticsRepository(
       answerCount = this[ANSWER_COUNT_KEY] ?: 0,
       playCount = this[PLAY_COUNT_KEY] ?: 0,
       earnedPoints = this[EARNED_POINTS_KEY] ?: 0,
+      totalDayCount = this[TOTAL_DAY_COUNT_KEY] ?: 0,
       streakDayCount = this[STREAK_DAY_COUNT_KEY] ?: 0,
       lastCompletedSessionDate = this[LAST_COMPLETED_SESSION_DATE_KEY]?.let(LocalDate::parse),
       bestPointsByGame = GAME_GENRES.associateWith { gameGenre ->
@@ -64,6 +66,7 @@ internal class GameStatisticsRepository(
     val ANSWER_COUNT_KEY = longPreferencesKey("answer_count")
     val PLAY_COUNT_KEY = longPreferencesKey("play_count")
     val EARNED_POINTS_KEY = longPreferencesKey("earned_points")
+    val TOTAL_DAY_COUNT_KEY = intPreferencesKey("total_day_count")
     val STREAK_DAY_COUNT_KEY = intPreferencesKey("streak_day_count")
     val LAST_COMPLETED_SESSION_DATE_KEY = stringPreferencesKey("last_completed_session_date")
     const val BEST_POINTS_KEY_PREFIX = "best_points_"
