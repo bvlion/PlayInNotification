@@ -14,7 +14,7 @@
   <string name="calculation_missing_left_operand_question">\? %1$s %2$d %3$s %4$d = %5$d</string>
   <string name="calculation_missing_right_operand_question">%1$d %2$s ? %3$s %4$d = %5$d</string>
   <string name="calculation_missing_third_operand_question">%1$d %2$s %3$d %4$s ? = %5$d</string>
-  <string name="game_time_remaining">残り30秒</string>
+  <string name="game_time_remaining">残り%1$d秒</string>
   <string name="correct_answer_result">正解</string>
   <string name="incorrect_answer_result">不正解</string>
   <string name="difficult_kanji_written_form_to_reading_question">「%1$s」の読みは？</string>
