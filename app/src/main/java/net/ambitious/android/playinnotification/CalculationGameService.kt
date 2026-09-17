@@ -485,7 +485,6 @@ class CalculationGameService : Service() {
       val notification = Notification.Builder(context, NOTIFICATION_CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_launcher_foreground)
         .setContentTitle(context.getString(R.string.game_selection_title))
-        .setContentText(context.getString(R.string.game_selection_description))
         .setOngoing(true)
         .setOnlyAlertOnce(true)
         .addAction(
