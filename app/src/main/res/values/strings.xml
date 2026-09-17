@@ -27,13 +27,21 @@
   <string name="game_difficulty_level">難易度 Lv%1$d</string>
   <string name="statistics_title">成績</string>
   <string name="growth_level_value">レベル %1$d</string>
-  <string name="statistics_encouragement">続けた分だけ、しっかり成長しています。</string>
+  <string name="answer_title">回答</string>
+  <string name="day_count_title">日数</string>
   <string name="total_day_count">累計 %1$d日</string>
   <string name="streak_day_count">連続 %1$d日</string>
-  <string name="answer_count">これまでに%1$d問回答</string>
-  <string name="play_count">30秒プレイを%1$d回達成</string>
+  <string name="answer_count">%1$d問</string>
+  <string name="play_count">%1$d回</string>
   <string name="personal_best_title">自己ベスト</string>
   <string name="personal_best_points">%1$dポイント</string>
+  <string name="write_supportive_review">応援レビューを書く</string>
+  <string name="send_feedback">フィードバックを送る</string>
+  <string name="privacy_policy">プライバシーポリシー</string>
+  <string name="app_version">バージョン %1$s</string>
+  <string name="google_play_url" translatable="false">https://play.google.com/store/apps/details?id=%1$s</string>
+  <string name="feedback_url" translatable="false">https://contact.ambitious-i.net/play-in-notification</string>
+  <string name="privacy_policy_url" translatable="false">https://bvlion.github.io/PlayInNotification/privacy_policy.html</string>
   <string name="session_finished_title">30秒プレイ終了</string>
   <string name="session_result_summary">回答数 %1$d問・正解数 %2$d問・不正解数 %3$d問</string>
   <string name="level_up">レベルアップ！</string>
