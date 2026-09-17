@@ -38,14 +38,40 @@ class CalculationGameService : Service() {
   private val askedQuestions = mutableListOf<CalculationQuestion>()
   private var sessionResult = GameSessionResult()
   private var sessionWakeLock: PowerManager.WakeLock? = null
+  private var currentQuestionNotification: Notification? = null
   private var isCompletingSession = false
+
+  private val updateCountdownNotification = object : Runnable {
+    override fun run() {
+      if (!isSessionActive || isCompletingSession) {
+        return
+      }
+      val questionNotification = currentQuestionNotification ?: return
+      val remainingMilliseconds = maxOf(0L, sessionDeadline - SystemClock.elapsedRealtime())
+      val remainingSeconds = (remainingMilliseconds + 999L) / 1_000L
+      val updatedNotification = Notification.Builder
+        .recoverBuilder(this@CalculationGameService, questionNotification)
+        .setSubText(getString(R.string.game_time_remaining, remainingSeconds))
+        .build()
+      currentQuestionNotification = updatedNotification
+      getSystemService(NotificationManager::class.java).notify(
+        NOTIFICATION_ID,
+        updatedNotification,
+      )
+      if (remainingMilliseconds > 0L) {
+        handler.postDelayed(this, minOf(1_000L, remainingMilliseconds))
+      }
+    }
+  }
 
   private val finishSession = Runnable {
     if (!isSessionActive || isCompletingSession) {
       return@Runnable
     }
     isCompletingSession = true
+    handler.removeCallbacks(updateCountdownNotification)
     currentQuestion = null
+    currentQuestionNotification = null
     val completedSessionResult = sessionResult
     latestCompletedSessionResult = completedSessionResult
     val resultSummary = getString(
@@ -186,7 +212,9 @@ class CalculationGameService : Service() {
 
   override fun onDestroy() {
     handler.removeCallbacks(finishSession)
+    handler.removeCallbacks(updateCountdownNotification)
     isSessionActive = false
+    currentQuestionNotification = null
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = null
     super.onDestroy()
@@ -196,6 +224,7 @@ class CalculationGameService : Service() {
 
   private fun startSession(difficulty: Int) {
     handler.removeCallbacks(finishSession)
+    handler.removeCallbacks(updateCountdownNotification)
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = getSystemService(PowerManager::class.java).newWakeLock(
       PowerManager.PARTIAL_WAKE_LOCK,
@@ -209,6 +238,7 @@ class CalculationGameService : Service() {
     sessionDeadline = SystemClock.elapsedRealtime() + SESSION_DURATION_MILLISECONDS
     questionNumber = 0
     currentQuestion = null
+    currentQuestionNotification = null
     askedQuestions.clear()
     sessionResult = GameSessionResult()
     isCompletingSession = false
@@ -218,6 +248,7 @@ class CalculationGameService : Service() {
       maxOf(0L, sessionDeadline - SystemClock.elapsedRealtime()),
     )
     showNextQuestion(isStartingForegroundService = true)
+    handler.post(updateCountdownNotification)
   }
 
   private fun handleAnswer(intent: Intent) {
@@ -304,6 +335,7 @@ class CalculationGameService : Service() {
     currentQuestion = question
     askedQuestions += question
     val notification = createQuestionNotification(question)
+    currentQuestionNotification = notification
     if (isStartingForegroundService) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
         startForeground(
@@ -320,6 +352,8 @@ class CalculationGameService : Service() {
   }
 
   private fun createQuestionNotification(question: CalculationQuestion): Notification {
+    val remainingMilliseconds = maxOf(0L, sessionDeadline - SystemClock.elapsedRealtime())
+    val remainingSeconds = (remainingMilliseconds + 999L) / 1_000L
     val builder = Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
       .setSmallIcon(R.drawable.ic_launcher_foreground)
       .setContentTitle(
@@ -372,12 +406,8 @@ class CalculationGameService : Service() {
           )
         },
       )
-      .setWhen(
-        System.currentTimeMillis() +
-          maxOf(0L, sessionDeadline - SystemClock.elapsedRealtime()),
-      )
-      .setUsesChronometer(true)
-      .setChronometerCountDown(true)
+      .setSubText(getString(R.string.game_time_remaining, remainingSeconds))
+      .setShowWhen(false)
       .setOngoing(true)
       .setOnlyAlertOnce(true)
       .setCategory(Notification.CATEGORY_SERVICE)

@@ -40,14 +40,40 @@ class DifficultKanjiGameService : Service() {
   private val askedEntries = mutableListOf<DifficultKanjiEntry>()
   private var sessionResult = GameSessionResult()
   private var sessionWakeLock: PowerManager.WakeLock? = null
+  private var currentQuestionNotification: Notification? = null
   private var isCompletingSession = false
+
+  private val updateCountdownNotification = object : Runnable {
+    override fun run() {
+      if (!isSessionActive || isCompletingSession) {
+        return
+      }
+      val questionNotification = currentQuestionNotification ?: return
+      val remainingMilliseconds = maxOf(0L, sessionDeadline - SystemClock.elapsedRealtime())
+      val remainingSeconds = (remainingMilliseconds + 999L) / 1_000L
+      val updatedNotification = Notification.Builder
+        .recoverBuilder(this@DifficultKanjiGameService, questionNotification)
+        .setSubText(getString(R.string.game_time_remaining, remainingSeconds))
+        .build()
+      currentQuestionNotification = updatedNotification
+      getSystemService(NotificationManager::class.java).notify(
+        NOTIFICATION_ID,
+        updatedNotification,
+      )
+      if (remainingMilliseconds > 0L) {
+        handler.postDelayed(this, minOf(1_000L, remainingMilliseconds))
+      }
+    }
+  }
 
   private val finishSession = Runnable {
     if (!isSessionActive || isCompletingSession) {
       return@Runnable
     }
     isCompletingSession = true
+    handler.removeCallbacks(updateCountdownNotification)
     currentQuestion = null
+    currentQuestionNotification = null
     val completedSessionResult = sessionResult
     latestCompletedSessionResult = completedSessionResult
     val resultSummary = getString(
@@ -188,7 +214,9 @@ class DifficultKanjiGameService : Service() {
 
   override fun onDestroy() {
     handler.removeCallbacks(finishSession)
+    handler.removeCallbacks(updateCountdownNotification)
     isSessionActive = false
+    currentQuestionNotification = null
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = null
     super.onDestroy()
@@ -198,6 +226,7 @@ class DifficultKanjiGameService : Service() {
 
   private fun startSession(difficulty: Int) {
     handler.removeCallbacks(finishSession)
+    handler.removeCallbacks(updateCountdownNotification)
     sessionWakeLock?.takeIf { it.isHeld }?.release()
     sessionWakeLock = getSystemService(PowerManager::class.java).newWakeLock(
       PowerManager.PARTIAL_WAKE_LOCK,
@@ -212,6 +241,7 @@ class DifficultKanjiGameService : Service() {
     sessionDeadline = SystemClock.elapsedRealtime() + SESSION_DURATION_MILLISECONDS
     questionNumber = 0
     currentQuestion = null
+    currentQuestionNotification = null
     askedEntries.clear()
     sessionResult = GameSessionResult()
     isCompletingSession = false
@@ -221,6 +251,7 @@ class DifficultKanjiGameService : Service() {
       maxOf(0L, sessionDeadline - SystemClock.elapsedRealtime()),
     )
     showNextQuestion(isStartingForegroundService = true)
+    handler.post(updateCountdownNotification)
   }
 
   private fun handleAnswer(intent: Intent) {
@@ -277,6 +308,7 @@ class DifficultKanjiGameService : Service() {
       }
     }
     val notification = createQuestionNotification(question)
+    currentQuestionNotification = notification
     if (isStartingForegroundService) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
         startForeground(
@@ -293,6 +325,8 @@ class DifficultKanjiGameService : Service() {
   }
 
   private fun createQuestionNotification(question: DifficultKanjiQuestion): Notification {
+    val remainingMilliseconds = maxOf(0L, sessionDeadline - SystemClock.elapsedRealtime())
+    val remainingSeconds = (remainingMilliseconds + 999L) / 1_000L
     val title = when (question.direction) {
       DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> getString(
         R.string.difficult_kanji_written_form_to_reading_question,
@@ -306,13 +340,8 @@ class DifficultKanjiGameService : Service() {
     val builder = Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
       .setSmallIcon(R.drawable.ic_launcher_foreground)
       .setContentTitle(title)
-      .setContentText(getString(R.string.game_time_remaining))
-      .setWhen(
-        System.currentTimeMillis() +
-          maxOf(0L, sessionDeadline - SystemClock.elapsedRealtime()),
-      )
-      .setUsesChronometer(true)
-      .setChronometerCountDown(true)
+      .setSubText(getString(R.string.game_time_remaining, remainingSeconds))
+      .setShowWhen(false)
       .setOngoing(true)
       .setOnlyAlertOnce(true)
       .setCategory(Notification.CATEGORY_SERVICE)
