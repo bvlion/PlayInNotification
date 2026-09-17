@@ -6,11 +6,9 @@
   <string name="notification_disabled_description">通知からゲームを始めるには、Androidの設定で通知を許可してください。</string>
   <string name="open_notification_settings">通知設定を開く</string>
   <string name="game_selection_title">ゲームを選択</string>
-  <string name="game_selection_description">30秒プレイするゲームを選択</string>
   <string name="calculation_level_one">計算 Lv1</string>
   <string name="calculation_level_two">計算 Lv2</string>
   <string name="calculation_level_three">計算 Lv3</string>
-  <string name="calculation_description">難易度を選んで30秒プレイ</string>
   <string name="calculation_question">%1$d %2$s %3$d = ?</string>
   <string name="calculation_compound_question">%1$d %2$s %3$d %4$s %5$d = ?</string>
   <string name="calculation_missing_left_operand_question">\? %1$s %2$d %3$s %4$d = %5$d</string>
@@ -42,7 +40,7 @@
   <string name="google_play_url" translatable="false">https://play.google.com/store/apps/details?id=%1$s</string>
   <string name="feedback_url" translatable="false">https://contact.ambitious-i.net/play-in-notification</string>
   <string name="privacy_policy_url" translatable="false">https://bvlion.github.io/PlayInNotification/privacy_policy.html</string>
-  <string name="session_finished_title">30秒プレイ終了</string>
+  <string name="session_finished_title">今回の結果</string>
   <string name="session_result_summary">回答数 %1$d問・正解数 %2$d問・不正解数 %3$d問</string>
   <string name="level_up">レベルアップ！</string>
   <string name="level_change">Lv%1$d → Lv%2$d</string>
