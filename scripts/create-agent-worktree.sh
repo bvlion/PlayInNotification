@@ -142,6 +142,10 @@ if [[ -f "${target_worktree}/.gitmodules" ]]; then
   git -C "$target_worktree" submodule update --init --recursive
 fi
 
+if [[ -f "${source_worktree}/local.properties" ]]; then
+  cp -p "${source_worktree}/local.properties" "${target_worktree}/local.properties"
+fi
+
 worktree_status=$(git -C "$target_worktree" status --porcelain --untracked-files=all)
 [[ -z "$worktree_status" ]] || die "作成したworktreeに未追跡または変更済みのファイルがあります。"
 
