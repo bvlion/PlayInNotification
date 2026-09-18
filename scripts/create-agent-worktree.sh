@@ -26,7 +26,7 @@ fi
 agent="$1"
 short_task_name="$2"
 
-[[ "$agent" =~ ^[a-z0-9]+([._-][a-z0-9]+)*$ ]] || die "agentには小文字英数字と区切り文字（.、_、-）を指定してください。"
+[[ "$agent" == "codex" || "$agent" == "claude" || "$agent" == "chatgpt" ]] || die "agentにはcodex、claude、chatgptのいずれかを指定してください。"
 [[ "$short_task_name" =~ ^[a-z0-9]+([._-][a-z0-9]+)*$ ]] || die "short-task-nameには小文字英数字と区切り文字（.、_、-）を指定してください。"
 
 branch_name="${agent}/${short_task_name}"
