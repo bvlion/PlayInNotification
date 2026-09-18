@@ -4,7 +4,7 @@ set -Eeuo pipefail
 
 usage() {
   cat <<'EOF'
-使い方: ./scripts/create-codex-worktree.sh <Issue番号> <ブランチ名の接尾辞>
+使い方: ./scripts/create-agent-worktree.sh <agent> <short-task-name>
 EOF
 }
 
@@ -23,13 +23,13 @@ if (( $# != 2 )); then
   exit 2
 fi
 
-issue_number="$1"
-branch_suffix="$2"
+agent="$1"
+short_task_name="$2"
 
-[[ "$issue_number" =~ ^[1-9][0-9]*$ ]] || die "Issue番号には1以上の整数を指定してください。"
-[[ "$branch_suffix" =~ ^[a-z0-9]+([._-][a-z0-9]+)*$ ]] || die "接尾辞には小文字英数字と区切り文字（.、_、-）を指定してください。"
+[[ "$agent" =~ ^[a-z0-9]+([._-][a-z0-9]+)*$ ]] || die "agentには小文字英数字と区切り文字（.、_、-）を指定してください。"
+[[ "$short_task_name" =~ ^[a-z0-9]+([._-][a-z0-9]+)*$ ]] || die "short-task-nameには小文字英数字と区切り文字（.、_、-）を指定してください。"
 
-branch_name="codex/${branch_suffix}"
+branch_name="${agent}/${short_task_name}"
 git check-ref-format --branch "$branch_name" >/dev/null || die "ブランチ名がGitの形式に適合しません: ${branch_name}"
 
 source_worktree=$(git rev-parse --show-toplevel 2>/dev/null) || die "Git worktree内で実行してください。"
@@ -40,7 +40,7 @@ primary_worktree=$(
 [[ -n "$primary_worktree" ]] || die "メインworktreeの場所を取得できませんでした。"
 
 worktree_root="$(dirname "$primary_worktree")/PlayInNotification-worktrees"
-target_worktree="${worktree_root}/issue-${issue_number}"
+target_worktree="${worktree_root}/${agent}-${short_task_name}"
 
 git -C "$source_worktree" fetch origin
 git -C "$source_worktree" rev-parse --verify --quiet "refs/remotes/origin/main^{commit}" >/dev/null ||
@@ -77,12 +77,12 @@ fi
 is_worktree_root_created=false
 is_target_worktree_created=false
 is_worktree_creation_started=false
-is_issue_branch_created=false
+is_branch_created=false
 is_completed=false
 
 cleanup() {
   exit_status=$?
-  if [[ "$is_completed" == true || "$is_issue_branch_created" != true ]]; then
+  if [[ "$is_completed" == true || "$is_branch_created" != true ]]; then
     return
   fi
 
@@ -127,7 +127,7 @@ if [[ ! -d "$worktree_root" ]]; then
 fi
 
 git -C "$source_worktree" branch --no-track "$branch_name" origin/main
-is_issue_branch_created=true
+is_branch_created=true
 
 mkdir "$target_worktree"
 is_target_worktree_created=true
@@ -135,7 +135,7 @@ is_worktree_creation_started=true
 git -C "$source_worktree" worktree add "$target_worktree" "$branch_name"
 
 if git -C "$target_worktree" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' >/dev/null 2>&1; then
-  die "作成したIssueブランチにupstreamが設定されています: ${branch_name}"
+  die "作成したブランチにupstreamが設定されています: ${branch_name}"
 fi
 
 if [[ -f "${target_worktree}/.gitmodules" ]]; then
@@ -147,12 +147,10 @@ worktree_status=$(git -C "$target_worktree" status --porcelain --untracked-files
 
 is_completed=true
 
-printf '\nCodex用worktreeを作成しました。\n'
-printf '  Issue: #%s\n' "$issue_number"
+printf '\nagent用worktreeを作成しました。\n'
+printf '  agent: %s\n' "$agent"
 printf '  ブランチ: %s\n' "$branch_name"
 printf '  worktree: %s\n' "$target_worktree"
-printf '\n既にCodexを起動している場合は、このworktreeを作業対象として続行してください。\n'
-printf '新しくCodexを起動する場合:\n'
+printf '\n既にagentを起動している場合は、このworktreeを作業対象として続行してください。\n'
+printf '新しくagentを起動する場合は、次のディレクトリで起動してください:\n'
 printf '  cd %q\n' "$target_worktree"
-printf '  codex\n'
-printf '\nCodexへの依頼: Issue #%sを対応してください\n' "$issue_number"
