@@ -2,6 +2,9 @@ package net.ambitious.android.playinnotification
 
 import kotlin.random.Random
 
+private const val ADDITIVE_OPERATOR_PRECEDENCE = 1
+private const val MULTIPLICATIVE_OPERATOR_PRECEDENCE = 2
+
 internal data class CalculationQuestion(
   val leftOperand: Int,
   val rightOperand: Int,
@@ -192,14 +195,14 @@ internal enum class CalculationOperator(
   val symbol: String,
   val precedence: Int,
 ) {
-  ADDITION("+", 1),
-  SUBTRACTION("−", 1),
-  MULTIPLICATION("×", 2),
-  DIVISION("÷", 2),
+  ADDITION("+", ADDITIVE_OPERATOR_PRECEDENCE),
+  SUBTRACTION("−", ADDITIVE_OPERATOR_PRECEDENCE),
+  MULTIPLICATION("×", MULTIPLICATIVE_OPERATOR_PRECEDENCE),
+  DIVISION("÷", MULTIPLICATIVE_OPERATOR_PRECEDENCE),
   ;
 
   val isMultiplicative: Boolean
-    get() = precedence == 2
+    get() = precedence == MULTIPLICATIVE_OPERATOR_PRECEDENCE
 
   fun calculate(leftOperand: Int, rightOperand: Int): Int = when (this) {
     ADDITION -> leftOperand + rightOperand
