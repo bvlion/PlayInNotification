@@ -28,9 +28,8 @@ class GameStatisticsTest {
   @Test
   fun `完了したセッションは成績へ累積される`() {
     val statistics = GameStatistics().addCompletedSession(
-      sessionResult = GameSessionResult(answerCount = 4, earnedPoints = 10),
-      gameGenre = "calculation",
-      difficulty = 1,
+      sessionResult = sessionResult(3, 3, 3, 1),
+      gameType = GameType.CALCULATION,
       completedSessionDate = LocalDate.of(2026, 9, 9),
     )
 
@@ -42,82 +41,48 @@ class GameStatisticsTest {
   }
 
   @Test
-  fun `計算の自己ベストはLv1からLv5を通じて最高記録だけが保持される`() {
-    val firstStatistics = GameStatistics().addCompletedSession(
-      sessionResult = GameSessionResult(earnedPoints = 10),
-      gameGenre = "calculation",
-      difficulty = 1,
-      completedSessionDate = LocalDate.of(2026, 9, 9),
-    )
-    val statistics = firstStatistics
-      .addCompletedSession(
-        sessionResult = GameSessionResult(earnedPoints = 8),
-        gameGenre = "calculation",
-        difficulty = 1,
-        completedSessionDate = LocalDate.of(2026, 9, 10),
+  fun `計算の自己ベストは全難易度を通じて最高記録だけが保持される`() {
+    val statistics = listOf(10, 8, 7, 9, 12, 15).foldIndexed(GameStatistics()) {
+      index, currentStatistics, earnedPoints ->
+      currentStatistics.addCompletedSession(
+        sessionResult = sessionResult(earnedPoints),
+        gameType = GameType.CALCULATION,
+        completedSessionDate = LocalDate.of(2026, 9, 9).plusDays(index.toLong()),
       )
-      .addCompletedSession(
-        sessionResult = GameSessionResult(earnedPoints = 7),
-        gameGenre = "calculation",
-        difficulty = 2,
-        completedSessionDate = LocalDate.of(2026, 9, 11),
-      )
-      .addCompletedSession(
-        sessionResult = GameSessionResult(earnedPoints = 9),
-        gameGenre = "calculation",
-        difficulty = 3,
-        completedSessionDate = LocalDate.of(2026, 9, 12),
-      )
-      .addCompletedSession(
-        sessionResult = GameSessionResult(earnedPoints = 12),
-        gameGenre = "calculation",
-        difficulty = 4,
-        completedSessionDate = LocalDate.of(2026, 9, 13),
-      )
-      .addCompletedSession(
-        sessionResult = GameSessionResult(earnedPoints = 15),
-        gameGenre = "calculation",
-        difficulty = 5,
-        completedSessionDate = LocalDate.of(2026, 9, 14),
-      )
+    }
 
-    assertEquals(15, statistics.bestPointsByGame.getValue("calculation"))
+    assertEquals(15, statistics.bestPointsByGame.getValue(GameType.CALCULATION))
   }
 
   @Test
-  fun `難読漢字の自己ベストはLv1からLv5を通じて最高記録だけが保持される`() {
+  fun `ゲームごとに自己ベストを保持する`() {
     var statistics = GameStatistics().addCompletedSession(
-      sessionResult = GameSessionResult(earnedPoints = 11),
-      gameGenre = "calculation",
-      difficulty = 1,
+      sessionResult = sessionResult(11),
+      gameType = GameType.CALCULATION,
       completedSessionDate = LocalDate.of(2026, 9, 9),
     )
-
-    (1..5).forEach { difficulty ->
+    listOf(3, 6, 9, 12, 15).forEach { earnedPoints ->
       statistics = statistics.addCompletedSession(
-        sessionResult = GameSessionResult(earnedPoints = difficulty * 3),
-        gameGenre = "difficult_kanji",
-        difficulty = difficulty,
+        sessionResult = sessionResult(earnedPoints),
+        gameType = GameType.DIFFICULT_KANJI,
         completedSessionDate = LocalDate.of(2026, 9, 9),
       )
     }
 
-    assertEquals(15, statistics.bestPointsByGame.getValue("difficult_kanji"))
-    assertEquals(11, statistics.bestPointsByGame.getValue("calculation"))
+    assertEquals(15, statistics.bestPointsByGame.getValue(GameType.DIFFICULT_KANJI))
+    assertEquals(11, statistics.bestPointsByGame.getValue(GameType.CALCULATION))
   }
 
   @Test
   fun `同じ日に複数回完了しても日数は一日だけ進む`() {
     val firstStatistics = GameStatistics().addCompletedSession(
       sessionResult = GameSessionResult(),
-      gameGenre = "calculation",
-      difficulty = 1,
+      gameType = GameType.CALCULATION,
       completedSessionDate = LocalDate.of(2026, 9, 9),
     )
     val statistics = firstStatistics.addCompletedSession(
       sessionResult = GameSessionResult(),
-      gameGenre = "difficult_kanji",
-      difficulty = 1,
+      gameType = GameType.DIFFICULT_KANJI,
       completedSessionDate = LocalDate.of(2026, 9, 9),
     )
 
@@ -129,14 +94,12 @@ class GameStatisticsTest {
   fun `別の日に完了すると累計日数が増える`() {
     val firstStatistics = GameStatistics().addCompletedSession(
       sessionResult = GameSessionResult(),
-      gameGenre = "calculation",
-      difficulty = 1,
+      gameType = GameType.CALCULATION,
       completedSessionDate = LocalDate.of(2026, 9, 9),
     )
     val statistics = firstStatistics.addCompletedSession(
       sessionResult = GameSessionResult(),
-      gameGenre = "calculation",
-      difficulty = 1,
+      gameType = GameType.CALCULATION,
       completedSessionDate = LocalDate.of(2026, 9, 10),
     )
 
@@ -151,8 +114,7 @@ class GameStatisticsTest {
     )
     val statistics = firstStatistics.addCompletedSession(
       sessionResult = GameSessionResult(),
-      gameGenre = "calculation",
-      difficulty = 1,
+      gameType = GameType.CALCULATION,
       completedSessionDate = LocalDate.of(2026, 9, 9),
     )
 
@@ -167,11 +129,21 @@ class GameStatisticsTest {
     )
     val statistics = firstStatistics.addCompletedSession(
       sessionResult = GameSessionResult(),
-      gameGenre = "calculation",
-      difficulty = 1,
+      gameType = GameType.CALCULATION,
       completedSessionDate = LocalDate.of(2026, 9, 9),
     )
 
     assertEquals(1, statistics.streakDayCount)
   }
+
+  private fun sessionResult(vararg earnedPoints: Int): GameSessionResult = GameSessionResult(
+    answerResults = earnedPoints.mapIndexed { index, points ->
+      GameAnswerResult(
+        question = "question $index",
+        selectedAnswer = "answer $index",
+        isCorrect = true,
+        earnedPoints = points,
+      )
+    },
+  )
 }

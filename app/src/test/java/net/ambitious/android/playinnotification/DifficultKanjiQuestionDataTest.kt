@@ -8,7 +8,7 @@ class DifficultKanjiQuestionDataTest {
   private val entriesByDifficulty =
     DifficultKanjiQuestionData.load(
       checkNotNull(javaClass.classLoader)
-        .getResourceAsStream(DifficultKanjiQuestionData.fileName)
+        .getResourceAsStream(DifficultKanjiQuestionData.FILE_NAME)
         .let(::checkNotNull),
     )
 

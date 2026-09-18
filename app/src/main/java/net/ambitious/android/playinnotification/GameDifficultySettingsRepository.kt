@@ -15,28 +15,25 @@ internal class GameDifficultySettingsRepository(
 ) {
   val gameDifficultySettings = context.gameDifficultySettingsDataStore.data.map { preferences ->
     GameDifficultySettings(
-      calculationDifficulty = preferences[CALCULATION_DIFFICULTY_KEY] ?: INITIAL_DIFFICULTY,
-      difficultKanjiDifficulty = preferences[DIFFICULT_KANJI_DIFFICULTY_KEY] ?: INITIAL_DIFFICULTY,
+      calculationDifficulty = GameDifficulty.fromLevel(
+        preferences[CALCULATION_DIFFICULTY_KEY] ?: GameDifficulty.initial.level,
+      ),
+      difficultKanjiDifficulty = GameDifficulty.fromLevel(
+        preferences[DIFFICULT_KANJI_DIFFICULTY_KEY] ?: GameDifficulty.initial.level,
+      ),
     )
   }
 
-  suspend fun setCalculationDifficulty(difficulty: Int) {
-    require(difficulty in DIFFICULTY_RANGE)
+  suspend fun setDifficulty(gameType: GameType, difficulty: GameDifficulty) {
     context.gameDifficultySettingsDataStore.edit { preferences ->
-      preferences[CALCULATION_DIFFICULTY_KEY] = difficulty
-    }
-  }
-
-  suspend fun setDifficultKanjiDifficulty(difficulty: Int) {
-    require(difficulty in DIFFICULTY_RANGE)
-    context.gameDifficultySettingsDataStore.edit { preferences ->
-      preferences[DIFFICULT_KANJI_DIFFICULTY_KEY] = difficulty
+      preferences[when (gameType) {
+        GameType.CALCULATION -> CALCULATION_DIFFICULTY_KEY
+        GameType.DIFFICULT_KANJI -> DIFFICULT_KANJI_DIFFICULTY_KEY
+      }] = difficulty.level
     }
   }
 
   private companion object {
-    const val INITIAL_DIFFICULTY = 1
-    val DIFFICULTY_RANGE = 1..5
     val CALCULATION_DIFFICULTY_KEY = intPreferencesKey("calculation_difficulty")
     val DIFFICULT_KANJI_DIFFICULTY_KEY = intPreferencesKey("difficult_kanji_difficulty")
   }

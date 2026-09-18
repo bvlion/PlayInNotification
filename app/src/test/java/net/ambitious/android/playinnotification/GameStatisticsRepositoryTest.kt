@@ -20,14 +20,12 @@ class GameStatisticsRepositoryTest {
     val repository = GameStatisticsRepository(context)
     repository.recordCompletedSession(
       sessionResult = GameSessionResult(),
-      gameGenre = "calculation",
-      difficulty = 1,
+      gameType = GameType.CALCULATION,
       completedSessionDate = LocalDate.of(2026, 9, 16),
     )
     repository.recordCompletedSession(
       sessionResult = GameSessionResult(),
-      gameGenre = "difficult_kanji",
-      difficulty = 1,
+      gameType = GameType.DIFFICULT_KANJI,
       completedSessionDate = LocalDate.of(2026, 9, 17),
     )
 

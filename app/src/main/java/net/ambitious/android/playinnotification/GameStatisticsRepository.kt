@@ -21,29 +21,27 @@ internal class GameStatisticsRepository(
 
   suspend fun recordCompletedSession(
     sessionResult: GameSessionResult,
-    gameGenre: String,
-    difficulty: Int,
+    gameType: GameType,
     completedSessionDate: LocalDate,
   ): Pair<GameStatistics, GameStatistics> {
-    lateinit var previousStatistics: GameStatistics
-    lateinit var updatedStatistics: GameStatistics
+    var statisticsChange: Pair<GameStatistics, GameStatistics>? = null
     context.gameStatisticsDataStore.edit { preferences ->
-      previousStatistics = preferences.toGameStatistics()
-      updatedStatistics = previousStatistics.addCompletedSession(
+      val previousStatistics = preferences.toGameStatistics()
+      val updatedStatistics = previousStatistics.addCompletedSession(
         sessionResult = sessionResult,
-        gameGenre = gameGenre,
-        difficulty = difficulty,
+        gameType = gameType,
         completedSessionDate = completedSessionDate,
       )
+      statisticsChange = previousStatistics to updatedStatistics
       preferences[ANSWER_COUNT_KEY] = updatedStatistics.answerCount
       preferences[PLAY_COUNT_KEY] = updatedStatistics.playCount
       preferences[EARNED_POINTS_KEY] = updatedStatistics.earnedPoints
       preferences[TOTAL_DAY_COUNT_KEY] = updatedStatistics.totalDayCount
       preferences[STREAK_DAY_COUNT_KEY] = updatedStatistics.streakDayCount
       preferences[LAST_COMPLETED_SESSION_DATE_KEY] = completedSessionDate.toString()
-      preferences[bestPointsKey(gameGenre)] = updatedStatistics.bestPointsByGame.getValue(gameGenre)
+      preferences[bestPointsKey(gameType)] = updatedStatistics.bestPointsByGame.getValue(gameType)
     }
-    return previousStatistics to updatedStatistics
+    return checkNotNull(statisticsChange)
   }
 
   private fun Preferences.toGameStatistics(): GameStatistics {
@@ -54,13 +52,14 @@ internal class GameStatisticsRepository(
       totalDayCount = this[TOTAL_DAY_COUNT_KEY] ?: 0,
       streakDayCount = this[STREAK_DAY_COUNT_KEY] ?: 0,
       lastCompletedSessionDate = this[LAST_COMPLETED_SESSION_DATE_KEY]?.let(LocalDate::parse),
-      bestPointsByGame = GAME_GENRES.associateWith { gameGenre ->
-        this[bestPointsKey(gameGenre)] ?: 0
+      bestPointsByGame = GameType.entries.associateWith { gameType ->
+        this[bestPointsKey(gameType)] ?: 0
       },
     )
   }
 
-  private fun bestPointsKey(gameGenre: String) = longPreferencesKey("$BEST_POINTS_KEY_PREFIX$gameGenre")
+  private fun bestPointsKey(gameType: GameType) =
+    longPreferencesKey("$BEST_POINTS_KEY_PREFIX${gameType.storageKey}")
 
   private companion object {
     val ANSWER_COUNT_KEY = longPreferencesKey("answer_count")
@@ -70,6 +69,5 @@ internal class GameStatisticsRepository(
     val STREAK_DAY_COUNT_KEY = intPreferencesKey("streak_day_count")
     val LAST_COMPLETED_SESSION_DATE_KEY = stringPreferencesKey("last_completed_session_date")
     const val BEST_POINTS_KEY_PREFIX = "best_points_"
-    val GAME_GENRES = listOf("calculation", "difficult_kanji")
   }
 }

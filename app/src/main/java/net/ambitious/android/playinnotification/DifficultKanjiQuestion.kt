@@ -4,20 +4,31 @@ import kotlin.random.Random
 
 internal data class DifficultKanjiQuestion(
   val direction: DifficultKanjiQuestionDirection,
-  val prompt: String,
+  val entry: DifficultKanjiEntry,
   val choices: List<String>,
-  val correctAnswer: String,
 ) {
+  val prompt: String
+    get() = when (direction) {
+      DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> entry.writtenForm
+      DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> entry.reading
+    }
+
+  val correctAnswer: String
+    get() = when (direction) {
+      DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> entry.reading
+      DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> entry.writtenForm
+    }
+
   companion object {
     fun create(
       entriesByDifficulty: Map<Int, List<DifficultKanjiEntry>>,
-      difficulty: Int,
+      difficulty: GameDifficulty,
       random: Random = Random.Default,
       previousQuestion: DifficultKanjiQuestion? = null,
       askedEntries: Collection<DifficultKanjiEntry> = emptyList(),
     ): DifficultKanjiQuestion {
-      val entries = requireNotNull(entriesByDifficulty[difficulty]) {
-        "難易度$difficulty の問題データがありません"
+      val entries = requireNotNull(entriesByDifficulty[difficulty.level]) {
+        "難易度${difficulty.level} の問題データがありません"
       }
       val direction = if (previousQuestion == null) {
         DifficultKanjiQuestionDirection.entries.random(random)
@@ -33,17 +44,7 @@ internal data class DifficultKanjiQuestion(
       }
       val correctEntry = entries
         .filter { entry ->
-          entry !in askedEntries &&
-            (previousQuestion == null || when (previousQuestion.direction) {
-              DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> {
-                entry.writtenForm != previousQuestion.prompt ||
-                  entry.reading != previousQuestion.correctAnswer
-              }
-              DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> {
-                entry.writtenForm != previousQuestion.correctAnswer ||
-                  entry.reading != previousQuestion.prompt
-              }
-            })
+          entry !in askedEntries && entry != previousQuestion?.entry
         }
         .random(random)
       val correctAnswer = when (direction) {
@@ -82,12 +83,8 @@ internal data class DifficultKanjiQuestion(
       require(wrongAnswers.size == 2) { "3択の誤答候補を構成できません" }
       return DifficultKanjiQuestion(
         direction = direction,
-        prompt = when (direction) {
-          DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> correctEntry.writtenForm
-          DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> correctEntry.reading
-        },
+        entry = correctEntry,
         choices = (wrongAnswers + correctAnswer).shuffled(random),
-        correctAnswer = correctAnswer,
       )
     }
   }

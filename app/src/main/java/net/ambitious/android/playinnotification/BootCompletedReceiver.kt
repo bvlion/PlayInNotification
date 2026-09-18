@@ -16,7 +16,7 @@ class BootCompletedReceiver : BroadcastReceiver() {
     val pendingResult = goAsync()
     CoroutineScope(Dispatchers.IO).launch {
       try {
-        CalculationGameService.showGameSelection(context.applicationContext)
+        GameNotifications.showGameSelection(context.applicationContext)
       } finally {
         pendingResult.finish()
       }

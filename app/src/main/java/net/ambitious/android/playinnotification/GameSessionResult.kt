@@ -11,21 +11,14 @@ internal data class GameAnswerResult(
       question: String,
       selectedAnswer: String,
       isCorrect: Boolean,
-      questionDifficulty: Int,
+      questionDifficulty: GameDifficulty,
     ): GameAnswerResult {
       return GameAnswerResult(
         question = question,
         selectedAnswer = selectedAnswer,
         isCorrect = isCorrect,
         earnedPoints = if (isCorrect) {
-          when (questionDifficulty) {
-            1 -> 3
-            2 -> 4
-            3 -> 6
-            4 -> 7
-            5 -> 9
-            else -> error("Unsupported question difficulty: $questionDifficulty")
-          }
+          questionDifficulty.correctAnswerPoints
         } else {
           INCORRECT_ANSWER_POINTS
         },
@@ -37,17 +30,21 @@ internal data class GameAnswerResult(
 }
 
 internal data class GameSessionResult(
-  val answerCount: Int = 0,
-  val correctAnswerCount: Int = 0,
-  val incorrectAnswerCount: Int = 0,
-  val earnedPoints: Int = 0,
   val answerResults: List<GameAnswerResult> = emptyList(),
 ) {
+  val answerCount: Int
+    get() = answerResults.size
+
+  val correctAnswerCount: Int
+    get() = answerResults.count(GameAnswerResult::isCorrect)
+
+  val incorrectAnswerCount: Int
+    get() = answerCount - correctAnswerCount
+
+  val earnedPoints: Int
+    get() = answerResults.sumOf(GameAnswerResult::earnedPoints)
+
   fun addAnswerResult(answerResult: GameAnswerResult): GameSessionResult = copy(
-    answerCount = answerCount + 1,
-    correctAnswerCount = correctAnswerCount + if (answerResult.isCorrect) 1 else 0,
-    incorrectAnswerCount = incorrectAnswerCount + if (answerResult.isCorrect) 0 else 1,
-    earnedPoints = earnedPoints + answerResult.earnedPoints,
     answerResults = answerResults + answerResult,
   )
 }
