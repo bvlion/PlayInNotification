@@ -9,7 +9,7 @@ internal data class GameStatistics(
   val totalDayCount: Int = 0,
   val streakDayCount: Int = 0,
   val lastCompletedSessionDate: LocalDate? = null,
-  val bestPointsByGame: Map<String, Long> = emptyMap(),
+  val bestPointsByGame: Map<GameType, Long> = emptyMap(),
 ) {
   val growthLevel: Int
     get() {
@@ -32,11 +32,10 @@ internal data class GameStatistics(
 
   fun addCompletedSession(
     sessionResult: GameSessionResult,
-    gameGenre: String,
-    difficulty: Int,
+    gameType: GameType,
     completedSessionDate: LocalDate,
   ): GameStatistics {
-    val currentBestPoints = bestPointsByGame[gameGenre] ?: 0
+    val currentBestPoints = bestPointsByGame[gameType] ?: 0
     val nextTotalDayCount = if (lastCompletedSessionDate == completedSessionDate) {
       totalDayCount
     } else {
@@ -56,7 +55,7 @@ internal data class GameStatistics(
       streakDayCount = nextStreakDayCount,
       lastCompletedSessionDate = completedSessionDate,
       bestPointsByGame = bestPointsByGame + (
-        gameGenre to maxOf(currentBestPoints, sessionResult.earnedPoints.toLong())
+        gameType to maxOf(currentBestPoints, sessionResult.earnedPoints.toLong())
       ),
     )
   }

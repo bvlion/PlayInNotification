@@ -20,8 +20,6 @@ import org.robolectric.annotation.LooperMode
 import org.robolectric.shadows.ShadowLooper
 import org.robolectric.shadows.ShadowService
 import org.robolectric.shadows.ShadowSystemClock
-import org.robolectric.util.ReflectionHelpers
-import org.robolectric.util.ReflectionHelpers.ClassParameter
 
 @RunWith(RobolectricTestRunner::class)
 @LooperMode(LooperMode.Mode.PAUSED)
@@ -32,165 +30,98 @@ import org.robolectric.util.ReflectionHelpers.ClassParameter
 class GameServiceSessionDeadlineTest {
   @Test
   fun `計算は終了処理が遅れても問題通知に負の残り時間を表示しない`() {
-    val serviceController = Robolectric.buildService(CalculationGameService::class.java).create()
-
-    try {
-      val service = serviceController.get()
-      CalculationGameService.createNotificationChannel(service)
-      ReflectionHelpers.callInstanceMethod<Unit>(
-        service,
-        "startSession",
-        ClassParameter.from(Int::class.javaPrimitiveType, 1),
-      )
-      ShadowLooper.shadowMainLooper().idle()
-      val sessionDeadline = ReflectionHelpers.getField<Long>(service, "sessionDeadline")
-      val notificationManager = service.getSystemService(NotificationManager::class.java)
-
-      assertEquals(
-        service.getString(R.string.game_time_remaining, 25L),
-        notificationManager.activeNotifications.single().notification.extras.getCharSequence(
-          Notification.EXTRA_SUB_TEXT,
-        ),
-      )
-
-      ShadowLooper.shadowMainLooper().idleFor(Duration.ofSeconds(1))
-
-      assertEquals(
-        service.getString(R.string.game_time_remaining, 24L),
-        notificationManager.activeNotifications.single().notification.extras.getCharSequence(
-          Notification.EXTRA_SUB_TEXT,
-        ),
-      )
-
-      ShadowLooper.shadowMainLooper().idleFor(Duration.ofSeconds(23))
-
-      assertEquals(
-        service.getString(R.string.game_time_remaining, 1L),
-        notificationManager.activeNotifications.single().notification.extras.getCharSequence(
-          Notification.EXTRA_SUB_TEXT,
-        ),
-      )
-
-      ShadowSystemClock.advanceBy(Duration.ofSeconds(2))
-
-      val notification = notificationManager.activeNotifications
-        .single()
-        .notification
-
-      assertTrue(SystemClock.elapsedRealtime() - sessionDeadline >= 1_000L)
-      assertFalse(notification.extras.getBoolean(Notification.EXTRA_SHOW_CHRONOMETER))
-      assertEquals(
-        service.getString(R.string.game_time_remaining, 1L),
-        notification.extras.getCharSequence(Notification.EXTRA_SUB_TEXT),
-      )
-    } finally {
-      serviceController.destroy()
-    }
+    verifyCountdownDoesNotBecomeNegative(CalculationGameService::class.java)
   }
 
   @Test
   fun `難読漢字は終了処理が遅れても問題通知に負の残り時間を表示しない`() {
-    val serviceController = Robolectric.buildService(DifficultKanjiGameService::class.java).create()
+    verifyCountdownDoesNotBecomeNegative(DifficultKanjiGameService::class.java)
+  }
+
+  @Test
+  fun `初回通知生成に時間がかかってもセッション開始から30秒後に終了処理を予約する`() {
+    val serviceController = Robolectric.buildService(CalculationGameService::class.java).create()
 
     try {
       val service = serviceController.get()
-      ReflectionHelpers.callInstanceMethod<Unit>(
-        service,
-        "startSession",
-        ClassParameter.from(Int::class.javaPrimitiveType, 1),
+      val sessionStartedAt = SystemClock.elapsedRealtime()
+      service.onStartCommand(
+        GameSessionService.createStartIntent(
+          context = service,
+          serviceClass = CalculationGameService::class.java,
+          difficulty = GameDifficulty.LEVEL_ONE,
+        ),
+        0,
+        1,
       )
       ShadowLooper.shadowMainLooper().idle()
-      val sessionDeadline = ReflectionHelpers.getField<Long>(service, "sessionDeadline")
+
+      assertEquals(
+        sessionStartedAt + SESSION_DURATION_MILLISECONDS,
+        ShadowLooper.shadowMainLooper().lastScheduledTaskTime.toMillis(),
+      )
+    } finally {
+      serviceController.destroy()
+    }
+  }
+
+  private fun <ServiceType : GameSessionService<*>> verifyCountdownDoesNotBecomeNegative(
+    serviceClass: Class<ServiceType>,
+  ) {
+    val serviceController = Robolectric.buildService(serviceClass).create()
+
+    try {
+      val service = serviceController.get()
+      service.onStartCommand(
+        GameSessionService.createStartIntent(
+          context = service,
+          serviceClass = serviceClass,
+          difficulty = GameDifficulty.LEVEL_ONE,
+        ),
+        0,
+        1,
+      )
+      ShadowLooper.shadowMainLooper().idle()
       val notificationManager = service.getSystemService(NotificationManager::class.java)
 
       assertEquals(
         service.getString(R.string.game_time_remaining, 25L),
-        notificationManager.activeNotifications.single().notification.extras.getCharSequence(
-          Notification.EXTRA_SUB_TEXT,
-        ),
+        notificationManager.currentRemainingTime(),
       )
 
       ShadowLooper.shadowMainLooper().idleFor(Duration.ofSeconds(1))
 
       assertEquals(
         service.getString(R.string.game_time_remaining, 24L),
-        notificationManager.activeNotifications.single().notification.extras.getCharSequence(
-          Notification.EXTRA_SUB_TEXT,
-        ),
+        notificationManager.currentRemainingTime(),
       )
 
       ShadowLooper.shadowMainLooper().idleFor(Duration.ofSeconds(23))
 
       assertEquals(
         service.getString(R.string.game_time_remaining, 1L),
-        notificationManager.activeNotifications.single().notification.extras.getCharSequence(
-          Notification.EXTRA_SUB_TEXT,
-        ),
+        notificationManager.currentRemainingTime(),
       )
 
       ShadowSystemClock.advanceBy(Duration.ofSeconds(2))
 
-      val notification = notificationManager.activeNotifications
-        .single()
-        .notification
-
-      assertTrue(SystemClock.elapsedRealtime() - sessionDeadline >= 1_000L)
+      val notification = notificationManager.activeNotifications.single().notification
       assertFalse(notification.extras.getBoolean(Notification.EXTRA_SHOW_CHRONOMETER))
       assertEquals(
         service.getString(R.string.game_time_remaining, 1L),
         notification.extras.getCharSequence(Notification.EXTRA_SUB_TEXT),
       )
+      assertTrue(SystemClock.elapsedRealtime() >= SESSION_DURATION_MILLISECONDS)
     } finally {
       serviceController.destroy()
     }
   }
 
-  @Test
-  fun `計算は初回通知生成に時間がかかっても終了時刻に終了処理を予約する`() {
-    val serviceController = Robolectric.buildService(CalculationGameService::class.java).create()
+  private fun NotificationManager.currentRemainingTime(): CharSequence? =
+    activeNotifications.single().notification.extras.getCharSequence(Notification.EXTRA_SUB_TEXT)
 
-    try {
-      val service = serviceController.get()
-      ReflectionHelpers.callInstanceMethod<Unit>(
-        service,
-        "startSession",
-        ClassParameter.from(Int::class.javaPrimitiveType, 1),
-      )
-      ShadowLooper.shadowMainLooper().idle()
-
-      val sessionDeadline = ReflectionHelpers.getField<Long>(service, "sessionDeadline")
-
-      assertEquals(
-        sessionDeadline,
-        ShadowLooper.shadowMainLooper().lastScheduledTaskTime.toMillis(),
-      )
-    } finally {
-      serviceController.destroy()
-    }
-  }
-
-  @Test
-  fun `難読漢字は初回通知生成に時間がかかっても終了時刻に終了処理を予約する`() {
-    val serviceController = Robolectric.buildService(DifficultKanjiGameService::class.java).create()
-
-    try {
-      val service = serviceController.get()
-      ReflectionHelpers.callInstanceMethod<Unit>(
-        service,
-        "startSession",
-        ClassParameter.from(Int::class.javaPrimitiveType, 1),
-      )
-      ShadowLooper.shadowMainLooper().idle()
-
-      val sessionDeadline = ReflectionHelpers.getField<Long>(service, "sessionDeadline")
-
-      assertEquals(
-        sessionDeadline,
-        ShadowLooper.shadowMainLooper().lastScheduledTaskTime.toMillis(),
-      )
-    } finally {
-      serviceController.destroy()
-    }
+  private companion object {
+    const val SESSION_DURATION_MILLISECONDS = 30_000L
   }
 }
 

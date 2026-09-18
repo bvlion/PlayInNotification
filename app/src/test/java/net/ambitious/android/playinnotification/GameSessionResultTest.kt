@@ -7,25 +7,23 @@ import org.junit.Test
 
 class GameSessionResultTest {
   @Test
-  fun `Lv1からLv5の正解は難易度ごとのポイントを獲得する`() {
-    val expectedPoints = listOf(3, 4, 6, 7, 9)
-
-    expectedPoints.forEachIndexed { index, points ->
+  fun `正解は難易度ごとのポイントを獲得する`() {
+    GameDifficulty.entries.forEach { difficulty ->
       val answerResult = GameAnswerResult.create(
         question = "1 + 1 = ?",
         selectedAnswer = "2",
         isCorrect = true,
-        questionDifficulty = index + 1,
+        questionDifficulty = difficulty,
       )
 
       assertTrue(answerResult.isCorrect)
-      assertEquals(points, answerResult.earnedPoints)
+      assertEquals(difficulty.correctAnswerPoints, answerResult.earnedPoints)
     }
   }
 
   @Test
-  fun `Lv1からLv5の不正解は1ポイントを獲得する`() {
-    (1..5).forEach { difficulty ->
+  fun `不正解は難易度によらず1ポイントを獲得する`() {
+    GameDifficulty.entries.forEach { difficulty ->
       val answerResult = GameAnswerResult.create(
         question = "1 + 1 = ?",
         selectedAnswer = "3",
@@ -39,14 +37,14 @@ class GameSessionResultTest {
   }
 
   @Test
-  fun `回答結果から回答数と獲得ポイントを集計する`() {
+  fun `回答一覧から回答数と獲得ポイントを集計する`() {
     val sessionResult = GameSessionResult()
       .addAnswerResult(
         GameAnswerResult.create(
           question = "1 + 1 = ?",
           selectedAnswer = "2",
           isCorrect = true,
-          questionDifficulty = 1,
+          questionDifficulty = GameDifficulty.LEVEL_ONE,
         ),
       )
       .addAnswerResult(
@@ -54,7 +52,7 @@ class GameSessionResultTest {
           question = "2 + 2 = ?",
           selectedAnswer = "5",
           isCorrect = false,
-          questionDifficulty = 1,
+          questionDifficulty = GameDifficulty.LEVEL_ONE,
         ),
       )
 

@@ -1,6 +1,6 @@
 package net.ambitious.android.playinnotification
 
 internal data class GameDifficultySettings(
-  val calculationDifficulty: Int = 1,
-  val difficultKanjiDifficulty: Int = 1,
+  val calculationDifficulty: GameDifficulty = GameDifficulty.initial,
+  val difficultKanjiDifficulty: GameDifficulty = GameDifficulty.initial,
 )

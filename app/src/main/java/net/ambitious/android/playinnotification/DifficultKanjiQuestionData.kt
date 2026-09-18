@@ -8,7 +8,7 @@ internal data class DifficultKanjiEntry(
 )
 
 internal object DifficultKanjiQuestionData {
-  const val fileName = "difficult_kanji_questions.tsv"
+  const val FILE_NAME = "difficult_kanji_questions.tsv"
 
   fun load(inputStream: InputStream): Map<Int, List<DifficultKanjiEntry>> =
     inputStream.bufferedReader().use { reader ->

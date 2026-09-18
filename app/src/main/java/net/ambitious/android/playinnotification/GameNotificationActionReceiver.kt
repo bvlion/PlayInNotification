@@ -16,7 +16,7 @@ class GameNotificationActionReceiver : BroadcastReceiver() {
     val pendingResult = goAsync()
     CoroutineScope(Dispatchers.IO).launch {
       try {
-        CalculationGameService.showGameSelection(
+        GameNotifications.showGameSelection(
           context = context.applicationContext,
           shouldReplaceResult = true,
         )
