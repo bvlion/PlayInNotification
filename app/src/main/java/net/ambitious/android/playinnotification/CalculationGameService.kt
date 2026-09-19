@@ -8,7 +8,7 @@ internal class CalculationGameService : GameSessionService<CalculationQuestion>(
     difficulty: GameDifficulty,
     askedQuestions: List<CalculationQuestion>,
   ): CalculationQuestion {
-    return CalculationQuestion.create(
+    return CalculationQuestionGenerator.create(
       difficulty = difficulty,
       askedQuestions = askedQuestions,
     )
