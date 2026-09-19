@@ -13,7 +13,7 @@ android {
     applicationId = "net.ambitious.android.playinnotification"
     minSdk = 31
     targetSdk = 37
-    versionCode = 4
+    versionCode = 5
     versionName = "1.0.0"
   }
 
