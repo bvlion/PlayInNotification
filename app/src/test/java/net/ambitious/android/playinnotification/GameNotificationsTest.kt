@@ -11,6 +11,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -94,9 +95,12 @@ class GameNotificationsTest {
   private fun assertOpensMainActivity(notification: Notification) {
     assertNotNull(notification.contentIntent)
     val contentIntent = checkNotNull(notification.contentIntent)
+    val intent = shadowOf(contentIntent).savedIntent
     assertEquals(
       ComponentName(context, MainActivity::class.java),
-      shadowOf(contentIntent).savedIntent.component,
+      intent.component,
     )
+    assertTrue(intent.flags and Intent.FLAG_ACTIVITY_CLEAR_TOP != 0)
+    assertTrue(intent.flags and Intent.FLAG_ACTIVITY_SINGLE_TOP != 0)
   }
 }
