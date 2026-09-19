@@ -5,6 +5,8 @@ import kotlin.random.Random
 private const val ADDITIVE_OPERATOR_PRECEDENCE = 1
 private const val MULTIPLICATIVE_OPERATOR_PRECEDENCE = 2
 private const val ANSWER_CHOICE_COUNT = 3
+// 乱数が偏っても、問題生成で通知の応答を無制限に待たせない。
+private const val MAX_CANDIDATE_ATTEMPTS = 1_000
 
 internal data class CalculationQuestion(
   val leftOperand: Int,
@@ -64,8 +66,7 @@ internal data class CalculationQuestion(
       askedQuestions: Collection<CalculationQuestion>,
       random: Random,
     ): CalculationQuestion {
-      var question: CalculationQuestion? = null
-      while (question == null) {
+      repeat(MAX_CANDIDATE_ATTEMPTS) {
         val operator = when {
           difficulty == GameDifficulty.LEVEL_THREE && random.nextBoolean() -> {
             CalculationOperator.DIVISION
@@ -104,10 +105,10 @@ internal data class CalculationQuestion(
         val isExcludedZeroAnswer =
           difficulty == GameDifficulty.LEVEL_ONE && candidate.correctAnswer == 0
         if (!isExcludedZeroAnswer && askedQuestions.none(candidate::hasSameExpression)) {
-          question = candidate
+          return candidate
         }
       }
-      return question
+      error("計算問題の生成候補を選べませんでした")
     }
 
     private fun createCompoundQuestion(
@@ -115,8 +116,7 @@ internal data class CalculationQuestion(
       askedQuestions: Collection<CalculationQuestion>,
       random: Random,
     ): CalculationQuestion {
-      var question: CalculationQuestion? = null
-      while (question == null) {
+      repeat(MAX_CANDIDATE_ATTEMPTS) {
         val operator = CalculationOperator.entries.random(random)
         val secondOperator = CalculationOperator.entries
           .filter { it != operator }
@@ -127,68 +127,46 @@ internal data class CalculationQuestion(
         val hasOneAsMultiplicativeOperand =
           (operator.isMultiplicative && (leftOperand == 1 || rightOperand == 1)) ||
           (secondOperator.isMultiplicative && (rightOperand == 1 || thirdOperand == 1))
-
-        val calculationResult = when {
-          hasOneAsMultiplicativeOperand -> null
-          secondOperator.precedence > operator.precedence -> {
-            if (
-              secondOperator == CalculationOperator.DIVISION &&
-              rightOperand % thirdOperand != 0
-            ) {
-              null
-            } else {
-              operator.calculate(
-                leftOperand,
-                secondOperator.calculate(rightOperand, thirdOperand),
-              )
-            }
-          }
-          operator == CalculationOperator.DIVISION && leftOperand % rightOperand != 0 -> null
-          else -> {
-            val leftResult = operator.calculate(leftOperand, rightOperand)
-            if (
-              secondOperator == CalculationOperator.DIVISION &&
-              leftResult % thirdOperand != 0
-            ) {
-              null
-            } else {
-              secondOperator.calculate(leftResult, thirdOperand)
-            }
-          }
+        val hasNonIntegralDivision = when {
+          secondOperator.precedence > operator.precedence ->
+            secondOperator == CalculationOperator.DIVISION && rightOperand % thirdOperand != 0
+          operator == CalculationOperator.DIVISION && leftOperand % rightOperand != 0 -> true
+          secondOperator == CalculationOperator.DIVISION ->
+            operator.calculate(leftOperand, rightOperand) % thirdOperand != 0
+          else -> false
         }
+        if (hasOneAsMultiplicativeOperand || hasNonIntegralDivision) return@repeat
 
-        if (calculationResult != null && calculationResult >= 0) {
-          val missingOperandIndex = if (difficulty == GameDifficulty.LEVEL_FIVE) {
-            (0..2).random(random)
-          } else {
-            null
-          }
-          val correctAnswer = when (missingOperandIndex) {
-            0 -> leftOperand
-            1 -> rightOperand
-            2 -> thirdOperand
-            else -> calculationResult
-          }
-          val wrongAnswerRange = if (difficulty == GameDifficulty.LEVEL_FIVE) 0..9 else 0..90
-          val wrongAnswers = wrongAnswerRange
-            .filter { it != correctAnswer }
-            .shuffled(random)
-            .take(ANSWER_CHOICE_COUNT - 1)
-          val candidate = CalculationQuestion(
-            leftOperand = leftOperand,
-            rightOperand = rightOperand,
-            operator = operator,
-            choices = (wrongAnswers + correctAnswer).shuffled(random),
-            thirdOperand = thirdOperand,
-            secondOperator = secondOperator,
-            missingOperandIndex = missingOperandIndex,
-          )
-          if (askedQuestions.none(candidate::hasSameExpression)) {
-            question = candidate
-          }
+        val expression = CalculationQuestion(
+          leftOperand = leftOperand,
+          rightOperand = rightOperand,
+          operator = operator,
+          choices = emptyList(),
+          thirdOperand = thirdOperand,
+          secondOperator = secondOperator,
+        )
+        if (expression.calculationResult < 0) return@repeat
+
+        val missingOperandIndex = if (difficulty == GameDifficulty.LEVEL_FIVE) {
+          (0..2).random(random)
+        } else {
+          null
+        }
+        val answerExpression = expression.copy(missingOperandIndex = missingOperandIndex)
+        val correctAnswer = answerExpression.correctAnswer
+        val wrongAnswerRange = if (difficulty == GameDifficulty.LEVEL_FIVE) 0..9 else 0..90
+        val wrongAnswers = wrongAnswerRange
+          .filter { it != correctAnswer }
+          .shuffled(random)
+          .take(ANSWER_CHOICE_COUNT - 1)
+        val candidate = answerExpression.copy(
+          choices = (wrongAnswers + correctAnswer).shuffled(random),
+        )
+        if (askedQuestions.none(candidate::hasSameExpression)) {
+          return candidate
         }
       }
-      return question
+      error("計算問題の生成候補を選べませんでした")
     }
   }
 }
