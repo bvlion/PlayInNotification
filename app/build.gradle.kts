@@ -1,6 +1,6 @@
 plugins {
-  id("com.android.application")
-  id("org.jetbrains.kotlin.plugin.compose")
+  alias(libs.plugins.android.application)
+  alias(libs.plugins.kotlin.compose)
 }
 
 val releaseKeystoreFile = rootProject.file("release.jks")
@@ -59,12 +59,11 @@ android {
 }
 
 dependencies {
-  val composeBom = platform("androidx.compose:compose-bom:2026.08.00")
-  implementation(composeBom)
-  implementation("androidx.activity:activity-compose:1.13.0")
-  implementation("androidx.compose.material3:material3")
-  implementation("androidx.datastore:datastore-preferences:1.2.1")
-  implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
-  testImplementation("junit:junit:4.13.2")
-  testImplementation("org.robolectric:robolectric:4.17")
+  implementation(platform(libs.androidx.compose.bom))
+  implementation(libs.androidx.activity.compose)
+  implementation(libs.androidx.compose.material3)
+  implementation(libs.androidx.datastore.preferences)
+  implementation(libs.androidx.lifecycle.runtime.compose)
+  testImplementation(libs.junit)
+  testImplementation(libs.robolectric)
 }
