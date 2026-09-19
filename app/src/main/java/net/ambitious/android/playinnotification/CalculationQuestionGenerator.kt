@@ -2,7 +2,24 @@ package net.ambitious.android.playinnotification
 
 import kotlin.random.Random
 
-private const val ANSWER_CHOICE_COUNT = 3
+private const val CORRECT_ANSWER_COUNT = 1
+private const val WRONG_ANSWER_COUNT = 2
+private const val ANSWER_CHOICE_COUNT = CORRECT_ANSWER_COUNT + WRONG_ANSWER_COUNT
+private const val UNIFORM_SELECTION_WEIGHT_PER_OPERAND_PAIR = 1
+private const val ADDITIVE_SELECTION_WEIGHT_PER_OPERAND_PAIR = 32
+private const val MULTIPLICATION_SELECTION_WEIGHT_PER_OPERAND_PAIR = 81
+private const val DIVISION_SELECTION_WEIGHT_PER_OPERAND_PAIR = 162
+private const val LEVEL_ONE_EXCLUDED_CORRECT_ANSWER = 0
+private const val EXCLUDED_MULTIPLICATIVE_OPERAND = 1
+private const val EXACT_DIVISION_REMAINDER = 0
+private const val MINIMUM_COMPOUND_RESULT = 0
+private val BASIC_ADDITIVE_OPERAND_RANGE = 1..9
+private val BASIC_MULTIPLICATIVE_FACTOR_RANGE = 2..9
+private val COMPOUND_OPERAND_RANGE = 1..9
+private val LEVEL_ONE_WRONG_ANSWER_RANGE = 0..18
+private val LEVEL_TWO_AND_THREE_WRONG_ANSWER_RANGE = 0..81
+private val LEVEL_FOUR_WRONG_ANSWER_RANGE = 0..90
+private val LEVEL_FIVE_WRONG_ANSWER_RANGE = 0..9
 
 private data class CalculationCandidate(
   val leftOperand: Int,
@@ -12,12 +29,12 @@ private data class CalculationCandidate(
   val thirdOperand: Int? = null,
   val secondOperator: CalculationOperator? = null,
   val missingOperandIndex: Int? = null,
-  val selectionWeight: Int = 1,
+  val selectionWeight: Int = UNIFORM_SELECTION_WEIGHT_PER_OPERAND_PAIR,
 ) {
   val correctAnswer: Int = when (missingOperandIndex) {
-    0 -> leftOperand
-    1 -> rightOperand
-    2 -> requireNotNull(thirdOperand)
+    MISSING_LEFT_OPERAND_INDEX -> leftOperand
+    MISSING_RIGHT_OPERAND_INDEX -> rightOperand
+    MISSING_THIRD_OPERAND_INDEX -> requireNotNull(thirdOperand)
     else -> calculationResult
   }
 
@@ -73,7 +90,11 @@ internal object CalculationQuestionGenerator {
       else -> error("基本計算の難易度ではありません")
     }
     for (operator in operators) {
-      val operandRange = if (operator.isMultiplicative) 2..9 else 1..9
+      val operandRange = if (operator.isMultiplicative) {
+        BASIC_MULTIPLICATIVE_FACTOR_RANGE
+      } else {
+        BASIC_ADDITIVE_OPERAND_RANGE
+      }
       for (firstOperand in operandRange) {
         for (secondOperand in operandRange) {
           val leftOperand = when (operator) {
@@ -87,7 +108,10 @@ internal object CalculationQuestionGenerator {
             secondOperand
           }
           val calculationResult = operator.calculate(leftOperand, rightOperand)
-          if (difficulty != GameDifficulty.LEVEL_ONE || calculationResult != 0) {
+          if (
+            difficulty != GameDifficulty.LEVEL_ONE ||
+            calculationResult != LEVEL_ONE_EXCLUDED_CORRECT_ANSWER
+          ) {
             add(
               CalculationCandidate(
                 leftOperand = leftOperand,
@@ -103,17 +127,21 @@ internal object CalculationQuestionGenerator {
     }
   }
 
-  // 元の演算子抽選確率を値の組数（加減算81通り、乗除算64通り）で割った比を整数化する。
+  // 元の演算子抽選比率を値の組ごとに配分し、引き算の順序違いも別の抽選枠として残す。
   private fun basicSelectionWeight(
     difficulty: GameDifficulty,
     operator: CalculationOperator,
   ): Int = when (difficulty) {
-    GameDifficulty.LEVEL_ONE -> 1
-    GameDifficulty.LEVEL_TWO -> if (operator.isMultiplicative) 81 else 32
+    GameDifficulty.LEVEL_ONE -> UNIFORM_SELECTION_WEIGHT_PER_OPERAND_PAIR
+    GameDifficulty.LEVEL_TWO -> if (operator.isMultiplicative) {
+      MULTIPLICATION_SELECTION_WEIGHT_PER_OPERAND_PAIR
+    } else {
+      ADDITIVE_SELECTION_WEIGHT_PER_OPERAND_PAIR
+    }
     GameDifficulty.LEVEL_THREE -> when (operator) {
-      CalculationOperator.DIVISION -> 162
-      CalculationOperator.MULTIPLICATION -> 81
-      else -> 32
+      CalculationOperator.DIVISION -> DIVISION_SELECTION_WEIGHT_PER_OPERAND_PAIR
+      CalculationOperator.MULTIPLICATION -> MULTIPLICATION_SELECTION_WEIGHT_PER_OPERAND_PAIR
+      else -> ADDITIVE_SELECTION_WEIGHT_PER_OPERAND_PAIR
     }
     else -> error("基本計算の難易度ではありません")
   }
@@ -121,15 +149,19 @@ internal object CalculationQuestionGenerator {
   private fun compoundCandidates(difficulty: GameDifficulty): List<CalculationCandidate> =
     buildList {
       val missingOperandIndexes: List<Int?> = if (difficulty == GameDifficulty.LEVEL_FIVE) {
-        listOf(0, 1, 2)
+        listOf(
+          MISSING_LEFT_OPERAND_INDEX,
+          MISSING_RIGHT_OPERAND_INDEX,
+          MISSING_THIRD_OPERAND_INDEX,
+        )
       } else {
         listOf(null)
       }
       for (operator in CalculationOperator.entries) {
         for (secondOperator in CalculationOperator.entries.filter { it != operator }) {
-          for (leftOperand in 1..9) {
-            for (rightOperand in 1..9) {
-              for (thirdOperand in 1..9) {
+          for (leftOperand in COMPOUND_OPERAND_RANGE) {
+            for (rightOperand in COMPOUND_OPERAND_RANGE) {
+              for (thirdOperand in COMPOUND_OPERAND_RANGE) {
                 val calculationResult = compoundCalculationResultOrNull(
                   operator,
                   secondOperator,
@@ -167,27 +199,40 @@ internal object CalculationQuestionGenerator {
     thirdOperand: Int,
   ): Int? {
     if (
-      (operator.isMultiplicative && (leftOperand == 1 || rightOperand == 1)) ||
-      (secondOperator.isMultiplicative && (rightOperand == 1 || thirdOperand == 1))
+      (operator.isMultiplicative &&
+        (leftOperand == EXCLUDED_MULTIPLICATIVE_OPERAND ||
+          rightOperand == EXCLUDED_MULTIPLICATIVE_OPERAND)) ||
+      (secondOperator.isMultiplicative &&
+        (rightOperand == EXCLUDED_MULTIPLICATIVE_OPERAND ||
+          thirdOperand == EXCLUDED_MULTIPLICATIVE_OPERAND))
     ) {
       return null
     }
     val calculationResult = if (secondOperator.precedence > operator.precedence) {
-      if (secondOperator == CalculationOperator.DIVISION && rightOperand % thirdOperand != 0) {
+      if (
+        secondOperator == CalculationOperator.DIVISION &&
+        rightOperand % thirdOperand != EXACT_DIVISION_REMAINDER
+      ) {
         return null
       }
       operator.calculate(leftOperand, secondOperator.calculate(rightOperand, thirdOperand))
     } else {
-      if (operator == CalculationOperator.DIVISION && leftOperand % rightOperand != 0) {
+      if (
+        operator == CalculationOperator.DIVISION &&
+        leftOperand % rightOperand != EXACT_DIVISION_REMAINDER
+      ) {
         return null
       }
       val leftResult = operator.calculate(leftOperand, rightOperand)
-      if (secondOperator == CalculationOperator.DIVISION && leftResult % thirdOperand != 0) {
+      if (
+        secondOperator == CalculationOperator.DIVISION &&
+        leftResult % thirdOperand != EXACT_DIVISION_REMAINDER
+      ) {
         return null
       }
       secondOperator.calculate(leftResult, thirdOperand)
     }
-    return calculationResult.takeIf { it >= 0 }
+    return calculationResult.takeIf { it >= MINIMUM_COMPOUND_RESULT }
   }
 
   private fun selectCandidate(
@@ -208,21 +253,24 @@ internal object CalculationQuestionGenerator {
     random: Random,
   ): CalculationQuestion {
     val wrongAnswerRange = when (difficulty) {
-      GameDifficulty.LEVEL_ONE -> 0..18
+      GameDifficulty.LEVEL_ONE -> LEVEL_ONE_WRONG_ANSWER_RANGE
       GameDifficulty.LEVEL_TWO,
-      GameDifficulty.LEVEL_THREE -> 0..81
-      GameDifficulty.LEVEL_FOUR -> 0..90
-      GameDifficulty.LEVEL_FIVE -> 0..9
+      GameDifficulty.LEVEL_THREE -> LEVEL_TWO_AND_THREE_WRONG_ANSWER_RANGE
+      GameDifficulty.LEVEL_FOUR -> LEVEL_FOUR_WRONG_ANSWER_RANGE
+      GameDifficulty.LEVEL_FIVE -> LEVEL_FIVE_WRONG_ANSWER_RANGE
     }
     val wrongAnswers = wrongAnswerRange
       .filter { it != candidate.correctAnswer }
       .shuffled(random)
-      .take(ANSWER_CHOICE_COUNT - 1)
+      .take(WRONG_ANSWER_COUNT)
     return CalculationQuestion(
       leftOperand = candidate.leftOperand,
       rightOperand = candidate.rightOperand,
       operator = candidate.operator,
-      choices = (wrongAnswers + candidate.correctAnswer).shuffled(random),
+      choices = buildList(ANSWER_CHOICE_COUNT) {
+        addAll(wrongAnswers)
+        add(candidate.correctAnswer)
+      }.shuffled(random),
       thirdOperand = candidate.thirdOperand,
       secondOperator = candidate.secondOperator,
       missingOperandIndex = candidate.missingOperandIndex,

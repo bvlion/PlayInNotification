@@ -2,6 +2,9 @@ package net.ambitious.android.playinnotification
 
 private const val ADDITIVE_OPERATOR_PRECEDENCE = 1
 private const val MULTIPLICATIVE_OPERATOR_PRECEDENCE = 2
+internal const val MISSING_LEFT_OPERAND_INDEX = 0
+internal const val MISSING_RIGHT_OPERAND_INDEX = 1
+internal const val MISSING_THIRD_OPERAND_INDEX = 2
 
 internal data class CalculationQuestion(
   val leftOperand: Int,
@@ -27,9 +30,9 @@ internal data class CalculationQuestion(
   }
 
   val correctAnswer = when (missingOperandIndex) {
-    0 -> leftOperand
-    1 -> rightOperand
-    2 -> requireNotNull(thirdOperand)
+    MISSING_LEFT_OPERAND_INDEX -> leftOperand
+    MISSING_RIGHT_OPERAND_INDEX -> rightOperand
+    MISSING_THIRD_OPERAND_INDEX -> requireNotNull(thirdOperand)
     else -> calculationResult
   }
 }

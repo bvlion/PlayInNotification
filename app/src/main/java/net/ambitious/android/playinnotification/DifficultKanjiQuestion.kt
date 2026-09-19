@@ -2,7 +2,10 @@ package net.ambitious.android.playinnotification
 
 import kotlin.random.Random
 
-private const val ANSWER_CHOICE_COUNT = 3
+private const val CORRECT_ANSWER_COUNT = 1
+private const val WRONG_ANSWER_COUNT = 2
+private const val ANSWER_CHOICE_COUNT = CORRECT_ANSWER_COUNT + WRONG_ANSWER_COUNT
+private const val IGNORED_WRITTEN_FORM_SIMILARITY_SCORE = 0
 
 internal data class DifficultKanjiQuestion(
   val direction: DifficultKanjiQuestionDirection,
@@ -67,7 +70,8 @@ internal data class DifficultKanjiQuestion(
             kotlin.math.abs(it.reading.length - correctEntry.reading.length)
           }.thenByDescending {
             when (direction) {
-              DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> 0
+              DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING ->
+                IGNORED_WRITTEN_FORM_SIMILARITY_SCORE
               DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> {
                 it.writtenForm.commonPrefixWith(correctEntry.writtenForm).length +
                   it.writtenForm.commonSuffixWith(correctEntry.writtenForm).length
@@ -75,7 +79,7 @@ internal data class DifficultKanjiQuestion(
             }
           },
         )
-        .take(ANSWER_CHOICE_COUNT - 1)
+        .take(WRONG_ANSWER_COUNT)
       val wrongAnswers = wrongAnswerEntries.map {
         when (direction) {
           DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> it.reading
@@ -83,13 +87,16 @@ internal data class DifficultKanjiQuestion(
         }
       }
 
-      require(wrongAnswers.size == ANSWER_CHOICE_COUNT - 1) {
+      require(wrongAnswers.size == WRONG_ANSWER_COUNT) {
         "3択の誤答候補を構成できません"
       }
       return DifficultKanjiQuestion(
         direction = direction,
         entry = correctEntry,
-        choices = (wrongAnswers + correctAnswer).shuffled(random),
+        choices = buildList(ANSWER_CHOICE_COUNT) {
+          addAll(wrongAnswers)
+          add(correctAnswer)
+        }.shuffled(random),
       )
     }
   }
