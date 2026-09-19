@@ -336,6 +336,31 @@ class CalculationQuestionTest {
   }
 
   @Test
+  fun `Lv4とLv5の除算は演算順に応じた被除数を割り切れる`() {
+    listOf(GameDifficulty.LEVEL_FOUR, GameDifficulty.LEVEL_FIVE).forEach { difficulty ->
+      val random = Random(difficulty.level + 40)
+
+      repeat(1_000) {
+        val question = CalculationQuestion.create(difficulty = difficulty, random = random)
+        val secondOperator = requireNotNull(question.secondOperator)
+        val thirdOperand = requireNotNull(question.thirdOperand)
+
+        if (question.operator == CalculationOperator.DIVISION) {
+          assertEquals(0, question.leftOperand % question.rightOperand)
+        }
+        if (secondOperator == CalculationOperator.DIVISION) {
+          val dividend = if (secondOperator.precedence > question.operator.precedence) {
+            question.rightOperand
+          } else {
+            question.operator.calculate(question.leftOperand, question.rightOperand)
+          }
+          assertEquals(0, dividend % thirdOperand)
+        }
+      }
+    }
+  }
+
+  @Test
   fun `Lv4は直前と同じ問題を連続して出題しない`() {
     val random = Random(10)
     var previousQuestion: CalculationQuestion? = null
