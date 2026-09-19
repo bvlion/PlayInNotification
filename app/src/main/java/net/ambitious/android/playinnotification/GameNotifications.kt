@@ -82,6 +82,7 @@ internal object GameNotifications {
     val notification = Notification.Builder(context, CHANNEL_ID)
       .setSmallIcon(R.drawable.ic_launcher_foreground)
       .setContentTitle(context.getString(R.string.game_selection_title))
+      .setContentIntent(createMainActivityPendingIntent(context))
       .setOngoing(true)
       .setOnlyAlertOnce(true)
       .addAction(
@@ -218,6 +219,16 @@ internal object GameNotifications {
       notification,
     )
   }
+
+  private fun createMainActivityPendingIntent(context: Context): PendingIntent =
+    PendingIntent.getActivity(
+      context,
+      0,
+      Intent(context, MainActivity::class.java).addFlags(
+        Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP,
+      ),
+      PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+    )
 
   private fun GameSessionResult.summary(context: Context): String = context.getString(
     R.string.session_result_summary,
