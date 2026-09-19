@@ -21,7 +21,7 @@ internal class CalculationGameService : GameSessionService<CalculationQuestion>(
       question.secondOperator != null
     ) {
       when (question.missingOperandIndex) {
-        0 -> getString(
+        MISSING_LEFT_OPERAND_INDEX -> getString(
           R.string.calculation_missing_left_operand_question,
           question.operator.symbol,
           question.rightOperand,
@@ -29,7 +29,7 @@ internal class CalculationGameService : GameSessionService<CalculationQuestion>(
           question.thirdOperand,
           question.calculationResult,
         )
-        1 -> getString(
+        MISSING_RIGHT_OPERAND_INDEX -> getString(
           R.string.calculation_missing_right_operand_question,
           question.leftOperand,
           question.operator.symbol,
@@ -37,7 +37,7 @@ internal class CalculationGameService : GameSessionService<CalculationQuestion>(
           question.thirdOperand,
           question.calculationResult,
         )
-        else -> getString(
+        MISSING_THIRD_OPERAND_INDEX -> getString(
           R.string.calculation_missing_third_operand_question,
           question.leftOperand,
           question.operator.symbol,
@@ -45,6 +45,7 @@ internal class CalculationGameService : GameSessionService<CalculationQuestion>(
           question.secondOperator.symbol,
           question.calculationResult,
         )
+        else -> error("欠損位置が不正です")
       }
     } else if (question.thirdOperand == null || question.secondOperator == null) {
       getString(
