@@ -13,7 +13,7 @@ class CalculationQuestionTest {
       val askedQuestions = mutableListOf<CalculationQuestion>()
 
       repeat(30) {
-        val question = CalculationQuestion.create(
+        val question = CalculationQuestionGenerator.create(
           difficulty = difficulty,
           askedQuestions = askedQuestions,
           random = random,
@@ -35,11 +35,11 @@ class CalculationQuestionTest {
   @Test
   fun `新しいセッションでは以前に出た計算問題を再出題できる`() {
     GameDifficulty.entries.forEach { difficulty ->
-      val firstQuestion = CalculationQuestion.create(
+      val firstQuestion = CalculationQuestionGenerator.create(
         difficulty = difficulty,
         random = Random(difficulty.level + 30),
       )
-      val nextSessionQuestion = CalculationQuestion.create(
+      val nextSessionQuestion = CalculationQuestionGenerator.create(
         difficulty = difficulty,
         random = Random(difficulty.level + 30),
         askedQuestions = emptyList(),
@@ -55,7 +55,7 @@ class CalculationQuestionTest {
     val generatedOperators = mutableSetOf<CalculationOperator>()
 
     repeat(1_000) {
-      val question = CalculationQuestion.create(random = random)
+      val question = CalculationQuestionGenerator.create(random = random)
 
       assertTrue(question.leftOperand in 1..9)
       assertTrue(question.rightOperand in 1..9)
@@ -86,7 +86,7 @@ class CalculationQuestionTest {
     var previousQuestion: CalculationQuestion? = null
 
     repeat(1_000) {
-      val question = CalculationQuestion.create(
+      val question = CalculationQuestionGenerator.create(
         askedQuestions = listOfNotNull(previousQuestion),
         random = random,
       )
@@ -107,7 +107,7 @@ class CalculationQuestionTest {
     val random = Random(13)
 
     repeat(1_000) {
-      val question = CalculationQuestion.create(random = random)
+      val question = CalculationQuestionGenerator.create(random = random)
 
       assertEquals(3, question.choices.size)
       assertEquals(3, question.choices.distinct().size)
@@ -116,12 +116,41 @@ class CalculationQuestionTest {
   }
 
   @Test
+  fun `難易度ごとの誤答範囲を維持する`() {
+    GameDifficulty.entries.forEach { difficulty ->
+      val wrongAnswerRange = when (difficulty) {
+        GameDifficulty.LEVEL_ONE -> 0..18
+        GameDifficulty.LEVEL_TWO,
+        GameDifficulty.LEVEL_THREE -> 0..81
+        GameDifficulty.LEVEL_FOUR -> 0..90
+        GameDifficulty.LEVEL_FIVE -> 0..9
+      }
+      val random = Random(difficulty.level + 50)
+
+      repeat(100) {
+        val question = CalculationQuestionGenerator.create(difficulty = difficulty, random = random)
+        assertTrue(question.choices.filter { it != question.correctAnswer }.all { it in wrongAnswerRange })
+      }
+    }
+  }
+
+  @Test
+  fun `Lv1は0の答えを除いた後も元の演算子抽選比率を維持する`() {
+    val random = Random(14)
+    val additions = List(10_000) {
+      CalculationQuestionGenerator.create(random = random).operator
+    }.count { it == CalculationOperator.ADDITION }
+
+    assertTrue(additions in 5_100..5_500)
+  }
+
+  @Test
   fun `Lv2は約半数の掛け算と残りの足し算または引き算になる`() {
     val random = Random(3)
     val generatedOperators = mutableListOf<CalculationOperator>()
 
     repeat(10_000) {
-      generatedOperators += CalculationQuestion.create(
+      generatedOperators += CalculationQuestionGenerator.create(
         difficulty = GameDifficulty.LEVEL_TWO,
         random = random,
       ).operator
@@ -137,7 +166,7 @@ class CalculationQuestionTest {
     val random = Random(4)
 
     repeat(1_000) {
-      val question = CalculationQuestion.create(
+      val question = CalculationQuestionGenerator.create(
         difficulty = GameDifficulty.LEVEL_TWO,
         random = random,
       )
@@ -173,7 +202,7 @@ class CalculationQuestionTest {
     var previousQuestion: CalculationQuestion? = null
 
     repeat(1_000) {
-      val question = CalculationQuestion.create(
+      val question = CalculationQuestionGenerator.create(
         difficulty = GameDifficulty.LEVEL_TWO,
         askedQuestions = listOfNotNull(previousQuestion),
         random = random,
@@ -196,7 +225,7 @@ class CalculationQuestionTest {
     val generatedOperators = mutableListOf<CalculationOperator>()
 
     repeat(10_000) {
-      generatedOperators += CalculationQuestion.create(
+      generatedOperators += CalculationQuestionGenerator.create(
         difficulty = GameDifficulty.LEVEL_THREE,
         random = random,
       ).operator
@@ -213,7 +242,7 @@ class CalculationQuestionTest {
     val random = Random(7)
 
     repeat(1_000) {
-      val question = CalculationQuestion.create(
+      val question = CalculationQuestionGenerator.create(
         difficulty = GameDifficulty.LEVEL_THREE,
         random = random,
       )
@@ -254,7 +283,7 @@ class CalculationQuestionTest {
     var previousQuestion: CalculationQuestion? = null
 
     repeat(1_000) {
-      val question = CalculationQuestion.create(
+      val question = CalculationQuestionGenerator.create(
         difficulty = GameDifficulty.LEVEL_THREE,
         askedQuestions = listOfNotNull(previousQuestion),
         random = random,
@@ -277,7 +306,7 @@ class CalculationQuestionTest {
     val generatedOperatorPairs = mutableSetOf<Pair<CalculationOperator, CalculationOperator>>()
 
     repeat(10_000) {
-      val question = CalculationQuestion.create(
+      val question = CalculationQuestionGenerator.create(
         difficulty = GameDifficulty.LEVEL_FOUR,
         random = random,
       )
@@ -341,7 +370,7 @@ class CalculationQuestionTest {
       val random = Random(difficulty.level + 40)
 
       repeat(1_000) {
-        val question = CalculationQuestion.create(difficulty = difficulty, random = random)
+        val question = CalculationQuestionGenerator.create(difficulty = difficulty, random = random)
         val secondOperator = requireNotNull(question.secondOperator)
         val thirdOperand = requireNotNull(question.thirdOperand)
 
@@ -366,7 +395,7 @@ class CalculationQuestionTest {
     var previousQuestion: CalculationQuestion? = null
 
     repeat(1_000) {
-      val question = CalculationQuestion.create(
+      val question = CalculationQuestionGenerator.create(
         difficulty = GameDifficulty.LEVEL_FOUR,
         askedQuestions = listOfNotNull(previousQuestion),
         random = random,
@@ -391,7 +420,7 @@ class CalculationQuestionTest {
     val generatedMissingOperandIndexes = mutableSetOf<Int>()
 
     repeat(10_000) {
-      val question = CalculationQuestion.create(
+      val question = CalculationQuestionGenerator.create(
         difficulty = GameDifficulty.LEVEL_FIVE,
         random = random,
       )
@@ -453,7 +482,7 @@ class CalculationQuestionTest {
     var previousQuestion: CalculationQuestion? = null
 
     repeat(1_000) {
-      val question = CalculationQuestion.create(
+      val question = CalculationQuestionGenerator.create(
         difficulty = GameDifficulty.LEVEL_FIVE,
         askedQuestions = listOfNotNull(previousQuestion),
         random = random,
