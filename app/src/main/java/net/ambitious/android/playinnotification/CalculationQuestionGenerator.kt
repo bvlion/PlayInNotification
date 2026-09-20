@@ -6,7 +6,10 @@ private const val CORRECT_ANSWER_COUNT = 1
 private const val WRONG_ANSWER_COUNT = 2
 private const val ANSWER_CHOICE_COUNT = CORRECT_ANSWER_COUNT + WRONG_ANSWER_COUNT
 private const val UNIFORM_SELECTION_WEIGHT_PER_OPERAND_PAIR = 1
-private const val ADDITIVE_SELECTION_WEIGHT_PER_OPERAND_PAIR = 32
+private const val ADDITION_SELECTION_WEIGHT_PER_OPERAND_PAIR = 32
+private const val SUBTRACTION_SELECTION_WEIGHT_PER_OPERAND_PAIR = 58
+private const val LEVEL_ONE_ADDITION_SELECTION_WEIGHT_PER_OPERAND_PAIR = 45
+private const val LEVEL_ONE_SUBTRACTION_SELECTION_WEIGHT_PER_OPERAND_PAIR = 101
 private const val MULTIPLICATION_SELECTION_WEIGHT_PER_OPERAND_PAIR = 81
 private const val DIVISION_SELECTION_WEIGHT_PER_OPERAND_PAIR = 162
 private const val LEVEL_ONE_EXCLUDED_CORRECT_ANSWER = 0
@@ -71,7 +74,19 @@ internal object CalculationQuestionGenerator {
     } else {
       candidates.filter { candidate -> askedQuestions.none(candidate::hasSameExpression) }
     }
-    val selectedCandidate = selectCandidate(availableCandidates, random)
+    val selectedCandidate = when (difficulty) {
+      GameDifficulty.LEVEL_ONE,
+      GameDifficulty.LEVEL_TWO,
+      GameDifficulty.LEVEL_THREE -> selectCandidate(availableCandidates, random)
+      GameDifficulty.LEVEL_FOUR,
+      GameDifficulty.LEVEL_FIVE -> {
+        availableCandidates
+          .groupBy { candidate -> candidate.operator to candidate.secondOperator }
+          .values
+          .random(random)
+          .random(random)
+      }
+    }
     return completeQuestion(selectedCandidate, difficulty, random)
   }
 
@@ -125,23 +140,39 @@ internal object CalculationQuestionGenerator {
         }
       }
     }
+  }.distinctBy { candidate ->
+    listOf(
+      candidate.leftOperand,
+      candidate.rightOperand,
+      candidate.operator,
+      candidate.calculationResult,
+    )
   }
 
-  // 元の演算子抽選比率を値の組ごとに配分し、引き算の順序違いも別の抽選枠として残す。
+  // 演算子の抽選比率を維持しつつ、同じ引き算の重複抽選を除く。
   private fun basicSelectionWeight(
     difficulty: GameDifficulty,
     operator: CalculationOperator,
   ): Int = when (difficulty) {
-    GameDifficulty.LEVEL_ONE -> UNIFORM_SELECTION_WEIGHT_PER_OPERAND_PAIR
+    GameDifficulty.LEVEL_ONE -> when (operator) {
+      CalculationOperator.ADDITION -> LEVEL_ONE_ADDITION_SELECTION_WEIGHT_PER_OPERAND_PAIR
+      CalculationOperator.SUBTRACTION -> LEVEL_ONE_SUBTRACTION_SELECTION_WEIGHT_PER_OPERAND_PAIR
+      else -> error("Lv1で使用しない演算子です")
+    }
     GameDifficulty.LEVEL_TWO -> if (operator.isMultiplicative) {
       MULTIPLICATION_SELECTION_WEIGHT_PER_OPERAND_PAIR
     } else {
-      ADDITIVE_SELECTION_WEIGHT_PER_OPERAND_PAIR
+      when (operator) {
+        CalculationOperator.ADDITION -> ADDITION_SELECTION_WEIGHT_PER_OPERAND_PAIR
+        CalculationOperator.SUBTRACTION -> SUBTRACTION_SELECTION_WEIGHT_PER_OPERAND_PAIR
+        else -> error("Lv2で使用しない演算子です")
+      }
     }
     GameDifficulty.LEVEL_THREE -> when (operator) {
       CalculationOperator.DIVISION -> DIVISION_SELECTION_WEIGHT_PER_OPERAND_PAIR
       CalculationOperator.MULTIPLICATION -> MULTIPLICATION_SELECTION_WEIGHT_PER_OPERAND_PAIR
-      else -> ADDITIVE_SELECTION_WEIGHT_PER_OPERAND_PAIR
+      CalculationOperator.ADDITION -> ADDITION_SELECTION_WEIGHT_PER_OPERAND_PAIR
+      CalculationOperator.SUBTRACTION -> SUBTRACTION_SELECTION_WEIGHT_PER_OPERAND_PAIR
     }
     else -> error("基本計算の難易度ではありません")
   }

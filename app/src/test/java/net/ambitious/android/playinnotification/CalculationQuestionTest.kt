@@ -135,13 +135,13 @@ class CalculationQuestionTest {
   }
 
   @Test
-  fun `Lv1は0の答えを除いた後も元の演算子抽選比率を維持する`() {
+  fun `Lv1は重複候補を除いた後も足し算と引き算を同程度に出題する`() {
     val random = Random(14)
     val additions = List(10_000) {
       CalculationQuestionGenerator.create(random = random).operator
     }.count { it == CalculationOperator.ADDITION }
 
-    assertTrue(additions in 5_100..5_500)
+    assertTrue("足し算の出題数: $additions", additions in 4_800..5_200)
   }
 
   @Test
@@ -342,6 +342,21 @@ class CalculationQuestionTest {
   }
 
   @Test
+  fun `Lv4は演算子の組み合わせを同程度に出題する`() {
+    val random = Random(15)
+    val generatedOperatorPairs = List(12_000) {
+      CalculationQuestionGenerator.create(
+        difficulty = GameDifficulty.LEVEL_FOUR,
+        random = random,
+      ).let { question -> question.operator to requireNotNull(question.secondOperator) }
+    }
+
+    assertTrue(
+      generatedOperatorPairs.groupingBy { it }.eachCount().values.all { count -> count in 900..1_100 },
+    )
+  }
+
+  @Test
   fun `Lv4は掛け算と割り算を足し算と引き算より先に計算する`() {
     val multiplicationQuestion = CalculationQuestion(
       leftOperand = 2,
@@ -454,6 +469,21 @@ class CalculationQuestionTest {
     }
 
     assertEquals(setOf(0, 1, 2), generatedMissingOperandIndexes)
+  }
+
+  @Test
+  fun `Lv5は演算子の組み合わせを同程度に出題する`() {
+    val random = Random(16)
+    val generatedOperatorPairs = List(12_000) {
+      CalculationQuestionGenerator.create(
+        difficulty = GameDifficulty.LEVEL_FIVE,
+        random = random,
+      ).let { question -> question.operator to requireNotNull(question.secondOperator) }
+    }
+
+    assertTrue(
+      generatedOperatorPairs.groupingBy { it }.eachCount().values.all { count -> count in 900..1_100 },
+    )
   }
 
   @Test
