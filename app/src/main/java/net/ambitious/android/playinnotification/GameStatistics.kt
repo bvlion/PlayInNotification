@@ -14,12 +14,14 @@ internal data class GameStatistics(
   val growthLevel: Int
     get() {
       val earnedPointFactor = earnedPoints / POINTS_PER_GROWTH_LEVEL_STEP
-      var lowestGrowthLevel = 1
+      var lowestGrowthLevel = INITIAL_GROWTH_LEVEL
       var highestGrowthLevel = Int.MAX_VALUE
 
       while (lowestGrowthLevel < highestGrowthLevel) {
-        val growthLevel = lowestGrowthLevel + (highestGrowthLevel - lowestGrowthLevel + 1) / 2
-        val requiredPointFactor = growthLevel.toLong() * (growthLevel - 1)
+        val growthLevelRangeSize = highestGrowthLevel - lowestGrowthLevel + 1
+        val growthLevel = lowestGrowthLevel + growthLevelRangeSize / 2
+        val previousGrowthLevel = growthLevel - 1
+        val requiredPointFactor = growthLevel.toLong() * previousGrowthLevel
         if (requiredPointFactor <= earnedPointFactor) {
           lowestGrowthLevel = growthLevel
         } else {
@@ -43,8 +45,9 @@ internal data class GameStatistics(
     }
     val nextStreakDayCount = when {
       lastCompletedSessionDate == completedSessionDate -> streakDayCount
-      lastCompletedSessionDate == completedSessionDate.minusDays(1) -> streakDayCount + 1
-      else -> 1
+      lastCompletedSessionDate == completedSessionDate.minusDays(PREVIOUS_CALENDAR_DAY_OFFSET) ->
+        streakDayCount + 1
+      else -> INITIAL_STREAK_DAY_COUNT
     }
 
     return copy(
@@ -62,5 +65,8 @@ internal data class GameStatistics(
 
   private companion object {
     const val POINTS_PER_GROWTH_LEVEL_STEP = 50
+    private const val INITIAL_GROWTH_LEVEL = 1
+    private const val INITIAL_STREAK_DAY_COUNT = 1
+    private const val PREVIOUS_CALENDAR_DAY_OFFSET = 1L
   }
 }

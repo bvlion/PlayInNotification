@@ -112,7 +112,7 @@ internal abstract class GameSessionService<Question> : Service() {
   final override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
     when (intent?.action) {
       ACTION_START -> GameDifficulty.fromLevelOrNull(
-        intent.getIntExtra(EXTRA_DIFFICULTY, INVALID_DIFFICULTY),
+        intent.getIntExtra(EXTRA_DIFFICULTY, INVALID_DIFFICULTY_LEVEL),
       )?.let(::startSession)
       ACTION_ANSWER -> handleAnswer(intent)
     }
@@ -168,7 +168,7 @@ internal abstract class GameSessionService<Question> : Service() {
     val question = state.askedQuestions.lastOrNull() ?: return
     val answer = intent.getStringExtra(EXTRA_ANSWER) ?: return
     if (
-      intent.getIntExtra(EXTRA_QUESTION_NUMBER, -1) != state.questionNumber ||
+      intent.getIntExtra(EXTRA_QUESTION_NUMBER, INVALID_QUESTION_NUMBER) != state.questionNumber ||
       answer !in answerChoices(question)
     ) {
       return
@@ -195,6 +195,7 @@ internal abstract class GameSessionService<Question> : Service() {
     val state = checkNotNull(sessionState)
     val questionNumber = state.questionNumber + 1
     val question = createNextQuestion(state.difficulty, state.askedQuestions)
+    val firstAnswerRequestCode = questionNumber * ANSWER_CHOICE_COUNT
     val answerActions = answerChoices(question).mapIndexed { index, answer ->
       val answerIntent = Intent(this, javaClass)
         .setAction(ACTION_ANSWER)
@@ -202,7 +203,7 @@ internal abstract class GameSessionService<Question> : Service() {
         .putExtra(EXTRA_ANSWER, answer)
       val answerPendingIntent = PendingIntent.getService(
         this,
-        questionNumber * ANSWER_CHOICE_COUNT + index,
+        firstAnswerRequestCode + index,
         answerIntent,
         PendingIntent.FLAG_CANCEL_CURRENT or
           PendingIntent.FLAG_ONE_SHOT or
@@ -240,7 +241,8 @@ internal abstract class GameSessionService<Question> : Service() {
     maxOf(0L, state.deadline - SystemClock.elapsedRealtime())
 
   private fun remainingSeconds(remainingMilliseconds: Long): Long =
-    (remainingMilliseconds + MILLISECONDS_PER_SECOND - 1L) / MILLISECONDS_PER_SECOND
+    (remainingMilliseconds + MILLISECONDS_TO_ROUND_UP_TO_NEXT_SECOND) /
+      MILLISECONDS_PER_SECOND
 
   private fun releaseWakeLock() {
     sessionWakeLock?.takeIf { it.isHeld }?.release()
@@ -255,11 +257,13 @@ internal abstract class GameSessionService<Question> : Service() {
     private const val EXTRA_DIFFICULTY = "difficulty"
     private const val EXTRA_QUESTION_NUMBER = "question_number"
     private const val EXTRA_ANSWER = "answer"
-    private const val INVALID_DIFFICULTY = 0
+    private const val INVALID_DIFFICULTY_LEVEL = 0
+    private const val INVALID_QUESTION_NUMBER = -1
     private const val SESSION_DURATION_MILLISECONDS = 30_000L
     private const val WAKE_LOCK_TIMEOUT_MARGIN_MILLISECONDS = 1_000L
     private const val COUNTDOWN_UPDATE_INTERVAL_MILLISECONDS = 1_000L
     private const val MILLISECONDS_PER_SECOND = 1_000L
+    private const val MILLISECONDS_TO_ROUND_UP_TO_NEXT_SECOND = MILLISECONDS_PER_SECOND - 1L
     private const val ANSWER_CHOICE_COUNT = 3
 
     internal fun createStartIntent(

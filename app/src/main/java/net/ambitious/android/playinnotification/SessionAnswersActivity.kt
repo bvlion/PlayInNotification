@@ -30,6 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
+private val SESSION_ANSWERS_CONTENT_PADDING = 24.dp
+private val SESSION_ANSWERS_LIST_ITEM_SPACING = 16.dp
+private val SESSION_ANSWER_CARD_CONTENT_SPACING = 8.dp
+
 class SessionAnswersActivity : ComponentActivity() {
   internal var answers by mutableStateOf(emptyList<GameAnswerResult>())
     private set
@@ -59,9 +63,9 @@ class SessionAnswersActivity : ComponentActivity() {
             modifier = Modifier
               .fillMaxSize()
               .safeDrawingPadding()
-              .padding(24.dp),
-            contentPadding = PaddingValues(bottom = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+              .padding(SESSION_ANSWERS_CONTENT_PADDING),
+            contentPadding = PaddingValues(bottom = SESSION_ANSWERS_CONTENT_PADDING),
+            verticalArrangement = Arrangement.spacedBy(SESSION_ANSWERS_LIST_ITEM_SPACING),
           ) {
             item {
               Text(
@@ -80,8 +84,8 @@ class SessionAnswersActivity : ComponentActivity() {
               items(answers) { answer ->
                 Card(modifier = Modifier.fillMaxWidth()) {
                   Column(
-                    modifier = Modifier.padding(24.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(SESSION_ANSWERS_CONTENT_PADDING),
+                    verticalArrangement = Arrangement.spacedBy(SESSION_ANSWER_CARD_CONTENT_SPACING),
                   ) {
                     Text(
                       text = answer.question,

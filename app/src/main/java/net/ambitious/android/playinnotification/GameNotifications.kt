@@ -17,6 +17,14 @@ internal object GameNotifications {
   const val CHANNEL_ID = "game_notifications"
   const val NOTIFICATION_ID = 1
   private const val EXTRA_IS_RESULT_NOTIFICATION = "is_result_notification"
+  private const val NOTIFICATION_PENDING_INTENT_REQUEST_CODE = 0
+  private const val LEVEL_UP_IMAGE_WIDTH_PIXELS = 1024
+  private const val LEVEL_UP_IMAGE_HEIGHT_PIXELS = 512
+  private const val LEVEL_UP_IMAGE_CENTER_X_PIXELS = LEVEL_UP_IMAGE_WIDTH_PIXELS / 2f
+  private const val LEVEL_UP_TITLE_TEXT_SIZE_PIXELS = 72f
+  private const val LEVEL_UP_TITLE_BASELINE_Y_PIXELS = 190f
+  private const val LEVEL_CHANGE_TEXT_SIZE_PIXELS = 104f
+  private const val LEVEL_CHANGE_BASELINE_Y_PIXELS = 350f
 
   fun createChannel(context: Context) {
     val channel = NotificationChannel(
@@ -61,7 +69,7 @@ internal object GameNotifications {
       .first()
     val startCalculationPendingIntent = PendingIntent.getForegroundService(
       context,
-      0,
+      NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
       GameSessionService.createStartIntent(
         context = context,
         serviceClass = CalculationGameService::class.java,
@@ -71,7 +79,7 @@ internal object GameNotifications {
     )
     val startDifficultKanjiPendingIntent = PendingIntent.getForegroundService(
       context,
-      0,
+      NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
       GameSessionService.createStartIntent(
         context = context,
         serviceClass = DifficultKanjiGameService::class.java,
@@ -161,13 +169,13 @@ internal object GameNotifications {
   ) {
     val viewAnswersPendingIntent = PendingIntent.getActivity(
       context,
-      0,
+      NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
       SessionAnswersActivity.createIntent(context, sessionResult.answerResults),
       PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
     )
     val showGameSelectionPendingIntent = PendingIntent.getBroadcast(
       context,
-      0,
+      NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
       Intent(context, GameNotificationActionReceiver::class.java)
         .setAction(GameNotificationActionReceiver.ACTION_SHOW_GAME_SELECTION),
       PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
@@ -223,7 +231,7 @@ internal object GameNotifications {
   private fun createMainActivityPendingIntent(context: Context): PendingIntent =
     PendingIntent.getActivity(
       context,
-      0,
+      NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
       Intent(context, MainActivity::class.java).addFlags(
         Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP,
       ),
@@ -238,7 +246,11 @@ internal object GameNotifications {
   )
 
   private fun createLevelUpImage(context: Context, levelChange: String): Bitmap {
-    val levelUpImage = Bitmap.createBitmap(1024, 512, Bitmap.Config.ARGB_8888)
+    val levelUpImage = Bitmap.createBitmap(
+      LEVEL_UP_IMAGE_WIDTH_PIXELS,
+      LEVEL_UP_IMAGE_HEIGHT_PIXELS,
+      Bitmap.Config.ARGB_8888,
+    )
     val canvas = Canvas(levelUpImage)
     val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
       textAlign = Paint.Align.CENTER
@@ -246,10 +258,20 @@ internal object GameNotifications {
     }
     canvas.drawColor(context.getColor(android.R.color.system_accent1_700))
     paint.color = context.getColor(android.R.color.system_accent1_50)
-    paint.textSize = 72f
-    canvas.drawText(context.getString(R.string.level_up), 512f, 190f, paint)
-    paint.textSize = 104f
-    canvas.drawText(levelChange, 512f, 350f, paint)
+    paint.textSize = LEVEL_UP_TITLE_TEXT_SIZE_PIXELS
+    canvas.drawText(
+      context.getString(R.string.level_up),
+      LEVEL_UP_IMAGE_CENTER_X_PIXELS,
+      LEVEL_UP_TITLE_BASELINE_Y_PIXELS,
+      paint,
+    )
+    paint.textSize = LEVEL_CHANGE_TEXT_SIZE_PIXELS
+    canvas.drawText(
+      levelChange,
+      LEVEL_UP_IMAGE_CENTER_X_PIXELS,
+      LEVEL_CHANGE_BASELINE_Y_PIXELS,
+      paint,
+    )
     return levelUpImage
   }
 }
