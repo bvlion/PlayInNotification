@@ -32,12 +32,17 @@ class DifficultKanjiQuestionDataTest {
   }
 
   @Test
-  fun `各Lvで両方向の3択に異なる誤答候補を構成できる`() {
-    entriesByDifficulty.values.forEach { entries ->
-      entries.forEach { correctEntry ->
-        assertTrue(entries.count { it.writtenForm != correctEntry.writtenForm } >= 2)
-        assertTrue(entries.map { it.reading }.distinct().count { it != correctEntry.reading } >= 2)
-      }
+  fun `各問題は両方向に5件の異なる誤答候補を持つ`() {
+    entriesByDifficulty.values.flatten().forEach { entry ->
+      assertEquals(5, entry.writtenFormWrongAnswers.size)
+      assertEquals(5, entry.writtenFormWrongAnswers.distinct().size)
+      assertTrue(entry.writtenForm !in entry.writtenFormWrongAnswers)
+      assertTrue(entry.writtenFormWrongAnswers.all(String::isNotBlank))
+
+      assertEquals(5, entry.readingWrongAnswers.size)
+      assertEquals(5, entry.readingWrongAnswers.distinct().size)
+      assertTrue(entry.reading !in entry.readingWrongAnswers)
+      assertTrue(entry.readingWrongAnswers.all(String::isNotBlank))
     }
   }
 }

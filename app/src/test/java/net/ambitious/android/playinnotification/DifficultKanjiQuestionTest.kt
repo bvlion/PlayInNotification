@@ -74,8 +74,8 @@ class DifficultKanjiQuestionTest {
       assertEquals(3, question.choices.size)
       assertEquals(3, question.choices.distinct().size)
       assertTrue(question.correctAnswer in question.choices)
-      assertTrue(question.choices.all { choice ->
-        entriesByDifficulty.getValue(difficulty.level).any { it.reading == choice }
+      assertTrue(question.choices.filter { it != question.correctAnswer }.all { choice ->
+        choice in entry.readingWrongAnswers
       })
     }
   }
@@ -100,22 +100,22 @@ class DifficultKanjiQuestionTest {
       assertEquals(3, question.choices.size)
       assertEquals(3, question.choices.distinct().size)
       assertTrue(question.correctAnswer in question.choices)
-      assertTrue(question.choices.all { choice ->
-        entriesByDifficulty.getValue(difficulty.level).any { it.writtenForm == choice }
+      assertTrue(question.choices.filter { it != question.correctAnswer }.all { choice ->
+        choice in entry.writtenFormWrongAnswers
       })
     }
   }
 
   @Test
-  fun `表記から読みでは正解の読みと近い候補を誤答にする`() {
+  fun `表記から読みでは問題固有の誤答候補から選ぶ`() {
     val question = DifficultKanjiQuestion.create(
       entriesByDifficulty = mapOf(
         1 to listOf(
-          DifficultKanjiEntry("鶯", "うぐいす"),
-          DifficultKanjiEntry("鶉", "うずら"),
-          DifficultKanjiEntry("鰻", "うなぎ"),
-          DifficultKanjiEntry("山茶花", "さざんか"),
-          DifficultKanjiEntry("鸚鵡", "おうむ"),
+          DifficultKanjiEntry(
+            "鶯",
+            "うぐいす",
+            readingWrongAnswers = listOf("うずら", "うなぎ", "おうむ", "かもめ", "つぐみ"),
+          ),
         ),
       ),
       difficulty = GameDifficulty.LEVEL_ONE,
@@ -130,19 +130,22 @@ class DifficultKanjiQuestionTest {
     )
 
     assertEquals("うぐいす", question.correctAnswer)
-    assertEquals(setOf("うずら", "うなぎ"), question.choices.filter { it != question.correctAnswer }.toSet())
+    assertTrue(
+      question.choices.filter { it != question.correctAnswer }
+        .all { it in question.entry.readingWrongAnswers },
+    )
   }
 
   @Test
-  fun `読みから表記では正解の読みと近い候補の表記を誤答にする`() {
+  fun `読みから表記では問題固有の誤答候補から選ぶ`() {
     val question = DifficultKanjiQuestion.create(
       entriesByDifficulty = mapOf(
         1 to listOf(
-          DifficultKanjiEntry("鶯", "うぐいす"),
-          DifficultKanjiEntry("鶉", "うずら"),
-          DifficultKanjiEntry("鰻", "うなぎ"),
-          DifficultKanjiEntry("山茶花", "さざんか"),
-          DifficultKanjiEntry("鸚鵡", "おうむ"),
+          DifficultKanjiEntry(
+            "鶯",
+            "うぐいす",
+            writtenFormWrongAnswers = listOf("鶉", "鰻", "鴎", "鷺", "鵯"),
+          ),
         ),
       ),
       difficulty = GameDifficulty.LEVEL_ONE,
@@ -157,22 +160,24 @@ class DifficultKanjiQuestionTest {
     )
 
     assertEquals("鶯", question.correctAnswer)
-    assertEquals(setOf("鶉", "鰻"), question.choices.filter { it != question.correctAnswer }.toSet())
+    assertTrue(
+      question.choices.filter { it != question.correctAnswer }
+        .all { it in question.entry.writtenFormWrongAnswers },
+    )
   }
 
   @Test
-  fun `読みの近さが同じ誤答候補は抽選される`() {
-    val correctEntry = DifficultKanjiEntry("甲", "あまさ")
-    val wrongEntries = listOf(
-      DifficultKanjiEntry("乙", "あかさ"),
-      DifficultKanjiEntry("丙", "あたさ"),
-      DifficultKanjiEntry("丁", "あなさ"),
+  fun `問題固有の誤答候補は抽選される`() {
+    val correctEntry = DifficultKanjiEntry(
+      "甲",
+      "あまさ",
+      readingWrongAnswers = listOf("あかさ", "あたさ", "あなさ", "あはさ", "あまし"),
     )
     val selectedPairs = mutableSetOf<Set<String>>()
 
     repeat(100) { seed ->
       val question = DifficultKanjiQuestion.create(
-        entriesByDifficulty = mapOf(1 to listOf(correctEntry) + wrongEntries),
+        entriesByDifficulty = mapOf(1 to listOf(correctEntry)),
         difficulty = GameDifficulty.LEVEL_ONE,
         random = Random(seed),
         previousQuestion = DifficultKanjiQuestion(
@@ -180,12 +185,11 @@ class DifficultKanjiQuestionTest {
           entry = DifficultKanjiEntry("", ""),
           choices = emptyList(),
         ),
-        askedEntries = wrongEntries,
       )
       selectedPairs += question.choices.filter { it != correctEntry.reading }.toSet()
     }
 
-    assertEquals(3, selectedPairs.size)
+    assertTrue(selectedPairs.size > 1)
   }
 
   @Test
