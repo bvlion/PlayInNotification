@@ -68,7 +68,7 @@ internal abstract class GameSessionService<Question> : Service() {
       val updatedNotification = GameNotifications.updateRemainingTime(
         context = this@GameSessionService,
         notification = questionNotification,
-        remainingSeconds = remainingSeconds(remainingMilliseconds),
+        remainingSeconds = remainingSecondsRoundedUp(remainingMilliseconds),
       )
       sessionState = state.copy(questionNotification = updatedNotification)
       GameNotifications.notify(this@GameSessionService, updatedNotification)
@@ -214,7 +214,7 @@ internal abstract class GameSessionService<Question> : Service() {
     val notification = GameNotifications.createQuestionNotification(
       context = this,
       title = questionText(question),
-      remainingSeconds = remainingSeconds(remainingMilliseconds(state)),
+      remainingSeconds = remainingSecondsRoundedUp(remainingMilliseconds(state)),
       answerActions = answerActions,
     )
     sessionState = state.copy(
@@ -240,7 +240,7 @@ internal abstract class GameSessionService<Question> : Service() {
   private fun remainingMilliseconds(state: GameSessionState<Question>): Long =
     maxOf(0L, state.deadline - SystemClock.elapsedRealtime())
 
-  private fun remainingSeconds(remainingMilliseconds: Long): Long =
+  private fun remainingSecondsRoundedUp(remainingMilliseconds: Long): Long =
     (remainingMilliseconds + MILLISECONDS_TO_ROUND_UP_TO_NEXT_SECOND) /
       MILLISECONDS_PER_SECOND
 

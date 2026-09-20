@@ -29,13 +29,13 @@ import org.robolectric.shadows.ShadowSystemClock
 )
 class GameServiceSessionDeadlineTest {
   @Test
-  fun `計算は終了処理が遅れても問題通知に負の残り時間を表示しない`() {
-    verifyCountdownDoesNotBecomeNegative(CalculationGameService::class.java)
+  fun `計算は残り秒数の端数を切り上げ終了処理が遅れても負の値を表示しない`() {
+    verifyCountdownRoundsUpAndDoesNotBecomeNegative(CalculationGameService::class.java)
   }
 
   @Test
-  fun `難読漢字は終了処理が遅れても問題通知に負の残り時間を表示しない`() {
-    verifyCountdownDoesNotBecomeNegative(DifficultKanjiGameService::class.java)
+  fun `難読漢字は残り秒数の端数を切り上げ終了処理が遅れても負の値を表示しない`() {
+    verifyCountdownRoundsUpAndDoesNotBecomeNegative(DifficultKanjiGameService::class.java)
   }
 
   @Test
@@ -65,7 +65,7 @@ class GameServiceSessionDeadlineTest {
     }
   }
 
-  private fun <ServiceType : GameSessionService<*>> verifyCountdownDoesNotBecomeNegative(
+  private fun <ServiceType : GameSessionService<*>> verifyCountdownRoundsUpAndDoesNotBecomeNegative(
     serviceClass: Class<ServiceType>,
   ) {
     val serviceController = Robolectric.buildService(serviceClass).create()
@@ -143,6 +143,6 @@ class DelayedStartForegroundShadowService : ShadowService() {
   }
 
   private companion object {
-    val SIMULATED_INITIAL_NOTIFICATION_DURATION: Duration = Duration.ofSeconds(5)
+    val SIMULATED_INITIAL_NOTIFICATION_DURATION: Duration = Duration.ofSeconds(5).plusMillis(1)
   }
 }
