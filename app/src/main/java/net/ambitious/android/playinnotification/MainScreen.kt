@@ -63,8 +63,8 @@ private const val GRADIENT_START_POSITION = 0.0f
 private const val GRADIENT_TOP_MIDDLE_POSITION = 0.7f
 private const val GRADIENT_BOTTOM_MIDDLE_POSITION = 0.3f
 private const val GRADIENT_END_POSITION = 1.0f
-private const val GRADIENT_OPAQUE_ALPHA = 0.9f
-private const val GRADIENT_TRANSLUCENT_ALPHA = 0.72f
+private const val GRADIENT_EDGE_ALPHA = 0.9f
+private const val GRADIENT_MIDDLE_ALPHA = 0.72f
 private const val GRADIENT_TRANSPARENT_ALPHA = 0.0f
 
 @Composable
@@ -384,9 +384,9 @@ private fun SystemBarProtection() {
         .windowInsetsTopHeight(WindowInsets.statusBars)
         .background(
           Brush.verticalGradient(
-            GRADIENT_START_POSITION to protectionColor.copy(alpha = GRADIENT_OPAQUE_ALPHA),
+            GRADIENT_START_POSITION to protectionColor.copy(alpha = GRADIENT_EDGE_ALPHA),
             GRADIENT_TOP_MIDDLE_POSITION to
-              protectionColor.copy(alpha = GRADIENT_TRANSLUCENT_ALPHA),
+              protectionColor.copy(alpha = GRADIENT_MIDDLE_ALPHA),
             GRADIENT_END_POSITION to protectionColor.copy(alpha = GRADIENT_TRANSPARENT_ALPHA),
           ),
         ),
@@ -400,8 +400,8 @@ private fun SystemBarProtection() {
           Brush.verticalGradient(
             GRADIENT_START_POSITION to protectionColor.copy(alpha = GRADIENT_TRANSPARENT_ALPHA),
             GRADIENT_BOTTOM_MIDDLE_POSITION to
-              protectionColor.copy(alpha = GRADIENT_TRANSLUCENT_ALPHA),
-            GRADIENT_END_POSITION to protectionColor.copy(alpha = GRADIENT_OPAQUE_ALPHA),
+              protectionColor.copy(alpha = GRADIENT_MIDDLE_ALPHA),
+            GRADIENT_END_POSITION to protectionColor.copy(alpha = GRADIENT_EDGE_ALPHA),
           ),
         ),
     )
