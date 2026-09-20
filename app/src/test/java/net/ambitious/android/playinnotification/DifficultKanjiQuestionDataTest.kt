@@ -47,4 +47,18 @@ class DifficultKanjiQuestionDataTest {
       assertTrue(entry.readingWrongAnswers.all(String::isNotBlank))
     }
   }
+
+  @Test
+  fun `追加したLv1問題は出題方向ごとに固有の誤答候補を持つ`() {
+    val addedEntries = entriesByDifficulty.getValue(1).drop(100)
+
+    assertEquals(
+      addedEntries.size,
+      addedEntries.map { entry -> entry.writtenFormWrongAnswers.sorted() }.distinct().size,
+    )
+    assertEquals(
+      addedEntries.size,
+      addedEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
+    )
+  }
 }
