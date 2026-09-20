@@ -2,6 +2,11 @@ package net.ambitious.android.playinnotification
 
 import kotlin.random.Random
 
+private const val CORRECT_ANSWER_COUNT = 1
+private const val WRONG_ANSWER_COUNT = 2
+private const val ANSWER_CHOICE_COUNT = CORRECT_ANSWER_COUNT + WRONG_ANSWER_COUNT
+private const val IGNORED_WRITTEN_FORM_SIMILARITY_SCORE = 0
+
 internal data class DifficultKanjiQuestion(
   val direction: DifficultKanjiQuestionDirection,
   val entry: DifficultKanjiEntry,
@@ -42,16 +47,17 @@ internal data class DifficultKanjiQuestion(
           }
         }
       }
-      val correctEntry = entries
+      val eligibleEntries = entries
         .filter { entry ->
           entry !in askedEntries && entry != previousQuestion?.entry
         }
-        .random(random)
+      val correctEntry = eligibleEntries.random(random)
       val correctAnswer = when (direction) {
         DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> correctEntry.reading
         DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> correctEntry.writtenForm
       }
-      val wrongAnswers = entries
+      // 読みの近さを両方向で優先し、同点の候補は事前のシャッフル順で選ぶ。
+      val wrongAnswerEntries = entries
         .filter { it != correctEntry }
         .shuffled(random)
         .sortedWith(
@@ -64,7 +70,8 @@ internal data class DifficultKanjiQuestion(
             kotlin.math.abs(it.reading.length - correctEntry.reading.length)
           }.thenByDescending {
             when (direction) {
-              DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> 0
+              DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING ->
+                IGNORED_WRITTEN_FORM_SIMILARITY_SCORE
               DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> {
                 it.writtenForm.commonPrefixWith(correctEntry.writtenForm).length +
                   it.writtenForm.commonSuffixWith(correctEntry.writtenForm).length
@@ -72,19 +79,24 @@ internal data class DifficultKanjiQuestion(
             }
           },
         )
-        .take(2)
-        .map {
-          when (direction) {
-            DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> it.reading
-            DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> it.writtenForm
-          }
+        .take(WRONG_ANSWER_COUNT)
+      val wrongAnswers = wrongAnswerEntries.map {
+        when (direction) {
+          DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING -> it.reading
+          DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM -> it.writtenForm
         }
+      }
 
-      require(wrongAnswers.size == 2) { "3択の誤答候補を構成できません" }
+      require(wrongAnswers.size == WRONG_ANSWER_COUNT) {
+        "3択の誤答候補を構成できません"
+      }
       return DifficultKanjiQuestion(
         direction = direction,
         entry = correctEntry,
-        choices = (wrongAnswers + correctAnswer).shuffled(random),
+        choices = buildList(ANSWER_CHOICE_COUNT) {
+          addAll(wrongAnswers)
+          add(correctAnswer)
+        }.shuffled(random),
       )
     }
   }

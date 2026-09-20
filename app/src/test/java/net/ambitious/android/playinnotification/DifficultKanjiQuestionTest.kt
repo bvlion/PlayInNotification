@@ -161,6 +161,34 @@ class DifficultKanjiQuestionTest {
   }
 
   @Test
+  fun `読みの近さが同じ誤答候補は抽選される`() {
+    val correctEntry = DifficultKanjiEntry("甲", "あまさ")
+    val wrongEntries = listOf(
+      DifficultKanjiEntry("乙", "あかさ"),
+      DifficultKanjiEntry("丙", "あたさ"),
+      DifficultKanjiEntry("丁", "あなさ"),
+    )
+    val selectedPairs = mutableSetOf<Set<String>>()
+
+    repeat(100) { seed ->
+      val question = DifficultKanjiQuestion.create(
+        entriesByDifficulty = mapOf(1 to listOf(correctEntry) + wrongEntries),
+        difficulty = GameDifficulty.LEVEL_ONE,
+        random = Random(seed),
+        previousQuestion = DifficultKanjiQuestion(
+          direction = DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM,
+          entry = DifficultKanjiEntry("", ""),
+          choices = emptyList(),
+        ),
+        askedEntries = wrongEntries,
+      )
+      selectedPairs += question.choices.filter { it != correctEntry.reading }.toSet()
+    }
+
+    assertEquals(3, selectedPairs.size)
+  }
+
+  @Test
   fun `連続して生成した問題は表記から読みと読みから表記を混在させる`() {
     GameDifficulty.entries.forEach { difficulty ->
       val firstQuestion = DifficultKanjiQuestion.create(
