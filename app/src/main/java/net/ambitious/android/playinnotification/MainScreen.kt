@@ -45,6 +45,28 @@ import androidx.compose.ui.unit.sp
 import java.time.LocalDate
 import kotlin.math.roundToInt
 
+private val SCREEN_CONTENT_PADDING = 24.dp
+private val SCREEN_SECTION_SPACING = 24.dp
+private val CARD_CONTENT_PADDING = 24.dp
+private val COMPACT_CARD_CONTENT_SPACING = 8.dp
+private val STATISTICS_CARD_CONTENT_SPACING = 12.dp
+private val LIST_ROW_SPACING = 24.dp
+private const val TITLE_COLUMN_WEIGHT = 1f
+private const val VALUE_COLUMN_WEIGHT = 2f
+private const val SLIDER_ENDPOINT_COUNT = 2
+private val AUXILIARY_LINK_TEXT_SIZE = 16.sp
+private val APP_VERSION_HORIZONTAL_PADDING = 12.dp
+private val APP_VERSION_VERTICAL_PADDING = 8.dp
+private const val PREVIOUS_CALENDAR_DAY_OFFSET = 1L
+private const val NO_ACTIVE_STREAK_DAY_COUNT = 0
+private const val GRADIENT_START_POSITION = 0.0f
+private const val GRADIENT_TOP_MIDDLE_POSITION = 0.7f
+private const val GRADIENT_BOTTOM_MIDDLE_POSITION = 0.3f
+private const val GRADIENT_END_POSITION = 1.0f
+private const val GRADIENT_EDGE_ALPHA = 0.9f
+private const val GRADIENT_MIDDLE_ALPHA = 0.72f
+private const val GRADIENT_TRANSPARENT_ALPHA = 0.0f
+
 @Composable
 internal fun PlayInNotificationApp(
   isGameNotificationEnabled: Boolean,
@@ -92,8 +114,8 @@ private fun MainScreen(
         .fillMaxSize()
         .verticalScroll(rememberScrollState())
         .windowInsetsPadding(WindowInsets.safeDrawing)
-        .padding(24.dp),
-      verticalArrangement = Arrangement.spacedBy(24.dp),
+        .padding(SCREEN_CONTENT_PADDING),
+      verticalArrangement = Arrangement.spacedBy(SCREEN_SECTION_SPACING),
     ) {
       if (!isGameNotificationEnabled) {
         NotificationDisabledCard(onOpenNotificationSettings)
@@ -111,8 +133,8 @@ private fun MainScreen(
 private fun NotificationDisabledCard(onOpenNotificationSettings: () -> Unit) {
   Card(modifier = Modifier.fillMaxWidth()) {
     Column(
-      modifier = Modifier.padding(24.dp),
-      verticalArrangement = Arrangement.spacedBy(8.dp),
+      modifier = Modifier.padding(CARD_CONTENT_PADDING),
+      verticalArrangement = Arrangement.spacedBy(COMPACT_CARD_CONTENT_SPACING),
     ) {
       Text(
         text = stringResource(R.string.notification_disabled_title),
@@ -133,9 +155,10 @@ private fun NotificationDisabledCard(onOpenNotificationSettings: () -> Unit) {
 private fun StatisticsSection(statistics: GameStatistics, currentDate: LocalDate) {
   val lastCompletedSessionDate = statistics.lastCompletedSessionDate
   val displayedStreakDayCount = if (
-    lastCompletedSessionDate == null || lastCompletedSessionDate < currentDate.minusDays(1)
+    lastCompletedSessionDate == null ||
+      lastCompletedSessionDate < currentDate.minusDays(PREVIOUS_CALENDAR_DAY_OFFSET)
   ) {
-    0
+    NO_ACTIVE_STREAK_DAY_COUNT
   } else {
     statistics.streakDayCount
   }
@@ -145,8 +168,8 @@ private fun StatisticsSection(statistics: GameStatistics, currentDate: LocalDate
   )
   Card(modifier = Modifier.fillMaxWidth()) {
     Column(
-      modifier = Modifier.padding(24.dp),
-      verticalArrangement = Arrangement.spacedBy(12.dp),
+      modifier = Modifier.padding(CARD_CONTENT_PADDING),
+      verticalArrangement = Arrangement.spacedBy(STATISTICS_CARD_CONTENT_SPACING),
     ) {
       Text(
         text = stringResource(R.string.growth_level_value, statistics.growthLevel),
@@ -179,17 +202,17 @@ private fun StatisticRow(
 ) {
   Row(
     modifier = Modifier.fillMaxWidth(),
-    horizontalArrangement = Arrangement.spacedBy(24.dp),
+    horizontalArrangement = Arrangement.spacedBy(LIST_ROW_SPACING),
     verticalAlignment = Alignment.Top,
   ) {
     Text(
       text = stringResource(titleResource),
-      modifier = Modifier.weight(1f),
+      modifier = Modifier.weight(TITLE_COLUMN_WEIGHT),
       style = MaterialTheme.typography.titleMedium,
     )
     Column(
-      modifier = Modifier.weight(2f),
-      verticalArrangement = Arrangement.spacedBy(8.dp),
+      modifier = Modifier.weight(VALUE_COLUMN_WEIGHT),
+      verticalArrangement = Arrangement.spacedBy(COMPACT_CARD_CONTENT_SPACING),
     ) {
       values.forEach { value ->
         Text(
@@ -210,8 +233,8 @@ private fun PersonalBestSection(statistics: GameStatistics) {
   )
   Card(modifier = Modifier.fillMaxWidth()) {
     Column(
-      modifier = Modifier.padding(24.dp),
-      verticalArrangement = Arrangement.spacedBy(12.dp),
+      modifier = Modifier.padding(CARD_CONTENT_PADDING),
+      verticalArrangement = Arrangement.spacedBy(STATISTICS_CARD_CONTENT_SPACING),
     ) {
       listOf(
         GameType.CALCULATION to R.string.calculation_game,
@@ -222,12 +245,12 @@ private fun PersonalBestSection(statistics: GameStatistics) {
         }
         Row(
           modifier = Modifier.fillMaxWidth(),
-          horizontalArrangement = Arrangement.spacedBy(24.dp),
+          horizontalArrangement = Arrangement.spacedBy(LIST_ROW_SPACING),
           verticalAlignment = Alignment.CenterVertically,
         ) {
           Text(
             text = stringResource(gameNameResource),
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(TITLE_COLUMN_WEIGHT),
             style = MaterialTheme.typography.titleMedium,
           )
           Text(
@@ -235,7 +258,7 @@ private fun PersonalBestSection(statistics: GameStatistics) {
               R.string.personal_best_points,
               statistics.bestPointsByGame[gameType] ?: 0,
             ),
-            modifier = Modifier.weight(2f),
+            modifier = Modifier.weight(VALUE_COLUMN_WEIGHT),
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.titleLarge,
           )
@@ -280,8 +303,8 @@ private fun DifficultyCard(
   }
   Card(modifier = Modifier.fillMaxWidth()) {
     Column(
-      modifier = Modifier.padding(24.dp),
-      verticalArrangement = Arrangement.spacedBy(8.dp),
+      modifier = Modifier.padding(CARD_CONTENT_PADDING),
+      verticalArrangement = Arrangement.spacedBy(COMPACT_CARD_CONTENT_SPACING),
     ) {
       Text(
         text = stringResource(gameNameResource),
@@ -299,7 +322,7 @@ private fun DifficultyCard(
         },
         valueRange = GameDifficulty.entries.first().level.toFloat()..
           GameDifficulty.entries.last().level.toFloat(),
-        steps = GameDifficulty.entries.size - 2,
+        steps = GameDifficulty.entries.size - SLIDER_ENDPOINT_COUNT,
       )
     }
   }
@@ -309,7 +332,9 @@ private fun DifficultyCard(
 private fun AuxiliaryLinks() {
   val context = LocalContext.current
   val uriHandler = LocalUriHandler.current
-  val linkTextStyle = MaterialTheme.typography.labelLarge.copy(fontSize = 16.sp)
+  val linkTextStyle = MaterialTheme.typography.labelLarge.copy(
+    fontSize = AUXILIARY_LINK_TEXT_SIZE,
+  )
   val googlePlayUrl = stringResource(R.string.google_play_url, context.packageName)
   val feedbackUrl = stringResource(R.string.feedback_url)
   val privacyPolicyUrl = stringResource(R.string.privacy_policy_url)
@@ -335,7 +360,10 @@ private fun AuxiliaryLinks() {
     }
     Text(
       text = stringResource(R.string.app_version, BuildConfig.VERSION_NAME),
-      modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+      modifier = Modifier.padding(
+        horizontal = APP_VERSION_HORIZONTAL_PADDING,
+        vertical = APP_VERSION_VERTICAL_PADDING,
+      ),
       color = MaterialTheme.colorScheme.onSurfaceVariant,
       style = MaterialTheme.typography.bodySmall,
     )
@@ -356,9 +384,10 @@ private fun SystemBarProtection() {
         .windowInsetsTopHeight(WindowInsets.statusBars)
         .background(
           Brush.verticalGradient(
-            0.0f to protectionColor.copy(alpha = 0.9f),
-            0.7f to protectionColor.copy(alpha = 0.72f),
-            1.0f to protectionColor.copy(alpha = 0.0f),
+            GRADIENT_START_POSITION to protectionColor.copy(alpha = GRADIENT_EDGE_ALPHA),
+            GRADIENT_TOP_MIDDLE_POSITION to
+              protectionColor.copy(alpha = GRADIENT_MIDDLE_ALPHA),
+            GRADIENT_END_POSITION to protectionColor.copy(alpha = GRADIENT_TRANSPARENT_ALPHA),
           ),
         ),
     )
@@ -369,9 +398,10 @@ private fun SystemBarProtection() {
         .windowInsetsBottomHeight(WindowInsets.navigationBars)
         .background(
           Brush.verticalGradient(
-            0.0f to protectionColor.copy(alpha = 0.0f),
-            0.3f to protectionColor.copy(alpha = 0.72f),
-            1.0f to protectionColor.copy(alpha = 0.9f),
+            GRADIENT_START_POSITION to protectionColor.copy(alpha = GRADIENT_TRANSPARENT_ALPHA),
+            GRADIENT_BOTTOM_MIDDLE_POSITION to
+              protectionColor.copy(alpha = GRADIENT_MIDDLE_ALPHA),
+            GRADIENT_END_POSITION to protectionColor.copy(alpha = GRADIENT_EDGE_ALPHA),
           ),
         ),
     )
