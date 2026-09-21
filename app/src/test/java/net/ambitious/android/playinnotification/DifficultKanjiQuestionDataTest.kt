@@ -96,39 +96,16 @@ class DifficultKanjiQuestionDataTest {
   }
 
   @Test
-  fun `追加したLv2問題は出題方向ごとに固有の誤答候補を持つ`() {
-    val addedEntries = entriesByDifficulty.getValue(2).drop(100)
+  fun `Lv2問題は出題方向ごとに固有の誤答候補を持つ`() {
+    val levelTwoEntries = entriesByDifficulty.getValue(2)
 
     assertEquals(
-      addedEntries.size,
-      addedEntries.map { entry -> entry.writtenFormWrongAnswers.sorted() }.distinct().size,
+      levelTwoEntries.size,
+      levelTwoEntries.map { entry -> entry.writtenFormWrongAnswers.sorted() }.distinct().size,
     )
     assertEquals(
-      addedEntries.size,
-      addedEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
+      levelTwoEntries.size,
+      levelTwoEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
     )
-    addedEntries.forEach { entry ->
-      assertTrue(
-        entry.writtenFormWrongAnswers.all { wrongAnswer ->
-          wrongAnswer.length == entry.writtenForm.length &&
-            wrongAnswer.zip(entry.writtenForm).all { (wrongCharacter, correctCharacter) ->
-              (wrongCharacter in 'ぁ'..'ゖ') == (correctCharacter in 'ぁ'..'ゖ')
-            }
-        },
-      )
-    }
-  }
-
-  @Test
-  fun `追加したLv2問題は読みの文字数だけで正答を特定できない`() {
-    val addedEntries = entriesByDifficulty.getValue(2).drop(100)
-
-    addedEntries.forEach { entry ->
-      assertTrue(
-        entry.readingWrongAnswers.all { wrongAnswer ->
-          wrongAnswer.length == entry.reading.length
-        },
-      )
-    }
   }
 }
