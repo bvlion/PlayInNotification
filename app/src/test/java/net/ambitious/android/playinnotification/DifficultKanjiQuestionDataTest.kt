@@ -13,14 +13,15 @@ class DifficultKanjiQuestionDataTest {
     )
 
   @Test
-  fun `Lv1に300語、Lv2からLv5に100語ずつ収録されている`() {
+  fun `Lv1とLv2に300語、Lv3からLv5に100語ずつ収録されている`() {
     assertEquals((1..5).toSet(), entriesByDifficulty.keys)
     assertEquals(300, entriesByDifficulty.getValue(1).size)
-    (2..5).forEach { difficulty ->
+    assertEquals(300, entriesByDifficulty.getValue(2).size)
+    (3..5).forEach { difficulty ->
       val entries = entriesByDifficulty.getValue(difficulty)
       assertEquals(100, entries.size)
     }
-    assertEquals(700, entriesByDifficulty.values.flatten().size)
+    assertEquals(900, entriesByDifficulty.values.flatten().size)
   }
 
   @Test
@@ -88,6 +89,43 @@ class DifficultKanjiQuestionDataTest {
       assertEquals(
         expectedSameLengthWrongAnswers,
         entry.readingWrongAnswers.count { wrongAnswer ->
+          wrongAnswer.length == entry.reading.length
+        },
+      )
+    }
+  }
+
+  @Test
+  fun `追加したLv2問題は出題方向ごとに固有の誤答候補を持つ`() {
+    val addedEntries = entriesByDifficulty.getValue(2).drop(100)
+
+    assertEquals(
+      addedEntries.size,
+      addedEntries.map { entry -> entry.writtenFormWrongAnswers.sorted() }.distinct().size,
+    )
+    assertEquals(
+      addedEntries.size,
+      addedEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
+    )
+    addedEntries.forEach { entry ->
+      assertTrue(
+        entry.writtenFormWrongAnswers.all { wrongAnswer ->
+          wrongAnswer.length == entry.writtenForm.length &&
+            wrongAnswer.zip(entry.writtenForm).all { (wrongCharacter, correctCharacter) ->
+              (wrongCharacter in 'ぁ'..'ゖ') == (correctCharacter in 'ぁ'..'ゖ')
+            }
+        },
+      )
+    }
+  }
+
+  @Test
+  fun `追加したLv2問題は読みの文字数だけで正答を特定できない`() {
+    val addedEntries = entriesByDifficulty.getValue(2).drop(100)
+
+    addedEntries.forEach { entry ->
+      assertTrue(
+        entry.readingWrongAnswers.all { wrongAnswer ->
           wrongAnswer.length == entry.reading.length
         },
       )
