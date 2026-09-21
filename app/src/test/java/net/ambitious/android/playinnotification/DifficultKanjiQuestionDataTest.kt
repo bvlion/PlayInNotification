@@ -13,14 +13,15 @@ class DifficultKanjiQuestionDataTest {
     )
 
   @Test
-  fun `Lv1に300語、Lv2からLv5に100語ずつ収録されている`() {
+  fun `Lv1とLv2に300語、Lv3からLv5に100語ずつ収録されている`() {
     assertEquals((1..5).toSet(), entriesByDifficulty.keys)
     assertEquals(300, entriesByDifficulty.getValue(1).size)
-    (2..5).forEach { difficulty ->
+    assertEquals(300, entriesByDifficulty.getValue(2).size)
+    (3..5).forEach { difficulty ->
       val entries = entriesByDifficulty.getValue(difficulty)
       assertEquals(100, entries.size)
     }
-    assertEquals(700, entriesByDifficulty.values.flatten().size)
+    assertEquals(900, entriesByDifficulty.values.flatten().size)
   }
 
   @Test
@@ -92,5 +93,19 @@ class DifficultKanjiQuestionDataTest {
         },
       )
     }
+  }
+
+  @Test
+  fun `Lv2問題は出題方向ごとに固有の誤答候補を持つ`() {
+    val levelTwoEntries = entriesByDifficulty.getValue(2)
+
+    assertEquals(
+      levelTwoEntries.size,
+      levelTwoEntries.map { entry -> entry.writtenFormWrongAnswers.sorted() }.distinct().size,
+    )
+    assertEquals(
+      levelTwoEntries.size,
+      levelTwoEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
+    )
   }
 }
