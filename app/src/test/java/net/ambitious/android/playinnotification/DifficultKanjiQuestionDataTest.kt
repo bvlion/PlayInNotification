@@ -13,12 +13,14 @@ class DifficultKanjiQuestionDataTest {
     )
 
   @Test
-  fun `Lv1からLv5に100語ずつ収録されている`() {
+  fun `Lv1に300語、Lv2からLv5に100語ずつ収録されている`() {
     assertEquals((1..5).toSet(), entriesByDifficulty.keys)
-    entriesByDifficulty.values.forEach { entries ->
+    assertEquals(300, entriesByDifficulty.getValue(1).size)
+    (2..5).forEach { difficulty ->
+      val entries = entriesByDifficulty.getValue(difficulty)
       assertEquals(100, entries.size)
     }
-    assertEquals(500, entriesByDifficulty.values.flatten().size)
+    assertEquals(700, entriesByDifficulty.values.flatten().size)
   }
 
   @Test
@@ -43,6 +45,52 @@ class DifficultKanjiQuestionDataTest {
       assertEquals(5, entry.readingWrongAnswers.distinct().size)
       assertTrue(entry.reading !in entry.readingWrongAnswers)
       assertTrue(entry.readingWrongAnswers.all(String::isNotBlank))
+    }
+  }
+
+  @Test
+  fun `追加したLv1問題は出題方向ごとに固有の誤答候補を持つ`() {
+    val addedEntries = entriesByDifficulty.getValue(1).drop(100)
+
+    assertEquals(
+      addedEntries.size,
+      addedEntries.map { entry -> entry.writtenFormWrongAnswers.sorted() }.distinct().size,
+    )
+    assertEquals(
+      addedEntries.size,
+      addedEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
+    )
+    addedEntries.forEach { entry ->
+      assertTrue(
+        entry.writtenFormWrongAnswers.all { wrongAnswer ->
+          wrongAnswer.length == entry.writtenForm.length &&
+            wrongAnswer.zip(entry.writtenForm).all { (wrongCharacter, correctCharacter) ->
+              (wrongCharacter in 'ぁ'..'ゖ') == (correctCharacter in 'ぁ'..'ゖ')
+            }
+        },
+      )
+    }
+  }
+
+  @Test
+  fun `追加したLv1問題は読みの文字数だけで正答を特定できない`() {
+    val levelOneEntries = entriesByDifficulty.getValue(1)
+    val addedEntries = levelOneEntries.drop(100)
+
+    addedEntries.forEach { entry ->
+      val availableSameLengthReadings = levelOneEntries.count { candidate ->
+        candidate.reading != entry.reading &&
+          candidate.reading.length == entry.reading.length
+      }
+      val expectedSameLengthWrongAnswers =
+        minOf(entry.readingWrongAnswers.size, availableSameLengthReadings)
+
+      assertEquals(
+        expectedSameLengthWrongAnswers,
+        entry.readingWrongAnswers.count { wrongAnswer ->
+          wrongAnswer.length == entry.reading.length
+        },
+      )
     }
   }
 }
