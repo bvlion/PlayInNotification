@@ -60,5 +60,15 @@ class DifficultKanjiQuestionDataTest {
       addedEntries.size,
       addedEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
     )
+    addedEntries.forEach { entry ->
+      assertTrue(
+        entry.writtenFormWrongAnswers.all { wrongAnswer ->
+          wrongAnswer.length == entry.writtenForm.length &&
+            wrongAnswer.zip(entry.writtenForm).all { (wrongCharacter, correctCharacter) ->
+              (wrongCharacter in 'ぁ'..'ゖ') == (correctCharacter in 'ぁ'..'ゖ')
+            }
+        },
+      )
+    }
   }
 }
