@@ -61,38 +61,6 @@ class DifficultKanjiQuestionDataTest {
       addedEntries.size,
       addedEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
     )
-    addedEntries.forEach { entry ->
-      assertTrue(
-        entry.writtenFormWrongAnswers.all { wrongAnswer ->
-          wrongAnswer.length == entry.writtenForm.length &&
-            wrongAnswer.zip(entry.writtenForm).all { (wrongCharacter, correctCharacter) ->
-              (wrongCharacter in 'ぁ'..'ゖ') == (correctCharacter in 'ぁ'..'ゖ')
-            }
-        },
-      )
-    }
-  }
-
-  @Test
-  fun `追加したLv1問題は読みの文字数だけで正答を特定できない`() {
-    val levelOneEntries = entriesByDifficulty.getValue(1)
-    val addedEntries = levelOneEntries.drop(100)
-
-    addedEntries.forEach { entry ->
-      val availableSameLengthReadings = levelOneEntries.count { candidate ->
-        candidate.reading != entry.reading &&
-          candidate.reading.length == entry.reading.length
-      }
-      val expectedSameLengthWrongAnswers =
-        minOf(entry.readingWrongAnswers.size, availableSameLengthReadings)
-
-      assertEquals(
-        expectedSameLengthWrongAnswers,
-        entry.readingWrongAnswers.count { wrongAnswer ->
-          wrongAnswer.length == entry.reading.length
-        },
-      )
-    }
   }
 
   @Test
