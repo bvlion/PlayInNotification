@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">PlayInNotification</string>
+  <string name="app_name">通知で脳トレ</string>
   <string name="game_notification_channel_name">ゲーム</string>
   <string name="notification_disabled_title">通知が無効です</string>
   <string name="notification_disabled_description">通知からゲームを始めるには、Androidの設定で通知を許可してください。</string>
