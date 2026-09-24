@@ -4,6 +4,8 @@ import kotlin.random.Random
 
 private const val CORRECT_ANSWER_COUNT = 1
 private const val WRONG_ANSWER_COUNT = 2
+private const val MINIMUM_WRONG_ANSWER_CANDIDATE_COUNT = 5
+private const val MAXIMUM_WRONG_ANSWER_CANDIDATE_COUNT = 10
 private const val ANSWER_CHOICE_COUNT = CORRECT_ANSWER_COUNT + WRONG_ANSWER_COUNT
 private const val UNIFORM_SELECTION_WEIGHT_PER_OPERAND_PAIR = 1
 private const val ADDITION_SELECTION_WEIGHT_PER_OPERAND_PAIR = 32
@@ -23,6 +25,7 @@ private val LEVEL_ONE_WRONG_ANSWER_RANGE = 0..18
 private val LEVEL_TWO_AND_THREE_WRONG_ANSWER_RANGE = 0..81
 private val LEVEL_FOUR_WRONG_ANSWER_RANGE = 0..90
 private val LEVEL_FIVE_WRONG_ANSWER_RANGE = 0..9
+private val WRONG_ANSWER_NEIGHBOR_OFFSETS = listOf(-1, 1, -2, 2, -3, 3, -4, 4, -5, 5)
 
 private data class CalculationCandidate(
   val leftOperand: Int,
@@ -283,28 +286,145 @@ internal object CalculationQuestionGenerator {
     difficulty: GameDifficulty,
     random: Random,
   ): CalculationQuestion {
-    val wrongAnswerRange = when (difficulty) {
-      GameDifficulty.LEVEL_ONE -> LEVEL_ONE_WRONG_ANSWER_RANGE
-      GameDifficulty.LEVEL_TWO,
-      GameDifficulty.LEVEL_THREE -> LEVEL_TWO_AND_THREE_WRONG_ANSWER_RANGE
-      GameDifficulty.LEVEL_FOUR -> LEVEL_FOUR_WRONG_ANSWER_RANGE
-      GameDifficulty.LEVEL_FIVE -> LEVEL_FIVE_WRONG_ANSWER_RANGE
-    }
-    val wrongAnswers = wrongAnswerRange
-      .filter { it != candidate.correctAnswer }
-      .shuffled(random)
-      .take(WRONG_ANSWER_COUNT)
-    return CalculationQuestion(
+    val question = CalculationQuestion(
       leftOperand = candidate.leftOperand,
       rightOperand = candidate.rightOperand,
       operator = candidate.operator,
-      choices = buildList(ANSWER_CHOICE_COUNT) {
-        addAll(wrongAnswers)
-        add(candidate.correctAnswer)
-      }.shuffled(random),
+      choices = emptyList(),
       thirdOperand = candidate.thirdOperand,
       secondOperator = candidate.secondOperator,
       missingOperandIndex = candidate.missingOperandIndex,
     )
+    return question.copy(
+      choices = answerChoices(
+        question = question,
+        difficulty = difficulty,
+        random = random,
+      ),
+    )
+  }
+
+  internal fun answerChoices(
+    question: CalculationQuestion,
+    difficulty: GameDifficulty,
+    random: Random,
+  ): List<Int> {
+    val wrongAnswers = wrongAnswerCandidates(question, difficulty)
+      .shuffled(random)
+      .take(WRONG_ANSWER_COUNT)
+    return buildList(ANSWER_CHOICE_COUNT) {
+      addAll(wrongAnswers)
+      add(question.correctAnswer)
+    }.shuffled(random)
+  }
+
+  internal fun wrongAnswerCandidates(
+    question: CalculationQuestion,
+    difficulty: GameDifficulty,
+  ): List<Int> {
+    val allowedRange = wrongAnswerRange(difficulty)
+    val candidates = linkedSetOf<Int>()
+
+    fun addCandidate(value: Int?) {
+      if (
+        value != null &&
+        value != question.correctAnswer &&
+        value in allowedRange
+      ) {
+        candidates += value
+      }
+    }
+
+    if (difficulty == GameDifficulty.LEVEL_FIVE) {
+      addCandidate(question.leftOperand)
+      addCandidate(question.rightOperand)
+      addCandidate(question.thirdOperand)
+    } else if (question.thirdOperand == null || question.secondOperator == null) {
+      when (question.operator) {
+        CalculationOperator.ADDITION -> {
+          addCandidate(question.leftOperand)
+          addCandidate(question.rightOperand)
+          addCandidate(kotlin.math.abs(question.leftOperand - question.rightOperand))
+        }
+        CalculationOperator.SUBTRACTION -> {
+          addCandidate(question.leftOperand)
+          addCandidate(question.rightOperand)
+          addCandidate(question.leftOperand + question.rightOperand)
+        }
+        CalculationOperator.MULTIPLICATION -> {
+          addCandidate(question.correctAnswer - question.leftOperand)
+          addCandidate(question.correctAnswer + question.leftOperand)
+          addCandidate(question.correctAnswer - question.rightOperand)
+          addCandidate(question.correctAnswer + question.rightOperand)
+          addCandidate(question.leftOperand + question.rightOperand)
+        }
+        CalculationOperator.DIVISION -> {
+          addCandidate(question.rightOperand)
+        }
+      }
+    } else {
+      val thirdOperand = requireNotNull(question.thirdOperand)
+      val secondOperator = requireNotNull(question.secondOperator)
+      addCandidate(calculateIfExact(question.operator, question.leftOperand, question.rightOperand))
+      addCandidate(calculateIfExact(secondOperator, question.rightOperand, thirdOperand))
+
+      val leftGroupedResult = calculateIfExact(
+        question.operator,
+        question.leftOperand,
+        question.rightOperand,
+      )?.let { leftResult ->
+        calculateIfExact(secondOperator, leftResult, thirdOperand)
+      }
+      val rightGroupedResult = calculateIfExact(
+        secondOperator,
+        question.rightOperand,
+        thirdOperand,
+      )?.let { rightResult ->
+        calculateIfExact(question.operator, question.leftOperand, rightResult)
+      }
+      addCandidate(leftGroupedResult)
+      addCandidate(rightGroupedResult)
+
+      addCandidate(question.correctAnswer - question.leftOperand)
+      addCandidate(question.correctAnswer + question.leftOperand)
+      addCandidate(question.correctAnswer - question.rightOperand)
+      addCandidate(question.correctAnswer + question.rightOperand)
+      addCandidate(question.correctAnswer - thirdOperand)
+      addCandidate(question.correctAnswer + thirdOperand)
+    }
+
+    WRONG_ANSWER_NEIGHBOR_OFFSETS.forEach { offset ->
+      addCandidate(question.correctAnswer + offset)
+    }
+
+    if (candidates.size < MINIMUM_WRONG_ANSWER_CANDIDATE_COUNT) {
+      allowedRange
+        .sortedBy { value -> kotlin.math.abs(value - question.correctAnswer) }
+        .forEach(::addCandidate)
+    }
+
+    return candidates.take(MAXIMUM_WRONG_ANSWER_CANDIDATE_COUNT)
+  }
+
+  private fun wrongAnswerRange(difficulty: GameDifficulty): IntRange = when (difficulty) {
+    GameDifficulty.LEVEL_ONE -> LEVEL_ONE_WRONG_ANSWER_RANGE
+    GameDifficulty.LEVEL_TWO,
+    GameDifficulty.LEVEL_THREE -> LEVEL_TWO_AND_THREE_WRONG_ANSWER_RANGE
+    GameDifficulty.LEVEL_FOUR -> LEVEL_FOUR_WRONG_ANSWER_RANGE
+    GameDifficulty.LEVEL_FIVE -> LEVEL_FIVE_WRONG_ANSWER_RANGE
+  }
+
+  private fun calculateIfExact(
+    operator: CalculationOperator,
+    leftOperand: Int,
+    rightOperand: Int,
+  ): Int? {
+    if (
+      operator == CalculationOperator.DIVISION &&
+      (rightOperand == 0 || leftOperand % rightOperand != EXACT_DIVISION_REMAINDER)
+    ) {
+      return null
+    }
+    return operator.calculate(leftOperand, rightOperand)
   }
 }

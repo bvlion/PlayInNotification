@@ -116,6 +116,117 @@ class CalculationQuestionTest {
   }
 
   @Test
+  fun `Lv1からLv5で各問題に5件以上10件以下の誤答候補を持つ`() {
+    GameDifficulty.entries.forEach { difficulty ->
+      val random = Random(difficulty.level + 60)
+
+      repeat(1_000) {
+        val question = CalculationQuestionGenerator.create(
+          difficulty = difficulty,
+          random = random,
+        )
+        val wrongAnswerCandidates = CalculationQuestionGenerator.wrongAnswerCandidates(
+          question = question,
+          difficulty = difficulty,
+        )
+
+        assertTrue(wrongAnswerCandidates.size in 5..10)
+        assertEquals(wrongAnswerCandidates.size, wrongAnswerCandidates.distinct().size)
+        assertTrue(question.correctAnswer !in wrongAnswerCandidates)
+      }
+    }
+  }
+
+  @Test
+  fun `同じ計算問題でも誤答2件の組み合わせが変わる`() {
+    val questions = listOf(
+      GameDifficulty.LEVEL_ONE to CalculationQuestion(
+        leftOperand = 8,
+        rightOperand = 5,
+        operator = CalculationOperator.ADDITION,
+        choices = emptyList(),
+      ),
+      GameDifficulty.LEVEL_TWO to CalculationQuestion(
+        leftOperand = 8,
+        rightOperand = 7,
+        operator = CalculationOperator.MULTIPLICATION,
+        choices = emptyList(),
+      ),
+      GameDifficulty.LEVEL_THREE to CalculationQuestion(
+        leftOperand = 42,
+        rightOperand = 6,
+        operator = CalculationOperator.DIVISION,
+        choices = emptyList(),
+      ),
+      GameDifficulty.LEVEL_FOUR to CalculationQuestion(
+        leftOperand = 2,
+        rightOperand = 3,
+        operator = CalculationOperator.ADDITION,
+        choices = emptyList(),
+        thirdOperand = 4,
+        secondOperator = CalculationOperator.MULTIPLICATION,
+      ),
+      GameDifficulty.LEVEL_FIVE to CalculationQuestion(
+        leftOperand = 2,
+        rightOperand = 3,
+        operator = CalculationOperator.ADDITION,
+        choices = emptyList(),
+        thirdOperand = 4,
+        secondOperator = CalculationOperator.MULTIPLICATION,
+        missingOperandIndex = MISSING_LEFT_OPERAND_INDEX,
+      ),
+    )
+
+    questions.forEach { (difficulty, question) ->
+      val wrongAnswerPairs = (1..20).map { seed ->
+        CalculationQuestionGenerator.answerChoices(
+          question = question,
+          difficulty = difficulty,
+          random = Random(seed),
+        ).filter { choice -> choice != question.correctAnswer }.toSet()
+      }.toSet()
+
+      assertTrue(wrongAnswerPairs.size > 1)
+    }
+  }
+
+  @Test
+  fun `掛け算は九九の近い取り違えを誤答候補に含む`() {
+    val question = CalculationQuestion(
+      leftOperand = 8,
+      rightOperand = 7,
+      operator = CalculationOperator.MULTIPLICATION,
+      choices = emptyList(),
+    )
+
+    val wrongAnswerCandidates = CalculationQuestionGenerator.wrongAnswerCandidates(
+      question = question,
+      difficulty = GameDifficulty.LEVEL_TWO,
+    )
+
+    assertTrue(setOf(48, 49, 63, 64).all { it in wrongAnswerCandidates })
+  }
+
+  @Test
+  fun `Lv4は演算順序を取り違えた結果を誤答候補に含む`() {
+    val question = CalculationQuestion(
+      leftOperand = 2,
+      rightOperand = 3,
+      operator = CalculationOperator.ADDITION,
+      choices = emptyList(),
+      thirdOperand = 4,
+      secondOperator = CalculationOperator.MULTIPLICATION,
+    )
+
+    val wrongAnswerCandidates = CalculationQuestionGenerator.wrongAnswerCandidates(
+      question = question,
+      difficulty = GameDifficulty.LEVEL_FOUR,
+    )
+
+    assertTrue(20 in wrongAnswerCandidates)
+  }
+
+  @Test
   fun `難易度ごとの誤答範囲を維持する`() {
     GameDifficulty.entries.forEach { difficulty ->
       val wrongAnswerRange = when (difficulty) {
