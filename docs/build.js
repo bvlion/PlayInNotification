@@ -14,7 +14,7 @@ const html = `<!DOCTYPE HTML>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PlayInNotification プライバシーポリシー</title>
+  <title>通知で脳トレ プライバシーポリシー</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.min.css" rel="stylesheet" type="text/css" media="all"/>
   <style>
     html,
