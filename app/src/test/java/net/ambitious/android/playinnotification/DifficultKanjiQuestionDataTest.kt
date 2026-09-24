@@ -13,14 +13,14 @@ class DifficultKanjiQuestionDataTest {
     )
 
   @Test
-  fun `Lv1からLv4に300語、Lv5に100語収録されている`() {
+  fun `Lv1からLv4に300語、Lv5に200語収録されている`() {
     assertEquals((1..5).toSet(), entriesByDifficulty.keys)
     assertEquals(300, entriesByDifficulty.getValue(1).size)
     assertEquals(300, entriesByDifficulty.getValue(2).size)
     assertEquals(300, entriesByDifficulty.getValue(3).size)
     assertEquals(300, entriesByDifficulty.getValue(4).size)
-    assertEquals(100, entriesByDifficulty.getValue(5).size)
-    assertEquals(1300, entriesByDifficulty.values.flatten().size)
+    assertEquals(200, entriesByDifficulty.getValue(5).size)
+    assertEquals(1400, entriesByDifficulty.values.flatten().size)
   }
 
   @Test
@@ -93,6 +93,20 @@ class DifficultKanjiQuestionDataTest {
   @Test
   fun `追加したLv4問題は出題方向ごとに固有の誤答候補を持つ`() {
     val addedEntries = entriesByDifficulty.getValue(4).drop(100)
+
+    assertEquals(
+      addedEntries.size,
+      addedEntries.map { entry -> entry.writtenFormWrongAnswers.sorted() }.distinct().size,
+    )
+    assertEquals(
+      addedEntries.size,
+      addedEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
+    )
+  }
+
+  @Test
+  fun `追加したLv5問題は出題方向ごとに固有の誤答候補を持つ`() {
+    val addedEntries = entriesByDifficulty.getValue(5).drop(100)
 
     assertEquals(
       addedEntries.size,
