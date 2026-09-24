@@ -88,7 +88,7 @@ internal object GameNotifications {
       PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
     )
     val notification = Notification.Builder(context, CHANNEL_ID)
-      .setSmallIcon(R.drawable.ic_launcher_foreground)
+      .setSmallIcon(R.drawable.ic_notification)
       .setContentTitle(context.getString(R.string.game_selection_title))
       .setContentIntent(createMainActivityPendingIntent(context))
       .setOngoing(true)
@@ -120,7 +120,7 @@ internal object GameNotifications {
     answerActions: List<Pair<String, PendingIntent>>,
   ): Notification {
     return Notification.Builder(context, CHANNEL_ID)
-      .setSmallIcon(R.drawable.ic_launcher_foreground)
+      .setSmallIcon(R.drawable.ic_notification)
       .setContentTitle(title)
       .setSubText(context.getString(R.string.game_time_remaining, remainingSeconds))
       .setShowWhen(false)
@@ -150,7 +150,7 @@ internal object GameNotifications {
     notify(
       context,
       Notification.Builder(context, CHANNEL_ID)
-        .setSmallIcon(R.drawable.ic_launcher_foreground)
+        .setSmallIcon(R.drawable.ic_notification)
         .setContentTitle(context.getString(R.string.session_finished_title))
         .setContentText(resultSummary)
         .setOngoing(true)
@@ -184,7 +184,7 @@ internal object GameNotifications {
     val previousLevel = previousStatistics.growthLevel
     val updatedLevel = updatedStatistics.growthLevel
     val notificationBuilder = Notification.Builder(context, CHANNEL_ID)
-      .setSmallIcon(R.drawable.ic_launcher_foreground)
+      .setSmallIcon(R.drawable.ic_notification)
       .setContentTitle(context.getString(R.string.session_finished_title))
       .setContentText(resultSummary)
       .setOngoing(true)
