@@ -4,6 +4,11 @@
   android:height="108dp"
   android:viewportWidth="512"
   android:viewportHeight="512">
+  <group
+    android:pivotX="256"
+    android:pivotY="256"
+    android:scaleX="0.82"
+    android:scaleY="0.82">
   <path
     android:fillColor="@android:color/transparent"
     android:pathData="M383.831,77H129.169C97.5954,77 72,102.739 72,134.489V306.956C72,338.707 97.5954,364.445 129.169,364.445H383.831C415.405,364.445 441,338.707 441,306.956V134.489C441,102.739 415.405,77 383.831,77Z"
@@ -36,4 +41,5 @@
   <path
     android:fillColor="#DDE4FF"
     android:pathData="M357.845,239.015H331.859C320.378,239.015 311.07,248.374 311.07,259.92V286.051C311.07,297.597 320.378,306.956 331.859,306.956H357.845C369.326,306.956 378.634,297.597 378.634,286.051V259.92C378.634,248.374 369.326,239.015 357.845,239.015Z" />
+  </group>
 </vector>
