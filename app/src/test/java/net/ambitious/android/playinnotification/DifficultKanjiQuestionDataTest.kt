@@ -13,14 +13,14 @@ class DifficultKanjiQuestionDataTest {
     )
 
   @Test
-  fun `Lv1からLv3に300語、Lv4に200語、Lv5に100語収録されている`() {
+  fun `Lv1からLv4に300語、Lv5に100語収録されている`() {
     assertEquals((1..5).toSet(), entriesByDifficulty.keys)
     assertEquals(300, entriesByDifficulty.getValue(1).size)
     assertEquals(300, entriesByDifficulty.getValue(2).size)
     assertEquals(300, entriesByDifficulty.getValue(3).size)
-    assertEquals(200, entriesByDifficulty.getValue(4).size)
+    assertEquals(300, entriesByDifficulty.getValue(4).size)
     assertEquals(100, entriesByDifficulty.getValue(5).size)
-    assertEquals(1200, entriesByDifficulty.values.flatten().size)
+    assertEquals(1300, entriesByDifficulty.values.flatten().size)
   }
 
   @Test
