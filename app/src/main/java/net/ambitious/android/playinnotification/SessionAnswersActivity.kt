@@ -19,19 +19,20 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 
 private val SESSION_ANSWERS_CONTENT_PADDING = 24.dp
@@ -78,15 +79,10 @@ class SessionAnswersActivity : ComponentActivity() {
                   modifier = Modifier.weight(1f),
                   style = MaterialTheme.typography.headlineMedium,
                 )
-                IconButton(
-                  onClick = { finish() },
-                  modifier = Modifier.semantics {
-                    contentDescription = getString(R.string.close_session_answers)
-                  },
-                ) {
-                  Text(
-                    text = "×",
-                    style = MaterialTheme.typography.headlineMedium,
+                IconButton(onClick = { finish() }) {
+                  Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = stringResource(R.string.close_session_answers),
                   )
                 }
               }
