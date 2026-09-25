@@ -26,12 +26,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
@@ -81,7 +80,7 @@ class SessionAnswersActivity : ComponentActivity() {
                 )
                 IconButton(onClick = { finish() }) {
                   Icon(
-                    imageVector = Icons.Default.Close,
+                    painter = painterResource(R.drawable.close),
                     contentDescription = stringResource(R.string.close_session_answers),
                   )
                 }
