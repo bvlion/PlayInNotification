@@ -114,7 +114,7 @@ class DifficultKanjiQuestionTest {
           DifficultKanjiEntry(
             "鶯",
             "うぐいす",
-            readingWrongAnswers = listOf("うずら", "うなぎ", "おうむ", "かもめ", "つぐみ"),
+            readingWrongAnswers = listOf("うずら", "うなぎ"),
           ),
         ),
       ),
@@ -130,6 +130,7 @@ class DifficultKanjiQuestionTest {
     )
 
     assertEquals("うぐいす", question.correctAnswer)
+    assertEquals(3, question.choices.size)
     assertTrue(
       question.choices.filter { it != question.correctAnswer }
         .all { it in question.entry.readingWrongAnswers },
@@ -144,7 +145,7 @@ class DifficultKanjiQuestionTest {
           DifficultKanjiEntry(
             "鶯",
             "うぐいす",
-            writtenFormWrongAnswers = listOf("鶉", "鰻", "鴎", "鷺", "鵯"),
+            writtenFormWrongAnswers = listOf("鶉", "鰻"),
           ),
         ),
       ),
@@ -160,6 +161,7 @@ class DifficultKanjiQuestionTest {
     )
 
     assertEquals("鶯", question.correctAnswer)
+    assertEquals(3, question.choices.size)
     assertTrue(
       question.choices.filter { it != question.correctAnswer }
         .all { it in question.entry.writtenFormWrongAnswers },
