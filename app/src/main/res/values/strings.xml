@@ -45,6 +45,7 @@
   <string name="view_session_answers">今回の回答を見る</string>
   <string name="choose_game">ゲームを選ぶ</string>
   <string name="session_answers_title">今回の回答</string>
+  <string name="close_session_answers">閉じる</string>
   <string name="selected_answer">選んだ回答: %1$s</string>
   <string name="no_session_answers">今回の回答はありません。</string>
 </resources>
