@@ -11,6 +11,7 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -68,10 +70,19 @@ class SessionAnswersActivity : ComponentActivity() {
             verticalArrangement = Arrangement.spacedBy(SESSION_ANSWERS_LIST_ITEM_SPACING),
           ) {
             item {
-              Text(
-                text = stringResource(R.string.session_answers_title),
-                style = MaterialTheme.typography.headlineMedium,
-              )
+              Row(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                  text = stringResource(R.string.session_answers_title),
+                  modifier = Modifier.weight(1f),
+                  style = MaterialTheme.typography.headlineMedium,
+                )
+                IconButton(onClick = { finish() }) {
+                  Text(
+                    text = "×",
+                    style = MaterialTheme.typography.headlineMedium,
+                  )
+                }
+              }
             }
             if (answers.isEmpty()) {
               item {
