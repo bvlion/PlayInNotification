@@ -68,7 +68,7 @@ class DifficultKanjiQuestionTest {
         ),
       )
       val entry = entriesByDifficulty.getValue(difficulty.level)
-        .single { it.writtenForm == question.prompt }
+        .single { it.writtenForm == question.prompt && it.readingWrongAnswers.isNotEmpty() }
 
       assertEquals(entry.reading, question.correctAnswer)
       assertEquals(3, question.choices.size)
@@ -94,7 +94,7 @@ class DifficultKanjiQuestionTest {
         ),
       )
       val entry = entriesByDifficulty.getValue(difficulty.level)
-        .single { it.reading == question.prompt }
+        .single { it.reading == question.prompt && it.writtenFormWrongAnswers.isNotEmpty() }
 
       assertEquals(entry.writtenForm, question.correctAnswer)
       assertEquals(3, question.choices.size)

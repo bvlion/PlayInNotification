@@ -30,52 +30,88 @@ class DifficultKanjiQuestionDataTest {
   }
 
   @Test
-  fun `Lv1からLv5に300語ずつ収録されている`() {
+  fun `Lv1は各方向300問でLv2からLv5は300語ずつ収録されている`() {
     assertEquals((1..5).toSet(), entriesByDifficulty.keys)
-    assertEquals(300, entriesByDifficulty.getValue(1).size)
+    val levelOneEntries = entriesByDifficulty.getValue(1)
+    assertEquals(300, levelOneEntries.count { it.readingWrongAnswers.isNotEmpty() })
+    assertEquals(300, levelOneEntries.count { it.writtenFormWrongAnswers.isNotEmpty() })
+    assertEquals(600, levelOneEntries.size)
     assertEquals(300, entriesByDifficulty.getValue(2).size)
     assertEquals(300, entriesByDifficulty.getValue(3).size)
     assertEquals(300, entriesByDifficulty.getValue(4).size)
     assertEquals(300, entriesByDifficulty.getValue(5).size)
-    assertEquals(1500, entriesByDifficulty.values.flatten().size)
+    assertEquals(1800, entriesByDifficulty.values.flatten().size)
   }
 
   @Test
-  fun `表記と読みは空でなく重複していない`() {
+  fun `各方向の表記と読みは空でなく重複していない`() {
     val allEntries = entriesByDifficulty.values.flatten()
 
     assertTrue(allEntries.all { it.writtenForm.isNotBlank() })
     assertTrue(allEntries.all { it.reading.isNotBlank() })
-    assertEquals(allEntries.size, allEntries.map { it.writtenForm }.distinct().size)
-    assertEquals(allEntries.size, allEntries.map { it.reading }.distinct().size)
+    entriesByDifficulty.forEach { (difficulty, entries) ->
+      val directionGroups = if (difficulty == 1) {
+        listOf(
+          entries.filter { it.readingWrongAnswers.isNotEmpty() },
+          entries.filter { it.writtenFormWrongAnswers.isNotEmpty() },
+        )
+      } else {
+        listOf(entries)
+      }
+    directionGroups.forEach { directionEntries ->
+        assertEquals(directionEntries.size, directionEntries.map { it.writtenForm }.distinct().size)
+        assertEquals(directionEntries.size, directionEntries.map { it.reading }.distinct().size)
+      }
+    }
+    val otherEntries = entriesByDifficulty.filterKeys { it != 1 }.values.flatten()
+    assertEquals(otherEntries.size, otherEntries.map { it.writtenForm }.distinct().size)
+    assertEquals(otherEntries.size, otherEntries.map { it.reading }.distinct().size)
+    val otherWrittenForms = otherEntries.map { it.writtenForm }.toSet()
+    val otherReadings = otherEntries.map { it.reading }.toSet()
+    assertTrue(entriesByDifficulty.getValue(1).none { it.writtenForm in otherWrittenForms })
+    assertTrue(entriesByDifficulty.getValue(1).none { it.reading in otherReadings })
   }
 
   @Test
-  fun `各問題は両方向に5件の異なる誤答候補を持つ`() {
-    entriesByDifficulty.values.flatten().forEach { entry ->
+  fun `各問題は出題方向に2件以上の異なる誤答候補を持つ`() {
+    entriesByDifficulty.getValue(1).forEach { entry ->
+      assertTrue(
+        (entry.writtenFormWrongAnswers.size >= 2) !=
+          (entry.readingWrongAnswers.size >= 2),
+      )
+      assertTrue(entry.writtenFormWrongAnswers.isEmpty() || entry.readingWrongAnswers.isEmpty())
+    }
+    entriesByDifficulty.filterKeys { it != 1 }.values.flatten().forEach { entry ->
       assertEquals(5, entry.writtenFormWrongAnswers.size)
-      assertEquals(5, entry.writtenFormWrongAnswers.distinct().size)
+      assertEquals(5, entry.readingWrongAnswers.size)
+    }
+    entriesByDifficulty.values.flatten().forEach { entry ->
+      assertEquals(
+        entry.writtenFormWrongAnswers.size,
+        entry.writtenFormWrongAnswers.distinct().size,
+      )
       assertTrue(entry.writtenForm !in entry.writtenFormWrongAnswers)
       assertTrue(entry.writtenFormWrongAnswers.all(String::isNotBlank))
 
-      assertEquals(5, entry.readingWrongAnswers.size)
-      assertEquals(5, entry.readingWrongAnswers.distinct().size)
+      assertEquals(entry.readingWrongAnswers.size, entry.readingWrongAnswers.distinct().size)
       assertTrue(entry.reading !in entry.readingWrongAnswers)
       assertTrue(entry.readingWrongAnswers.all(String::isNotBlank))
     }
   }
 
   @Test
-  fun `追加したLv1問題は出題方向ごとに固有の誤答候補を持つ`() {
-    val addedEntries = entriesByDifficulty.getValue(1).drop(100)
+  fun `Lv1問題は出題方向ごとに固有の誤答候補を持つ`() {
+    val entries = entriesByDifficulty.getValue(1)
+    val writtenFormQuestions = entries.filter { it.writtenFormWrongAnswers.isNotEmpty() }
+    val readingQuestions = entries.filter { it.readingWrongAnswers.isNotEmpty() }
 
     assertEquals(
-      addedEntries.size,
-      addedEntries.map { entry -> entry.writtenFormWrongAnswers.sorted() }.distinct().size,
+      writtenFormQuestions.size,
+      writtenFormQuestions.map { it.writtenFormWrongAnswers.sorted() }.distinct().size,
     )
     assertEquals(
-      addedEntries.size,
-      addedEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
+      readingQuestions.size,
+      readingQuestions.map { it.readingWrongAnswers.sorted() }.distinct().size,
     )
   }
 
