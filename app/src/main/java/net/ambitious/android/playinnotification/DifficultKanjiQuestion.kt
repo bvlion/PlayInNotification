@@ -48,7 +48,13 @@ internal data class DifficultKanjiQuestion(
       }
       val eligibleEntries = entries
         .filter { entry ->
-          entry !in askedEntries && entry != previousQuestion?.entry
+          askedEntries.none { it.writtenForm == entry.writtenForm } &&
+            entry.writtenForm != previousQuestion?.entry?.writtenForm && when (direction) {
+            DifficultKanjiQuestionDirection.WRITTEN_FORM_TO_READING ->
+              entry.readingWrongAnswers.size >= WRONG_ANSWER_COUNT
+            DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM ->
+              entry.writtenFormWrongAnswers.size >= WRONG_ANSWER_COUNT
+          }
         }
       val correctEntry = eligibleEntries.random(random)
       val correctAnswer = when (direction) {
