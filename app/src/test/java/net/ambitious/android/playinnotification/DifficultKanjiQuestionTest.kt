@@ -229,4 +229,39 @@ class DifficultKanjiQuestionTest {
     }
   }
 
+  @Test
+  fun `方向ごとに独立した問題から出題する`() {
+    val writtenFormToReading = DifficultKanjiEntry(
+      "昨日", "きのう", readingWrongAnswers = listOf("きょう", "おととい"),
+    )
+    val readingToWrittenForm = DifficultKanjiEntry(
+      "鶯", "うぐいす", writtenFormWrongAnswers = listOf("鶉", "鴎"),
+    )
+    val entries = mapOf(1 to listOf(writtenFormToReading, readingToWrittenForm))
+    val previous = DifficultKanjiQuestion(
+      direction = DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM,
+      entry = DifficultKanjiEntry("", ""),
+      choices = emptyList(),
+    )
+
+    val first = DifficultKanjiQuestion.create(
+      entriesByDifficulty = entries,
+      difficulty = GameDifficulty.LEVEL_ONE,
+      previousQuestion = previous,
+      random = Random(1),
+    )
+    val second = DifficultKanjiQuestion.create(
+      entriesByDifficulty = entries,
+      difficulty = GameDifficulty.LEVEL_ONE,
+      previousQuestion = first,
+      askedEntries = listOf(first.entry),
+      random = Random(1),
+    )
+
+    assertEquals(writtenFormToReading, first.entry)
+    assertEquals(readingToWrittenForm, second.entry)
+    assertEquals(3, first.choices.size)
+    assertEquals(3, second.choices.size)
+  }
+
 }

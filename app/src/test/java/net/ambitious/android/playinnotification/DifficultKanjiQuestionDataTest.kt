@@ -1,5 +1,6 @@
 package net.ambitious.android.playinnotification
 
+import java.io.ByteArrayInputStream
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -11,6 +12,22 @@ class DifficultKanjiQuestionDataTest {
         .getResourceAsStream(DifficultKanjiQuestionData.FILE_NAME)
         .let(::checkNotNull),
     )
+
+  @Test
+  fun `方向別の問題は使用しない方向の誤答候補を持たない`() {
+    val data = """
+      difficulty\twrittenForm\treading\twrittenFormWrongAnswers\treadingWrongAnswers
+      1\t昨日\tきのう\t-\tきょう|おととい
+      1\t鶯\tうぐいす\t鶉|鴎\t-
+    """.trimIndent().replace("\\t", "\t")
+
+    val entries = DifficultKanjiQuestionData.load(ByteArrayInputStream(data.toByteArray()))
+
+    assertEquals(emptyList<String>(), entries.getValue(1)[0].writtenFormWrongAnswers)
+    assertEquals(listOf("きょう", "おととい"), entries.getValue(1)[0].readingWrongAnswers)
+    assertEquals(listOf("鶉", "鴎"), entries.getValue(1)[1].writtenFormWrongAnswers)
+    assertEquals(emptyList<String>(), entries.getValue(1)[1].readingWrongAnswers)
+  }
 
   @Test
   fun `Lv1からLv5に300語ずつ収録されている`() {
