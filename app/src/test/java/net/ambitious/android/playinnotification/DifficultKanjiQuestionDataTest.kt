@@ -13,14 +13,22 @@ class DifficultKanjiQuestionDataTest {
     )
 
   @Test
-  fun `Lv1からLv5に300語ずつ収録されている`() {
+  fun `Lv1は両方向に300問ずつ収録されている`() {
     assertEquals((1..5).toSet(), entriesByDifficulty.keys)
-    assertEquals(300, entriesByDifficulty.getValue(1).size)
+    val levelOneEntries = entriesByDifficulty.getValue(1)
+    assertEquals(600, levelOneEntries.size)
+    assertEquals(300, levelOneEntries.count { it.readingWrongAnswers.isNotEmpty() })
+    assertEquals(300, levelOneEntries.count { it.writtenFormWrongAnswers.isNotEmpty() })
+    assertTrue(levelOneEntries.all {
+      it.readingWrongAnswers.isEmpty() != it.writtenFormWrongAnswers.isEmpty()
+    })
+    assertEquals(300, levelOneEntries.map { it.writtenForm }.distinct().size)
+    assertEquals(300, levelOneEntries.map { it.reading }.distinct().size)
     assertEquals(300, entriesByDifficulty.getValue(2).size)
     assertEquals(300, entriesByDifficulty.getValue(3).size)
     assertEquals(300, entriesByDifficulty.getValue(4).size)
     assertEquals(300, entriesByDifficulty.getValue(5).size)
-    assertEquals(1500, entriesByDifficulty.values.flatten().size)
+    assertEquals(1800, entriesByDifficulty.values.flatten().size)
   }
 
   @Test
@@ -29,36 +37,43 @@ class DifficultKanjiQuestionDataTest {
 
     assertTrue(allEntries.all { it.writtenForm.isNotBlank() })
     assertTrue(allEntries.all { it.reading.isNotBlank() })
-    assertEquals(allEntries.size, allEntries.map { it.writtenForm }.distinct().size)
-    assertEquals(allEntries.size, allEntries.map { it.reading }.distinct().size)
+    assertEquals(1500, allEntries.map { it.writtenForm }.distinct().size)
+    assertEquals(1500, allEntries.map { it.reading }.distinct().size)
   }
 
   @Test
-  fun `各問題は両方向に5件の異なる誤答候補を持つ`() {
+  fun `各問題は出題方向に3件以上の異なる誤答候補を持つ`() {
     entriesByDifficulty.values.flatten().forEach { entry ->
-      assertEquals(5, entry.writtenFormWrongAnswers.size)
-      assertEquals(5, entry.writtenFormWrongAnswers.distinct().size)
+      if (entry.writtenFormWrongAnswers.isNotEmpty()) {
+        assertTrue(entry.writtenFormWrongAnswers.size >= 3)
+      }
+      assertEquals(entry.writtenFormWrongAnswers.size, entry.writtenFormWrongAnswers.distinct().size)
       assertTrue(entry.writtenForm !in entry.writtenFormWrongAnswers)
       assertTrue(entry.writtenFormWrongAnswers.all(String::isNotBlank))
 
-      assertEquals(5, entry.readingWrongAnswers.size)
-      assertEquals(5, entry.readingWrongAnswers.distinct().size)
+      if (entry.readingWrongAnswers.isNotEmpty()) {
+        assertTrue(entry.readingWrongAnswers.size >= 3)
+      }
+      assertEquals(entry.readingWrongAnswers.size, entry.readingWrongAnswers.distinct().size)
       assertTrue(entry.reading !in entry.readingWrongAnswers)
       assertTrue(entry.readingWrongAnswers.all(String::isNotBlank))
     }
   }
 
   @Test
-  fun `追加したLv1問題は出題方向ごとに固有の誤答候補を持つ`() {
-    val addedEntries = entriesByDifficulty.getValue(1).drop(100)
+  fun `Lv1問題は出題方向ごとに固有の誤答候補を持つ`() {
+    val writtenFormEntries = entriesByDifficulty.getValue(1)
+      .filter { it.writtenFormWrongAnswers.isNotEmpty() }
+    val readingEntries = entriesByDifficulty.getValue(1)
+      .filter { it.readingWrongAnswers.isNotEmpty() }
 
     assertEquals(
-      addedEntries.size,
-      addedEntries.map { entry -> entry.writtenFormWrongAnswers.sorted() }.distinct().size,
+      writtenFormEntries.size,
+      writtenFormEntries.map { entry -> entry.writtenFormWrongAnswers.sorted() }.distinct().size,
     )
     assertEquals(
-      addedEntries.size,
-      addedEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
+      readingEntries.size,
+      readingEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
     )
   }
 

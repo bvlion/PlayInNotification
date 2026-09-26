@@ -18,6 +18,7 @@ internal object DifficultKanjiQuestionData {
   private const val WRITTEN_FORM_WRONG_ANSWERS_COLUMN_INDEX = 3
   private const val READING_WRONG_ANSWERS_COLUMN_INDEX = 4
   private const val WRONG_ANSWER_SEPARATOR = '|'
+  private const val NO_WRONG_ANSWERS = "-"
 
   fun load(inputStream: InputStream): Map<Int, List<DifficultKanjiEntry>> =
     inputStream.bufferedReader().use { reader ->
@@ -35,8 +36,10 @@ internal object DifficultKanjiQuestionData {
           columns[DIFFICULTY_COLUMN_INDEX].toInt() to DifficultKanjiEntry(
             columns[WRITTEN_FORM_COLUMN_INDEX],
             columns[READING_COLUMN_INDEX],
-            columns[WRITTEN_FORM_WRONG_ANSWERS_COLUMN_INDEX].split(WRONG_ANSWER_SEPARATOR),
-            columns[READING_WRONG_ANSWERS_COLUMN_INDEX].split(WRONG_ANSWER_SEPARATOR),
+            columns[WRITTEN_FORM_WRONG_ANSWERS_COLUMN_INDEX]
+              .takeUnless { it == NO_WRONG_ANSWERS }?.split(WRONG_ANSWER_SEPARATOR).orEmpty(),
+            columns[READING_WRONG_ANSWERS_COLUMN_INDEX]
+              .takeUnless { it == NO_WRONG_ANSWERS }?.split(WRONG_ANSWER_SEPARATOR).orEmpty(),
           )
         }
         .groupBy({ it.first }, { it.second })

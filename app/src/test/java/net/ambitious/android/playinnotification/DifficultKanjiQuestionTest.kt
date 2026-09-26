@@ -14,7 +14,7 @@ class DifficultKanjiQuestionTest {
     )
 
   @Test
-  fun `Lv1からLv5で同一セッション内の過去の語を再出題しない`() {
+  fun `Lv1からLv5で同一セッション内の過去の問題データを再出題しない`() {
     GameDifficulty.entries.forEach { difficulty ->
       val random = Random(difficulty.level + 20)
       val askedEntries = mutableListOf<DifficultKanjiEntry>()
@@ -68,7 +68,9 @@ class DifficultKanjiQuestionTest {
         ),
       )
       val entry = entriesByDifficulty.getValue(difficulty.level)
-        .single { it.writtenForm == question.prompt }
+        .single {
+          it.writtenForm == question.prompt && it.readingWrongAnswers.isNotEmpty()
+        }
 
       assertEquals(entry.reading, question.correctAnswer)
       assertEquals(3, question.choices.size)
@@ -94,7 +96,9 @@ class DifficultKanjiQuestionTest {
         ),
       )
       val entry = entriesByDifficulty.getValue(difficulty.level)
-        .single { it.reading == question.prompt }
+        .single {
+          it.reading == question.prompt && it.writtenFormWrongAnswers.isNotEmpty()
+        }
 
       assertEquals(entry.writtenForm, question.correctAnswer)
       assertEquals(3, question.choices.size)
@@ -212,6 +216,32 @@ class DifficultKanjiQuestionTest {
   }
 
   @Test
+  fun `Lv1では同じ語の両方向を独立した問題として出題できる`() {
+    val entries = entriesByDifficulty.getValue(1).take(2)
+    val firstQuestion = DifficultKanjiQuestion.create(
+      entriesByDifficulty = mapOf(1 to entries),
+      difficulty = GameDifficulty.LEVEL_ONE,
+      previousQuestion = DifficultKanjiQuestion(
+        direction = DifficultKanjiQuestionDirection.READING_TO_WRITTEN_FORM,
+        entry = DifficultKanjiEntry("", ""),
+        choices = emptyList(),
+      ),
+      random = Random(1),
+    )
+    val secondQuestion = DifficultKanjiQuestion.create(
+      entriesByDifficulty = mapOf(1 to entries),
+      difficulty = GameDifficulty.LEVEL_ONE,
+      previousQuestion = firstQuestion.copy(entry = DifficultKanjiEntry("別語", "べつご")),
+      askedEntries = listOf(firstQuestion.entry),
+      random = Random(1),
+    )
+
+    assertEquals(firstQuestion.entry.writtenForm, secondQuestion.entry.writtenForm)
+    assertTrue(firstQuestion.direction != secondQuestion.direction)
+    assertTrue(firstQuestion.entry != secondQuestion.entry)
+  }
+
+  @Test
   fun `連続して生成した問題は同じ語を出題しない`() {
     GameDifficulty.entries.forEach { difficulty ->
       val firstQuestion = DifficultKanjiQuestion.create(
@@ -225,7 +255,7 @@ class DifficultKanjiQuestionTest {
         random = Random(difficulty.level),
         previousQuestion = firstQuestion,
       )
-      assertTrue(firstQuestion.entry != secondQuestion.entry)
+      assertTrue(firstQuestion.entry.writtenForm != secondQuestion.entry.writtenForm)
     }
   }
 
