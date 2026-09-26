@@ -58,7 +58,7 @@ class DifficultKanjiQuestionDataTest {
       } else {
         listOf(entries)
       }
-    directionGroups.forEach { directionEntries ->
+      directionGroups.forEach { directionEntries ->
         assertEquals(directionEntries.size, directionEntries.map { it.writtenForm }.distinct().size)
         assertEquals(directionEntries.size, directionEntries.map { it.reading }.distinct().size)
       }

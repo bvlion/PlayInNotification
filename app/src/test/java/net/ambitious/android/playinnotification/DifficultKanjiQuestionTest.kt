@@ -28,7 +28,7 @@ class DifficultKanjiQuestionTest {
           askedEntries = askedEntries,
           random = random,
         )
-        assertTrue(question.entry !in askedEntries)
+        assertTrue(askedEntries.none { it.writtenForm == question.entry.writtenForm })
         askedEntries += question.entry
         previousQuestion = question
       }
