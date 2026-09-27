@@ -30,7 +30,7 @@ class DifficultKanjiQuestionDataTest {
   }
 
   @Test
-  fun `Lv1とLv2は各方向300問でLv3からLv5は300語ずつ収録されている`() {
+  fun `Lv1からLv3は各方向300問でLv4とLv5は300語ずつ収録されている`() {
     assertEquals((1..5).toSet(), entriesByDifficulty.keys)
     val levelOneEntries = entriesByDifficulty.getValue(1)
     assertEquals(300, levelOneEntries.count { it.readingWrongAnswers.isNotEmpty() })
@@ -40,10 +40,13 @@ class DifficultKanjiQuestionDataTest {
     assertEquals(300, levelTwoEntries.count { it.readingWrongAnswers.isNotEmpty() })
     assertEquals(300, levelTwoEntries.count { it.writtenFormWrongAnswers.isNotEmpty() })
     assertEquals(600, levelTwoEntries.size)
-    assertEquals(300, entriesByDifficulty.getValue(3).size)
+    val levelThreeEntries = entriesByDifficulty.getValue(3)
+    assertEquals(300, levelThreeEntries.count { it.readingWrongAnswers.isNotEmpty() })
+    assertEquals(300, levelThreeEntries.count { it.writtenFormWrongAnswers.isNotEmpty() })
+    assertEquals(600, levelThreeEntries.size)
     assertEquals(300, entriesByDifficulty.getValue(4).size)
     assertEquals(300, entriesByDifficulty.getValue(5).size)
-    assertEquals(2100, entriesByDifficulty.values.flatten().size)
+    assertEquals(2400, entriesByDifficulty.values.flatten().size)
   }
 
   @Test
@@ -53,7 +56,7 @@ class DifficultKanjiQuestionDataTest {
     assertTrue(allEntries.all { it.writtenForm.isNotBlank() })
     assertTrue(allEntries.all { it.reading.isNotBlank() })
     entriesByDifficulty.forEach { (difficulty, entries) ->
-      val directionGroups = if (difficulty <= 2) {
+      val directionGroups = if (difficulty <= 3) {
         listOf(
           entries.filter { it.readingWrongAnswers.isNotEmpty() },
           entries.filter { it.writtenFormWrongAnswers.isNotEmpty() },
@@ -67,7 +70,8 @@ class DifficultKanjiQuestionDataTest {
       }
     }
     val otherEntries = entriesByDifficulty.getValue(2).distinctBy { it.writtenForm } +
-      entriesByDifficulty.filterKeys { it > 2 }.values.flatten()
+      entriesByDifficulty.getValue(3).distinctBy { it.writtenForm } +
+      entriesByDifficulty.filterKeys { it > 3 }.values.flatten()
     assertEquals(otherEntries.size, otherEntries.map { it.writtenForm }.distinct().size)
     assertEquals(otherEntries.size, otherEntries.map { it.reading }.distinct().size)
     val otherWrittenForms = otherEntries.map { it.writtenForm }.toSet()
@@ -78,14 +82,14 @@ class DifficultKanjiQuestionDataTest {
 
   @Test
   fun `各問題は出題方向に2件以上の異なる誤答候補を持つ`() {
-    entriesByDifficulty.filterKeys { it <= 2 }.values.flatten().forEach { entry ->
+    entriesByDifficulty.filterKeys { it <= 3 }.values.flatten().forEach { entry ->
       assertTrue(
         (entry.writtenFormWrongAnswers.size >= 2) !=
           (entry.readingWrongAnswers.size >= 2),
       )
       assertTrue(entry.writtenFormWrongAnswers.isEmpty() || entry.readingWrongAnswers.isEmpty())
     }
-    entriesByDifficulty.filterKeys { it > 2 }.values.flatten().forEach { entry ->
+    entriesByDifficulty.filterKeys { it > 3 }.values.flatten().forEach { entry ->
       assertEquals(5, entry.writtenFormWrongAnswers.size)
       assertEquals(5, entry.readingWrongAnswers.size)
     }
@@ -136,16 +140,18 @@ class DifficultKanjiQuestionDataTest {
   }
 
   @Test
-  fun `追加したLv3問題は出題方向ごとに固有の誤答候補を持つ`() {
-    val addedEntries = entriesByDifficulty.getValue(3).drop(100)
+  fun `Lv3問題は出題方向ごとに固有の誤答候補を持つ`() {
+    val levelThreeEntries = entriesByDifficulty.getValue(3)
+    val writtenFormQuestions = levelThreeEntries.filter { it.writtenFormWrongAnswers.isNotEmpty() }
+    val readingQuestions = levelThreeEntries.filter { it.readingWrongAnswers.isNotEmpty() }
 
     assertEquals(
-      addedEntries.size,
-      addedEntries.map { entry -> entry.writtenFormWrongAnswers.sorted() }.distinct().size,
+      writtenFormQuestions.size,
+      writtenFormQuestions.map { entry -> entry.writtenFormWrongAnswers.sorted() }.distinct().size,
     )
     assertEquals(
-      addedEntries.size,
-      addedEntries.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
+      readingQuestions.size,
+      readingQuestions.map { entry -> entry.readingWrongAnswers.sorted() }.distinct().size,
     )
   }
 
