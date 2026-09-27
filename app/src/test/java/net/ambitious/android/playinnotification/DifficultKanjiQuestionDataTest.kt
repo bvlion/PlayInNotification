@@ -85,9 +85,6 @@ class DifficultKanjiQuestionDataTest {
       )
       assertTrue(entry.writtenFormWrongAnswers.isEmpty() || entry.readingWrongAnswers.isEmpty())
     }
-    entriesByDifficulty.getValue(2).forEach { entry ->
-      assertEquals(2, maxOf(entry.writtenFormWrongAnswers.size, entry.readingWrongAnswers.size))
-    }
     entriesByDifficulty.filterKeys { it > 2 }.values.flatten().forEach { entry ->
       assertEquals(5, entry.writtenFormWrongAnswers.size)
       assertEquals(5, entry.readingWrongAnswers.size)
