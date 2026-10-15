@@ -41,7 +41,7 @@
     "githubApprovalComment": null
   },
   "automationApproval": null,
-  "status": "auditing",
+  "status": "revising",
   "activeBatch": {
     "batchId": "lv1-reading-001-050",
     "difficulty": 1,
@@ -56,8 +56,8 @@
     "revision": 1,
     "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/1",
     "snapshotSha256": "37d3dfb30d3fa663f41f66e2ceb062980949e36cec27e5fe0f8dcb8f02028489",
-    "status": "auditing",
-    "nextAction": "3監査原指摘を統合し作成担当へ修正依頼",
+    "status": "revising",
+    "nextAction": "creatorが35指摘を修正して新revisionを作成。全監査担当の新規コンテキスト再監査が必要",
     "assignments": [
       {
         "role": "kanji_creator",
@@ -2072,5 +2072,5 @@
       "resolvedRevision": null
     }
   ],
-  "nextAction": "3監査原指摘を統合し作成担当へ修正依頼"
+  "nextAction": "creatorが35指摘を修正して新revisionを作成。全監査担当の新規コンテキスト再監査が必要"
 }
