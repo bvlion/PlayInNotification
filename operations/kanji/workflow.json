@@ -4,6 +4,7 @@
   "issues": [130, 140],
   "mode": "setup_only",
   "isProductionStarted": false,
+  "authorizedApprover": null,
   "productionStartApproval": null,
   "automationApproval": null,
   "status": "awaiting_production_start",
