@@ -18,7 +18,6 @@
   },
   "isPreviousSessionResumed": false,
   "recoverySource": "GitHub APIによる保存コミットの取得。ローカルstateは復元根拠に未使用。",
-  "sourceDirectory": "operations/kanji/verification/revision-recovery-source",
   "retrievedFiles": [
     {
       "path": "operations/kanji/verification/findings.json",
@@ -55,5 +54,8 @@
       "sha256": "f392bcf0631e61f0a6b972689e8bb31ff393a8b5a2246deece4a0b84e5d350fb",
       "isLocalIdentical": true
     }
-  ]
+  ],
+  "downloadDirectoryDuringVerification": "operations/kanji/verification/revision-recovery-source",
+  "isDownloadedSourceTracked": false,
+  "downloadNote": "復元時の一時コピーはruntimeへ移動し、Git管理対象から除外。再取得元は記録されたGitHubコミット。"
 }

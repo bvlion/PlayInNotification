@@ -12,6 +12,7 @@
 | 修正後の全員再確認 | 作成担当が版2へ修正し、全3監査を新規起動。全結果が版2・同一SHA-256・指摘ゼロ | 模擬記録で確認済み |
 | 途中保存 | 問題の代わりの模擬記録・原監査結果・未解決指摘・担当・進捗・承認状態をcommit/push。Issue #140へ保存位置を投稿しリモート照合 | 確認済み |
 | 新規セッション復帰 | 前セッションをresumeせず、Issueコメントから保存commitを発見し、GitHub APIだけで状態と入力を復元・SHA-256照合。その後に担当を再起動 | 2つの新規管理セッションで確認済み |
+| 「続きお願い」だけでの復帰 | 同じworktree内で新しい管理セッションにこの一言だけを渡し、GitHubの最新保存記録を確認して本番開始待ちとして停止。変更なし | 確認済み |
 | 承認待ち | 監査合格後も模擬状態はawaiting_user_approval、承認URLはnull。本番はsetup_only | 確認済み |
 
 モデルと推論レベルは管理役gpt-6.1-sol / medium、作成・正誤・日本語品質gpt-6.1-sol / high、形式gpt-6-luna / highの指定を維持した。`initial-execution.json`、`recovery-execution.json`、`revision-execution.json` に実行記録を残す。
