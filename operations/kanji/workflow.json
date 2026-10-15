@@ -57,7 +57,7 @@
     "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/1",
     "snapshotSha256": "37d3dfb30d3fa663f41f66e2ceb062980949e36cec27e5fe0f8dcb8f02028489",
     "status": "auditing",
-    "nextAction": "同一版全50問の3担当独立監査",
+    "nextAction": "3監査原指摘を統合し作成担当へ修正依頼",
     "assignments": [
       {
         "role": "kanji_creator",
@@ -83,9 +83,9 @@
         "measuredModel": "gpt-6.1-sol",
         "measuredEffort": "high",
         "measurementSource": "local rollout session_meta/turn_context",
-        "status": "running",
+        "status": "completed",
         "isClosed": false,
-        "auditPath": null
+        "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/1/kanji_japanese_quality_auditor.json"
       },
       {
         "role": "kanji_format_auditor",
@@ -116,7 +116,972 @@
         "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/1/kanji_correctness_auditor.json"
       }
     ],
-    "unresolvedFindings": [],
+    "unresolvedFindings": [
+      {
+        "id": "JQ-001-01",
+        "questionId": "001",
+        "candidate": [
+          "足先"
+        ],
+        "affectedPairs": [
+          [
+            "足音",
+            "足先"
+          ],
+          [
+            "足元",
+            "足先"
+          ]
+        ],
+        "reason": "足先は自然な語だが、あしあととの関係が共通する「あし」と足の部位という分類に偏る。後半の「さき／あと」は別であり、足音・足元に比べて具体的な読みの混同要因が弱い。",
+        "evidence": "固定根拠は足先を「あしさき」とし、選定理由を接頭部の共有としている。実際に「あしあと」の表記として選ばれるかは確認できない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/足先-196101",
+          "https://kotobank.jp/word/足跡-424365"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-004-01",
+        "questionId": "004",
+        "candidate": [
+          "懐"
+        ],
+        "affectedPairs": [
+          [
+            "袂",
+            "懐"
+          ]
+        ],
+        "reason": "「ふ」「と」を含むことだけでは、ふもとの誤答としての近さが十分ではない。ふところは拍数も音のまとまりも異なり、麓・懐の字形上の取り違えも根拠に示されていない。",
+        "evidence": "固定根拠は懐を「ふところ」とし、一字の訓読みであることと散在する共通音を理由にしている。袂の「たもと」と同程度の混同可能性は判断できない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/懐-456633",
+          "https://kotobank.jp/word/麓-125786"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-005-01",
+        "questionId": "005",
+        "candidate": [
+          "柿"
+        ],
+        "affectedPairs": [
+          [
+            "先",
+            "柿"
+          ],
+          [
+            "鷺",
+            "柿"
+          ]
+        ],
+        "reason": "みさきに対して柿を選ぶ根拠が、二拍語で「き」に終わることにとどまる。先の「さき」に比べ、冒頭「み」の脱落に加えて「さ／か」の置換が必要で、字形や語義による補強もない。",
+        "evidence": "固定根拠の辞書読みは「かき」。自然な果実名であることは確認できるが、みさきとの具体的な混同可能性は未確認。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/柿-459531",
+          "https://kotobank.jp/word/岬-138466"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-006-01",
+        "questionId": "006",
+        "candidate": [
+          "鷺"
+        ],
+        "affectedPairs": [
+          [
+            "凪",
+            "鷺"
+          ]
+        ],
+        "reason": "なぎさから鷺の「さぎ」への対応は、音の脱落と順序の入替えを同時に仮定している。水辺に関係する別語であること以上に、提示読みからこの字を選ぶ要因が弱い。",
+        "evidence": "固定根拠自身が音順の取り違えを想定しているが、その読み誤りや字形混同の根拠は示されていない。凪の末尾一拍脱落とは区別が必要。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/鷺-509284",
+          "https://kotobank.jp/word/渚-530230"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-007-01",
+        "questionId": "007",
+        "candidate": [
+          "入船",
+          "入用"
+        ],
+        "affectedPairs": [
+          [
+            "入船",
+            "入用"
+          ],
+          [
+            "入船",
+            "入目"
+          ],
+          [
+            "入用",
+            "入目"
+          ]
+        ],
+        "reason": "入船・入用は「いり」以降がそれぞれ「ふね」「よう」で、提示読みの「え」との結び付きがない。特にこの2件を選ぶ組合せは、共通する入の字だけで誤答をそろえた構成になる。",
+        "evidence": "固定根拠の読みは「いりふね／にゅうせん」「いりよう／にゅうよう」。選定理由も共通接頭部に依存する。入目の近音性を、この2候補の妥当性へ広げることはできない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/入船-436449",
+          "https://kotobank.jp/word/入用-436488"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-008-01",
+        "questionId": "008",
+        "candidate": [
+          "早瀬"
+        ],
+        "affectedPairs": [
+          [
+            "早瀬",
+            "浅手"
+          ]
+        ],
+        "reason": "早瀬は浅瀬と同じ水流の語だが、「はや／あさ」は異なり、瀬を共有する以上の読みの混同要因が弱い。地理的に近い意味の別語を並べた構成になっている懸念がある。",
+        "evidence": "固定根拠は「はやせ」で、理由は瀬・語末せ・三拍の共有。提示読みから早を選ぶ具体的な根拠は未提示。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/早瀬-116441",
+          "https://kotobank.jp/word/浅瀬-424104"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-009-01",
+        "questionId": "009",
+        "candidate": [
+          "口付け",
+          "名付け"
+        ],
+        "affectedPairs": [
+          [
+            "口付け",
+            "名付け"
+          ]
+        ],
+        "reason": "両候補とも自然だが、共通する付けを除くと「くち」「な」は「あじ」と対応しない。読みを表記へ対応させる問題として、接尾部をそろえただけの3択になっている。",
+        "evidence": "固定根拠の読みは「くちづけ」「なづけ」。[口付けの辞書見出し](https://kotobank.jp/word/口付け-484107)と[名付けの辞書見出し](https://kotobank.jp/word/名付け-588944)も確認したが、実在性と連濁だけでは誤答としての選択可能性を裏付けない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/口付け-484107",
+          "https://kotobank.jp/word/名付け-588944"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-010-01",
+        "questionId": "010",
+        "candidate": [
+          "河童"
+        ],
+        "affectedPairs": [
+          [
+            "瓦屋",
+            "河童"
+          ],
+          [
+            "河童",
+            "川面"
+          ]
+        ],
+        "reason": "河童は「かわっぱ」の読みを採っても、かわらとの関係が「かわ」と河の字の共有に偏る。通常の「かっぱ」からの近さも弱く、川に関係する別語という以上の混同理由が不足する。",
+        "evidence": "固定根拠は「かっぱ／かわっぱ」。童と原の取り違えや、「っぱ／ら」の混同について具体的な裏付けがなく、選択可能性は未確認。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/河童-45345",
+          "https://kotobank.jp/word/河原-48339"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-011-01",
+        "questionId": "011",
+        "candidate": [
+          "合鍵"
+        ],
+        "affectedPairs": [
+          [
+            "合間",
+            "合鍵"
+          ]
+        ],
+        "reason": "あいずと合鍵の「あいかぎ」は、合を除く部分の音が一致しない。鍵の字から「ず」を選ぶ要因もなく、共通接頭部だけによる候補選定になっている。",
+        "evidence": "固定根拠も合を「あい」と読む二字語であることを選定理由としている。合間の一拍差による近さとは同列に扱えない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/合鍵-421145",
+          "https://kotobank.jp/word/合図-421387"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-012-01",
+        "questionId": "012",
+        "candidate": [
+          "合鍵"
+        ],
+        "affectedPairs": [
+          [
+            "合口",
+            "合鍵"
+          ],
+          [
+            "合鍵",
+            "合図"
+          ]
+        ],
+        "reason": "あいづちに対して「あいかぎ」は、共通する「あい」以降の2拍が異なる。濁音を含むという一般的特徴だけでは、槌・鍵の取り違えを説明できない。",
+        "evidence": "固定根拠は「あい」に続く濁音を理由にするが、合口の一拍差や合図の「あいず」との直接的な近さに相当する根拠がない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/合鍵-421145",
+          "https://kotobank.jp/word/相槌-421558"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-013-01",
+        "questionId": "013",
+        "candidate": [
+          "素麺"
+        ],
+        "affectedPairs": [
+          [
+            "素麺",
+            "相貌"
+          ]
+        ],
+        "reason": "すもうとそうめんは、冒頭・中間・末尾の音がそれぞれ異なる。熟字訓同士であることや一部の子音が近いことだけでは、素麺をすもうの表記として選ぶ理由が弱い。",
+        "evidence": "固定根拠の読みは「そうめん」。字形・語義による補強もなく、「す／そう」「も／め」を近いとする説明だけでは候補の妥当性を判断できない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/素麺-553264",
+          "https://kotobank.jp/word/相撲-85069"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-015-01",
+        "questionId": "015",
+        "candidate": [
+          "寝顔",
+          "寝床",
+          "寝袋"
+        ],
+        "affectedPairs": [
+          [
+            "寝顔",
+            "寝床"
+          ],
+          [
+            "寝顔",
+            "寝袋"
+          ],
+          [
+            "寝床",
+            "寝袋"
+          ]
+        ],
+        "reason": "全候補が寝を共有する一方、残りは「がお」「どこ」「ぶくろ」で、「ぼう」との直接的な対応が弱い。全3組合せで、寝に関する自然な別語を並べた構成になっている。",
+        "evidence": "固定根拠はオ段音、濁音、唇音を個別に挙げるが、それらは寝坊の誤表記として選ぶ具体的理由を示さない。各語が自然であることと候補品質は別である。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/寝顔-594665",
+          "https://kotobank.jp/word/寝床-595433",
+          "https://kotobank.jp/word/寝袋-595543"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-016-01",
+        "questionId": "016",
+        "candidate": [
+          "足先"
+        ],
+        "affectedPairs": [
+          [
+            "足跡",
+            "足先"
+          ],
+          [
+            "足元",
+            "足先"
+          ]
+        ],
+        "reason": "あしおとの誤答としては、足先は「あし」以降の音が異なり、音・跡・元に比べて具体的な取り違えの要因が乏しい。足に関する語という分類に依存している。",
+        "evidence": "固定根拠の読みは「あしさき」で、選定理由も同じ「あし」を持つこと。足跡・足元にはより直接的な近音性があるが、足先の選択可能性は未確認。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/足先-196101",
+          "https://kotobank.jp/word/足音-424390"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-017-01",
+        "questionId": "017",
+        "candidate": [
+          "足長"
+        ],
+        "affectedPairs": [
+          [
+            "足場",
+            "足長"
+          ]
+        ],
+        "reason": "足長は「あし」を共有するが、「なが／ばや」の関係はア段音というだけでは弱い。長と早の意味の違いからも消去しやすく、提示読みから選び得る根拠が不足している。",
+        "evidence": "固定根拠は「あしなが」とし、後半のア段音の取り違えを理由にする。足場の一拍脱落と同じ程度の混同可能性は判断できない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/足長-424584",
+          "https://kotobank.jp/word/足早-424616"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-018-01",
+        "questionId": "018",
+        "candidate": [
+          "偽り"
+        ],
+        "affectedPairs": [
+          [
+            "誤り",
+            "偽り"
+          ]
+        ],
+        "reason": "あまりといつわりは、送り仮名り以外の音の重なりが乏しい。「まり／わり」が近いという説明では、先行する音の違いを含む語全体の隔たりを説明できない。",
+        "evidence": "固定根拠の読みは「いつわり」。漢字一字にりを送る名詞という形式の一致に依存しており、誤りの一拍挿入による近さとは異なる。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/偽り-434710",
+          "https://kotobank.jp/word/余り-427212"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-019-01",
+        "questionId": "019",
+        "candidate": [
+          "雨漏り",
+          "雨降り",
+          "雨曇り"
+        ],
+        "affectedPairs": [
+          [
+            "雨漏り",
+            "雨降り"
+          ],
+          [
+            "雨漏り",
+            "雨曇り"
+          ],
+          [
+            "雨降り",
+            "雨曇り"
+          ]
+        ],
+        "reason": "雨と末尾りを共有するが、「やど」に対して「も」「ふ」「ぐも」を選ぶ理由が弱い。雨に関する別語をそろえることが中心となり、全組合せで宿の部分を読ませる競合候補が不足する。",
+        "evidence": "固定根拠は共通する雨とり、同じ表記構成を理由にする。[雨曇りの辞書](https://kotobank.jp/word/雨曇-426954)でも実在性は確認できるが、雨宿りとの誤読関係は裏付けられない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/雨漏り-427195",
+          "https://kotobank.jp/word/雨降り-427465",
+          "https://kotobank.jp/word/雨曇-426954"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-020-01",
+        "questionId": "020",
+        "candidate": [
+          "編み針",
+          "編み棒"
+        ],
+        "affectedPairs": [
+          [
+            "編み目",
+            "編み針"
+          ],
+          [
+            "編み目",
+            "編み棒"
+          ],
+          [
+            "編み針",
+            "編み棒"
+          ]
+        ],
+        "reason": "編み針・編み棒は編み物と同じ作業に関する語だが、「ばり」「ぼう」は「もの」と音も字形も異なる。特にこの2件の組合せは共通する編み以外の混同要因がない。",
+        "evidence": "固定根拠も同じ語の前半からの混同を想定するだけである。道具名として自然であることは、あみものの表記としての選択可能性を保証しない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/編針-427339",
+          "https://kotobank.jp/word/編棒-427343"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-021-01",
+        "questionId": "021",
+        "candidate": [
+          "鼻筋",
+          "道筋"
+        ],
+        "affectedPairs": [
+          [
+            "鼻筋",
+            "道筋"
+          ]
+        ],
+        "reason": "筋とすじを共有するが、前半の「はな」「みち」は「あら」と異なる。特に道筋は意味の近い別語に寄っており、粗筋の表記を取り違える理由が共通語尾以外に示されていない。",
+        "evidence": "固定根拠は四拍、筋、後半二拍の共有を理由にする。鼻筋の音の近さも含め、実際の選択可能性は未確認であり、適切な2候補と断定できない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/鼻筋-603529",
+          "https://kotobank.jp/word/道筋-638501"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-022-01",
+        "questionId": "022",
+        "candidate": [
+          "乱れ",
+          "流れ"
+        ],
+        "affectedPairs": [
+          [
+            "乱れ",
+            "流れ"
+          ]
+        ],
+        "reason": "共通するのは送り仮名れと動詞由来の名詞という形式で、「みだ」「なが」は「あらわ」と異なる。語末をそろえただけで、提示読みから両候補を選ぶ根拠が弱い。",
+        "evidence": "固定根拠の読みは「みだれ」「ながれ」。「ら／だ」やア段音だけの比較は語全体の対応を示さず、字形上の混同も提示されていない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/乱れ-138780",
+          "https://kotobank.jp/word/流れ-22297"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-023-01",
+        "questionId": "023",
+        "candidate": [
+          "占い",
+          "償い",
+          "行い"
+        ],
+        "affectedPairs": [
+          [
+            "占い",
+            "償い"
+          ],
+          [
+            "占い",
+            "行い"
+          ],
+          [
+            "償い",
+            "行い"
+          ]
+        ],
+        "reason": "全候補がないで終わる自然な語だが、「うら」「つぐ」「おこ」と「あき」の混同理由が示されていない。全3組合せが共通語尾と送り仮名の形に依存している。",
+        "evidence": "固定根拠は同じ四拍、ない、漢字一字＋いを理由にする。読みの異なる実在語であること以上の誤答選定根拠が不足し、各組合せの選択可能性は未確認。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/占い-35327",
+          "https://kotobank.jp/word/償い-571341",
+          "https://kotobank.jp/word/行い-452039"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-025-01",
+        "questionId": "025",
+        "candidate": [
+          "決まり",
+          "始まり"
+        ],
+        "affectedPairs": [
+          [
+            "詰まり",
+            "決まり"
+          ],
+          [
+            "詰まり",
+            "始まり"
+          ],
+          [
+            "決まり",
+            "始まり"
+          ]
+        ],
+        "reason": "決まり・始まりはまりを共有するが、その前の「き」「はじ」が「あつ」と対応しない。特にこの2件を選ぶと、共通語尾以外の混同要因が弱い3択になる。",
+        "evidence": "固定根拠もまりと表記構成の共有を挙げる。詰まりには冒頭一拍の脱落という直接的な近さがあるが、それを残り2件の妥当性には転用できない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/決り-475703",
+          "https://kotobank.jp/word/始まり-601118"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-026-01",
+        "questionId": "026",
+        "candidate": [
+          "後先",
+          "後口"
+        ],
+        "affectedPairs": [
+          [
+            "後先",
+            "後口"
+          ]
+        ],
+        "reason": "両候補とも後を共有するが、「さき」「くち」と「あじ」の混同要因が弱い。後口は後味と意味が近いことが中心で、読みから表記を選ぶ競合候補としての根拠が不足する。",
+        "evidence": "固定根拠は「あ と」の共有と後半の取り違えを想定するだけである。異なる語として自然であることは確認できるが、この提示読みで選ばれるかは判断できない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/後先-425882",
+          "https://kotobank.jp/word/後口-425874"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-027-01",
+        "questionId": "027",
+        "candidate": [
+          "手回し",
+          "根回し",
+          "盥回し"
+        ],
+        "affectedPairs": [
+          [
+            "手回し",
+            "根回し"
+          ],
+          [
+            "手回し",
+            "盥回し"
+          ],
+          [
+            "根回し",
+            "盥回し"
+          ]
+        ],
+        "reason": "全候補が回しを共有するだけで、先頭の「て」「ね」「たらい」は「あと」と異なる。後の字とあとが対応することから容易に消去でき、全組合せで語尾をそろえた別語の列挙に偏る。",
+        "evidence": "固定根拠は共通する後半三拍と表記構成を理由にする。先頭の漢字の字形や読みが混同される具体的な根拠は未提示。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/手回し-576842",
+          "https://kotobank.jp/word/根回し-178519",
+          "https://kotobank.jp/word/盥回し-563179"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-028-01",
+        "questionId": "028",
+        "candidate": [
+          "倒れる"
+        ],
+        "affectedPairs": [
+          [
+            "破れる",
+            "倒れる"
+          ],
+          [
+            "敗れる",
+            "倒れる"
+          ]
+        ],
+        "reason": "たおれるとあばれるは、れる以外の音の重なりが乏しい。四拍の動詞で同じ語尾というだけでは、倒を暴の代わりに選ぶ根拠として弱い。",
+        "evidence": "固定根拠も四拍と活用語尾の共有を挙げる。破れる・敗れるに説明された唇音の近さに相当する要因は倒れるにはない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/倒れる-559045",
+          "https://kotobank.jp/word/暴れる-426377"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-029-01",
+        "questionId": "029",
+        "candidate": [
+          "唐揚げ",
+          "厚揚げ",
+          "素揚げ"
+        ],
+        "affectedPairs": [
+          [
+            "唐揚げ",
+            "厚揚げ"
+          ],
+          [
+            "唐揚げ",
+            "素揚げ"
+          ],
+          [
+            "厚揚げ",
+            "素揚げ"
+          ]
+        ],
+        "reason": "揚げと食品分類は共通するが、「から」「あつ」「す」は「あぶら」と別の語である。油揚げと厚揚げの食品としての近さも、読みから表記を取り違える根拠にはならない。",
+        "evidence": "固定根拠の選定理由は食品名、あげ、同じ表記構成に限られる。全3組合せについて、食品の意味の区別を超えた具体的な混同可能性は未確認。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/空揚-467161",
+          "https://kotobank.jp/word/厚揚-425413",
+          "https://kotobank.jp/word/素揚げ-1495192"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-030-01",
+        "questionId": "030",
+        "candidate": [
+          "少ない",
+          "切ない"
+        ],
+        "affectedPairs": [
+          [
+            "少ない",
+            "切ない"
+          ]
+        ],
+        "reason": "両候補はないで終わる四拍の形容詞だが、「すく」「せつ」と「あぶ」の混同理由がない。送り仮名をそろえたことだけで、適切な誤答2件を確保したとは判断できない。",
+        "evidence": "固定根拠も四拍、ない、同じ表記構成を挙げるだけである。形容詞としての自然さに問題はないが、この読みの誤答として選び得るかは未確認。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/少ない-541289",
+          "https://kotobank.jp/word/切ない-548434"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-032-01",
+        "questionId": "032",
+        "candidate": [
+          "偽り"
+        ],
+        "affectedPairs": [
+          [
+            "余り",
+            "偽り"
+          ]
+        ],
+        "reason": "あやまりに対するいつわりは、り以外の音の重なりが乏しく、まりとわりの一部だけの比較では語全体の近さを説明できない。誤りと偽りの意味上の近さに依存する懸念がある。",
+        "evidence": "固定根拠は四拍、まり／わり、漢字一字＋りを理由にする。余りには一拍脱落の近さがあるが、偽りの具体的な混同可能性は未確認。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/偽り-434710",
+          "https://kotobank.jp/word/誤り-427659"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-033-01",
+        "questionId": "033",
+        "candidate": [
+          "役立つ",
+          "旅立つ"
+        ],
+        "affectedPairs": [
+          [
+            "波立つ",
+            "役立つ"
+          ],
+          [
+            "波立つ",
+            "旅立つ"
+          ],
+          [
+            "役立つ",
+            "旅立つ"
+          ]
+        ],
+        "reason": "役立つ・旅立つは立つを共有するが、やく・たびとあわとの対応がない。両候補だけの組合せでは、共通する後半以外の読みや字形の混同要因が弱い。",
+        "evidence": "固定根拠は四拍、だつ、同じ表記構成を理由にする。[波立つの辞書](https://kotobank.jp/word/波立つ-589801)で確認できる波と泡の字形・現象の近さは、役・旅には当てはまらない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/役立つ-647928",
+          "https://kotobank.jp/word/旅立つ-562256",
+          "https://kotobank.jp/word/波立つ-589801"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-034-01",
+        "questionId": "034",
+        "candidate": [
+          "捨てる",
+          "育てる",
+          "立てる"
+        ],
+        "affectedPairs": [
+          [
+            "捨てる",
+            "育てる"
+          ],
+          [
+            "捨てる",
+            "立てる"
+          ],
+          [
+            "育てる",
+            "立てる"
+          ]
+        ],
+        "reason": "全候補がてるで終わるが、「す」「そだ」「た」は「あわ」と異なる。語尾と表記構成の一致だけでは、慌てるの読みからこれらを選ぶ根拠にならない。",
+        "evidence": "固定根拠も共通するてるから前半を取り違えるとするだけである。全3組合せで、自然な動詞の列挙以上の混同要因が未確認。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/捨てる-542454",
+          "https://kotobank.jp/word/育てる-554538",
+          "https://kotobank.jp/word/立てる-561733"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-036-01",
+        "questionId": "036",
+        "candidate": [
+          "和菓子",
+          "駄菓子",
+          "干菓子"
+        ],
+        "affectedPairs": [
+          [
+            "和菓子",
+            "駄菓子"
+          ],
+          [
+            "和菓子",
+            "干菓子"
+          ],
+          [
+            "駄菓子",
+            "干菓子"
+          ]
+        ],
+        "reason": "どの2件を選んでも誤答だけが菓子の字を共有する菓子名になる。かかしという既知語と菓子という一般的な字の意味だけで消去しやすく、案山子の表記知識を問う3択として競合が弱い。",
+        "evidence": "固定根拠の読みはわがし・だがし・ひがし。[干菓子の辞書](https://kotobank.jp/word/干菓子-119060)でも菓子名であることを確認した。三字三拍と語末しの共有はあるが、先頭音の違いを含む選択可能性やLv1での妥当性は未確認。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/和菓子-153879",
+          "https://kotobank.jp/word/駄菓子-559194",
+          "https://kotobank.jp/word/干菓子-119060"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-037-01",
+        "questionId": "037",
+        "candidate": [
+          "生贄",
+          "生花"
+        ],
+        "affectedPairs": [
+          [
+            "石垣",
+            "生贄"
+          ],
+          [
+            "石垣",
+            "生花"
+          ],
+          [
+            "生贄",
+            "生花"
+          ]
+        ],
+        "reason": "生贄・生花は生をいけと読めるが、「にえ」「ばな」と「がき」の混同要因がない。特にこの2件を選ぶと、共通する生の字だけに依存した3択になる。",
+        "evidence": "固定根拠の理由も前半二拍からの混同に限られる。石垣には一拍差と垣の共有があるが、その具体性は生贄・生花にはない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/生贄-817336",
+          "https://kotobank.jp/word/生花-85533"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-038-01",
+        "questionId": "038",
+        "candidate": [
+          "生け贄",
+          "生け簀",
+          "生け魚"
+        ],
+        "affectedPairs": [
+          [
+            "生け贄",
+            "生け簀"
+          ],
+          [
+            "生け贄",
+            "生け魚"
+          ],
+          [
+            "生け簀",
+            "生け魚"
+          ]
+        ],
+        "reason": "全候補が生けを共有する一方、にえ・す・うおとばなの結び付きがない。特に魚は一般的な字の意味から消去でき、全組合せで接頭部をそろえた別語の列挙に偏る。",
+        "evidence": "固定根拠は生けと表記構成の共有のみを理由にする。[生け魚の辞書](https://kotobank.jp/word/生け魚-431560)で食用の生きた魚をいう実在語とは確認できるが、いけばなの誤答として選ばれる根拠にはならない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/生け贄-431623",
+          "https://kotobank.jp/word/生け簀-431578",
+          "https://kotobank.jp/word/生け魚-431560"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-039-01",
+        "questionId": "039",
+        "candidate": [
+          "一声",
+          "一口",
+          "一言"
+        ],
+        "affectedPairs": [
+          [
+            "一声",
+            "一口"
+          ],
+          [
+            "一声",
+            "一言"
+          ],
+          [
+            "一口",
+            "一言"
+          ]
+        ],
+        "reason": "全候補がひとで始まるが、後半のこえ・くち・ことはいきと異なる。声・口・言という一般的な字から消去しやすく、共通接頭部以外の具体的な混同要因が不足する。",
+        "evidence": "固定根拠もひとと四拍の共有、第二字の対応の取り違えを想定するだけである。全3組合せで候補としての選択可能性は未確認。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/一声-31491",
+          "https://kotobank.jp/word/一口-434037",
+          "https://kotobank.jp/word/一言-433282"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-040-01",
+        "questionId": "040",
+        "candidate": [
+          "一口",
+          "一言"
+        ],
+        "affectedPairs": [
+          [
+            "一時",
+            "一口"
+          ],
+          [
+            "一時",
+            "一言"
+          ],
+          [
+            "一口",
+            "一言"
+          ]
+        ],
+        "reason": "一口・一言はひとを共有するだけで、くち・ことときわの結び付きが弱い。この2件だけの組合せでは、際が読めなくても一般的な口・言の知識で消去できる。",
+        "evidence": "固定根拠は後半二拍の混同を想定するが、その具体的理由がない。一時には時と際の用法や音の部分的な近さを検討できるが、口・言には同等の根拠がない。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/一口-434037",
+          "https://kotobank.jp/word/一言-433282"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      },
+      {
+        "id": "JQ-045-01",
+        "questionId": "045",
+        "candidate": [
+          "一人称",
+          "一人娘",
+          "一人旅"
+        ],
+        "affectedPairs": [
+          [
+            "一人称",
+            "一人娘"
+          ],
+          [
+            "一人称",
+            "一人旅"
+          ],
+          [
+            "一人娘",
+            "一人旅"
+          ]
+        ],
+        "reason": "一人称は冒頭いちにんを共有するが、称とまえの対応がない。一人娘・一人旅は語全体の読みも大きく異なり、全組合せで一人という字面以外の混同要因が弱い。",
+        "evidence": "固定根拠の読みは「いちにんしょう」「ひとりむすめ」「ひとりたび」。[一人娘の辞書](https://kotobank.jp/word/一人娘-611820)も確認した。娘・旅という一般的な字を読み分けるだけで消去できる懸念があり、提示読みから選び得る根拠は未確認。",
+        "sourceUrls": [
+          "https://kotobank.jp/word/一人称-433518",
+          "https://kotobank.jp/word/一人娘-611820",
+          "https://kotobank.jp/word/一人旅-611800"
+        ],
+        "sourceRole": "kanji_japanese_quality_auditor",
+        "status": "open",
+        "resolvedRevision": null
+      }
+    ],
     "userApproval": {
       "status": "pending",
       "revision": 1,
@@ -141,6 +1106,971 @@
     "approvedQuestionCount": 168
   },
   "completedBatches": [],
-  "unresolvedFindings": [],
-  "nextAction": "同一版全50問の3担当独立監査"
+  "unresolvedFindings": [
+    {
+      "id": "JQ-001-01",
+      "questionId": "001",
+      "candidate": [
+        "足先"
+      ],
+      "affectedPairs": [
+        [
+          "足音",
+          "足先"
+        ],
+        [
+          "足元",
+          "足先"
+        ]
+      ],
+      "reason": "足先は自然な語だが、あしあととの関係が共通する「あし」と足の部位という分類に偏る。後半の「さき／あと」は別であり、足音・足元に比べて具体的な読みの混同要因が弱い。",
+      "evidence": "固定根拠は足先を「あしさき」とし、選定理由を接頭部の共有としている。実際に「あしあと」の表記として選ばれるかは確認できない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/足先-196101",
+        "https://kotobank.jp/word/足跡-424365"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-004-01",
+      "questionId": "004",
+      "candidate": [
+        "懐"
+      ],
+      "affectedPairs": [
+        [
+          "袂",
+          "懐"
+        ]
+      ],
+      "reason": "「ふ」「と」を含むことだけでは、ふもとの誤答としての近さが十分ではない。ふところは拍数も音のまとまりも異なり、麓・懐の字形上の取り違えも根拠に示されていない。",
+      "evidence": "固定根拠は懐を「ふところ」とし、一字の訓読みであることと散在する共通音を理由にしている。袂の「たもと」と同程度の混同可能性は判断できない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/懐-456633",
+        "https://kotobank.jp/word/麓-125786"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-005-01",
+      "questionId": "005",
+      "candidate": [
+        "柿"
+      ],
+      "affectedPairs": [
+        [
+          "先",
+          "柿"
+        ],
+        [
+          "鷺",
+          "柿"
+        ]
+      ],
+      "reason": "みさきに対して柿を選ぶ根拠が、二拍語で「き」に終わることにとどまる。先の「さき」に比べ、冒頭「み」の脱落に加えて「さ／か」の置換が必要で、字形や語義による補強もない。",
+      "evidence": "固定根拠の辞書読みは「かき」。自然な果実名であることは確認できるが、みさきとの具体的な混同可能性は未確認。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/柿-459531",
+        "https://kotobank.jp/word/岬-138466"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-006-01",
+      "questionId": "006",
+      "candidate": [
+        "鷺"
+      ],
+      "affectedPairs": [
+        [
+          "凪",
+          "鷺"
+        ]
+      ],
+      "reason": "なぎさから鷺の「さぎ」への対応は、音の脱落と順序の入替えを同時に仮定している。水辺に関係する別語であること以上に、提示読みからこの字を選ぶ要因が弱い。",
+      "evidence": "固定根拠自身が音順の取り違えを想定しているが、その読み誤りや字形混同の根拠は示されていない。凪の末尾一拍脱落とは区別が必要。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/鷺-509284",
+        "https://kotobank.jp/word/渚-530230"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-007-01",
+      "questionId": "007",
+      "candidate": [
+        "入船",
+        "入用"
+      ],
+      "affectedPairs": [
+        [
+          "入船",
+          "入用"
+        ],
+        [
+          "入船",
+          "入目"
+        ],
+        [
+          "入用",
+          "入目"
+        ]
+      ],
+      "reason": "入船・入用は「いり」以降がそれぞれ「ふね」「よう」で、提示読みの「え」との結び付きがない。特にこの2件を選ぶ組合せは、共通する入の字だけで誤答をそろえた構成になる。",
+      "evidence": "固定根拠の読みは「いりふね／にゅうせん」「いりよう／にゅうよう」。選定理由も共通接頭部に依存する。入目の近音性を、この2候補の妥当性へ広げることはできない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/入船-436449",
+        "https://kotobank.jp/word/入用-436488"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-008-01",
+      "questionId": "008",
+      "candidate": [
+        "早瀬"
+      ],
+      "affectedPairs": [
+        [
+          "早瀬",
+          "浅手"
+        ]
+      ],
+      "reason": "早瀬は浅瀬と同じ水流の語だが、「はや／あさ」は異なり、瀬を共有する以上の読みの混同要因が弱い。地理的に近い意味の別語を並べた構成になっている懸念がある。",
+      "evidence": "固定根拠は「はやせ」で、理由は瀬・語末せ・三拍の共有。提示読みから早を選ぶ具体的な根拠は未提示。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/早瀬-116441",
+        "https://kotobank.jp/word/浅瀬-424104"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-009-01",
+      "questionId": "009",
+      "candidate": [
+        "口付け",
+        "名付け"
+      ],
+      "affectedPairs": [
+        [
+          "口付け",
+          "名付け"
+        ]
+      ],
+      "reason": "両候補とも自然だが、共通する付けを除くと「くち」「な」は「あじ」と対応しない。読みを表記へ対応させる問題として、接尾部をそろえただけの3択になっている。",
+      "evidence": "固定根拠の読みは「くちづけ」「なづけ」。[口付けの辞書見出し](https://kotobank.jp/word/口付け-484107)と[名付けの辞書見出し](https://kotobank.jp/word/名付け-588944)も確認したが、実在性と連濁だけでは誤答としての選択可能性を裏付けない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/口付け-484107",
+        "https://kotobank.jp/word/名付け-588944"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-010-01",
+      "questionId": "010",
+      "candidate": [
+        "河童"
+      ],
+      "affectedPairs": [
+        [
+          "瓦屋",
+          "河童"
+        ],
+        [
+          "河童",
+          "川面"
+        ]
+      ],
+      "reason": "河童は「かわっぱ」の読みを採っても、かわらとの関係が「かわ」と河の字の共有に偏る。通常の「かっぱ」からの近さも弱く、川に関係する別語という以上の混同理由が不足する。",
+      "evidence": "固定根拠は「かっぱ／かわっぱ」。童と原の取り違えや、「っぱ／ら」の混同について具体的な裏付けがなく、選択可能性は未確認。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/河童-45345",
+        "https://kotobank.jp/word/河原-48339"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-011-01",
+      "questionId": "011",
+      "candidate": [
+        "合鍵"
+      ],
+      "affectedPairs": [
+        [
+          "合間",
+          "合鍵"
+        ]
+      ],
+      "reason": "あいずと合鍵の「あいかぎ」は、合を除く部分の音が一致しない。鍵の字から「ず」を選ぶ要因もなく、共通接頭部だけによる候補選定になっている。",
+      "evidence": "固定根拠も合を「あい」と読む二字語であることを選定理由としている。合間の一拍差による近さとは同列に扱えない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/合鍵-421145",
+        "https://kotobank.jp/word/合図-421387"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-012-01",
+      "questionId": "012",
+      "candidate": [
+        "合鍵"
+      ],
+      "affectedPairs": [
+        [
+          "合口",
+          "合鍵"
+        ],
+        [
+          "合鍵",
+          "合図"
+        ]
+      ],
+      "reason": "あいづちに対して「あいかぎ」は、共通する「あい」以降の2拍が異なる。濁音を含むという一般的特徴だけでは、槌・鍵の取り違えを説明できない。",
+      "evidence": "固定根拠は「あい」に続く濁音を理由にするが、合口の一拍差や合図の「あいず」との直接的な近さに相当する根拠がない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/合鍵-421145",
+        "https://kotobank.jp/word/相槌-421558"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-013-01",
+      "questionId": "013",
+      "candidate": [
+        "素麺"
+      ],
+      "affectedPairs": [
+        [
+          "素麺",
+          "相貌"
+        ]
+      ],
+      "reason": "すもうとそうめんは、冒頭・中間・末尾の音がそれぞれ異なる。熟字訓同士であることや一部の子音が近いことだけでは、素麺をすもうの表記として選ぶ理由が弱い。",
+      "evidence": "固定根拠の読みは「そうめん」。字形・語義による補強もなく、「す／そう」「も／め」を近いとする説明だけでは候補の妥当性を判断できない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/素麺-553264",
+        "https://kotobank.jp/word/相撲-85069"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-015-01",
+      "questionId": "015",
+      "candidate": [
+        "寝顔",
+        "寝床",
+        "寝袋"
+      ],
+      "affectedPairs": [
+        [
+          "寝顔",
+          "寝床"
+        ],
+        [
+          "寝顔",
+          "寝袋"
+        ],
+        [
+          "寝床",
+          "寝袋"
+        ]
+      ],
+      "reason": "全候補が寝を共有する一方、残りは「がお」「どこ」「ぶくろ」で、「ぼう」との直接的な対応が弱い。全3組合せで、寝に関する自然な別語を並べた構成になっている。",
+      "evidence": "固定根拠はオ段音、濁音、唇音を個別に挙げるが、それらは寝坊の誤表記として選ぶ具体的理由を示さない。各語が自然であることと候補品質は別である。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/寝顔-594665",
+        "https://kotobank.jp/word/寝床-595433",
+        "https://kotobank.jp/word/寝袋-595543"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-016-01",
+      "questionId": "016",
+      "candidate": [
+        "足先"
+      ],
+      "affectedPairs": [
+        [
+          "足跡",
+          "足先"
+        ],
+        [
+          "足元",
+          "足先"
+        ]
+      ],
+      "reason": "あしおとの誤答としては、足先は「あし」以降の音が異なり、音・跡・元に比べて具体的な取り違えの要因が乏しい。足に関する語という分類に依存している。",
+      "evidence": "固定根拠の読みは「あしさき」で、選定理由も同じ「あし」を持つこと。足跡・足元にはより直接的な近音性があるが、足先の選択可能性は未確認。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/足先-196101",
+        "https://kotobank.jp/word/足音-424390"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-017-01",
+      "questionId": "017",
+      "candidate": [
+        "足長"
+      ],
+      "affectedPairs": [
+        [
+          "足場",
+          "足長"
+        ]
+      ],
+      "reason": "足長は「あし」を共有するが、「なが／ばや」の関係はア段音というだけでは弱い。長と早の意味の違いからも消去しやすく、提示読みから選び得る根拠が不足している。",
+      "evidence": "固定根拠は「あしなが」とし、後半のア段音の取り違えを理由にする。足場の一拍脱落と同じ程度の混同可能性は判断できない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/足長-424584",
+        "https://kotobank.jp/word/足早-424616"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-018-01",
+      "questionId": "018",
+      "candidate": [
+        "偽り"
+      ],
+      "affectedPairs": [
+        [
+          "誤り",
+          "偽り"
+        ]
+      ],
+      "reason": "あまりといつわりは、送り仮名り以外の音の重なりが乏しい。「まり／わり」が近いという説明では、先行する音の違いを含む語全体の隔たりを説明できない。",
+      "evidence": "固定根拠の読みは「いつわり」。漢字一字にりを送る名詞という形式の一致に依存しており、誤りの一拍挿入による近さとは異なる。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/偽り-434710",
+        "https://kotobank.jp/word/余り-427212"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-019-01",
+      "questionId": "019",
+      "candidate": [
+        "雨漏り",
+        "雨降り",
+        "雨曇り"
+      ],
+      "affectedPairs": [
+        [
+          "雨漏り",
+          "雨降り"
+        ],
+        [
+          "雨漏り",
+          "雨曇り"
+        ],
+        [
+          "雨降り",
+          "雨曇り"
+        ]
+      ],
+      "reason": "雨と末尾りを共有するが、「やど」に対して「も」「ふ」「ぐも」を選ぶ理由が弱い。雨に関する別語をそろえることが中心となり、全組合せで宿の部分を読ませる競合候補が不足する。",
+      "evidence": "固定根拠は共通する雨とり、同じ表記構成を理由にする。[雨曇りの辞書](https://kotobank.jp/word/雨曇-426954)でも実在性は確認できるが、雨宿りとの誤読関係は裏付けられない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/雨漏り-427195",
+        "https://kotobank.jp/word/雨降り-427465",
+        "https://kotobank.jp/word/雨曇-426954"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-020-01",
+      "questionId": "020",
+      "candidate": [
+        "編み針",
+        "編み棒"
+      ],
+      "affectedPairs": [
+        [
+          "編み目",
+          "編み針"
+        ],
+        [
+          "編み目",
+          "編み棒"
+        ],
+        [
+          "編み針",
+          "編み棒"
+        ]
+      ],
+      "reason": "編み針・編み棒は編み物と同じ作業に関する語だが、「ばり」「ぼう」は「もの」と音も字形も異なる。特にこの2件の組合せは共通する編み以外の混同要因がない。",
+      "evidence": "固定根拠も同じ語の前半からの混同を想定するだけである。道具名として自然であることは、あみものの表記としての選択可能性を保証しない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/編針-427339",
+        "https://kotobank.jp/word/編棒-427343"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-021-01",
+      "questionId": "021",
+      "candidate": [
+        "鼻筋",
+        "道筋"
+      ],
+      "affectedPairs": [
+        [
+          "鼻筋",
+          "道筋"
+        ]
+      ],
+      "reason": "筋とすじを共有するが、前半の「はな」「みち」は「あら」と異なる。特に道筋は意味の近い別語に寄っており、粗筋の表記を取り違える理由が共通語尾以外に示されていない。",
+      "evidence": "固定根拠は四拍、筋、後半二拍の共有を理由にする。鼻筋の音の近さも含め、実際の選択可能性は未確認であり、適切な2候補と断定できない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/鼻筋-603529",
+        "https://kotobank.jp/word/道筋-638501"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-022-01",
+      "questionId": "022",
+      "candidate": [
+        "乱れ",
+        "流れ"
+      ],
+      "affectedPairs": [
+        [
+          "乱れ",
+          "流れ"
+        ]
+      ],
+      "reason": "共通するのは送り仮名れと動詞由来の名詞という形式で、「みだ」「なが」は「あらわ」と異なる。語末をそろえただけで、提示読みから両候補を選ぶ根拠が弱い。",
+      "evidence": "固定根拠の読みは「みだれ」「ながれ」。「ら／だ」やア段音だけの比較は語全体の対応を示さず、字形上の混同も提示されていない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/乱れ-138780",
+        "https://kotobank.jp/word/流れ-22297"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-023-01",
+      "questionId": "023",
+      "candidate": [
+        "占い",
+        "償い",
+        "行い"
+      ],
+      "affectedPairs": [
+        [
+          "占い",
+          "償い"
+        ],
+        [
+          "占い",
+          "行い"
+        ],
+        [
+          "償い",
+          "行い"
+        ]
+      ],
+      "reason": "全候補がないで終わる自然な語だが、「うら」「つぐ」「おこ」と「あき」の混同理由が示されていない。全3組合せが共通語尾と送り仮名の形に依存している。",
+      "evidence": "固定根拠は同じ四拍、ない、漢字一字＋いを理由にする。読みの異なる実在語であること以上の誤答選定根拠が不足し、各組合せの選択可能性は未確認。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/占い-35327",
+        "https://kotobank.jp/word/償い-571341",
+        "https://kotobank.jp/word/行い-452039"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-025-01",
+      "questionId": "025",
+      "candidate": [
+        "決まり",
+        "始まり"
+      ],
+      "affectedPairs": [
+        [
+          "詰まり",
+          "決まり"
+        ],
+        [
+          "詰まり",
+          "始まり"
+        ],
+        [
+          "決まり",
+          "始まり"
+        ]
+      ],
+      "reason": "決まり・始まりはまりを共有するが、その前の「き」「はじ」が「あつ」と対応しない。特にこの2件を選ぶと、共通語尾以外の混同要因が弱い3択になる。",
+      "evidence": "固定根拠もまりと表記構成の共有を挙げる。詰まりには冒頭一拍の脱落という直接的な近さがあるが、それを残り2件の妥当性には転用できない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/決り-475703",
+        "https://kotobank.jp/word/始まり-601118"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-026-01",
+      "questionId": "026",
+      "candidate": [
+        "後先",
+        "後口"
+      ],
+      "affectedPairs": [
+        [
+          "後先",
+          "後口"
+        ]
+      ],
+      "reason": "両候補とも後を共有するが、「さき」「くち」と「あじ」の混同要因が弱い。後口は後味と意味が近いことが中心で、読みから表記を選ぶ競合候補としての根拠が不足する。",
+      "evidence": "固定根拠は「あ と」の共有と後半の取り違えを想定するだけである。異なる語として自然であることは確認できるが、この提示読みで選ばれるかは判断できない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/後先-425882",
+        "https://kotobank.jp/word/後口-425874"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-027-01",
+      "questionId": "027",
+      "candidate": [
+        "手回し",
+        "根回し",
+        "盥回し"
+      ],
+      "affectedPairs": [
+        [
+          "手回し",
+          "根回し"
+        ],
+        [
+          "手回し",
+          "盥回し"
+        ],
+        [
+          "根回し",
+          "盥回し"
+        ]
+      ],
+      "reason": "全候補が回しを共有するだけで、先頭の「て」「ね」「たらい」は「あと」と異なる。後の字とあとが対応することから容易に消去でき、全組合せで語尾をそろえた別語の列挙に偏る。",
+      "evidence": "固定根拠は共通する後半三拍と表記構成を理由にする。先頭の漢字の字形や読みが混同される具体的な根拠は未提示。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/手回し-576842",
+        "https://kotobank.jp/word/根回し-178519",
+        "https://kotobank.jp/word/盥回し-563179"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-028-01",
+      "questionId": "028",
+      "candidate": [
+        "倒れる"
+      ],
+      "affectedPairs": [
+        [
+          "破れる",
+          "倒れる"
+        ],
+        [
+          "敗れる",
+          "倒れる"
+        ]
+      ],
+      "reason": "たおれるとあばれるは、れる以外の音の重なりが乏しい。四拍の動詞で同じ語尾というだけでは、倒を暴の代わりに選ぶ根拠として弱い。",
+      "evidence": "固定根拠も四拍と活用語尾の共有を挙げる。破れる・敗れるに説明された唇音の近さに相当する要因は倒れるにはない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/倒れる-559045",
+        "https://kotobank.jp/word/暴れる-426377"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-029-01",
+      "questionId": "029",
+      "candidate": [
+        "唐揚げ",
+        "厚揚げ",
+        "素揚げ"
+      ],
+      "affectedPairs": [
+        [
+          "唐揚げ",
+          "厚揚げ"
+        ],
+        [
+          "唐揚げ",
+          "素揚げ"
+        ],
+        [
+          "厚揚げ",
+          "素揚げ"
+        ]
+      ],
+      "reason": "揚げと食品分類は共通するが、「から」「あつ」「す」は「あぶら」と別の語である。油揚げと厚揚げの食品としての近さも、読みから表記を取り違える根拠にはならない。",
+      "evidence": "固定根拠の選定理由は食品名、あげ、同じ表記構成に限られる。全3組合せについて、食品の意味の区別を超えた具体的な混同可能性は未確認。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/空揚-467161",
+        "https://kotobank.jp/word/厚揚-425413",
+        "https://kotobank.jp/word/素揚げ-1495192"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-030-01",
+      "questionId": "030",
+      "candidate": [
+        "少ない",
+        "切ない"
+      ],
+      "affectedPairs": [
+        [
+          "少ない",
+          "切ない"
+        ]
+      ],
+      "reason": "両候補はないで終わる四拍の形容詞だが、「すく」「せつ」と「あぶ」の混同理由がない。送り仮名をそろえたことだけで、適切な誤答2件を確保したとは判断できない。",
+      "evidence": "固定根拠も四拍、ない、同じ表記構成を挙げるだけである。形容詞としての自然さに問題はないが、この読みの誤答として選び得るかは未確認。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/少ない-541289",
+        "https://kotobank.jp/word/切ない-548434"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-032-01",
+      "questionId": "032",
+      "candidate": [
+        "偽り"
+      ],
+      "affectedPairs": [
+        [
+          "余り",
+          "偽り"
+        ]
+      ],
+      "reason": "あやまりに対するいつわりは、り以外の音の重なりが乏しく、まりとわりの一部だけの比較では語全体の近さを説明できない。誤りと偽りの意味上の近さに依存する懸念がある。",
+      "evidence": "固定根拠は四拍、まり／わり、漢字一字＋りを理由にする。余りには一拍脱落の近さがあるが、偽りの具体的な混同可能性は未確認。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/偽り-434710",
+        "https://kotobank.jp/word/誤り-427659"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-033-01",
+      "questionId": "033",
+      "candidate": [
+        "役立つ",
+        "旅立つ"
+      ],
+      "affectedPairs": [
+        [
+          "波立つ",
+          "役立つ"
+        ],
+        [
+          "波立つ",
+          "旅立つ"
+        ],
+        [
+          "役立つ",
+          "旅立つ"
+        ]
+      ],
+      "reason": "役立つ・旅立つは立つを共有するが、やく・たびとあわとの対応がない。両候補だけの組合せでは、共通する後半以外の読みや字形の混同要因が弱い。",
+      "evidence": "固定根拠は四拍、だつ、同じ表記構成を理由にする。[波立つの辞書](https://kotobank.jp/word/波立つ-589801)で確認できる波と泡の字形・現象の近さは、役・旅には当てはまらない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/役立つ-647928",
+        "https://kotobank.jp/word/旅立つ-562256",
+        "https://kotobank.jp/word/波立つ-589801"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-034-01",
+      "questionId": "034",
+      "candidate": [
+        "捨てる",
+        "育てる",
+        "立てる"
+      ],
+      "affectedPairs": [
+        [
+          "捨てる",
+          "育てる"
+        ],
+        [
+          "捨てる",
+          "立てる"
+        ],
+        [
+          "育てる",
+          "立てる"
+        ]
+      ],
+      "reason": "全候補がてるで終わるが、「す」「そだ」「た」は「あわ」と異なる。語尾と表記構成の一致だけでは、慌てるの読みからこれらを選ぶ根拠にならない。",
+      "evidence": "固定根拠も共通するてるから前半を取り違えるとするだけである。全3組合せで、自然な動詞の列挙以上の混同要因が未確認。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/捨てる-542454",
+        "https://kotobank.jp/word/育てる-554538",
+        "https://kotobank.jp/word/立てる-561733"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-036-01",
+      "questionId": "036",
+      "candidate": [
+        "和菓子",
+        "駄菓子",
+        "干菓子"
+      ],
+      "affectedPairs": [
+        [
+          "和菓子",
+          "駄菓子"
+        ],
+        [
+          "和菓子",
+          "干菓子"
+        ],
+        [
+          "駄菓子",
+          "干菓子"
+        ]
+      ],
+      "reason": "どの2件を選んでも誤答だけが菓子の字を共有する菓子名になる。かかしという既知語と菓子という一般的な字の意味だけで消去しやすく、案山子の表記知識を問う3択として競合が弱い。",
+      "evidence": "固定根拠の読みはわがし・だがし・ひがし。[干菓子の辞書](https://kotobank.jp/word/干菓子-119060)でも菓子名であることを確認した。三字三拍と語末しの共有はあるが、先頭音の違いを含む選択可能性やLv1での妥当性は未確認。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/和菓子-153879",
+        "https://kotobank.jp/word/駄菓子-559194",
+        "https://kotobank.jp/word/干菓子-119060"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-037-01",
+      "questionId": "037",
+      "candidate": [
+        "生贄",
+        "生花"
+      ],
+      "affectedPairs": [
+        [
+          "石垣",
+          "生贄"
+        ],
+        [
+          "石垣",
+          "生花"
+        ],
+        [
+          "生贄",
+          "生花"
+        ]
+      ],
+      "reason": "生贄・生花は生をいけと読めるが、「にえ」「ばな」と「がき」の混同要因がない。特にこの2件を選ぶと、共通する生の字だけに依存した3択になる。",
+      "evidence": "固定根拠の理由も前半二拍からの混同に限られる。石垣には一拍差と垣の共有があるが、その具体性は生贄・生花にはない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/生贄-817336",
+        "https://kotobank.jp/word/生花-85533"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-038-01",
+      "questionId": "038",
+      "candidate": [
+        "生け贄",
+        "生け簀",
+        "生け魚"
+      ],
+      "affectedPairs": [
+        [
+          "生け贄",
+          "生け簀"
+        ],
+        [
+          "生け贄",
+          "生け魚"
+        ],
+        [
+          "生け簀",
+          "生け魚"
+        ]
+      ],
+      "reason": "全候補が生けを共有する一方、にえ・す・うおとばなの結び付きがない。特に魚は一般的な字の意味から消去でき、全組合せで接頭部をそろえた別語の列挙に偏る。",
+      "evidence": "固定根拠は生けと表記構成の共有のみを理由にする。[生け魚の辞書](https://kotobank.jp/word/生け魚-431560)で食用の生きた魚をいう実在語とは確認できるが、いけばなの誤答として選ばれる根拠にはならない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/生け贄-431623",
+        "https://kotobank.jp/word/生け簀-431578",
+        "https://kotobank.jp/word/生け魚-431560"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-039-01",
+      "questionId": "039",
+      "candidate": [
+        "一声",
+        "一口",
+        "一言"
+      ],
+      "affectedPairs": [
+        [
+          "一声",
+          "一口"
+        ],
+        [
+          "一声",
+          "一言"
+        ],
+        [
+          "一口",
+          "一言"
+        ]
+      ],
+      "reason": "全候補がひとで始まるが、後半のこえ・くち・ことはいきと異なる。声・口・言という一般的な字から消去しやすく、共通接頭部以外の具体的な混同要因が不足する。",
+      "evidence": "固定根拠もひとと四拍の共有、第二字の対応の取り違えを想定するだけである。全3組合せで候補としての選択可能性は未確認。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/一声-31491",
+        "https://kotobank.jp/word/一口-434037",
+        "https://kotobank.jp/word/一言-433282"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-040-01",
+      "questionId": "040",
+      "candidate": [
+        "一口",
+        "一言"
+      ],
+      "affectedPairs": [
+        [
+          "一時",
+          "一口"
+        ],
+        [
+          "一時",
+          "一言"
+        ],
+        [
+          "一口",
+          "一言"
+        ]
+      ],
+      "reason": "一口・一言はひとを共有するだけで、くち・ことときわの結び付きが弱い。この2件だけの組合せでは、際が読めなくても一般的な口・言の知識で消去できる。",
+      "evidence": "固定根拠は後半二拍の混同を想定するが、その具体的理由がない。一時には時と際の用法や音の部分的な近さを検討できるが、口・言には同等の根拠がない。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/一口-434037",
+        "https://kotobank.jp/word/一言-433282"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-045-01",
+      "questionId": "045",
+      "candidate": [
+        "一人称",
+        "一人娘",
+        "一人旅"
+      ],
+      "affectedPairs": [
+        [
+          "一人称",
+          "一人娘"
+        ],
+        [
+          "一人称",
+          "一人旅"
+        ],
+        [
+          "一人娘",
+          "一人旅"
+        ]
+      ],
+      "reason": "一人称は冒頭いちにんを共有するが、称とまえの対応がない。一人娘・一人旅は語全体の読みも大きく異なり、全組合せで一人という字面以外の混同要因が弱い。",
+      "evidence": "固定根拠の読みは「いちにんしょう」「ひとりむすめ」「ひとりたび」。[一人娘の辞書](https://kotobank.jp/word/一人娘-611820)も確認した。娘・旅という一般的な字を読み分けるだけで消去できる懸念があり、提示読みから選び得る根拠は未確認。",
+      "sourceUrls": [
+        "https://kotobank.jp/word/一人称-433518",
+        "https://kotobank.jp/word/一人娘-611820",
+        "https://kotobank.jp/word/一人旅-611800"
+      ],
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "status": "open",
+      "resolvedRevision": null
+    }
+  ],
+  "nextAction": "3監査原指摘を統合し作成担当へ修正依頼"
 }
