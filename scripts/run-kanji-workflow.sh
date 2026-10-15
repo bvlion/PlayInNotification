@@ -4,7 +4,7 @@ set -Eeuo pipefail
 repository_root=$(git rev-parse --show-toplevel)
 cd "$repository_root"
 branch_name=$(git branch --show-current)
-if [[ "$branch_name" != codex/* || ! -f .git ]]; then
+if [[ "$branch_name" != codex/* ]]; then
   printf '専用のcodexブランチのworktree内で実行してください。\n' >&2
   exit 1
 fi

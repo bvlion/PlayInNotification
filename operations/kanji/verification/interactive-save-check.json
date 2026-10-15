@@ -339,5 +339,53 @@
     "同じMac miniと既存認証での新規セッション。別端末・空認証・電源断は未検証",
     "CLI経由のAI進捗投稿もperformed_via_github_app=nullだった。この値だけでは人間本人の直接投稿を証明できない。今回は本番承認として受理していない",
     "実際の50問・本番承認・完全自動化は未実施。確定168問と問題データを維持"
-  ]
+  ],
+  "launcherWorktreeCheck": {
+    "reviewComment": "https://github.com/bvlion/PlayInNotification/pull/141#discussion_r4282124270",
+    "change": "既存git rev-parseによるリポジトリ判定とcodex/*ブランチ判定を維持し、.gitがファイルという条件だけを削除",
+    "method": "実ローカルGitのlinked worktreeと一時cloneのprimary worktreeを使用。CLIは一時スタブで起動引数だけを観測。本物のCodex Remote上での実行ではない。テスト用commitは作らず、新たなモデル起動もしていない。",
+    "checks": [
+      {
+        "case": "linked_worktree",
+        "gitStorage": "file",
+        "exitCode": 0,
+        "isLauncherReachesCli": true,
+        "isExpectedManagerConfigurationPassed": true,
+        "arePermissionFlagsPassed": false
+      },
+      {
+        "case": "primary_worktree",
+        "gitStorage": "directory",
+        "exitCode": 0,
+        "isLauncherReachesCli": true,
+        "isExpectedManagerConfigurationPassed": true,
+        "arePermissionFlagsPassed": false
+      },
+      {
+        "case": "primary_main_rejected",
+        "exitCode": 1,
+        "stderr": "専用のcodexブランチのworktree内で実行してください。"
+      }
+    ],
+    "isActualRemoteTested": false,
+    "beforeFix": {
+      "case": "primary_codex_branch_rejected",
+      "exitCode": 1,
+      "stderr": "専用のcodexブランチのworktree内で実行してください。"
+    }
+  },
+  "openReviewDecision": {
+    "threadId": "PRRT_kwDOUSX-Vs6svLuC",
+    "commentUrl": "https://github.com/bvlion/PlayInNotification/pull/141#discussion_r4282124280",
+    "finding": "管理役がbvlionとして投稿できる現在の認証では、人間本人による承認の代作をAPIメタデータで防止・判別できない",
+    "evidence": "今回の管理役自身の通常の進捗投稿がUser bvlion / ID24517539 / performed_via_github_app=nullとなった。承認文言の追加投稿や本番承認の受理はしていない。",
+    "status": "requires_user_decision",
+    "isNewApprovalMechanismImplemented": false,
+    "options": [
+      "管理役のGitHub実行環境と資格情報を本人承認者から分離し、本人の資格情報へアクセスさせない",
+      "管理役が生成・改変できない署名等の承認経路を別途設ける"
+    ],
+    "representativeFailure": "管理役が本人の資格情報または署名鍵を読める場合は分離の保証が成立しない",
+    "reasonForNotChanging": "今回の追加の仕組み・機能を作らない指示に従い、認証構成と承認経路の変更を独断で行わない"
+  }
 }
