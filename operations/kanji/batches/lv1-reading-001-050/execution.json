@@ -20,14 +20,57 @@
       "role": "kanji_creator",
       "path": "/root/creator",
       "threadId": "01a141d9-01d7-7d93-b3ef-5679baeb6380",
+      "parentThreadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
       "requestedModel": "gpt-6.1-sol",
       "requestedEffort": "high",
       "measuredModel": "gpt-6.1-sol",
       "measuredEffort": "high",
       "measurementSource": "local rollout session_meta/turn_context",
+      "status": "completed",
+      "isClosed": false,
+      "auditPath": null
+    },
+    {
+      "role": "kanji_japanese_quality_auditor",
+      "path": "/root/quality_r1",
+      "threadId": "01a141e9-22f8-7330-8c97-d49c70b72d02",
       "parentThreadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
       "status": "running",
-      "isClosed": false
+      "isClosed": false,
+      "auditPath": null
+    },
+    {
+      "role": "kanji_format_auditor",
+      "path": "/root/format_r1",
+      "threadId": "01a141e8-85b3-7322-8ac1-535b259bae1d",
+      "parentThreadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6-luna",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "status": "completed",
+      "isClosed": false,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/1/kanji_format_auditor.json"
+    },
+    {
+      "role": "kanji_correctness_auditor",
+      "path": "/root/correctness_r1",
+      "threadId": "01a141e7-d08f-7712-8d2d-3c2c1ba07968",
+      "parentThreadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "status": "running",
+      "isClosed": false,
+      "auditPath": null
     }
   ],
   "initialRemoteCheck": {
