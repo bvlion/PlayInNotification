@@ -4,7 +4,7 @@
   "issues": [130, 140],
   "mode": "setup_only",
   "isProductionStarted": false,
-  "authorizedApprover": null,
+  "authorizedApprover": {"login": "bvlion", "id": 24517539},
   "checkpointBranch": "codex/issue-140-subagent-workflow",
   "productionStartApproval": null,
   "automationApproval": null,

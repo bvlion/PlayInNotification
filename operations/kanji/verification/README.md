@@ -13,7 +13,7 @@ Codex CLI 0.162.1の `codex exec --strict-config --json` を使用し、管理�
 5. 初回の形式監査が空欄を見落としたため、原結果を保持し、空なら指摘1件・非空なら0件という模擬判定条件を明確にして独立再確認する。
 6. 状態を再保存し、別の新管理セッションから問題作成担当による模擬修正と全監査担当の再確認へ進む。ユーザー承認待ちで停止する。
 
-GitHub読み取りを行う非対話検証では `workspace-write` と `sandbox_workspace_write.network_access=true` を使用した。実行途中の保存・pushは外側の検証者が行った。管理役自身によるcommit・push・コメント投稿は本検証では実行していない。
+GitHub読み取りを行う非対話検証では `workspace-write` と `sandbox_workspace_write.network_access=true` を使用した。実行途中の保存・pushは外側の検証者が行った。管理役自身によるcommit・push・コメント投稿はこの初回検証では実行していない。後続の通常対話CLI検証での成功は`interactive-review.md`に区別して記録した。
 
 ## 記録の意味
 
@@ -25,8 +25,8 @@ GitHub読み取りを行う非対話検証では `workspace-write` と `sandbox_
 - `state.json`、`findings.json`: 最新状態と指摘対応
 - `continue-check.json`: 「続きお願い」だけを渡した新規セッションの保存記録確認と停止結果
 
-模擬記録での運用確認は、本番問題の正答、日本語品質、形式的な消去法、難易度を保証しない。実際の50問処理、辞書等の根拠調査、ユーザーによる問題承認、完全自動化、アプリ反映、CLI対話画面、別端末や空の認証環境からの復帰は未検証。
+模擬記録での運用確認は、本番問題の正答、日本語品質、形式的な消去法、難易度を保証しない。実際の50問処理、辞書等の根拠調査、ユーザーによる問題承認、完全自動化、アプリ反映、別端末や空の認証環境からの復帰は未検証。
 
 初回の実施結果は `report.md`、PRレビュー対応後の追加検証と残る制約は `review-followup.md` に記録する。
 
-再レビュー後の担当数上限・承認者確認・通常の対話CLIの承認要求は `interactive-review.md`、実行証跡は `second-review-checks.json` と `interactive-save-check.json` に記録する。
+再レビュー後の担当数上限・承認者確認・通常の対話CLIの今回限りの操作承認後の保存・新規復帰は `interactive-review.md`、実行証跡は `second-review-checks.json` と `interactive-save-check.json` に記録する。
