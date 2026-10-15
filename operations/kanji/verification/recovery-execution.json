@@ -1,0 +1,36 @@
+{
+  "records": [
+    {
+      "threadId": "01a13cff-d7f9-7ff1-a6ba-0f35db371e1f",
+      "parentThreadId": "01a13cfe-fb7c-71f2-8cfa-565c0b2bdde1",
+      "agentPath": "/root/kanji_format_auditor_recheck",
+      "role": "kanji_format_auditor",
+      "contexts": [
+        {
+          "model": "gpt-6-luna",
+          "effort": "high"
+        }
+      ],
+      "spawnCalls": []
+    },
+    {
+      "threadId": "01a13cfe-fb7c-71f2-8cfa-565c0b2bdde1",
+      "parentThreadId": null,
+      "agentPath": "/root",
+      "role": "manager",
+      "contexts": [
+        {
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "spawnCalls": [
+        {
+          "task_name": "kanji_format_auditor_recheck",
+          "agent_type": "kanji_format_auditor",
+          "fork_turns": "none"
+        }
+      ]
+    }
+  ]
+}

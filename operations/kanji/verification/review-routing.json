@@ -1,0 +1,83 @@
+{
+  "reviewCommentUrl": "https://github.com/bvlion/PlayInNotification/pull/141#issuecomment-6183468862",
+  "configurationChange": "共通model/effortを削除。専用起動時の指定を維持。通常起動は個人設定のxhighを継承。",
+  "cases": [
+    {
+      "case": "default",
+      "threadId": "01a13dc4-5061-79f2-85ad-89393f178e31",
+      "executionContexts": [
+        {
+          "model": "gpt-6.1-sol",
+          "effort": "xhigh"
+        }
+      ],
+      "status": "completed",
+      "isKanjiWorkflowReadObserved": false,
+      "response": "設定確認済み"
+    },
+    {
+      "case": "unscoped",
+      "threadId": "01a13dc4-5060-7de2-bf58-b1d246b8536f",
+      "executionContexts": [
+        {
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "status": "completed",
+      "isKanjiWorkflowReadObserved": false,
+      "response": "この会話では前回の作業内容を確認できません。継続するIssue番号、または作業内容を教えてください。"
+    },
+    {
+      "case": "unrelated-initial",
+      "threadId": "01a13dc4-5061-7c22-83d5-b63e1c7da7cf",
+      "executionContexts": [
+        {
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        },
+        {
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "status": "completed",
+      "isKanjiWorkflowReadObserved": false,
+      "response": "承知しました。対象はIssue #127の通知ゲーム終了時の確認観点の整理です。コード・ファイル・GitHubは変更せず、文章で整理します。"
+    },
+    {
+      "case": "unrelated-resume",
+      "threadId": "01a13dc4-5061-7c22-83d5-b63e1c7da7cf",
+      "executionContexts": [
+        {
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        },
+        {
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "status": "completed",
+      "isKanjiWorkflowReadObserved": false,
+      "response": "Issue #127の本文は接続制約で取得できなかったため、現時点の実装を基にした確認観点です。\n\n| 場面 | ユーザーが実機で確認する項目 |\n|---|---|\n| 30秒経過時 | 問題・回答ボタン・残り時間が結果表示へ切り替わり、操作せず待っていても終了するか。 |\n| 結果表示 | 回答数・正解数・不正解数が実際の回答と一致するか。未回答の問題が回答数に含まれないか。 |\n| 終了直前の回答 | 普通に回答を続けて終了した際、結果表示が問題表示へ戻ったり、終了後に集計が変わったりしないか。 |\n| 結果通知の維持 | 通知を閉じて開き直しても結果を確認でき、アプリ本体を開いても結果が勝手にゲーム選択へ変わらないか。 |\n| 「今回の回答を見る」 | 今回の問題・選択した回答・正誤が表示されるか。回答なしの場合は、その旨が表示されるか。開いた後、通知がゲーム選択へ戻るか。 |\n| 「ゲームを選ぶ」 | 通知内でゲーム選択に戻り、次のゲームを開始できるか。次回の結果に前回の回答が混ざらないか。 |\n| レベルアップ時 | 通知を展開するとレベルアップ画像と変更前後のレベルが読め、集計と両ボタンも確認できるか。 |\n\n計算・難読漢字の両ゲームで確認し、回答なしの終了とレベルアップする終了も含めると確認しやすくなります。ただし、レベルアップしないプレイだけでは画像表示の問題を見落とします。\n\nコード・ファイル・GitHubの変更、実機操作は行っていません。"
+    },
+    {
+      "case": "scoped",
+      "threadId": "01a13dc5-1de7-77d2-926e-1c871e3041b2",
+      "executionContexts": [
+        {
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "status": "completed",
+      "isKanjiWorkflowReadObserved": true,
+      "response": "読み取りと照合を完了しました。再開位置は、本番問題の作成ではなく、PR #141のレビュー修正です。\n\n- [最新保存記録](https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6181759493)のコミット `a93cc5a01e78759923720987e044afe273167a03` は、ローカルHEAD・GitHubのブランチ先端と一致しています。\n- 本番は `setup_only`／`awaiting_production_start`。開始承認・自動化承認はなく、確定済み168問は保護対象です。\n- 模擬検証は版2、全3監査完了・指摘ゼロ。保存スナップショットのSHA-256、監査結果、ローカルとの一致を確認しました。模擬承認は未取得です。\n- ローカルには既存の未コミット変更が3ファイルあります。`.codex/config.toml` の共通モデル指定削除、`AGENTS.md` と運用READMEの再開条件限定です。GitHubには未保存です。\n- [レビュー記録](https://github.com/bvlion/PlayInNotification/pull/141#issuecomment-6183468862)では、共通モデル指定の指摘が未解決で、管理役自身によるcommit・push・Issue投稿も未検証として残っています。\n\n今回は変更・投稿・resolve・担当起動を一切行っていません。既存の未コミット差分もそのまま保持しています。"
+    }
+  ],
+  "limitations": [
+    "同じMac mini・同じworktreeでの検証。専用起動の確認はスクリプトと同じCLI引数・管理役の開始文をcodex execへ渡した。対話画面は未検証。",
+    "別Issueの継続はread-onlyで実施し、Issue #127本文の取得はネットワーク制約で失敗した。作業対象を維持したことを確認し、Issue #127の内容の妥当性は評価していない。"
+  ]
+}

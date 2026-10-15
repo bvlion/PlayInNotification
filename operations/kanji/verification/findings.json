@@ -1,0 +1,50 @@
+{
+  "revision": 2,
+  "snapshotSha256": "153ceb1b10272b4474cef315c1a53fd2d9b1ea976018595c291bfae4ec4c1f14",
+  "findings": [
+    {
+      "id": "correctness-evidence-empty",
+      "recordId": "workflow-probe",
+      "field": "correctnessEvidence",
+      "reason": "correctnessEvidence が空文字列であり、根拠が記録されていません。",
+      "sourceRole": "kanji_correctness_auditor",
+      "sourceFindingId": "correctness-evidence-empty",
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "sourceResultPath": "operations/kanji/verification/initial-kanji_correctness_auditor.json",
+      "resolvedSnapshotSha256": "153ceb1b10272b4474cef315c1a53fd2d9b1ea976018595c291bfae4ec4c1f14",
+      "resolutionEvidence": "模擬検証で検証済み。模擬記録の正誤根拠欄への記録に限定する。",
+      "resolutionAuditPath": "operations/kanji/verification/final-kanji_correctness_auditor.json"
+    },
+    {
+      "id": "quality-evidence-empty",
+      "recordId": "workflow-probe",
+      "field": "qualityEvidence",
+      "reason": "qualityEvidenceが空文字列であり、日本語品質の根拠が記録されていません。",
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "sourceFindingId": "quality-evidence-empty",
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "sourceResultPath": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json",
+      "resolvedSnapshotSha256": "153ceb1b10272b4474cef315c1a53fd2d9b1ea976018595c291bfae4ec4c1f14",
+      "resolutionEvidence": "模擬検証で検証済み。模擬記録の品質根拠欄への記録に限定する。",
+      "resolutionAuditPath": "operations/kanji/verification/final-kanji_japanese_quality_auditor.json"
+    },
+    {
+      "id": "formatEvidence-empty",
+      "recordId": "workflow-probe",
+      "field": "formatEvidence",
+      "reason": "formatEvidenceが空文字列のため、このfieldの指摘を記録します。",
+      "sourceRole": "kanji_format_auditor",
+      "sourceFindingId": "formatEvidence-empty",
+      "sourceResultPath": "operations/kanji/verification/initial-recheck-kanji_format_auditor.json",
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "resolvedSnapshotSha256": "153ceb1b10272b4474cef315c1a53fd2d9b1ea976018595c291bfae4ec4c1f14",
+      "resolutionEvidence": "模擬検証で検証済み。模擬記録の形式根拠欄への記録に限定する。",
+      "resolutionAuditPath": "operations/kanji/verification/final-kanji_format_auditor.json"
+    }
+  ],
+  "previousRevision": 1,
+  "previousSnapshotSha256": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425"
+}

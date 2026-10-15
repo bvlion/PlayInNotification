@@ -1,0 +1,19 @@
+{
+  "mode": "verification",
+  "isSyntheticState": true,
+  "status": "awaiting_recovery_verification",
+  "revision": 1,
+  "recordId": "interactive-manager-save-probe",
+  "sourceCommit": "511e8fa51aeb15a2212398e13ddce139e6fb9cb7",
+  "progress": "対話環境での途中保存",
+  "assignments": [],
+  "unresolvedFindings": [],
+  "userApproval": {
+    "status": "pending",
+    "revision": 1,
+    "approval": null
+  },
+  "productionStartApproval": null,
+  "automationApproval": null,
+  "nextAction": "新規の管理セッションがGitHub保存状態を復元し、本番開始指示待ちとして結果を報告する"
+}

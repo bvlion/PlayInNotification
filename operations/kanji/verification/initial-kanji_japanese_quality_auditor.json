@@ -1,0 +1,14 @@
+{
+  "role": "kanji_japanese_quality_auditor",
+  "revision": 1,
+  "snapshotSha256": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425",
+  "status": "completed",
+  "findings": [
+    {
+      "id": "quality-evidence-empty",
+      "recordId": "workflow-probe",
+      "field": "qualityEvidence",
+      "reason": "qualityEvidenceが空文字列であり、日本語品質の根拠が記録されていません。"
+    }
+  ]
+}

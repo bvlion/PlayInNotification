@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "repository": "bvlion/PlayInNotification",
+  "issues": [130, 140],
+  "mode": "setup_only",
+  "isProductionStarted": false,
+  "authorizedApprover": {"login": "bvlion", "id": 24517539},
+  "checkpointBranch": "codex/issue-140-subagent-workflow",
+  "productionStartApproval": null,
+  "automationApproval": null,
+  "status": "awaiting_production_start",
+  "activeBatch": null,
+  "nextTarget": {"difficulty": 1, "direction": "reading_to_written_form", "maximumBatchSize": 50},
+  "integrationBranch": "feature/issue-130-difficult-kanji",
+  "protectedApprovalRecords": [
+    "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6041098990",
+    "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6059690171",
+    "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6079314771",
+    "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6079902417"
+  ],
+  "protectedScope": {"difficulty": 1, "direction": "written_form_to_reading", "approvedQuestionCount": 168},
+  "completedBatches": [],
+  "unresolvedFindings": [],
+  "nextAction": "運用検証結果を報告し、実際の問題作成・再選定の開始指示を待つ"
+}

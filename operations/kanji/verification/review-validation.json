@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "isShellSyntaxPassed": true,
+    "isTomlAndJsonParsingPassed": true,
+    "isSharedModelDefaultsRemoved": true,
+    "isLauncherAndRoleSettingsPreserved": true,
+    "isUnscopedContinuationGuardVerified": true,
+    "isUnrelatedContinuationVerified": true,
+    "isScopedContinuationVerified": true,
+    "isManagerSaveAttemptObserved": true,
+    "isManagerSaveCompleted": false,
+    "isProductionStatePreserved": true,
+    "isAppDataDiffEmpty": true,
+    "isDiffCheckPassed": true
+  },
+  "gradle": "運用設定・ドキュメントのみのためローカル再実行なし",
+  "managerSaveLimitation": "workspace-write / network_access=true / approval_policy=neverでgit addがindex.lock作成の権限拒否。commit/push/投稿は未実施。"
+}

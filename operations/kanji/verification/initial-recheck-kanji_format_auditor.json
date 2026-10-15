@@ -1,0 +1,14 @@
+{
+  "role": "kanji_format_auditor",
+  "revision": 1,
+  "snapshotSha256": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425",
+  "status": "completed",
+  "findings": [
+    {
+      "id": "formatEvidence-empty",
+      "recordId": "workflow-probe",
+      "field": "formatEvidence",
+      "reason": "formatEvidenceが空文字列のため、このfieldの指摘を記録します。"
+    }
+  ]
+}

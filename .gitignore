@@ -33,3 +33,6 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Codex運用検証のローカル実行ログ
+/operations/kanji/verification/runtime/

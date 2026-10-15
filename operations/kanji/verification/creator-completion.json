@@ -1,0 +1,14 @@
+{
+  "role": "kanji_creator",
+  "agentPath": "/root/kanji_creator",
+  "threadId": "01a13cfc-0d33-7353-b75b-c7f37d3ab93f",
+  "configuredModel": "gpt-6.1-sol",
+  "configuredReasoningEffort": "high",
+  "actualModel": "gpt-6.1-sol",
+  "actualReasoningEffort": "high",
+  "status": "completed",
+  "closeStatus": "not_closed",
+  "closeReason": "クローズ操作は利用できない",
+  "resultPath": "operations/kanji/verification/revision-1.json",
+  "isResultReceived": true
+}

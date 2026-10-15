@@ -1,0 +1,155 @@
+{
+  "mode": "verification",
+  "recoverySource": "GitHub API only",
+  "checkpointCommentUrl": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6181651054",
+  "commit": "00bd4ba62c5526e534b4ca220662d6db5ba1c1b4",
+  "branch": "codex/issue-140-subagent-workflow",
+  "revision": 1,
+  "snapshotPath": "operations/kanji/verification/revision-1.json",
+  "snapshotSha256": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425",
+  "sha256Verification": {
+    "expected": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425",
+    "actual": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425",
+    "isMatched": true
+  },
+  "restoredStatus": "revising",
+  "restoredUnresolvedFindingIds": [
+    "correctness-evidence-empty",
+    "quality-evidence-empty"
+  ],
+  "userApproval": {
+    "status": "pending",
+    "revision": 1,
+    "commentUrl": null
+  },
+  "productionStartApproval": null,
+  "automationApproval": null,
+  "manager": {
+    "agentPath": "/root",
+    "threadId": null,
+    "threadIdStatus": "not_obtained",
+    "isNewManagementSession": true,
+    "isPreviousSessionResumed": false,
+    "actualModel": null,
+    "actualReasoningEffort": null,
+    "executionMetadataStatus": "not_obtained"
+  },
+  "recoveredAt": "2026-10-15T00:39:14.327188+00:00",
+  "nextAction": "作成担当が模擬記録を修正し全監査担当が再確認",
+  "currentUnresolvedFindingIds": [
+    "correctness-evidence-empty",
+    "quality-evidence-empty",
+    "formatEvidence-empty"
+  ],
+  "isInitialAuditContractPassed": true,
+  "isSessionScopeCompleted": true,
+  "retrievedFiles": [
+    {
+      "path": "operations/kanji/verification/creator-completion.json",
+      "sha256": "3849c9d288c45f203a8fb1c92568b97c3db6fe5f75665276090213b12d80c479",
+      "sourceUrl": "https://github.com/bvlion/PlayInNotification/blob/00bd4ba62c5526e534b4ca220662d6db5ba1c1b4/operations/kanji/verification/creator-completion.json"
+    },
+    {
+      "path": "operations/kanji/verification/environment.json",
+      "sha256": "be84973259f796dabe1e262b058dd2554fe4c9b5ad182ae1108fb46eb4244c39",
+      "sourceUrl": "https://github.com/bvlion/PlayInNotification/blob/00bd4ba62c5526e534b4ca220662d6db5ba1c1b4/operations/kanji/verification/environment.json"
+    },
+    {
+      "path": "operations/kanji/verification/findings.json",
+      "sha256": "7acb746c6f010dc8869efa4dcd87cd25cedf677c7526e916a3d0b0cc2dc44b11",
+      "sourceUrl": "https://github.com/bvlion/PlayInNotification/blob/00bd4ba62c5526e534b4ca220662d6db5ba1c1b4/operations/kanji/verification/findings.json"
+    },
+    {
+      "path": "operations/kanji/verification/initial-execution.json",
+      "sha256": "9e95bc584c3f3b955fd01708468d2ae3105babb87c052f7274f7bd10d13b3966",
+      "sourceUrl": "https://github.com/bvlion/PlayInNotification/blob/00bd4ba62c5526e534b4ca220662d6db5ba1c1b4/operations/kanji/verification/initial-execution.json"
+    },
+    {
+      "path": "operations/kanji/verification/initial-kanji_correctness_auditor.json",
+      "sha256": "9ad4ca1ed1d035ad246cdd7179c2e28e4f7b3a7fea869c833bf1e427cd12a319",
+      "sourceUrl": "https://github.com/bvlion/PlayInNotification/blob/00bd4ba62c5526e534b4ca220662d6db5ba1c1b4/operations/kanji/verification/initial-kanji_correctness_auditor.json"
+    },
+    {
+      "path": "operations/kanji/verification/initial-kanji_format_auditor.json",
+      "sha256": "3b6d31dc101935749ca731e33c4803417072a5a9216cd2f45914d79fe94760f8",
+      "sourceUrl": "https://github.com/bvlion/PlayInNotification/blob/00bd4ba62c5526e534b4ca220662d6db5ba1c1b4/operations/kanji/verification/initial-kanji_format_auditor.json"
+    },
+    {
+      "path": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json",
+      "sha256": "274eb0286e5c7a8d2fb6e30c8baca5f4fed0e86c70d73d4753430208c4d4454c",
+      "sourceUrl": "https://github.com/bvlion/PlayInNotification/blob/00bd4ba62c5526e534b4ca220662d6db5ba1c1b4/operations/kanji/verification/initial-kanji_japanese_quality_auditor.json"
+    },
+    {
+      "path": "operations/kanji/verification/initial-state.json",
+      "sha256": "044797feb5e17e5f7c5770945ebfa5778fb409b3aa71aaafd7bc80d61f22a8b7",
+      "sourceUrl": "https://github.com/bvlion/PlayInNotification/blob/00bd4ba62c5526e534b4ca220662d6db5ba1c1b4/operations/kanji/verification/initial-state.json"
+    },
+    {
+      "path": "operations/kanji/verification/revision-1.json",
+      "sha256": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425",
+      "sourceUrl": "https://github.com/bvlion/PlayInNotification/blob/00bd4ba62c5526e534b4ca220662d6db5ba1c1b4/operations/kanji/verification/revision-1.json"
+    },
+    {
+      "path": "operations/kanji/verification/state.json",
+      "sha256": "044797feb5e17e5f7c5770945ebfa5778fb409b3aa71aaafd7bc80d61f22a8b7",
+      "sourceUrl": "https://github.com/bvlion/PlayInNotification/blob/00bd4ba62c5526e534b4ca220662d6db5ba1c1b4/operations/kanji/verification/state.json"
+    },
+    {
+      "path": "operations/kanji/workflow.json",
+      "sha256": "376e0a8394fc44909d743bdd57756d7e63e44277ae56259120fa7d8aa65997e6",
+      "sourceUrl": "https://github.com/bvlion/PlayInNotification/blob/00bd4ba62c5526e534b4ca220662d6db5ba1c1b4/operations/kanji/workflow.json"
+    }
+  ],
+  "restoredAssignments": [
+    {
+      "role": "kanji_creator",
+      "threadId": "01a13cfc-0d33-7353-b75b-c7f37d3ab93f",
+      "status": "completed",
+      "actualModel": "gpt-6.1-sol",
+      "actualReasoningEffort": "high",
+      "resultPath": "operations/kanji/verification/revision-1.json"
+    },
+    {
+      "role": "kanji_correctness_auditor",
+      "threadId": "01a13cfc-73b8-7603-813d-ecc55398dad2",
+      "status": "completed",
+      "actualModel": "gpt-6.1-sol",
+      "actualReasoningEffort": "high",
+      "resultPath": "operations/kanji/verification/initial-kanji_correctness_auditor.json"
+    },
+    {
+      "role": "kanji_format_auditor",
+      "threadId": "01a13cfc-87d0-7111-a5f7-a5e8e2770953",
+      "status": "completed",
+      "actualModel": "gpt-6-luna",
+      "actualReasoningEffort": "high",
+      "resultPath": "operations/kanji/verification/initial-kanji_format_auditor.json"
+    },
+    {
+      "role": "kanji_japanese_quality_auditor",
+      "threadId": "01a13cfc-a37d-7632-9a57-4a00543d46c3",
+      "status": "completed",
+      "actualModel": "gpt-6.1-sol",
+      "actualReasoningEffort": "high",
+      "resultPath": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json"
+    }
+  ],
+  "recheckAssignment": {
+    "role": "kanji_format_auditor",
+    "agentPath": "/root/kanji_format_auditor_recheck",
+    "threadId": null,
+    "configuredModel": "gpt-6-luna",
+    "configuredReasoningEffort": "high",
+    "actualModel": null,
+    "actualReasoningEffort": null,
+    "status": "completed",
+    "closeStatus": "not_obtained",
+    "closeReason": "このセッションではクローズ機能が提供されていない",
+    "resultPath": "operations/kanji/verification/initial-recheck-kanji_format_auditor.json",
+    "isResultReceived": true,
+    "threadIdStatus": "not_obtained",
+    "executionMetadataStatus": "not_obtained",
+    "forkTurns": "none",
+    "isIndependentInput": true
+  }
+}

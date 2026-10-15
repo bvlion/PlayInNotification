@@ -1,0 +1,248 @@
+{
+  "reviewThreads": [
+    "https://github.com/bvlion/PlayInNotification/pull/141#discussion_r4278987153",
+    "https://github.com/bvlion/PlayInNotification/pull/141#discussion_r4278987157"
+  ],
+  "effectiveConfiguration": [
+    {
+      "case": "ordinary",
+      "agents": null,
+      "model": "gpt-6.1-sol",
+      "modelReasoningEffort": "xhigh"
+    },
+    {
+      "case": "workflow",
+      "agents": {
+        "enabled": true,
+        "max_concurrent_threads_per_session": 4,
+        "max_depth": null,
+        "default_subagent_model": null,
+        "default_subagent_reasoning_effort": null,
+        "job_max_runtime_seconds": null,
+        "interrupt_message": null
+      },
+      "model": "gpt-6.1-sol",
+      "modelReasoningEffort": "xhigh"
+    }
+  ],
+  "configurationProbeScope": "config/readのローカル読み取り。ordinaryは共通agents未設定、workflowは専用ランチャーのagents指定のみを渡した確認。5担当の同時起動を確認した試験ではない。",
+  "approvalVerification": {
+    "threadId": "01a13ed9-0468-7182-b47d-2909ab5c204c",
+    "isSyntheticState": true,
+    "result": {
+      "decisions": [
+        {
+          "caseId": "valid_direct_user",
+          "isAccepted": true,
+          "reason": "模擬条件では、指定承認者のlogin・IDとUser種別が一致し、本人の直接投稿である。対象リポジトリ・Issue・承認種別・バッチ・版・SHA-256が一致し、API確認成功・本文変更なしのため受理できる。"
+        },
+        {
+          "caseId": "approver_unset",
+          "isAccepted": false,
+          "reason": "authorizedApproverがnullであり、承認者未指定。OWNERでも承認者と推測できない。"
+        },
+        {
+          "caseId": "third_party",
+          "isAccepted": false,
+          "reason": "投稿者のlogin・IDが指定承認者と異なる。OWNERという属性では代替できない。"
+        },
+        {
+          "caseId": "same_login_different_id",
+          "isAccepted": false,
+          "reason": "loginは一致するが、不変ユーザーIDが1001ではなく1002である。"
+        },
+        {
+          "caseId": "bot",
+          "isAccepted": false,
+          "reason": "user.typeがBotであり、本人のUser投稿という条件を満たさない。"
+        },
+        {
+          "caseId": "proxy_same_user",
+          "isAccepted": false,
+          "reason": "performed_via_github_appがnullではなく代理投稿である。同じlogin・IDでも本人の直接承認と認定できない。"
+        },
+        {
+          "caseId": "wrong_issue",
+          "isAccepted": false,
+          "reason": "対象がIssue #130であり、必要なIssue #140と異なる。"
+        },
+        {
+          "caseId": "wrong_revision",
+          "isAccepted": false,
+          "reason": "承認対象はrevision 1であり、要求されたrevision 2へ適用できない。"
+        },
+        {
+          "caseId": "wrong_snapshot",
+          "isAccepted": false,
+          "reason": "snapshotSha256が要求されたスナップショットと一致しない。"
+        },
+        {
+          "caseId": "wrong_approval_type",
+          "isAccepted": false,
+          "reason": "コメントは完全自動化の承認であり、要求されたバッチ確定の承認へ転用できない。"
+        },
+        {
+          "caseId": "edited_body",
+          "isAccepted": false,
+          "reason": "isBodyUnchangedがfalseで本文編集が検出されているため、未承認のまま停止する。"
+        },
+        {
+          "caseId": "api_unavailable",
+          "isAccepted": false,
+          "reason": "isApiReadSuccessfulがfalseでAPI再確認に失敗しているため、未承認のまま停止する。"
+        }
+      ],
+      "isProductionStarted": false,
+      "realCommentDecision": "本番開始承認へ転用不可。提供メタデータのコメント6186868075は投稿者bvlion（ID 24517539、User、OWNER）だが、performedViaGithubAppIdが1144995の代理投稿である。コメントURLもPR #141を指し、Issue #140の承認という条件を満たさない。現実のauthorizedApproverもnullであるため受理できない。メタデータの確認のみ行い、GitHub APIでの再取得や本文の承認種別確認は実施していない。本番状態の変更、問題作成・監査、ファイル変更、Git/GitHub書き込み、追加担当の起動は行っていない。"
+    },
+    "actualCommentMetadata": {
+      "authorAssociation": "OWNER",
+      "authorId": 24517539,
+      "authorLogin": "bvlion",
+      "authorType": "User",
+      "commentId": 6186868075,
+      "commentUrl": "https://github.com/bvlion/PlayInNotification/pull/141#issuecomment-6186868075",
+      "performedViaGithubAppId": 1144995
+    },
+    "limitations": [
+      "正規ユーザーの承認を受理する正例は架空データによる判定試験。現実の承認者は未設定であり、本番承認の受理は行っていない。",
+      "承認確認は管理役の運用指示に基づく。GitHubからの実API取得とユーザー本人の直接投稿の正例はまだ実行していない。"
+    ],
+    "caseBase": {
+      "authorizedApprover": {
+        "login": "approval-test-user",
+        "id": 1001
+      },
+      "comment": {
+        "repository": "bvlion/PlayInNotification",
+        "issueNumber": 140,
+        "user": {
+          "login": "approval-test-user",
+          "id": 1001,
+          "type": "User"
+        },
+        "author_association": "OWNER",
+        "performed_via_github_app": null,
+        "approvalType": "batch_approval",
+        "batchId": "synthetic-batch",
+        "revision": 2,
+        "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "isApiReadSuccessful": true,
+        "isBodyUnchanged": true
+      },
+      "requestedApproval": {
+        "approvalType": "batch_approval",
+        "batchId": "synthetic-batch",
+        "revision": 2,
+        "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    "caseOverrides": [
+      {
+        "caseId": "valid_direct_user",
+        "overrides": {}
+      },
+      {
+        "caseId": "approver_unset",
+        "overrides": {
+          "authorizedApprover": null
+        }
+      },
+      {
+        "caseId": "third_party",
+        "overrides": {
+          "comment": {
+            "user": {
+              "login": "third-party",
+              "id": 1002,
+              "type": "User"
+            }
+          }
+        }
+      },
+      {
+        "caseId": "same_login_different_id",
+        "overrides": {
+          "comment": {
+            "user": {
+              "login": "approval-test-user",
+              "id": 1002,
+              "type": "User"
+            }
+          }
+        }
+      },
+      {
+        "caseId": "bot",
+        "overrides": {
+          "comment": {
+            "user": {
+              "login": "approval-test-user",
+              "id": 1001,
+              "type": "Bot"
+            }
+          }
+        }
+      },
+      {
+        "caseId": "proxy_same_user",
+        "overrides": {
+          "comment": {
+            "performed_via_github_app": {
+              "id": 1144995
+            }
+          }
+        }
+      },
+      {
+        "caseId": "wrong_issue",
+        "overrides": {
+          "comment": {
+            "issueNumber": 130
+          }
+        }
+      },
+      {
+        "caseId": "wrong_revision",
+        "overrides": {
+          "comment": {
+            "revision": 1
+          }
+        }
+      },
+      {
+        "caseId": "wrong_snapshot",
+        "overrides": {
+          "comment": {
+            "snapshotSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        }
+      },
+      {
+        "caseId": "wrong_approval_type",
+        "overrides": {
+          "comment": {
+            "approvalType": "automation"
+          }
+        }
+      },
+      {
+        "caseId": "edited_body",
+        "overrides": {
+          "comment": {
+            "isBodyUnchanged": false
+          }
+        }
+      },
+      {
+        "caseId": "api_unavailable",
+        "overrides": {
+          "comment": {
+            "isApiReadSuccessful": false
+          }
+        }
+      }
+    ],
+    "caseInputSha256": "f9919101e53d01dfb07c0af18e9ceb73a3e55b1426fe1cd98143990ad7a1a846"
+  }
+}
