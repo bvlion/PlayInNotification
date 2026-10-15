@@ -12,6 +12,37 @@
     "actual": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425",
     "isMatched": true
   },
+  "restoredStatus": "revising",
+  "restoredUnresolvedFindingIds": [
+    "correctness-evidence-empty",
+    "quality-evidence-empty"
+  ],
+  "userApproval": {
+    "status": "pending",
+    "revision": 1,
+    "commentUrl": null
+  },
+  "productionStartApproval": null,
+  "automationApproval": null,
+  "manager": {
+    "agentPath": "/root",
+    "threadId": null,
+    "threadIdStatus": "not_obtained",
+    "isNewManagementSession": true,
+    "isPreviousSessionResumed": false,
+    "actualModel": null,
+    "actualReasoningEffort": null,
+    "executionMetadataStatus": "not_obtained"
+  },
+  "recoveredAt": "2026-10-15T00:39:14.327188+00:00",
+  "nextAction": "作成担当が模擬記録を修正し全監査担当が再確認",
+  "currentUnresolvedFindingIds": [
+    "correctness-evidence-empty",
+    "quality-evidence-empty",
+    "formatEvidence-empty"
+  ],
+  "isInitialAuditContractPassed": true,
+  "isSessionScopeCompleted": true,
   "retrievedFiles": [
     {
       "path": "operations/kanji/verification/creator-completion.json",
@@ -69,124 +100,40 @@
       "sourceUrl": "https://github.com/bvlion/PlayInNotification/blob/00bd4ba62c5526e534b4ca220662d6db5ba1c1b4/operations/kanji/workflow.json"
     }
   ],
-  "restoredStatus": "revising",
   "restoredAssignments": [
     {
       "role": "kanji_creator",
-      "agentPath": "/root/kanji_creator",
       "threadId": "01a13cfc-0d33-7353-b75b-c7f37d3ab93f",
-      "configuredModel": "gpt-6.1-sol",
-      "configuredReasoningEffort": "high",
+      "status": "completed",
       "actualModel": "gpt-6.1-sol",
       "actualReasoningEffort": "high",
-      "status": "completed",
-      "closeStatus": "not_closed",
-      "closeReason": "クローズ操作は利用できない",
-      "resultPath": "operations/kanji/verification/revision-1.json",
-      "isResultReceived": true
+      "resultPath": "operations/kanji/verification/revision-1.json"
     },
     {
       "role": "kanji_correctness_auditor",
-      "agentPath": "/root/kanji_correctness_auditor",
       "threadId": "01a13cfc-73b8-7603-813d-ecc55398dad2",
-      "configuredModel": "gpt-6.1-sol",
-      "configuredReasoningEffort": "high",
+      "status": "completed",
       "actualModel": "gpt-6.1-sol",
       "actualReasoningEffort": "high",
-      "status": "completed",
-      "closeStatus": "not_closed",
-      "closeReason": "クローズ操作は利用できない",
-      "resultPath": "operations/kanji/verification/initial-kanji_correctness_auditor.json",
-      "isResultReceived": true
+      "resultPath": "operations/kanji/verification/initial-kanji_correctness_auditor.json"
     },
     {
       "role": "kanji_format_auditor",
-      "agentPath": "/root/kanji_format_auditor",
       "threadId": "01a13cfc-87d0-7111-a5f7-a5e8e2770953",
-      "configuredModel": "gpt-6-luna",
-      "configuredReasoningEffort": "high",
+      "status": "completed",
       "actualModel": "gpt-6-luna",
       "actualReasoningEffort": "high",
-      "status": "completed",
-      "closeStatus": "not_closed",
-      "closeReason": "クローズ操作は利用できない",
-      "resultPath": "operations/kanji/verification/initial-kanji_format_auditor.json",
-      "isResultReceived": true
+      "resultPath": "operations/kanji/verification/initial-kanji_format_auditor.json"
     },
     {
       "role": "kanji_japanese_quality_auditor",
-      "agentPath": "/root/kanji_japanese_quality_auditor",
       "threadId": "01a13cfc-a37d-7632-9a57-4a00543d46c3",
-      "configuredModel": "gpt-6.1-sol",
-      "configuredReasoningEffort": "high",
+      "status": "completed",
       "actualModel": "gpt-6.1-sol",
       "actualReasoningEffort": "high",
-      "status": "completed",
-      "closeStatus": "not_closed",
-      "closeReason": "クローズ操作は利用できない",
-      "resultPath": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json",
-      "isResultReceived": true
+      "resultPath": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json"
     }
   ],
-  "restoredUnresolvedFindingIds": [
-    "correctness-evidence-empty",
-    "quality-evidence-empty"
-  ],
-  "userApproval": {
-    "status": "pending",
-    "revision": 1,
-    "commentUrl": null
-  },
-  "productionState": {
-    "schemaVersion": 1,
-    "repository": "bvlion/PlayInNotification",
-    "issues": [
-      130,
-      140
-    ],
-    "mode": "setup_only",
-    "isProductionStarted": false,
-    "productionStartApproval": null,
-    "automationApproval": null,
-    "status": "awaiting_production_start",
-    "activeBatch": null,
-    "nextTarget": {
-      "difficulty": 1,
-      "direction": "reading_to_written_form",
-      "maximumBatchSize": 50
-    },
-    "integrationBranch": "feature/issue-130-difficult-kanji",
-    "protectedApprovalRecords": [
-      "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6041098990",
-      "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6059690171",
-      "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6079314771",
-      "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6079902417"
-    ],
-    "protectedScope": {
-      "difficulty": 1,
-      "direction": "written_form_to_reading",
-      "approvedQuestionCount": 168
-    },
-    "completedBatches": [],
-    "unresolvedFindings": [],
-    "nextAction": "運用検証結果を報告し、実際の問題作成・再選定の開始指示を待つ"
-  },
-  "productionStartApproval": null,
-  "automationApproval": null,
-  "manager": {
-    "agentPath": "/root",
-    "threadId": null,
-    "threadIdStatus": "not_obtained",
-    "isNewManagementSession": true,
-    "isPreviousSessionResumed": false,
-    "actualModel": null,
-    "actualReasoningEffort": null,
-    "executionMetadataStatus": "not_obtained"
-  },
-  "recoveredAt": "2026-10-15T00:39:14.327188+00:00",
-  "nextAction": "作成担当が模擬記録を修正し全監査担当が再確認",
-  "nextActionAfterRecheck": "作成担当が模擬記録を修正し全監査担当が再確認",
-  "sessionScope": "模擬形式判定再確認のみ。本番問題作成・再選定・監査、模擬修正、他担当再確認は実施しない",
   "recheckAssignment": {
     "role": "kanji_format_auditor",
     "agentPath": "/root/kanji_format_auditor_recheck",
@@ -204,74 +151,5 @@
     "executionMetadataStatus": "not_obtained",
     "forkTurns": "none",
     "isIndependentInput": true
-  },
-  "currentAssignments": [
-    {
-      "role": "kanji_creator",
-      "agentPath": "/root/kanji_creator",
-      "threadId": "01a13cfc-0d33-7353-b75b-c7f37d3ab93f",
-      "configuredModel": "gpt-6.1-sol",
-      "configuredReasoningEffort": "high",
-      "actualModel": "gpt-6.1-sol",
-      "actualReasoningEffort": "high",
-      "status": "completed",
-      "closeStatus": "not_closed",
-      "closeReason": "クローズ操作は利用できない",
-      "resultPath": "operations/kanji/verification/revision-1.json",
-      "isResultReceived": true
-    },
-    {
-      "role": "kanji_correctness_auditor",
-      "agentPath": "/root/kanji_correctness_auditor",
-      "threadId": "01a13cfc-73b8-7603-813d-ecc55398dad2",
-      "configuredModel": "gpt-6.1-sol",
-      "configuredReasoningEffort": "high",
-      "actualModel": "gpt-6.1-sol",
-      "actualReasoningEffort": "high",
-      "status": "completed",
-      "closeStatus": "not_closed",
-      "closeReason": "クローズ操作は利用できない",
-      "resultPath": "operations/kanji/verification/initial-kanji_correctness_auditor.json",
-      "isResultReceived": true
-    },
-    {
-      "role": "kanji_format_auditor",
-      "agentPath": "/root/kanji_format_auditor_recheck",
-      "threadId": null,
-      "configuredModel": "gpt-6-luna",
-      "configuredReasoningEffort": "high",
-      "actualModel": null,
-      "actualReasoningEffort": null,
-      "status": "completed",
-      "closeStatus": "not_obtained",
-      "closeReason": "このセッションではクローズ機能が提供されていない",
-      "resultPath": "operations/kanji/verification/initial-recheck-kanji_format_auditor.json",
-      "isResultReceived": true,
-      "threadIdStatus": "not_obtained",
-      "executionMetadataStatus": "not_obtained",
-      "forkTurns": "none",
-      "isIndependentInput": true
-    },
-    {
-      "role": "kanji_japanese_quality_auditor",
-      "agentPath": "/root/kanji_japanese_quality_auditor",
-      "threadId": "01a13cfc-a37d-7632-9a57-4a00543d46c3",
-      "configuredModel": "gpt-6.1-sol",
-      "configuredReasoningEffort": "high",
-      "actualModel": "gpt-6.1-sol",
-      "actualReasoningEffort": "high",
-      "status": "completed",
-      "closeStatus": "not_closed",
-      "closeReason": "クローズ操作は利用できない",
-      "resultPath": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json",
-      "isResultReceived": true
-    }
-  ],
-  "currentUnresolvedFindingIds": [
-    "correctness-evidence-empty",
-    "quality-evidence-empty",
-    "formatEvidence-empty"
-  ],
-  "isInitialAuditContractPassed": true,
-  "isSessionScopeCompleted": true
+  }
 }
