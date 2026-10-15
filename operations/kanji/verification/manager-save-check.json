@@ -60,5 +60,17 @@
       "権限・sandbox・認証の変更、迂回、Git操作の代行、Subagent起動は実施していない"
     ]
   },
-  "conclusion": "workspace-write・network_access=true・approval_policy=neverの非対話セッションでは模擬ファイル作成までは成功したが、git addが権限拒否で失敗した。commit/push/Issue投稿の一連保存は未達成。権限や認証を変更していない。"
+  "conclusion": "workspace-write・network_access=true・approval_policy=neverの非対話セッションでは模擬ファイル作成までは成功したが、git addが権限拒否で失敗した。commit/push/Issue投稿の一連保存は未達成。権限や認証を変更していない。",
+  "defaultNonInteractiveControl": {
+    "threadId": "01a13dc5-1de7-77d2-926e-1c871e3041b2",
+    "isApprovalOverrideSpecified": false,
+    "approvalPolicy": "never",
+    "sandboxPolicy": {
+      "type": "workspace-write",
+      "network_access": true,
+      "exclude_tmpdir_env_var": false,
+      "exclude_slash_tmp": false
+    },
+    "observation": "承認ポリシーのCLI指定を省いたcodex execでも、実行履歴の実効承認ポリシーはneverだった。"
+  }
 }

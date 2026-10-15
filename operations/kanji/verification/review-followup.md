@@ -26,7 +26,7 @@ CLI 0.162.1、同じMac mini・同じ専用worktreeで実施。生の履歴と�
 
 ## 管理役自身の保存に残る制約
 
-保存試行の管理役はgpt-6.1-sol / medium。`workspace-write`、`network_access=true`、`approval_policy=never`で、新しい承認を要求できない非対話条件を明示して実施した。意図的なI/O障害やfault injectionは使っていない。
+保存試行の管理役はgpt-6.1-sol / medium。`workspace-write`、`network_access=true`、`approval_policy=never`で、新しい承認を要求できない非対話条件を明示して実施した。承認ポリシーをCLI指定しなかった読み取り確認セッションでも、実行履歴の実効値はneverだった。保存試行ではこの非対話の実効条件を明示して固定した。意図的なI/O障害やfault injectionは使っていない。
 
 `git add -- operations/kanji/verification/manager-save/state.json` が共有Git管理領域への書き込みで拒否されたため、その場で停止した。commit・push・push後照合・Issueコメント投稿は未実施で、一連保存の成功とは扱わない。権限・sandbox・認証の変更、迂回、代行での検証継続は行っていない。別の権限条件で保存できるかは未検証であり、非対話Codex全般で常に不可能と断定するものではない。
 
