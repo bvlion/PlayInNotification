@@ -1,0 +1,53 @@
+{
+  "verificationDate": "2026-10-15",
+  "platform": {
+    "system": "macOS 26.5.2",
+    "architecture": "arm64"
+  },
+  "cli": {
+    "verifiedVersion": "0.162.1",
+    "verifiedBinary": "/Users/iwai/.asdf/installs/nodejs/22.17.0/bin/codex",
+    "shadowedVersion": "0.148.0",
+    "shadowedBinary": "/opt/homebrew/bin/codex"
+  },
+  "authentication": "ChatGPT（認証情報は記録しない）",
+  "modelProbes": [
+    {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "status": "passed"
+    },
+    {
+      "model": "gpt-6-luna",
+      "effort": "high",
+      "status": "passed"
+    }
+  ],
+  "failedAttempts": [
+    {
+      "cliVersion": "0.148.0",
+      "model": "gpt-6.1-sol",
+      "efforts": [
+        "medium",
+        "high"
+      ],
+      "status": "failed",
+      "reason": "旧版CLIではモデル一覧に存在せず、ChatGPT accountではunsupportedのHTTP 400。0.162.1の明示指定で解消。"
+    },
+    {
+      "cliVersion": "0.162.1",
+      "status": "stopped_after_creator",
+      "reason": "担当クローズと実測ID取得を必須にした初回検証は利用可能ツールに操作がなく停止。完了状態の保存とrolloutの外部確認へ手順を修正して再検証。"
+    }
+  ],
+  "limitations": [
+    "担当別のOS権限隔離はない。独立監査は新規コンテキストと担当入力制限で実施する。",
+    "クローズ操作を利用できないため完了と未クローズを区別する。"
+  ],
+  "productionData": {
+    "path": "app/src/main/assets/difficult_kanji_questions.tsv",
+    "sha256": "23bceea68566d948143cd2b2df2d785de66de70cd6f2ee3fcf4c1957c4a00bb6",
+    "isChanged": false
+  },
+  "isRealQuestionGenerationStarted": false
+}

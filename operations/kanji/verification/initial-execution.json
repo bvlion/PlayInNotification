@@ -1,0 +1,91 @@
+{
+  "evidenceSource": "Codex CLI rollout session_meta / turn_context / spawn_agent（本文や認証情報は除外）",
+  "records": [
+    {
+      "threadId": "01a13cfc-73b8-7603-813d-ecc55398dad2",
+      "parentThreadId": "01a13cfb-d96d-7c12-8b35-25ef4e3d9111",
+      "agentPath": "/root/kanji_correctness_auditor",
+      "role": "kanji_correctness_auditor",
+      "contexts": [
+        {
+          "model": "gpt-6.1-sol",
+          "effort": "high"
+        }
+      ],
+      "spawnCalls": []
+    },
+    {
+      "threadId": "01a13cfb-d96d-7c12-8b35-25ef4e3d9111",
+      "parentThreadId": null,
+      "agentPath": "/root",
+      "role": "manager",
+      "contexts": [
+        {
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "spawnCalls": [
+        {
+          "task_name": "kanji_creator",
+          "agent_type": "kanji_creator",
+          "fork_turns": "none"
+        },
+        {
+          "task_name": "kanji_correctness_auditor",
+          "agent_type": "kanji_correctness_auditor",
+          "fork_turns": "none"
+        },
+        {
+          "task_name": "kanji_format_auditor",
+          "agent_type": "kanji_format_auditor",
+          "fork_turns": "none"
+        },
+        {
+          "task_name": "kanji_japanese_quality_auditor",
+          "agent_type": "kanji_japanese_quality_auditor",
+          "fork_turns": "none"
+        }
+      ]
+    },
+    {
+      "threadId": "01a13cfc-a37d-7632-9a57-4a00543d46c3",
+      "parentThreadId": "01a13cfb-d96d-7c12-8b35-25ef4e3d9111",
+      "agentPath": "/root/kanji_japanese_quality_auditor",
+      "role": "kanji_japanese_quality_auditor",
+      "contexts": [
+        {
+          "model": "gpt-6.1-sol",
+          "effort": "high"
+        }
+      ],
+      "spawnCalls": []
+    },
+    {
+      "threadId": "01a13cfc-0d33-7353-b75b-c7f37d3ab93f",
+      "parentThreadId": "01a13cfb-d96d-7c12-8b35-25ef4e3d9111",
+      "agentPath": "/root/kanji_creator",
+      "role": "kanji_creator",
+      "contexts": [
+        {
+          "model": "gpt-6.1-sol",
+          "effort": "high"
+        }
+      ],
+      "spawnCalls": []
+    },
+    {
+      "threadId": "01a13cfc-87d0-7111-a5f7-a5e8e2770953",
+      "parentThreadId": "01a13cfb-d96d-7c12-8b35-25ef4e3d9111",
+      "agentPath": "/root/kanji_format_auditor",
+      "role": "kanji_format_auditor",
+      "contexts": [
+        {
+          "model": "gpt-6-luna",
+          "effort": "high"
+        }
+      ],
+      "spawnCalls": []
+    }
+  ]
+}

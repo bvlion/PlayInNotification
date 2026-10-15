@@ -1,0 +1,26 @@
+{
+  "revision": 1,
+  "snapshotSha256": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425",
+  "findings": [
+    {
+      "id": "correctness-evidence-empty",
+      "recordId": "workflow-probe",
+      "field": "correctnessEvidence",
+      "reason": "correctnessEvidence が空文字列であり、根拠が記録されていません。",
+      "sourceRole": "kanji_correctness_auditor",
+      "sourceFindingId": "correctness-evidence-empty",
+      "status": "unresolved",
+      "resolvedRevision": null
+    },
+    {
+      "id": "quality-evidence-empty",
+      "recordId": "workflow-probe",
+      "field": "qualityEvidence",
+      "reason": "qualityEvidenceが空文字列であり、日本語品質の根拠が記録されていません。",
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "sourceFindingId": "quality-evidence-empty",
+      "status": "unresolved",
+      "resolvedRevision": null
+    }
+  ]
+}
