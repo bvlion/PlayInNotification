@@ -1,0 +1,19 @@
+{
+  "checks": {
+    "isShellSyntaxPassed": true,
+    "isTomlParsingPassed": true,
+    "isJsonParsingPassed": true,
+    "isRevisionAndHashVerificationPassed": true,
+    "isApprovalGatePreserved": true,
+    "isProtectedScopePreserved": true,
+    "isAppDiffEmpty": true,
+    "isRuntimeLogExcluded": true,
+    "isOldCliRejected": true,
+    "isPrimaryWorktreeRejected": true,
+    "isDiffCheckPassed": true
+  },
+  "gradle": {
+    "status": "not_run",
+    "reason": "AGENTS.mdにより運用設定のみの変更では不要。Androidコード・テスト・ビルド設定の差分なし。"
+  }
+}
