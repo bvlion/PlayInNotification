@@ -3,8 +3,11 @@
     "threadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
     "requestedModel": "gpt-6.1-sol",
     "requestedEffort": "medium",
-    "measuredModel": null,
-    "measuredEffort": null
+    "measuredModel": "gpt-6.1-sol",
+    "measuredEffort": "medium",
+    "measurementSource": "local rollout turn_context",
+    "approvalPolicy": "never",
+    "sandboxPolicy": "danger-full-access"
   },
   "permissions": {
     "source": "session_environment",
@@ -12,5 +15,30 @@
     "approvalPolicy": "never"
   },
   "baseCommit": "f9f08dd598b54c85f68b0965973b0e4a93613b13",
-  "agents": []
+  "agents": [
+    {
+      "role": "kanji_creator",
+      "path": "/root/creator",
+      "threadId": "01a141d9-01d7-7d93-b3ef-5679baeb6380",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "parentThreadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+      "status": "running",
+      "isClosed": false
+    }
+  ],
+  "initialRemoteCheck": {
+    "checkpointComment": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6190413757",
+    "actorLogin": "bvlion",
+    "actorId": 24517539,
+    "permission": "admin",
+    "permissionUserId": 24517539,
+    "recordCommit": "b2acb95a9dd23bc88465347f1c42265242e63d22",
+    "baseTip": "f9f08dd598b54c85f68b0965973b0e4a93613b13",
+    "comparisonStatus": "ahead",
+    "note": "旧検証記録。本番承認として使用しない。専用バッチブランチへの移行は今回ユーザーの明示指定。"
+  }
 }

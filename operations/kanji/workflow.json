@@ -58,7 +58,21 @@
     "snapshotSha256": null,
     "status": "creating",
     "nextAction": "作成担当の全50問調査・作成",
-    "assignments": [],
+    "assignments": [
+      {
+        "role": "kanji_creator",
+        "path": "/root/creator",
+        "threadId": "01a141d9-01d7-7d93-b3ef-5679baeb6380",
+        "requestedModel": "gpt-6.1-sol",
+        "requestedEffort": "high",
+        "measuredModel": "gpt-6.1-sol",
+        "measuredEffort": "high",
+        "measurementSource": "local rollout session_meta/turn_context",
+        "parentThreadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+        "status": "running",
+        "isClosed": false
+      }
+    ],
     "unresolvedFindings": [],
     "userApproval": {
       "status": "pending",
