@@ -29,367 +29,6 @@
   "approvalVerification": {
     "threadId": "01a13ed9-0468-7182-b47d-2909ab5c204c",
     "isSyntheticState": true,
-    "cases": [
-      {
-        "authorizedApprover": {
-          "login": "approval-test-user",
-          "id": 1001
-        },
-        "comment": {
-          "repository": "bvlion/PlayInNotification",
-          "issueNumber": 140,
-          "user": {
-            "login": "approval-test-user",
-            "id": 1001,
-            "type": "User"
-          },
-          "author_association": "OWNER",
-          "performed_via_github_app": null,
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "isApiReadSuccessful": true,
-          "isBodyUnchanged": true
-        },
-        "requestedApproval": {
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        },
-        "caseId": "valid_direct_user"
-      },
-      {
-        "authorizedApprover": null,
-        "comment": {
-          "repository": "bvlion/PlayInNotification",
-          "issueNumber": 140,
-          "user": {
-            "login": "approval-test-user",
-            "id": 1001,
-            "type": "User"
-          },
-          "author_association": "OWNER",
-          "performed_via_github_app": null,
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "isApiReadSuccessful": true,
-          "isBodyUnchanged": true
-        },
-        "requestedApproval": {
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        },
-        "caseId": "approver_unset"
-      },
-      {
-        "authorizedApprover": {
-          "login": "approval-test-user",
-          "id": 1001
-        },
-        "comment": {
-          "repository": "bvlion/PlayInNotification",
-          "issueNumber": 140,
-          "user": {
-            "login": "third-party",
-            "id": 1002,
-            "type": "User"
-          },
-          "author_association": "OWNER",
-          "performed_via_github_app": null,
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "isApiReadSuccessful": true,
-          "isBodyUnchanged": true
-        },
-        "requestedApproval": {
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        },
-        "caseId": "third_party"
-      },
-      {
-        "authorizedApprover": {
-          "login": "approval-test-user",
-          "id": 1001
-        },
-        "comment": {
-          "repository": "bvlion/PlayInNotification",
-          "issueNumber": 140,
-          "user": {
-            "login": "approval-test-user",
-            "id": 1002,
-            "type": "User"
-          },
-          "author_association": "OWNER",
-          "performed_via_github_app": null,
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "isApiReadSuccessful": true,
-          "isBodyUnchanged": true
-        },
-        "requestedApproval": {
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        },
-        "caseId": "same_login_different_id"
-      },
-      {
-        "authorizedApprover": {
-          "login": "approval-test-user",
-          "id": 1001
-        },
-        "comment": {
-          "repository": "bvlion/PlayInNotification",
-          "issueNumber": 140,
-          "user": {
-            "login": "approval-test-user",
-            "id": 1001,
-            "type": "Bot"
-          },
-          "author_association": "OWNER",
-          "performed_via_github_app": null,
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "isApiReadSuccessful": true,
-          "isBodyUnchanged": true
-        },
-        "requestedApproval": {
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        },
-        "caseId": "bot"
-      },
-      {
-        "authorizedApprover": {
-          "login": "approval-test-user",
-          "id": 1001
-        },
-        "comment": {
-          "repository": "bvlion/PlayInNotification",
-          "issueNumber": 140,
-          "user": {
-            "login": "approval-test-user",
-            "id": 1001,
-            "type": "User"
-          },
-          "author_association": "OWNER",
-          "performed_via_github_app": {
-            "id": 1144995
-          },
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "isApiReadSuccessful": true,
-          "isBodyUnchanged": true
-        },
-        "requestedApproval": {
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        },
-        "caseId": "proxy_same_user"
-      },
-      {
-        "authorizedApprover": {
-          "login": "approval-test-user",
-          "id": 1001
-        },
-        "comment": {
-          "repository": "bvlion/PlayInNotification",
-          "issueNumber": 130,
-          "user": {
-            "login": "approval-test-user",
-            "id": 1001,
-            "type": "User"
-          },
-          "author_association": "OWNER",
-          "performed_via_github_app": null,
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "isApiReadSuccessful": true,
-          "isBodyUnchanged": true
-        },
-        "requestedApproval": {
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        },
-        "caseId": "wrong_issue"
-      },
-      {
-        "authorizedApprover": {
-          "login": "approval-test-user",
-          "id": 1001
-        },
-        "comment": {
-          "repository": "bvlion/PlayInNotification",
-          "issueNumber": 140,
-          "user": {
-            "login": "approval-test-user",
-            "id": 1001,
-            "type": "User"
-          },
-          "author_association": "OWNER",
-          "performed_via_github_app": null,
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 1,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "isApiReadSuccessful": true,
-          "isBodyUnchanged": true
-        },
-        "requestedApproval": {
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        },
-        "caseId": "wrong_revision"
-      },
-      {
-        "authorizedApprover": {
-          "login": "approval-test-user",
-          "id": 1001
-        },
-        "comment": {
-          "repository": "bvlion/PlayInNotification",
-          "issueNumber": 140,
-          "user": {
-            "login": "approval-test-user",
-            "id": 1001,
-            "type": "User"
-          },
-          "author_association": "OWNER",
-          "performed_via_github_app": null,
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-          "isApiReadSuccessful": true,
-          "isBodyUnchanged": true
-        },
-        "requestedApproval": {
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        },
-        "caseId": "wrong_snapshot"
-      },
-      {
-        "authorizedApprover": {
-          "login": "approval-test-user",
-          "id": 1001
-        },
-        "comment": {
-          "repository": "bvlion/PlayInNotification",
-          "issueNumber": 140,
-          "user": {
-            "login": "approval-test-user",
-            "id": 1001,
-            "type": "User"
-          },
-          "author_association": "OWNER",
-          "performed_via_github_app": null,
-          "approvalType": "automation",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "isApiReadSuccessful": true,
-          "isBodyUnchanged": true
-        },
-        "requestedApproval": {
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        },
-        "caseId": "wrong_approval_type"
-      },
-      {
-        "authorizedApprover": {
-          "login": "approval-test-user",
-          "id": 1001
-        },
-        "comment": {
-          "repository": "bvlion/PlayInNotification",
-          "issueNumber": 140,
-          "user": {
-            "login": "approval-test-user",
-            "id": 1001,
-            "type": "User"
-          },
-          "author_association": "OWNER",
-          "performed_via_github_app": null,
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "isApiReadSuccessful": true,
-          "isBodyUnchanged": false
-        },
-        "requestedApproval": {
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        },
-        "caseId": "edited_body"
-      },
-      {
-        "authorizedApprover": {
-          "login": "approval-test-user",
-          "id": 1001
-        },
-        "comment": {
-          "repository": "bvlion/PlayInNotification",
-          "issueNumber": 140,
-          "user": {
-            "login": "approval-test-user",
-            "id": 1001,
-            "type": "User"
-          },
-          "author_association": "OWNER",
-          "performed_via_github_app": null,
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "isApiReadSuccessful": false,
-          "isBodyUnchanged": true
-        },
-        "requestedApproval": {
-          "approvalType": "batch_approval",
-          "batchId": "synthetic-batch",
-          "revision": 2,
-          "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        },
-        "caseId": "api_unavailable"
-      }
-    ],
     "result": {
       "decisions": [
         {
@@ -468,6 +107,142 @@
     "limitations": [
       "正規ユーザーの承認を受理する正例は架空データによる判定試験。現実の承認者は未設定であり、本番承認の受理は行っていない。",
       "承認確認は管理役の運用指示に基づく。GitHubからの実API取得とユーザー本人の直接投稿の正例はまだ実行していない。"
-    ]
+    ],
+    "caseBase": {
+      "authorizedApprover": {
+        "login": "approval-test-user",
+        "id": 1001
+      },
+      "comment": {
+        "repository": "bvlion/PlayInNotification",
+        "issueNumber": 140,
+        "user": {
+          "login": "approval-test-user",
+          "id": 1001,
+          "type": "User"
+        },
+        "author_association": "OWNER",
+        "performed_via_github_app": null,
+        "approvalType": "batch_approval",
+        "batchId": "synthetic-batch",
+        "revision": 2,
+        "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "isApiReadSuccessful": true,
+        "isBodyUnchanged": true
+      },
+      "requestedApproval": {
+        "approvalType": "batch_approval",
+        "batchId": "synthetic-batch",
+        "revision": 2,
+        "snapshotSha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    "caseOverrides": [
+      {
+        "caseId": "valid_direct_user",
+        "overrides": {}
+      },
+      {
+        "caseId": "approver_unset",
+        "overrides": {
+          "authorizedApprover": null
+        }
+      },
+      {
+        "caseId": "third_party",
+        "overrides": {
+          "comment": {
+            "user": {
+              "login": "third-party",
+              "id": 1002,
+              "type": "User"
+            }
+          }
+        }
+      },
+      {
+        "caseId": "same_login_different_id",
+        "overrides": {
+          "comment": {
+            "user": {
+              "login": "approval-test-user",
+              "id": 1002,
+              "type": "User"
+            }
+          }
+        }
+      },
+      {
+        "caseId": "bot",
+        "overrides": {
+          "comment": {
+            "user": {
+              "login": "approval-test-user",
+              "id": 1001,
+              "type": "Bot"
+            }
+          }
+        }
+      },
+      {
+        "caseId": "proxy_same_user",
+        "overrides": {
+          "comment": {
+            "performed_via_github_app": {
+              "id": 1144995
+            }
+          }
+        }
+      },
+      {
+        "caseId": "wrong_issue",
+        "overrides": {
+          "comment": {
+            "issueNumber": 130
+          }
+        }
+      },
+      {
+        "caseId": "wrong_revision",
+        "overrides": {
+          "comment": {
+            "revision": 1
+          }
+        }
+      },
+      {
+        "caseId": "wrong_snapshot",
+        "overrides": {
+          "comment": {
+            "snapshotSha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        }
+      },
+      {
+        "caseId": "wrong_approval_type",
+        "overrides": {
+          "comment": {
+            "approvalType": "automation"
+          }
+        }
+      },
+      {
+        "caseId": "edited_body",
+        "overrides": {
+          "comment": {
+            "isBodyUnchanged": false
+          }
+        }
+      },
+      {
+        "caseId": "api_unavailable",
+        "overrides": {
+          "comment": {
+            "isApiReadSuccessful": false
+          }
+        }
+      }
+    ],
+    "caseInputSha256": "f9919101e53d01dfb07c0af18e9ceb73a3e55b1426fe1cd98143990ad7a1a846"
   }
 }
