@@ -1,0 +1,204 @@
+{
+  "reviewThreadUrl": "https://github.com/bvlion/PlayInNotification/pull/141#discussion_r4281226446",
+  "modelThreadId": "01a13ee7-98e9-7170-b027-01e3ab4662ef",
+  "isSyntheticState": true,
+  "caseBase": {
+    "repository": "bvlion/PlayInNotification",
+    "issueNumber": 140,
+    "author": {
+      "login": "publisher-test-user",
+      "id": 2001
+    },
+    "permissionUser": {
+      "login": "publisher-test-user",
+      "id": 2001
+    },
+    "permission": "write",
+    "isPermissionLookupSuccessful": true,
+    "expectedBranch": "codex/issue-140-subagent-workflow",
+    "commentBranch": "codex/issue-140-subagent-workflow",
+    "isCommitInRepository": true,
+    "comparison": "identical",
+    "recordedCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "headCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "isStateConsistent": true,
+    "isApproverChangedWithoutUserInstruction": false
+  },
+  "caseOverrides": [
+    {
+      "caseId": "valid_writer",
+      "overrides": {}
+    },
+    {
+      "caseId": "outsider_newest_copies_old_commit",
+      "overrides": {
+        "permission": "read",
+        "comparison": "ahead",
+        "recordedCommit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "caseId": "authorized_stale_commit",
+      "overrides": {
+        "comparison": "ahead",
+        "recordedCommit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "caseId": "owner_label_api_unavailable",
+      "overrides": {
+        "isPermissionLookupSuccessful": false
+      }
+    },
+    {
+      "caseId": "wrong_branch",
+      "overrides": {
+        "commentBranch": "codex/unrelated"
+      }
+    },
+    {
+      "caseId": "wrong_repository",
+      "overrides": {
+        "repository": "other/repository"
+      }
+    },
+    {
+      "caseId": "missing_commit",
+      "overrides": {
+        "isCommitInRepository": false
+      }
+    },
+    {
+      "caseId": "diverged_history",
+      "overrides": {
+        "comparison": "diverged"
+      }
+    },
+    {
+      "caseId": "permission_identity_mismatch",
+      "overrides": {
+        "permissionUser": {
+          "login": "publisher-test-user",
+          "id": 2002
+        }
+      }
+    },
+    {
+      "caseId": "untrusted_approver_change",
+      "overrides": {
+        "isApproverChangedWithoutUserInstruction": true
+      }
+    },
+    {
+      "caseId": "inconsistent_head_state",
+      "overrides": {
+        "isStateConsistent": false
+      }
+    }
+  ],
+  "caseInputSha256": "3f99514648ae238e6a4c994d4a418459a7c066b2a2b9937d991d5c963532b89c",
+  "result": {
+    "decisions": [
+      {
+        "caseId": "valid_writer",
+        "isAccepted": true,
+        "restoreCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "reason": "投稿者の書込権限、保存先、履歴、先端状態の整合性が確認されているため、先端の正本状態から復元可能。"
+      },
+      {
+        "caseId": "outsider_newest_copies_old_commit",
+        "isAccepted": false,
+        "restoreCommit": null,
+        "reason": "投稿者の権限がreadのため、最新コメントでも採用不可。"
+      },
+      {
+        "caseId": "authorized_stale_commit",
+        "isAccepted": true,
+        "restoreCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "reason": "記録commitは先端の祖先として正当。古い記録commitの状態へ戻らず、先端の正本状態から復元する。"
+      },
+      {
+        "caseId": "owner_label_api_unavailable",
+        "isAccepted": false,
+        "restoreCommit": null,
+        "reason": "権限のAPI確認に失敗しており、OWNER等の表示では代用できない。"
+      },
+      {
+        "caseId": "wrong_branch",
+        "isAccepted": false,
+        "restoreCommit": null,
+        "reason": "コメントの保存ブランチが信頼済み設定の保存先と一致しない。"
+      },
+      {
+        "caseId": "wrong_repository",
+        "isAccepted": false,
+        "restoreCommit": null,
+        "reason": "コメントのリポジトリがbvlion/PlayInNotificationではない。"
+      },
+      {
+        "caseId": "missing_commit",
+        "isAccepted": false,
+        "restoreCommit": null,
+        "reason": "記録commitが対象リポジトリに存在しない。"
+      },
+      {
+        "caseId": "diverged_history",
+        "isAccepted": false,
+        "restoreCommit": null,
+        "reason": "compare結果が履歴の分岐を示しており、正当な祖先関係を確認できない。"
+      },
+      {
+        "caseId": "permission_identity_mismatch",
+        "isAccepted": false,
+        "restoreCommit": null,
+        "reason": "権限確認対象のユーザーIDが投稿者のIDと一致しない。"
+      },
+      {
+        "caseId": "untrusted_approver_change",
+        "isAccepted": false,
+        "restoreCommit": null,
+        "reason": "ユーザーの指示なしに承認者が変更されており、信頼済み設定との照合を通せない。"
+      },
+      {
+        "caseId": "inconsistent_head_state",
+        "isAccepted": false,
+        "restoreCommit": null,
+        "reason": "先端の正本状態に不整合があるため、復元を停止する。"
+      }
+    ],
+    "isProductionStarted": false
+  },
+  "actualReadOnlyChecks": {
+    "publisherPermission": {
+      "permission": "admin",
+      "role_name": "admin",
+      "user": {
+        "id": 24517539,
+        "login": "bvlion",
+        "type": "User"
+      }
+    },
+    "expectedBranch": "codex/issue-140-subagent-workflow",
+    "headCommit": "53321be388eb4a6cc0d1385a9fd066068ff5b32c",
+    "comparisonFromOldCheckpoint": {
+      "ahead_by": 5,
+      "baseCommit": "a93cc5a01e78759923720987e044afe273167a03",
+      "behind_by": 0,
+      "status": "ahead"
+    },
+    "checkpointCommentMetadata": {
+      "authorAssociation": "OWNER",
+      "authorId": 24517539,
+      "authorLogin": "bvlion",
+      "html_url": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6188881106",
+      "id": 6188881106,
+      "issue_url": "https://api.github.com/repos/bvlion/PlayInNotification/issues/140",
+      "performedViaGithubAppId": null
+    }
+  },
+  "limitations": [
+    "模擬ケースによる管理役の判定試験。第三者のGitHubコメントを新規作成したり、実際の状態を巻き戻したりしていない。",
+    "実APIでは現在の正規投稿者のadmin権限とID一致、Issue #140、同じ保存先ブランチ、古い正当commitから先端へのahead関係を確認した。",
+    "既存GitHub権限の読み取りに基づき進捗公開者を判断する。新しい権限付与ではなく、人間の問題承認とは別の扱い。"
+  ]
+}

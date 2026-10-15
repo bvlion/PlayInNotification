@@ -5,6 +5,7 @@
   "mode": "setup_only",
   "isProductionStarted": false,
   "authorizedApprover": null,
+  "checkpointBranch": "codex/issue-140-subagent-workflow",
   "productionStartApproval": null,
   "automationApproval": null,
   "status": "awaiting_production_start",

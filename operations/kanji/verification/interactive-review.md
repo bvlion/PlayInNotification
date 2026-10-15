@@ -20,6 +20,14 @@ CLI 0.162.1の `config/read` の実測は、通常起動ではagents未設定、
 
 現実の承認者はユーザーの指定待ち。[承認者スレッド](https://github.com/bvlion/PlayInNotification/pull/141#discussion_r4281210716) は返信したうえで未resolveにしている。既存の確定168問をこの追加手順で再選定することはない。
 
+## 追加到着した保存位置コメントの指摘
+
+[保存コメントの投稿者・履歴確認の指摘](https://github.com/bvlion/PlayInNotification/pull/141#discussion_r4281226446) も通常の公開Issue投稿で発生し得るため対応した。マーカーや日時だけで採用せず、GitHub APIで実投稿者IDと既存のwrite / maintain / admin権限を確認する。問題確定の本人承認と進捗投稿は分け、書込権限を確認したAI代理投稿は進捗保存に使用できる。
+
+保存先ブランチを信頼済みローカル設定に固定し、記録commitがそのリポジトリ・ブランチ先端と同じか祖先かを確認する。古い正当commitが示されても先端の正本状態を読み、古い状態へ戻さない。分岐・API失敗・状態不整合や無断の承認者変更では停止する。復元JSONだけで承認者や保存先の信頼設定を変更しない。
+
+模擬11ケースで正規投稿と正規だが古い記録の先端復元、第三者の偽マーカー・権限取得不可・別ブランチ・別repo・不明commit・分岐・投稿者ID不一致・承認者の無断変更・不整合の拒否を確認した。実APIでは現在の進捗投稿者のIDとadmin権限、Issue #140、正当な古いcommitから保存先先端へのahead関係を確認した。証跡はcheckpoint-origin-check.json。第三者名義での実投稿や実データ巻き戻しは行っていない。
+
 ## 保存失敗の原因と対話環境の試行
 
 [公式仕様](https://learn.chatgpt.com/docs/agent-approvals-security#protected-paths-in-writable-roots) では、workspace-writeでも.gitとworktreeのポインターが参照するGit管理領域は読み取り専用である。前回のneverでの失敗は、この領域へのindex.lock作成拒否だった。
