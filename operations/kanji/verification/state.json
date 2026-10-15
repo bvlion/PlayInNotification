@@ -6,13 +6,135 @@
   "snapshotSha256": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425",
   "manager": {
     "agentPath": "/root",
+    "threadId": null,
+    "threadIdStatus": "not_obtained",
+    "isNewManagementSession": true,
+    "isPreviousSessionResumed": false,
+    "actualModel": null,
+    "actualReasoningEffort": null,
+    "executionMetadataStatus": "not_obtained"
+  },
+  "assignments": [
+    {
+      "role": "kanji_creator",
+      "agentPath": "/root/kanji_creator",
+      "threadId": "01a13cfc-0d33-7353-b75b-c7f37d3ab93f",
+      "configuredModel": "gpt-6.1-sol",
+      "configuredReasoningEffort": "high",
+      "actualModel": "gpt-6.1-sol",
+      "actualReasoningEffort": "high",
+      "status": "completed",
+      "closeStatus": "not_closed",
+      "closeReason": "クローズ操作は利用できない",
+      "resultPath": "operations/kanji/verification/revision-1.json",
+      "isResultReceived": true
+    },
+    {
+      "role": "kanji_correctness_auditor",
+      "agentPath": "/root/kanji_correctness_auditor",
+      "threadId": "01a13cfc-73b8-7603-813d-ecc55398dad2",
+      "configuredModel": "gpt-6.1-sol",
+      "configuredReasoningEffort": "high",
+      "actualModel": "gpt-6.1-sol",
+      "actualReasoningEffort": "high",
+      "status": "completed",
+      "closeStatus": "not_closed",
+      "closeReason": "クローズ操作は利用できない",
+      "resultPath": "operations/kanji/verification/initial-kanji_correctness_auditor.json",
+      "isResultReceived": true
+    },
+    {
+      "role": "kanji_format_auditor",
+      "agentPath": "/root/kanji_format_auditor_recheck",
+      "threadId": null,
+      "configuredModel": "gpt-6-luna",
+      "configuredReasoningEffort": "high",
+      "actualModel": null,
+      "actualReasoningEffort": null,
+      "status": "completed",
+      "closeStatus": "not_obtained",
+      "closeReason": "このセッションではクローズ機能が提供されていない",
+      "resultPath": "operations/kanji/verification/initial-recheck-kanji_format_auditor.json",
+      "isResultReceived": true,
+      "threadIdStatus": "not_obtained",
+      "executionMetadataStatus": "not_obtained",
+      "forkTurns": "none",
+      "isIndependentInput": true
+    },
+    {
+      "role": "kanji_japanese_quality_auditor",
+      "agentPath": "/root/kanji_japanese_quality_auditor",
+      "threadId": "01a13cfc-a37d-7632-9a57-4a00543d46c3",
+      "configuredModel": "gpt-6.1-sol",
+      "configuredReasoningEffort": "high",
+      "actualModel": "gpt-6.1-sol",
+      "actualReasoningEffort": "high",
+      "status": "completed",
+      "closeStatus": "not_closed",
+      "closeReason": "クローズ操作は利用できない",
+      "resultPath": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json",
+      "isResultReceived": true
+    }
+  ],
+  "unresolvedFindings": [
+    {
+      "id": "correctness-evidence-empty",
+      "recordId": "workflow-probe",
+      "field": "correctnessEvidence",
+      "reason": "correctnessEvidence が空文字列であり、根拠が記録されていません。",
+      "sourceRole": "kanji_correctness_auditor",
+      "sourceFindingId": "correctness-evidence-empty",
+      "status": "unresolved",
+      "resolvedRevision": null,
+      "sourceResultPath": "operations/kanji/verification/initial-kanji_correctness_auditor.json"
+    },
+    {
+      "id": "quality-evidence-empty",
+      "recordId": "workflow-probe",
+      "field": "qualityEvidence",
+      "reason": "qualityEvidenceが空文字列であり、日本語品質の根拠が記録されていません。",
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "sourceFindingId": "quality-evidence-empty",
+      "status": "unresolved",
+      "resolvedRevision": null,
+      "sourceResultPath": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json"
+    },
+    {
+      "id": "formatEvidence-empty",
+      "recordId": "workflow-probe",
+      "field": "formatEvidence",
+      "reason": "formatEvidenceが空文字列のため、このfieldの指摘を記録します。",
+      "sourceRole": "kanji_format_auditor",
+      "sourceFindingId": "formatEvidence-empty",
+      "sourceResultPath": "operations/kanji/verification/initial-recheck-kanji_format_auditor.json",
+      "status": "unresolved",
+      "resolvedRevision": null
+    }
+  ],
+  "userApproval": {
+    "status": "pending",
+    "revision": 1,
+    "commentUrl": null
+  },
+  "nextAction": "作成担当が模擬記録を修正し全監査担当が再確認",
+  "isInitialAuditContractPassed": true,
+  "initialAuditContractIssue": null,
+  "initialAuditContractResolution": {
+    "originalResultPath": "operations/kanji/verification/initial-kanji_format_auditor.json",
+    "recheckResultPath": "operations/kanji/verification/initial-recheck-kanji_format_auditor.json",
+    "isOriginalResultPreserved": true,
+    "reason": "同一版の独立再確認で模擬判定条件に一致。初回結果は変更せず保持。"
+  },
+  "previousManager": {
+    "agentPath": "/root",
     "threadId": "01a13cfb-d96d-7c12-8b35-25ef4e3d9111",
     "configuredModel": "gpt-6.1-sol",
     "configuredReasoningEffort": "medium",
     "actualModel": "gpt-6.1-sol",
     "actualReasoningEffort": "medium"
   },
-  "assignments": [
+  "recoveryPath": "operations/kanji/verification/recovery.json",
+  "assignmentHistory": [
     {
       "role": "kanji_creator",
       "agentPath": "/root/kanji_creator",
@@ -69,35 +191,5 @@
       "resultPath": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json",
       "isResultReceived": true
     }
-  ],
-  "unresolvedFindings": [
-    {
-      "id": "correctness-evidence-empty",
-      "recordId": "workflow-probe",
-      "field": "correctnessEvidence",
-      "reason": "correctnessEvidence が空文字列であり、根拠が記録されていません。",
-      "sourceRole": "kanji_correctness_auditor",
-      "sourceFindingId": "correctness-evidence-empty",
-      "status": "unresolved",
-      "resolvedRevision": null
-    },
-    {
-      "id": "quality-evidence-empty",
-      "recordId": "workflow-probe",
-      "field": "qualityEvidence",
-      "reason": "qualityEvidenceが空文字列であり、日本語品質の根拠が記録されていません。",
-      "sourceRole": "kanji_japanese_quality_auditor",
-      "sourceFindingId": "quality-evidence-empty",
-      "status": "unresolved",
-      "resolvedRevision": null
-    }
-  ],
-  "userApproval": {
-    "status": "pending",
-    "revision": 1,
-    "commentUrl": null
-  },
-  "nextAction": "新規セッションでGitHub保存状態を復元し、形式担当の模擬判定を再確認後、作成担当が修正して全監査担当が再確認",
-  "isInitialAuditContractPassed": false,
-  "initialAuditContractIssue": "formatEvidenceが空文字列なのに形式監査の初回指摘が0件。初回結果は保存し、判定条件を明確化して同一版を独立再監査する。"
+  ]
 }

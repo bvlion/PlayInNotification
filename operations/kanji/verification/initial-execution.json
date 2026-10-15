@@ -12,7 +12,13 @@
           "effort": "high"
         }
       ],
-      "spawnCalls": []
+      "spawnCalls": [],
+      "independenceVerification": {
+        "isFreshContext": true,
+        "isSharedSnapshotHashMatched": true,
+        "toolCallCount": 0,
+        "isOtherAuditArtifactReadObserved": false
+      }
     },
     {
       "threadId": "01a13cfb-d96d-7c12-8b35-25ef4e3d9111",
@@ -59,7 +65,13 @@
           "effort": "high"
         }
       ],
-      "spawnCalls": []
+      "spawnCalls": [],
+      "independenceVerification": {
+        "isFreshContext": true,
+        "isSharedSnapshotHashMatched": true,
+        "toolCallCount": 0,
+        "isOtherAuditArtifactReadObserved": false
+      }
     },
     {
       "threadId": "01a13cfc-0d33-7353-b75b-c7f37d3ab93f",
@@ -85,7 +97,13 @@
           "effort": "high"
         }
       ],
-      "spawnCalls": []
+      "spawnCalls": [],
+      "independenceVerification": {
+        "isFreshContext": true,
+        "isSharedSnapshotHashMatched": true,
+        "toolCallCount": 0,
+        "isOtherAuditArtifactReadObserved": false
+      }
     }
   ]
 }
