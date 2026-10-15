@@ -1,0 +1,68 @@
+{
+  "files": {
+    "app/build.gradle.kts": "d2ad7fb90506407d81200f8219eb3bb95236c941c4750426e4fcc9a8762268cc",
+    "app/src/main/AndroidManifest.xml": "3069960649207a26770ebb8c0111d0f396b18a7dd78f6d402cf7a9e881c6a70d",
+    "app/src/main/assets/difficult_kanji_questions.tsv": "23bceea68566d948143cd2b2df2d785de66de70cd6f2ee3fcf4c1957c4a00bb6",
+    "app/src/main/java/net/ambitious/android/playinnotification/BootCompletedReceiver.kt": "f53693042d120a4d20fedab25684035fbc841bee0bf1d207255a8580b7603a40",
+    "app/src/main/java/net/ambitious/android/playinnotification/CalculationGameService.kt": "874bc733bddb338f2891db74ae9b13d0a73656aa96c4d615dd00ba409f7dc655",
+    "app/src/main/java/net/ambitious/android/playinnotification/CalculationQuestion.kt": "68561c087a633639d6d31623d305006a27c7ff1784fbc8e3665612d405de5076",
+    "app/src/main/java/net/ambitious/android/playinnotification/CalculationQuestionGenerator.kt": "e73bc44e18679f222237269885617b7dec765cc89615c2a6204cb8f35961206e",
+    "app/src/main/java/net/ambitious/android/playinnotification/DifficultKanjiGameService.kt": "ba3d7e2a083f2513baf8925c4ee0ab8baa3d5913e848d885498d5246647d1390",
+    "app/src/main/java/net/ambitious/android/playinnotification/DifficultKanjiQuestion.kt": "9b67919c6ae1c90491f12e57ba93d0be135a0801964511b9800eb002bbeabb41",
+    "app/src/main/java/net/ambitious/android/playinnotification/DifficultKanjiQuestionData.kt": "7dfe605d3341f40adbc3b1a404b24bfc1c17bba4fefe0590f27f1a6a26ca1671",
+    "app/src/main/java/net/ambitious/android/playinnotification/GameDifficulty.kt": "c04d1ffa5e0586380d76c02c8f8909a4824b3331df7f745f652156be938e5dd2",
+    "app/src/main/java/net/ambitious/android/playinnotification/GameDifficultySettings.kt": "76dce21729e9a2815db56c5bad8a9a75656d2402c8ab024fc8381438c48e1e62",
+    "app/src/main/java/net/ambitious/android/playinnotification/GameDifficultySettingsRepository.kt": "977f2dbb4611db313b91f46c93e23ae460fa996e6bb3562d7e7ade75f5966774",
+    "app/src/main/java/net/ambitious/android/playinnotification/GameNotificationActionReceiver.kt": "808effb4bf6190bbf7dc8438c77a5d13143f14c0f8a74e482483ad3bf5ae8f44",
+    "app/src/main/java/net/ambitious/android/playinnotification/GameNotifications.kt": "56c2c2b4c7b38459ac086abdcdf8210f48bd42f6e3018ae82cf75f4f2a4b8282",
+    "app/src/main/java/net/ambitious/android/playinnotification/GameSessionResult.kt": "ad1aaa37165e7a3c773a9044454ed3323606849eae228211dfac8c51f8872069",
+    "app/src/main/java/net/ambitious/android/playinnotification/GameSessionService.kt": "c7e5d419060898d41b123bf5c20cb5d8abf13f0544f5579802ee242bf9d2171e",
+    "app/src/main/java/net/ambitious/android/playinnotification/GameStatistics.kt": "1078dd7f77f8d30b67f8bba92fc9cad2afa6feabba95a7e8760f007c86103ab1",
+    "app/src/main/java/net/ambitious/android/playinnotification/GameStatisticsRepository.kt": "f1adf24a3c55f5225badae494c7c60eb22600805eea25b1916da95d69bf17251",
+    "app/src/main/java/net/ambitious/android/playinnotification/GameType.kt": "ccb1846fffef7a41fb45d7ad0f9d5a039bb7e9ce83515a0a5359f192215fad56",
+    "app/src/main/java/net/ambitious/android/playinnotification/MainActivity.kt": "6e693ad33d6ba4c5d55fbc739ff5cdfc59e736353d5526d95a83e50af890f110",
+    "app/src/main/java/net/ambitious/android/playinnotification/MainScreen.kt": "53778f6fd28e9460a628e025f8f4e8ab1af943b459551d9d45ab844367b11ea4",
+    "app/src/main/java/net/ambitious/android/playinnotification/SessionAnswersActivity.kt": "e0475d5c007a5045f55a6620ce66fb7c03dcac0ff75d286e4fb8853b9ed44f77",
+    "app/src/main/res/drawable/close.xml": "39cbc369769a5bb8c52d3b8fcc2750d841a09bf2e6074e0c9dc2389d45912c65",
+    "app/src/main/res/drawable/ic_launcher_foreground.xml": "325e2a928da22d1cc2c6f660f2b1e26ca484b253593664c01d7a897666584b63",
+    "app/src/main/res/drawable/ic_notification.xml": "a87ece1a337b041b190f27f330a5d743b460477145932c1aa6f2c954a11cfea5",
+    "app/src/main/res/mipmap-anydpi/ic_launcher.xml": "7da0959d8792caf2f9e005f854470a7e21bea7005d37918abc18357e8e7646ea",
+    "app/src/main/res/values/colors.xml": "2319793deefb9dcb4a516071d4332d012f090ac2b0f6f02cf0e5b88f008d82b5",
+    "app/src/main/res/values/strings.xml": "2f10a3079a45fdfc28b76c161474885155dacf9ac705cb40d9a77d45384c7185",
+    "app/src/main/res/values/themes.xml": "c265e1bd0d1da0183cd8def3a0b93cb34718e67475fc7dca342063bba2e8938f",
+    "app/src/test/java/net/ambitious/android/playinnotification/CalculationQuestionTest.kt": "650c8aa676ba7ca5cf28512218531f030cdce534ab81520366acd1586874239e",
+    "app/src/test/java/net/ambitious/android/playinnotification/DifficultKanjiQuestionDataTest.kt": "6acc71f24a05496c9eac18d30ec5f33e460ca5d40187c0da38cac0c45a46a628",
+    "app/src/test/java/net/ambitious/android/playinnotification/DifficultKanjiQuestionTest.kt": "1dd20ad51f1822d8b6db09ed393aeaf8a1145fd11c1daffec3f9cf6692970b90",
+    "app/src/test/java/net/ambitious/android/playinnotification/GameNotificationsTest.kt": "d49a39970c803894892cc73923b2692826ff9f15c65fa3d589a42bfec63285ec",
+    "app/src/test/java/net/ambitious/android/playinnotification/GameServiceSessionDeadlineTest.kt": "c840f796f9e4b096b43cb3ce8a3ec66f088cb2843f004d22c2ed045c64c605f0",
+    "app/src/test/java/net/ambitious/android/playinnotification/GameSessionResultTest.kt": "96d3518d870513d944002f64680804836ef7afb5dedae1565cea77075525f40a",
+    "app/src/test/java/net/ambitious/android/playinnotification/GameStatisticsRepositoryTest.kt": "03364ba3ab1fc7b14d33b762905e72f8d8ef9512345c1a8e525656402bc28e7f",
+    "app/src/test/java/net/ambitious/android/playinnotification/GameStatisticsTest.kt": "bd2c4471149bc11c0747dd018b6735800543ef042caa56cfe9d612ce23fe9287",
+    "app/src/test/java/net/ambitious/android/playinnotification/SessionAnswersActivityTest.kt": "b61d68d8bc8f397611e2a31b7b87f32a853fa12b2a4784a27486db7c6bf46467"
+  },
+  "comments": [
+    {
+      "id": 6041098990,
+      "url": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6041098990",
+      "bodySha256": "fa371c89210ccf0132a175b86f0dfe426f2c5b635526027d0c14be0a76bf2570"
+    },
+    {
+      "id": 6059690171,
+      "url": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6059690171",
+      "bodySha256": "83f0aaba44a10cd7f5011c8c69f293ef41177a95984359a86be9b2a499c4f90d"
+    },
+    {
+      "id": 6079314771,
+      "url": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6079314771",
+      "bodySha256": "980d05c898c46aa49d6d218d53b1fa543e7545757c967ff11ca018a04ce9f3b4"
+    },
+    {
+      "id": 6079902417,
+      "url": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6079902417",
+      "bodySha256": "401bef13a9f06fe10f3ac648dd8ddeab6fde9d7ffc0f83682f5657afaccac905"
+    }
+  ],
+  "sourceAssetSha256": "6fbcd7cb5ab52dcc96e4c0bd814a3dba60044629e5738edf3ab92f2dc84ac5c3",
+  "sourceSelectedCount": 50,
+  "sourceEligibleCount": 300
+}

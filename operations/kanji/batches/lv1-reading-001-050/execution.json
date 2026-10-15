@@ -1,0 +1,16 @@
+{
+  "manager": {
+    "threadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedEffort": "medium",
+    "measuredModel": null,
+    "measuredEffort": null
+  },
+  "permissions": {
+    "source": "session_environment",
+    "filesystem": "unrestricted",
+    "approvalPolicy": "never"
+  },
+  "baseCommit": "f9f08dd598b54c85f68b0965973b0e4a93613b13",
+  "agents": []
+}

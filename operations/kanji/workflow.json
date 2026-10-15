@@ -1,16 +1,76 @@
 {
   "schemaVersion": 1,
   "repository": "bvlion/PlayInNotification",
-  "issues": [130, 140],
-  "mode": "setup_only",
-  "isProductionStarted": false,
-  "authorizedApprover": {"login": "bvlion", "id": 24517539},
-  "checkpointBranch": "codex/issue-140-subagent-workflow",
-  "productionStartApproval": null,
+  "issues": [
+    130,
+    140
+  ],
+  "mode": "production",
+  "isProductionStarted": true,
+  "authorizedApprover": {
+    "login": "bvlion",
+    "id": 24517539
+  },
+  "checkpointBranch": "codex/issue-140-lv1-reading-001-050",
+  "productionStartApproval": {
+    "source": "current_user_conversation",
+    "receivedDate": "2026-10-16",
+    "recordedAt": "2026-10-15T23:14:44.758838+00:00",
+    "body": "Lv1 読み→表記 1〜50問の試運用開始を承認します。Codexの複数エージェントによる問題の作成・独立監査・修正・再監査を開始してください。確定済みのLv1 表記→読み168問は変更しません。今回の承認は問題作成と監査の開始に限ります。問題の確定、次の50問への進行、完全自動化は承認していません。全50問の監査が完了したら、問題・正答・誤答候補と監査結果を提示し、私のレビューを待ってください。",
+    "bodySha256": "b9b6b1ce67f896c5a7ee7c826d256a6310f89536ff4c77c813973b20c1ecc9bf",
+    "scope": {
+      "difficulty": 1,
+      "direction": "reading_to_written_form",
+      "range": [
+        1,
+        50
+      ]
+    },
+    "permits": [
+      "creation_start",
+      "independent_audit",
+      "revision",
+      "reaudit"
+    ],
+    "doesNotPermit": [
+      "batch_confirmation",
+      "next_range",
+      "full_automation"
+    ],
+    "githubIdentityVerified": false,
+    "githubApprovalComment": null
+  },
   "automationApproval": null,
-  "status": "awaiting_production_start",
-  "activeBatch": null,
-  "nextTarget": {"difficulty": 1, "direction": "reading_to_written_form", "maximumBatchSize": 50},
+  "status": "creating",
+  "activeBatch": {
+    "batchId": "lv1-reading-001-050",
+    "difficulty": 1,
+    "direction": "reading_to_written_form",
+    "range": [
+      1,
+      50
+    ],
+    "sourceBranch": "feature/issue-130-difficult-kanji",
+    "sourceCommit": "51c8797801c0045e26d84039ba4326f659e72e66",
+    "workBranch": "codex/issue-140-lv1-reading-001-050",
+    "revision": null,
+    "snapshotPath": null,
+    "snapshotSha256": null,
+    "status": "creating",
+    "nextAction": "作成担当の全50問調査・作成",
+    "assignments": [],
+    "unresolvedFindings": [],
+    "userApproval": {
+      "status": "pending",
+      "revision": null,
+      "record": null
+    }
+  },
+  "nextTarget": {
+    "difficulty": 1,
+    "direction": "reading_to_written_form",
+    "maximumBatchSize": 50
+  },
   "integrationBranch": "feature/issue-130-difficult-kanji",
   "protectedApprovalRecords": [
     "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6041098990",
@@ -18,8 +78,12 @@
     "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6079314771",
     "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6079902417"
   ],
-  "protectedScope": {"difficulty": 1, "direction": "written_form_to_reading", "approvedQuestionCount": 168},
+  "protectedScope": {
+    "difficulty": 1,
+    "direction": "written_form_to_reading",
+    "approvedQuestionCount": 168
+  },
   "completedBatches": [],
   "unresolvedFindings": [],
-  "nextAction": "運用検証結果を報告し、実際の問題作成・再選定の開始指示を待つ"
+  "nextAction": "作成担当の全50問調査・作成"
 }
