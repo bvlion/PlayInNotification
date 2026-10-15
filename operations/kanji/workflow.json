@@ -111,9 +111,9 @@
         "measuredModel": "gpt-6.1-sol",
         "measuredEffort": "high",
         "measurementSource": "local rollout session_meta/turn_context",
-        "status": "running",
+        "status": "completed",
         "isClosed": false,
-        "auditPath": null
+        "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/1/kanji_correctness_auditor.json"
       }
     ],
     "unresolvedFindings": [],
