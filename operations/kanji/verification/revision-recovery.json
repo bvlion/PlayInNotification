@@ -1,0 +1,59 @@
+{
+  "mode": "verification",
+  "commentUrl": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6181682910",
+  "commit": "130404b246397490bae414ea1c92d3da3b991783",
+  "revision": 1,
+  "status": "revising",
+  "snapshotSha256": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425",
+  "isSnapshotSha256Matched": true,
+  "unresolvedFindingIds": [
+    "correctness-evidence-empty",
+    "quality-evidence-empty",
+    "formatEvidence-empty"
+  ],
+  "userApproval": {
+    "status": "pending",
+    "revision": 1,
+    "commentUrl": null
+  },
+  "isPreviousSessionResumed": false,
+  "recoverySource": "GitHub APIによる保存コミットの取得。ローカルstateは復元根拠に未使用。",
+  "sourceDirectory": "operations/kanji/verification/revision-recovery-source",
+  "retrievedFiles": [
+    {
+      "path": "operations/kanji/verification/findings.json",
+      "sha256": "bc6052144915ad6e2ff66253dab7888e71334cfeb1823ea8e224ce199a205e47",
+      "isLocalIdentical": true
+    },
+    {
+      "path": "operations/kanji/verification/initial-kanji_correctness_auditor.json",
+      "sha256": "9ad4ca1ed1d035ad246cdd7179c2e28e4f7b3a7fea869c833bf1e427cd12a319",
+      "isLocalIdentical": true
+    },
+    {
+      "path": "operations/kanji/verification/initial-kanji_format_auditor.json",
+      "sha256": "3b6d31dc101935749ca731e33c4803417072a5a9216cd2f45914d79fe94760f8",
+      "isLocalIdentical": true
+    },
+    {
+      "path": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json",
+      "sha256": "274eb0286e5c7a8d2fb6e30c8baca5f4fed0e86c70d73d4753430208c4d4454c",
+      "isLocalIdentical": true
+    },
+    {
+      "path": "operations/kanji/verification/initial-recheck-kanji_format_auditor.json",
+      "sha256": "759acc6e2519e1be213ac2294ef4e4230f8f6c3079a5313fe4e9ef843cfb8e42",
+      "isLocalIdentical": true
+    },
+    {
+      "path": "operations/kanji/verification/revision-1.json",
+      "sha256": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425",
+      "isLocalIdentical": true
+    },
+    {
+      "path": "operations/kanji/verification/state.json",
+      "sha256": "f392bcf0631e61f0a6b972689e8bb31ff393a8b5a2246deece4a0b84e5d350fb",
+      "isLocalIdentical": true
+    }
+  ]
+}

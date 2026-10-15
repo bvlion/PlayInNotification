@@ -1,0 +1,7 @@
+{
+  "role": "kanji_correctness_auditor",
+  "revision": 2,
+  "snapshotSha256": "153ceb1b10272b4474cef315c1a53fd2d9b1ea976018595c291bfae4ec4c1f14",
+  "status": "completed",
+  "findings": []
+}

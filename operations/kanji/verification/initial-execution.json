@@ -105,5 +105,49 @@
         "isOtherAuditArtifactReadObserved": false
       }
     }
+  ],
+  "orchestrationOrder": [
+    {
+      "tool": "spawn_agent",
+      "taskName": "kanji_creator",
+      "forkTurns": "none",
+      "createdAt": 1792024511.9788105
+    },
+    {
+      "tool": "wait_agent",
+      "taskName": null,
+      "forkTurns": null,
+      "createdAt": 1792024518.0338616
+    },
+    {
+      "tool": "spawn_agent",
+      "taskName": "kanji_correctness_auditor",
+      "forkTurns": "none",
+      "createdAt": 1792024536.1053872
+    },
+    {
+      "tool": "spawn_agent",
+      "taskName": "kanji_format_auditor",
+      "forkTurns": "none",
+      "createdAt": 1792024542.0867002
+    },
+    {
+      "tool": "spawn_agent",
+      "taskName": "kanji_japanese_quality_auditor",
+      "forkTurns": "none",
+      "createdAt": 1792024549.2188847
+    },
+    {
+      "tool": "wait_agent",
+      "taskName": null,
+      "forkTurns": null,
+      "createdAt": 1792024558.732065
+    },
+    {
+      "tool": "list_agents",
+      "taskName": null,
+      "forkTurns": null,
+      "createdAt": 1792024566.718013
+    }
   ]
 }

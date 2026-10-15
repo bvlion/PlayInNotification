@@ -1,20 +1,174 @@
 {
   "mode": "verification",
-  "status": "revising",
-  "revision": 1,
-  "snapshotPath": "operations/kanji/verification/revision-1.json",
-  "snapshotSha256": "95b36855f9be9b4f747bf89729e2ef416db06c96b84941cebf8140dff9201425",
+  "status": "awaiting_user_approval",
+  "revision": 2,
+  "snapshotPath": "operations/kanji/verification/revision-2.json",
+  "snapshotSha256": "153ceb1b10272b4474cef315c1a53fd2d9b1ea976018595c291bfae4ec4c1f14",
   "manager": {
     "agentPath": "/root",
-    "threadId": null,
-    "threadIdStatus": "not_obtained",
+    "configuredModel": "gpt-6.1-sol",
+    "configuredReasoningEffort": "medium",
+    "actualModel": "gpt-6.1-sol",
+    "actualReasoningEffort": "medium",
+    "executionMetadataStatus": "not_obtained",
     "isNewManagementSession": true,
     "isPreviousSessionResumed": false,
-    "actualModel": null,
-    "actualReasoningEffort": null,
-    "executionMetadataStatus": "not_obtained"
+    "threadId": "01a13d01-16b5-7961-88cc-66dd1743e7f6"
   },
   "assignments": [
+    {
+      "role": "kanji_creator",
+      "agentPath": "/root/kanji_creator_revision_2",
+      "configuredModel": "gpt-6.1-sol",
+      "configuredReasoningEffort": "high",
+      "actualModel": "gpt-6.1-sol",
+      "actualReasoningEffort": "high",
+      "executionMetadataStatus": "not_obtained",
+      "threadId": "01a13d01-b140-7e31-a8c7-84cd189cc5ac",
+      "threadIdStatus": "not_obtained",
+      "forkTurns": "none",
+      "status": "completed",
+      "isResultReceived": true,
+      "resultPath": "operations/kanji/verification/revision-2.json",
+      "closeStatus": "not_closed",
+      "closeReason": "クローズ機能が提供されていない"
+    },
+    {
+      "role": "kanji_correctness_auditor",
+      "agentPath": "/root/kanji_correctness_revision_2",
+      "configuredModel": "gpt-6.1-sol",
+      "configuredReasoningEffort": "high",
+      "actualModel": "gpt-6.1-sol",
+      "actualReasoningEffort": "high",
+      "executionMetadataStatus": "not_obtained",
+      "threadId": "01a13d02-1207-7f93-9da2-e10129e2eb81",
+      "threadIdStatus": "not_obtained",
+      "forkTurns": "none",
+      "status": "completed",
+      "isResultReceived": true,
+      "resultPath": "operations/kanji/verification/final-kanji_correctness_auditor.json",
+      "closeStatus": "not_closed",
+      "closeReason": "クローズ機能が提供されていない",
+      "isIndependentInput": true
+    },
+    {
+      "role": "kanji_format_auditor",
+      "agentPath": "/root/kanji_format_revision_2",
+      "configuredModel": "gpt-6-luna",
+      "configuredReasoningEffort": "high",
+      "actualModel": "gpt-6-luna",
+      "actualReasoningEffort": "high",
+      "executionMetadataStatus": "not_obtained",
+      "threadId": "01a13d02-2f4b-7dc0-8443-81f86b28874c",
+      "threadIdStatus": "not_obtained",
+      "forkTurns": "none",
+      "status": "completed",
+      "isResultReceived": true,
+      "resultPath": "operations/kanji/verification/final-kanji_format_auditor.json",
+      "closeStatus": "not_closed",
+      "closeReason": "クローズ機能が提供されていない",
+      "isIndependentInput": true
+    },
+    {
+      "role": "kanji_japanese_quality_auditor",
+      "agentPath": "/root/kanji_quality_revision_2",
+      "configuredModel": "gpt-6.1-sol",
+      "configuredReasoningEffort": "high",
+      "actualModel": "gpt-6.1-sol",
+      "actualReasoningEffort": "high",
+      "executionMetadataStatus": "not_obtained",
+      "threadId": "01a13d02-4c9c-74a0-b174-24a3ccd10019",
+      "threadIdStatus": "not_obtained",
+      "forkTurns": "none",
+      "status": "completed",
+      "isResultReceived": true,
+      "resultPath": "operations/kanji/verification/final-kanji_japanese_quality_auditor.json",
+      "closeStatus": "not_closed",
+      "closeReason": "クローズ機能が提供されていない",
+      "isIndependentInput": true
+    }
+  ],
+  "unresolvedFindings": [],
+  "userApproval": {
+    "status": "pending",
+    "revision": 2,
+    "commentUrl": null
+  },
+  "nextAction": "模擬ユーザーによる版2への明示承認を待つ。実際の問題作成・再選定・監査は開始しない。",
+  "isInitialAuditContractPassed": true,
+  "initialAuditContractIssue": null,
+  "initialAuditContractResolution": {
+    "originalResultPath": "operations/kanji/verification/initial-kanji_format_auditor.json",
+    "recheckResultPath": "operations/kanji/verification/initial-recheck-kanji_format_auditor.json",
+    "isOriginalResultPreserved": true,
+    "reason": "同一版の独立再確認で模擬判定条件に一致。初回結果は変更せず保持。"
+  },
+  "previousManager": {
+    "agentPath": "/root",
+    "threadId": "01a13cfb-d96d-7c12-8b35-25ef4e3d9111",
+    "configuredModel": "gpt-6.1-sol",
+    "configuredReasoningEffort": "medium",
+    "actualModel": "gpt-6.1-sol",
+    "actualReasoningEffort": "medium"
+  },
+  "recoveryPath": "operations/kanji/verification/revision-recovery.json",
+  "assignmentHistory": [
+    {
+      "role": "kanji_creator",
+      "agentPath": "/root/kanji_creator",
+      "threadId": "01a13cfc-0d33-7353-b75b-c7f37d3ab93f",
+      "configuredModel": "gpt-6.1-sol",
+      "configuredReasoningEffort": "high",
+      "actualModel": "gpt-6.1-sol",
+      "actualReasoningEffort": "high",
+      "status": "completed",
+      "closeStatus": "not_closed",
+      "closeReason": "クローズ操作は利用できない",
+      "resultPath": "operations/kanji/verification/revision-1.json",
+      "isResultReceived": true
+    },
+    {
+      "role": "kanji_correctness_auditor",
+      "agentPath": "/root/kanji_correctness_auditor",
+      "threadId": "01a13cfc-73b8-7603-813d-ecc55398dad2",
+      "configuredModel": "gpt-6.1-sol",
+      "configuredReasoningEffort": "high",
+      "actualModel": "gpt-6.1-sol",
+      "actualReasoningEffort": "high",
+      "status": "completed",
+      "closeStatus": "not_closed",
+      "closeReason": "クローズ操作は利用できない",
+      "resultPath": "operations/kanji/verification/initial-kanji_correctness_auditor.json",
+      "isResultReceived": true
+    },
+    {
+      "role": "kanji_format_auditor",
+      "agentPath": "/root/kanji_format_auditor",
+      "threadId": "01a13cfc-87d0-7111-a5f7-a5e8e2770953",
+      "configuredModel": "gpt-6-luna",
+      "configuredReasoningEffort": "high",
+      "actualModel": "gpt-6-luna",
+      "actualReasoningEffort": "high",
+      "status": "completed",
+      "closeStatus": "not_closed",
+      "closeReason": "クローズ操作は利用できない",
+      "resultPath": "operations/kanji/verification/initial-kanji_format_auditor.json",
+      "isResultReceived": true
+    },
+    {
+      "role": "kanji_japanese_quality_auditor",
+      "agentPath": "/root/kanji_japanese_quality_auditor",
+      "threadId": "01a13cfc-a37d-7632-9a57-4a00543d46c3",
+      "configuredModel": "gpt-6.1-sol",
+      "configuredReasoningEffort": "high",
+      "actualModel": "gpt-6.1-sol",
+      "actualReasoningEffort": "high",
+      "status": "completed",
+      "closeStatus": "not_closed",
+      "closeReason": "クローズ操作は利用できない",
+      "resultPath": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json",
+      "isResultReceived": true
+    },
     {
       "role": "kanji_creator",
       "agentPath": "/root/kanji_creator",
@@ -76,120 +230,5 @@
       "isResultReceived": true
     }
   ],
-  "unresolvedFindings": [
-    {
-      "id": "correctness-evidence-empty",
-      "recordId": "workflow-probe",
-      "field": "correctnessEvidence",
-      "reason": "correctnessEvidence が空文字列であり、根拠が記録されていません。",
-      "sourceRole": "kanji_correctness_auditor",
-      "sourceFindingId": "correctness-evidence-empty",
-      "status": "unresolved",
-      "resolvedRevision": null,
-      "sourceResultPath": "operations/kanji/verification/initial-kanji_correctness_auditor.json"
-    },
-    {
-      "id": "quality-evidence-empty",
-      "recordId": "workflow-probe",
-      "field": "qualityEvidence",
-      "reason": "qualityEvidenceが空文字列であり、日本語品質の根拠が記録されていません。",
-      "sourceRole": "kanji_japanese_quality_auditor",
-      "sourceFindingId": "quality-evidence-empty",
-      "status": "unresolved",
-      "resolvedRevision": null,
-      "sourceResultPath": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json"
-    },
-    {
-      "id": "formatEvidence-empty",
-      "recordId": "workflow-probe",
-      "field": "formatEvidence",
-      "reason": "formatEvidenceが空文字列のため、このfieldの指摘を記録します。",
-      "sourceRole": "kanji_format_auditor",
-      "sourceFindingId": "formatEvidence-empty",
-      "sourceResultPath": "operations/kanji/verification/initial-recheck-kanji_format_auditor.json",
-      "status": "unresolved",
-      "resolvedRevision": null
-    }
-  ],
-  "userApproval": {
-    "status": "pending",
-    "revision": 1,
-    "commentUrl": null
-  },
-  "nextAction": "作成担当が模擬記録を修正し全監査担当が再確認",
-  "isInitialAuditContractPassed": true,
-  "initialAuditContractIssue": null,
-  "initialAuditContractResolution": {
-    "originalResultPath": "operations/kanji/verification/initial-kanji_format_auditor.json",
-    "recheckResultPath": "operations/kanji/verification/initial-recheck-kanji_format_auditor.json",
-    "isOriginalResultPreserved": true,
-    "reason": "同一版の独立再確認で模擬判定条件に一致。初回結果は変更せず保持。"
-  },
-  "previousManager": {
-    "agentPath": "/root",
-    "threadId": "01a13cfb-d96d-7c12-8b35-25ef4e3d9111",
-    "configuredModel": "gpt-6.1-sol",
-    "configuredReasoningEffort": "medium",
-    "actualModel": "gpt-6.1-sol",
-    "actualReasoningEffort": "medium"
-  },
-  "recoveryPath": "operations/kanji/verification/recovery.json",
-  "assignmentHistory": [
-    {
-      "role": "kanji_creator",
-      "agentPath": "/root/kanji_creator",
-      "threadId": "01a13cfc-0d33-7353-b75b-c7f37d3ab93f",
-      "configuredModel": "gpt-6.1-sol",
-      "configuredReasoningEffort": "high",
-      "actualModel": "gpt-6.1-sol",
-      "actualReasoningEffort": "high",
-      "status": "completed",
-      "closeStatus": "not_closed",
-      "closeReason": "クローズ操作は利用できない",
-      "resultPath": "operations/kanji/verification/revision-1.json",
-      "isResultReceived": true
-    },
-    {
-      "role": "kanji_correctness_auditor",
-      "agentPath": "/root/kanji_correctness_auditor",
-      "threadId": "01a13cfc-73b8-7603-813d-ecc55398dad2",
-      "configuredModel": "gpt-6.1-sol",
-      "configuredReasoningEffort": "high",
-      "actualModel": "gpt-6.1-sol",
-      "actualReasoningEffort": "high",
-      "status": "completed",
-      "closeStatus": "not_closed",
-      "closeReason": "クローズ操作は利用できない",
-      "resultPath": "operations/kanji/verification/initial-kanji_correctness_auditor.json",
-      "isResultReceived": true
-    },
-    {
-      "role": "kanji_format_auditor",
-      "agentPath": "/root/kanji_format_auditor",
-      "threadId": "01a13cfc-87d0-7111-a5f7-a5e8e2770953",
-      "configuredModel": "gpt-6-luna",
-      "configuredReasoningEffort": "high",
-      "actualModel": "gpt-6-luna",
-      "actualReasoningEffort": "high",
-      "status": "completed",
-      "closeStatus": "not_closed",
-      "closeReason": "クローズ操作は利用できない",
-      "resultPath": "operations/kanji/verification/initial-kanji_format_auditor.json",
-      "isResultReceived": true
-    },
-    {
-      "role": "kanji_japanese_quality_auditor",
-      "agentPath": "/root/kanji_japanese_quality_auditor",
-      "threadId": "01a13cfc-a37d-7632-9a57-4a00543d46c3",
-      "configuredModel": "gpt-6.1-sol",
-      "configuredReasoningEffort": "high",
-      "actualModel": "gpt-6.1-sol",
-      "actualReasoningEffort": "high",
-      "status": "completed",
-      "closeStatus": "not_closed",
-      "closeReason": "クローズ操作は利用できない",
-      "resultPath": "operations/kanji/verification/initial-kanji_japanese_quality_auditor.json",
-      "isResultReceived": true
-    }
-  ]
+  "isFinalAuditContractPassed": true
 }
