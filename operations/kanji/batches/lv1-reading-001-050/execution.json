@@ -1,6 +1,6 @@
 {
   "manager": {
-    "threadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+    "threadId": "01a146e2-a9ba-7ea0-9a08-17c462981a93",
     "requestedModel": "gpt-6.1-sol",
     "requestedEffort": "medium",
     "measuredModel": "gpt-6.1-sol",
@@ -26,9 +26,10 @@
       "measuredModel": "gpt-6.1-sol",
       "measuredEffort": "high",
       "measurementSource": "local rollout session_meta/turn_context",
-      "status": "completed",
+      "status": "interrupted_usage_limit_exceeded",
       "isClosed": false,
-      "auditPath": null
+      "auditPath": null,
+      "taskRevision": 2
     },
     {
       "role": "kanji_japanese_quality_auditor",
@@ -83,5 +84,30 @@
     "baseTip": "f9f08dd598b54c85f68b0965973b0e4a93613b13",
     "comparisonStatus": "ahead",
     "note": "旧検証記録。本番承認として使用しない。専用バッチブランチへの移行は今回ユーザーの明示指定。"
+  },
+  "auditDeliveryRevision1": {
+    "context": "all three auditors fork_turns=none; other audit results and integrated findings not sent",
+    "directMessages": "全50行の同一TSV、全134候補の辞書読み、SHA-256、各役割の観点を直接提示。正誤担当には各出典URLを再構成できる全語の番号も提示。",
+    "completeEvidence": "完全な固定evidence.jsonは指定した同一ファイルだけの読み取りを明示許可し、全担当が全内容の読了とSHA-256一致を報告。保存ディレクトリ探索を禁止。全根拠JSONそのものを全文メッセージ転記したわけではない。",
+    "isOsReadIsolation": false,
+    "reviewLimitation": "全文の直接メッセージ提示という今回指示に対し、完全根拠は固定ファイルの明示読取で補っている。新規再監査時は完全根拠も直接入力へ含める必要がある。"
+  },
+  "previousManagers": [
+    {
+      "threadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "medium",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "medium",
+      "measurementSource": "local rollout turn_context",
+      "approvalPolicy": "never",
+      "sandboxPolicy": "danger-full-access"
+    }
+  ],
+  "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17.json",
+  "interruption": {
+    "reason": "usage_limit_exceeded",
+    "date": "2026-10-16",
+    "previousCreatorResult2Saved": false
   }
 }

@@ -69,9 +69,10 @@
         "measuredModel": "gpt-6.1-sol",
         "measuredEffort": "high",
         "measurementSource": "local rollout session_meta/turn_context",
-        "status": "completed",
+        "status": "interrupted_usage_limit_exceeded",
         "isClosed": false,
-        "auditPath": null
+        "auditPath": null,
+        "taskRevision": 2
       },
       {
         "role": "kanji_japanese_quality_auditor",
@@ -1086,7 +1087,8 @@
       "status": "pending",
       "revision": 1,
       "record": null
-    }
+    },
+    "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17.json"
   },
   "nextTarget": {
     "difficulty": 1,
