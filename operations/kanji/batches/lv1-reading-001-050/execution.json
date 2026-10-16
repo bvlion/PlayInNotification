@@ -123,7 +123,7 @@
       "measurementSource": "local rollout session_meta/turn_context",
       "forkTurns": "none",
       "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
-      "status": "running",
+      "status": "completed",
       "isClosed": false,
       "taskRevision": 2,
       "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_correctness_auditor.json"
@@ -216,6 +216,13 @@
       "manifestSnapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
       "inputMode": "TSV全行は管理役の入力にも含まれていた。根拠JSONは管理役が許可した同版固定ファイルから直接全文読取し、根拠の直接全文メッセージ転記はなし。",
       "otherAuditsConsulted": false
+    },
+    "correctnessInputVerified": {
+      "method": "管理役の明示許可に従い、固定されたquestions.tsv・evidence.json・manifest.jsonだけを直接読取。",
+      "directFullEvidenceMessageTranscription": false,
+      "fullReadDetail": "TSVとmanifestは全文、evidence.jsonはquestions以外の全項目とquestions 001〜010、011〜030、031〜050に分割した全要素を省略なく閲覧。実バイトSHA-256とファイルハッシュ辞書の正規JSONから算出したsnapshotSha256がすべて指定値に一致。",
+      "readmeReadFirst": true,
+      "filesOrGitOrGitHubModified": false
     }
   }
 }

@@ -1,0 +1,427 @@
+{
+  "role": "kanji_correctness_auditor",
+  "revision": 2,
+  "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
+  "status": "completed",
+  "findings": [
+    {
+      "id": "C-040-NIMOTSU-NIBUTSU",
+      "questionId": "040",
+      "candidate": "二物",
+      "affectedPairs": [
+        [
+          "煮物",
+          "二物"
+        ]
+      ],
+      "reason": "精選版日本国語大辞典の「に‐ぶつ【二物】」本文に「二つの物。にもつ。」と明記される。読みだけを提示する問題では「二物」の読み「にもつ」を誤答と断定できず、正しい別読みの候補混入が未解決。",
+      "evidence": [
+        {
+          "source": "コトバンク収録・精選版 日本国語大辞典",
+          "entry": "に‐ぶつ【二物】",
+          "text": "二つの物。にもつ。",
+          "retrieval": "web.openとcurlの双方で本文を実取得"
+        },
+        {
+          "source": "笑い学研究21（2014年）「日本における『笑い学』の黎明」65ページ",
+          "text": "言葉遊びの説明で「二物」と「荷物」を同音異義とし、「にもつ」の両義を述べる。",
+          "retrieval": "J-STAGEのPDF本文を実取得。画像取得はタイムアウトしたため画像確認済みとはしない。"
+        }
+      ],
+      "sourceUrls": [
+        "https://kotobank.jp/word/二物-592622",
+        "https://www.jstage.jst.go.jp/article/warai/21/0/21_KJ00009468510/_pdf"
+      ],
+      "unresolved": "「にもつ【二物】」の独立見出しと現代語での使用域は確認できていない。本文に提示読みを認める記載があるため、辞書見出しの代表読み「にぶつ」だけで誤答適格とする判断はできない。"
+    }
+  ],
+  "checkedQuestionIds": [
+    "001",
+    "002",
+    "003",
+    "004",
+    "005",
+    "006",
+    "007",
+    "008",
+    "009",
+    "010",
+    "011",
+    "012",
+    "013",
+    "014",
+    "015",
+    "016",
+    "017",
+    "018",
+    "019",
+    "020",
+    "021",
+    "022",
+    "023",
+    "024",
+    "025",
+    "026",
+    "027",
+    "028",
+    "029",
+    "030",
+    "031",
+    "032",
+    "033",
+    "034",
+    "035",
+    "036",
+    "037",
+    "038",
+    "039",
+    "040",
+    "041",
+    "042",
+    "043",
+    "044",
+    "045",
+    "046",
+    "047",
+    "048",
+    "049",
+    "050"
+  ],
+  "candidateCount": 128,
+  "pairCount": 106,
+  "coverage": {
+    "questionCount": 50,
+    "correctAnswerCount": 50,
+    "uniqueWrittenFormCount": 169,
+    "totalOptionOccurrences": 178,
+    "allQuestionsAndCandidatesChecked": true,
+    "all106CandidatePairsEnumeratedAndChecked": true,
+    "result": "全50正答の提示読みを辞書で確認。全128候補を照合し、040の1候補・1組合せを未解決として記録。他の127候補・105組合せでは担当観点の指摘なし。",
+    "externalCheckMethod": "全169表記の固定sources URLをcurlで再取得し全h3見出しを閲覧。全description本文を取得して各問の提示読みのひらがな・カタカナ表記を走査し、検出箇所は本文を個別確認。係り・測り・敗れる等は併記表記も確認。候補2件の全106組合せを列挙して同音正答混入の影響を確認。",
+    "externalFetchFailureCount": 0,
+    "inputFullyRead": true,
+    "inputHashMatch": true,
+    "fileSha256": {
+      "questions.tsv": "05047cc6382d1141724291ceb7b8528975c7e453ca53ef9a8a437c7d9e3de455",
+      "evidence.json": "db9040eafaca131e6209ae01b98508fc88a991608c6bf021aa459d14db5f793c"
+    },
+    "independence": "他担当の結果・過去監査・統合指摘・実行ログ・workflowを参照していない。指示による入力制限でありOS隔離ではない。"
+  },
+  "limitations": [
+    "確認範囲は指定169表記の辞書ページと指摘の補助資料。全時代・全方言・固有名の全読みを網羅したとの主張ではない。",
+    "外部辞書は全見出しと必要な本文を閲覧し、説明本文全体の文字列照合を併用した。全辞典本文を一文ずつ精読したとは扱わない。",
+    "Lv1の数値基準と実測誤選択率は未定義のため認定していない。形式・日本語品質の独立監査を代行しない。",
+    "監査完了は問題確定またはユーザー承認を意味しない。"
+  ],
+  "inputMethod": {
+    "method": "管理役の明示許可に従い、固定されたquestions.tsv・evidence.json・manifest.jsonだけを直接読取。",
+    "directFullEvidenceMessageTranscription": false,
+    "fullReadDetail": "TSVとmanifestは全文、evidence.jsonはquestions以外の全項目とquestions 001〜010、011〜030、031〜050に分割した全要素を省略なく閲覧。実バイトSHA-256とファイルハッシュ辞書の正規JSONから算出したsnapshotSha256がすべて指定値に一致。",
+    "readmeReadFirst": true,
+    "filesOrGitOrGitHubModified": false
+  },
+  "questionResults": [
+    {
+      "questionId": "001",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "足跡＝あしあと。足音＝あしおと、足元＝あしもと／あもと。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "002",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "愛情＝あいじょう。愛称・相性＝あいしょう、愛想＝あいそ／あいそう。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "003",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "峠＝とうげ。棘のとげ等の見出し・字訓、崖のがけ／がい／まま／ほき等を確認。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "004",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "麓＝ふもと。袂＝たもと、本＝もと／ほん等。袂の本文中の「ふもと」は語義説明であり、読みはたもと。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "005",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "岬＝みさき。先＝さき／せん／さっき等、操＝みさお／そう／あやつり。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "006",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "時計＝とけい／ときはかり。統計＝とうけい、都会＝とかい。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "007",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "料理＝りょうり。良否＝りょうひ、量子＝りょうし、漁師＝りょうし／ぎょし。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "008",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "会社＝かいしゃ。感謝＝かんしゃ、代謝＝たいしゃ／だいしゃ。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "009",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "植える＝うえる。終える＝おえる、増える＝ふえる、据える＝すえる。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "010",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "河原＝かわら。瓦屋＝かわらや／がおく、川面＝かわづら／かわも／かわつら。瓦屋のかわらやは提示読みと末尾が異なる。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "011",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "合図＝あいず。合間＝あいま、愛護＝あいご。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "012",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "相槌＝あいづち／あいのつち。合口＝あいくち／ごうこう、合図＝あいず。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "013",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "砂糖＝さとう。作動＝さどう、茶道＝さどう／ちゃどう。作動本文のさくどうも提示読みとは異なる。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "014",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "挨拶＝あいさつ。改札・開札＝かいさつ、偵察＝ていさつ。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "015",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "予定＝よてい。余計＝よけい、女帝＝じょてい／にょてい、予鈴＝よれい。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "016",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "足音＝あしおと／あのと／あおと／あと／そくおん。足跡＝あしあと／そくせき、足元＝あしもと／あもと。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "017",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "景色＝けしき／けいしょく。形式＝けいしき、見識＝けんしき。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "018",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "祈り＝いのり。実り＝みのり、怒り＝いかり／おこり。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "019",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "毛糸＝けいと。系統＝けいとう、生徒＝せいと、経度＝けいど／けいたく。系統の末尾の長音を含め確認。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "020",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "進む＝すすむ。済む・住む＝すむ、涼む＝すずむ。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "021",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "近所＝きんじょ。金魚＝きんぎょ、近著＝きんちょ、緊張＝きんちょう。近所のきんしょは引用例本文で確認。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "022",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "離れる＝はなれる。慣れる＝なれる、晴れる・腫れる＝はれる。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "023",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "願い＝ねがい。狙い＝ねらい、苦い＝にがい、長い＝ながい。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "024",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "宛てる＝あてる。併記見出しと宛先を示す本文を確認。建てる・立てる＝たてる、果てる＝はてる。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "025",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "盛り＝さかり。係り＝かかり、計り・測り＝はかり。測の表記は精選版日本国語大辞典の併記見出しと本文を確認。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "026",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "天井＝てんじょう。戦場・洗浄＝せんじょう、店長＝てんちょう。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "027",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "野菜＝やさい。火災＝かさい、多彩・多才＝たさい。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "028",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "暴れる＝あばれる。破れる＝やぶれる／やれる、敗れる＝やぶれる。敗の表記は併記見出しと語義本文を確認。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "029",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "生姜＝しょうが／しょうきょう。消化＝しょうか／しょうけ、消火・商家＝しょうか。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "030",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "寒い＝さむい／さぶい。眠い＝ねむい／ねぶい、煙い＝けむい／けぶい。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "031",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "飴＝あめ／たがね。網＝あみ／あ／い／もう、虻＝あぶ／あむ。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "032",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "悩む＝なやむ／やくさむ／なゆむ。病む＝やむ、止む＝やむ／とどむ／とむ。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "033",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "旅行＝りょこう／たびゆき。漁港＝ぎょこう、利口＝りこう／ききぐち、履行＝りこう。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "034",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "案内＝あんない／あない。安泰＝あんたい、安寧＝あんねい。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "035",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "哀れ＝あわれ。荒れ＝あれ、割れ＝われ。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "036",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "公園＝こうえん。高原＝こうげん／たかはら等、光源・抗原＝こうげん。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "037",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "生垣＝いけがき。石垣＝いしがき／いしがけ／せきえん、板垣＝いたがき、竹垣＝たけがき／たかがき。板垣の一般名詞本文も確認。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "038",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "揺れる＝ゆれる。濡れる＝ぬれる、売れる＝うれる、暮れる＝くれる。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "039",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "花火＝はなび。花見＝はなみ、鼻血＝はなぢ／びけつ。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "040",
+      "status": "finding",
+      "findingsIds": [
+        "C-040-NIMOTSU-NIBUTSU"
+      ],
+      "reason": "荷物＝にもつは確認。煮物＝にものだが、二物の精選版日本国語大辞典本文に「にもつ」が明記される。候補ペア「煮物／二物」は正答一意性に未解決の指摘がある。"
+    },
+    {
+      "questionId": "041",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "一途＝いちず／いっと。一致＝いっち、一時＝いちじ／いっとき／ひととき／いっし、一助＝いちじょ。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "042",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "一段＝いちだん。一旦＝いったん、一端＝いったん／いっぱし／ひとはし／いちはな、一念＝いちねん。一端ページの一段＝いったんの項目も提示読みとは異なる。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "043",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "一番＝いちばん／ひとつがい。一般＝いっぱん、一環・一貫＝いっかん。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "044",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "一面＝いちめん。一年＝いちねん／ひととせ、一念＝いちねん、一見＝いっけん／いちげん。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "045",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "仲間＝なかま。中身＝なかみ／ちゅうしん、仲居＝なかい。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "046",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "一心＝いっしん／ひとつこころ。一任＝いちにん、一睡＝いっすい、一生＝いっしょう。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "047",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "一層＝いっそう。一緒＝いっしょ、一升・一生＝いっしょう。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "048",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "一体＝いったい／いってい。一代＝いちだい、一旦＝いったん、一端＝いったん／いっぱし／ひとはし／いちはな。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "049",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "一杯＝いっぱい／ひとはた。一倍＝いちばい／いちへ、一派＝いっぱ、一発＝いっぱつ。一倍本文のいちべも提示読みとは異なる。提示読みと一致する候補は確認されなかった。"
+    },
+    {
+      "questionId": "050",
+      "status": "no_findings",
+      "findingsIds": [],
+      "reason": "一部＝いちぶ。一味＝いちみ／ひとあじ、一字＝いちじ、一時＝いちじ／いっとき／ひととき／いっし。提示読みと一致する候補は確認されなかった。"
+    }
+  ]
+}

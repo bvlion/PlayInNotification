@@ -2,11 +2,11 @@
   "revision": 2,
   "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
   "auditStatuses": {
-    "kanji_correctness_auditor": "pending",
+    "kanji_correctness_auditor": "completed",
     "kanji_format_auditor": "completed",
     "kanji_japanese_quality_auditor": "pending"
   },
-  "unresolvedCount": 35,
+  "unresolvedCount": 36,
   "findings": [
     {
       "id": "JQ-001-01",
@@ -1114,7 +1114,7 @@
     }
   ],
   "creatorResponsesPath": "creator-result-2.json",
-  "integrationDecision": "全35件は作成修正済みとの報告。独立再監査完了までopenを維持する。",
+  "integrationDecision": "旧35件の解消は品質監査待ち。版2新規の正誤1件もopen。管理役も辞書本文のにもつを実閲覧確認。",
   "limitations": [
     {
       "id": "JQ-U-LV1",
@@ -1127,6 +1127,38 @@
       "questionId": "001-050",
       "candidate": null,
       "reason": "実際の誤選択率や利用者の選択記録は入力にない。混同可能性の判断は、固定根拠に示された読み・字形・語義と、展開した3択に基づく独立した定性的評価である。"
+    }
+  ],
+  "revision2FindingsReceived": [
+    {
+      "id": "C-040-NIMOTSU-NIBUTSU",
+      "questionId": "040",
+      "candidate": "二物",
+      "affectedPairs": [
+        [
+          "煮物",
+          "二物"
+        ]
+      ],
+      "reason": "精選版日本国語大辞典の「に‐ぶつ【二物】」本文に「二つの物。にもつ。」と明記される。読みだけを提示する問題では「二物」の読み「にもつ」を誤答と断定できず、正しい別読みの候補混入が未解決。",
+      "evidence": [
+        {
+          "source": "コトバンク収録・精選版 日本国語大辞典",
+          "entry": "に‐ぶつ【二物】",
+          "text": "二つの物。にもつ。",
+          "retrieval": "web.openとcurlの双方で本文を実取得"
+        },
+        {
+          "source": "笑い学研究21（2014年）「日本における『笑い学』の黎明」65ページ",
+          "text": "言葉遊びの説明で「二物」と「荷物」を同音異義とし、「にもつ」の両義を述べる。",
+          "retrieval": "J-STAGEのPDF本文を実取得。画像取得はタイムアウトしたため画像確認済みとはしない。"
+        }
+      ],
+      "sourceUrls": [
+        "https://kotobank.jp/word/二物-592622",
+        "https://www.jstage.jst.go.jp/article/warai/21/0/21_KJ00009468510/_pdf"
+      ],
+      "unresolved": "「にもつ【二物】」の独立見出しと現代語での使用域は確認できていない。本文に提示読みを認める記載があるため、辞書見出しの代表読み「にぶつ」だけで誤答適格とする判断はできない。"
     }
   ]
 }

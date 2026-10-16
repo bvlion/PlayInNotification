@@ -57,7 +57,7 @@
     "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/2",
     "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
     "status": "auditing",
-    "nextAction": "版2形式監査completed/0。正誤・日本語品質の独立監査を受領・保存後に全件統合。",
+    "nextAction": "版2正誤completed/1（040二物）。形式0。日本語品質を受領して全指摘統合後、creatorへ修正依頼。",
     "assignments": [
       {
         "role": "kanji_creator",
@@ -166,7 +166,7 @@
         "measurementSource": "local rollout session_meta/turn_context",
         "forkTurns": "none",
         "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
-        "status": "running",
+        "status": "completed",
         "isClosed": false,
         "taskRevision": 2,
         "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_correctness_auditor.json"
