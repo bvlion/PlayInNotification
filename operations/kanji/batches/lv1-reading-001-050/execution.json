@@ -93,6 +93,57 @@
       "taskRevision": 2,
       "inputMethod": "明示パスの固定入力を全文読取。findings-1.json全35件・版1・元creator成果物・source/questions.tsv・Issue130/140。",
       "resultPath": "operations/kanji/batches/lv1-reading-001-050/creator-result-2.json"
+    },
+    {
+      "role": "kanji_format_auditor",
+      "path": "/root/format_r2",
+      "threadId": "01a146f2-3f3f-7140-845f-4546d0d636e3",
+      "parentThreadId": "01a146e2-a9ba-7ea0-9a08-17c462981a93",
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6-luna",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "running",
+      "isClosed": false,
+      "taskRevision": 2,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_format_auditor.json"
+    },
+    {
+      "role": "kanji_correctness_auditor",
+      "path": "/root/correctness_r2",
+      "threadId": "01a146f1-ec74-7d03-bb10-8672785675ac",
+      "parentThreadId": "01a146e2-a9ba-7ea0-9a08-17c462981a93",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "running",
+      "isClosed": false,
+      "taskRevision": 2,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_correctness_auditor.json"
+    },
+    {
+      "role": "kanji_japanese_quality_auditor",
+      "path": "/root/quality_r2",
+      "threadId": "01a146f2-968d-7a80-ade5-e31cc5044cf9",
+      "parentThreadId": "01a146e2-a9ba-7ea0-9a08-17c462981a93",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "running",
+      "isClosed": false,
+      "taskRevision": 2,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_japanese_quality_auditor.json"
     }
   ],
   "initialRemoteCheck": {
@@ -140,5 +191,15 @@
     "pairCount": 106,
     "sourceCount": 169,
     "responseCount": 35
+  },
+  "auditDeliveryRevision2": {
+    "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
+    "directMessages": "全50問のID/読み/正答/全128候補を同一の直接入力として全担当へ提示。",
+    "completeEvidence": "固定版のquestions.tsv/evidence.json/manifest.jsonだけを明示して全文読取を指示。53,208バイトのevidence全文を3担当へ直接転記すると管理セッション入力容量を圧迫するため、全文直入力を省略し同じ固定ファイルで補った。プラットフォームのハード上限を実測したという意味ではない。",
+    "inputDeviation": "根拠全文の直接メッセージ提示は未実施。固定ファイル全文読取・SHA確認を各担当へ要求し、実際の入力方式を報告させる。",
+    "independence": "3担当はfork_turns=none。他監査・統合指摘・作成履歴・レビュー・ログへのアクセス禁止。",
+    "isOsReadIsolation": false,
+    "newThreadCountThisManager": 4,
+    "closeCapabilityAvailable": false
   }
 }
