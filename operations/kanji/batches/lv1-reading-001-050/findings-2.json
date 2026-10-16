@@ -3,7 +3,7 @@
   "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
   "auditStatuses": {
     "kanji_correctness_auditor": "pending",
-    "kanji_format_auditor": "pending",
+    "kanji_format_auditor": "completed",
     "kanji_japanese_quality_auditor": "pending"
   },
   "unresolvedCount": 35,

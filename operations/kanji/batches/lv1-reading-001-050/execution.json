@@ -106,7 +106,7 @@
       "measurementSource": "local rollout session_meta/turn_context",
       "forkTurns": "none",
       "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
-      "status": "running",
+      "status": "completed",
       "isClosed": false,
       "taskRevision": 2,
       "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_format_auditor.json"
@@ -200,6 +200,22 @@
     "independence": "3担当はfork_turns=none。他監査・統合指摘・作成履歴・レビュー・ログへのアクセス禁止。",
     "isOsReadIsolation": false,
     "newThreadCountThisManager": 4,
-    "closeCapabilityAvailable": false
+    "closeCapabilityAvailable": false,
+    "formatInputVerified": {
+      "readme": "operations/kanji/README.mdを最初に全文読了。",
+      "files": [
+        "operations/kanji/batches/lv1-reading-001-050/revisions/2/questions.tsv",
+        "operations/kanji/batches/lv1-reading-001-050/revisions/2/evidence.json",
+        "operations/kanji/batches/lv1-reading-001-050/revisions/2/manifest.json"
+      ],
+      "fullRead": "questions.tsv全50行、evidence.json全53,208 bytes/37,788 characters（連続区間に分割、未省略）、manifest全文を読了。",
+      "hashes": {
+        "questions.tsv": "05047cc6382d1141724291ceb7b8528975c7e453ca53ef9a8a437c7d9e3de455",
+        "evidence.json": "db9040eafaca131e6209ae01b98508fc88a991608c6bf021aa459d14db5f793c"
+      },
+      "manifestSnapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
+      "inputMode": "TSV全行は管理役の入力にも含まれていた。根拠JSONは管理役が許可した同版固定ファイルから直接全文読取し、根拠の直接全文メッセージ転記はなし。",
+      "otherAuditsConsulted": false
+    }
   }
 }
