@@ -24,5 +24,16 @@
     "creatorFinalRevision2Saved": false
   },
   "approvalSource": "2026-10-16のユーザー会話。2026-10-17に直接続行指示。GitHub転記は本人承認元にしない。",
-  "nextAction": "creatorを指定モデルで実起動し全35指摘を修正後、全3担当の独立再監査"
+  "nextAction": "creatorを指定モデルで実起動し全35指摘を修正後、全3担当の独立再監査",
+  "snapshotDigestRecipe": {
+    "files": [
+      "evidence.json",
+      "questions.tsv"
+    ],
+    "fileDigest": "SHA-256 of exact file bytes",
+    "serialization": "json.dumps(fileSha256Dictionary, sort_keys=True, separators=(comma,colon)), UTF-8; ensure_ascii default True (keys/digests ASCII)",
+    "snapshotDigest": "SHA-256 of serialized dictionary bytes",
+    "manifestExcluded": true,
+    "verifiedSnapshotSha256": "37d3dfb30d3fa663f41f66e2ceb062980949e36cec27e5fe0f8dcb8f02028489"
+  }
 }

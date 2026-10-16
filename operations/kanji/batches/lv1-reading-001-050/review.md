@@ -64,3 +64,5 @@
 元素材は[source/questions.tsv](source/questions.tsv)、作成版1と元素材の差替え履歴は[creator-result-1.json](creator-result-1.json)です。各語の閲覧URL・辞書読み・別表記・具体的な根拠を固定版のevidence.jsonに保存しています。
 
 [2026-10-17復帰照合](recovery-2026-10-17.json): 正規checkpoint・書込権限・先端同一関係・版1のSHA・保護39ファイルと4承認コメントをAPIおよび現物で確認しました。
+
+スナップショットの再計算: questions.tsvとevidence.jsonそれぞれの実バイトのSHA-256を、ファイル名をキーとする辞書にし、`sort_keys=True, separators=(",", ":")`でJSON化したUTF-8バイト列のSHA-256を取ります。manifest.json自体は含めません。版1で再計算一致を確認済みです。

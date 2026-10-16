@@ -29,7 +29,9 @@
       "status": "interrupted_usage_limit_exceeded",
       "isClosed": false,
       "auditPath": null,
-      "taskRevision": 2
+      "taskRevision": 2,
+      "revision1CreationStatus": "completed",
+      "revision2RevisionStatus": "interrupted_usage_limit_exceeded"
     },
     {
       "role": "kanji_japanese_quality_auditor",
