@@ -72,6 +72,24 @@
       "status": "completed",
       "isClosed": false,
       "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/1/kanji_correctness_auditor.json"
+    },
+    {
+      "role": "kanji_creator",
+      "path": "/root/creator_r2",
+      "threadId": "01a146e3-f4fe-7743-a764-5ae6eaf0e121",
+      "parentThreadId": "01a146e2-a9ba-7ea0-9a08-17c462981a93",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役の実spawn_agent引数 fork_turns=none",
+      "status": "revising",
+      "isClosed": false,
+      "auditPath": null,
+      "taskRevision": 2,
+      "inputMethod": "明示パスの固定入力を全文読取。findings-1.json全35件・版1・元creator成果物・source/questions.tsv・Issue130/140。"
     }
   ],
   "initialRemoteCheck": {
@@ -109,5 +127,6 @@
     "reason": "usage_limit_exceeded",
     "date": "2026-10-16",
     "previousCreatorResult2Saved": false
-  }
+  },
+  "recoveryCheckpoint": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6226097951"
 }
