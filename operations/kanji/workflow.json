@@ -41,7 +41,7 @@
     "githubApprovalComment": null
   },
   "automationApproval": null,
-  "status": "revising",
+  "status": "auditing",
   "activeBatch": {
     "batchId": "lv1-reading-001-050",
     "difficulty": 1,
@@ -53,11 +53,11 @@
     "sourceBranch": "feature/issue-130-difficult-kanji",
     "sourceCommit": "51c8797801c0045e26d84039ba4326f659e72e66",
     "workBranch": "codex/issue-140-lv1-reading-001-050",
-    "revision": 1,
-    "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/1",
-    "snapshotSha256": "37d3dfb30d3fa663f41f66e2ceb062980949e36cec27e5fe0f8dcb8f02028489",
-    "status": "revising",
-    "nextAction": "creatorが35指摘を修正して新revisionを作成。全監査担当の新規コンテキスト再監査が必要",
+    "revision": 2,
+    "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/2",
+    "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
+    "status": "auditing",
+    "nextAction": "版2全50問・128候補・106組合せを全3担当の新規コンテキストで独立再監査。35件は再監査待ち。",
     "assignments": [
       {
         "role": "kanji_creator",
@@ -130,11 +130,12 @@
         "measurementSource": "local rollout session_meta/turn_context",
         "forkTurns": "none",
         "forkTurnsEvidence": "管理役の実spawn_agent引数 fork_turns=none",
-        "status": "revising",
+        "status": "completed",
         "isClosed": false,
         "auditPath": null,
         "taskRevision": 2,
-        "inputMethod": "明示パスの固定入力を全文読取。findings-1.json全35件・版1・元creator成果物・source/questions.tsv・Issue130/140。"
+        "inputMethod": "明示パスの固定入力を全文読取。findings-1.json全35件・版1・元creator成果物・source/questions.tsv・Issue130/140。",
+        "resultPath": "operations/kanji/batches/lv1-reading-001-050/creator-result-2.json"
       }
     ],
     "unresolvedFindings": [
@@ -1105,7 +1106,7 @@
     ],
     "userApproval": {
       "status": "pending",
-      "revision": 1,
+      "revision": 2,
       "record": null
     },
     "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17.json"

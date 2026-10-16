@@ -87,11 +87,12 @@
       "measurementSource": "local rollout session_meta/turn_context",
       "forkTurns": "none",
       "forkTurnsEvidence": "管理役の実spawn_agent引数 fork_turns=none",
-      "status": "revising",
+      "status": "completed",
       "isClosed": false,
       "auditPath": null,
       "taskRevision": 2,
-      "inputMethod": "明示パスの固定入力を全文読取。findings-1.json全35件・版1・元creator成果物・source/questions.tsv・Issue130/140。"
+      "inputMethod": "明示パスの固定入力を全文読取。findings-1.json全35件・版1・元creator成果物・source/questions.tsv・Issue130/140。",
+      "resultPath": "operations/kanji/batches/lv1-reading-001-050/creator-result-2.json"
     }
   ],
   "initialRemoteCheck": {
@@ -130,5 +131,14 @@
     "date": "2026-10-16",
     "previousCreatorResult2Saved": false
   },
-  "recoveryCheckpoint": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6226097951"
+  "recoveryCheckpoint": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6226097951",
+  "revision2CreatorDelivery": {
+    "method": "creatorの公開functions.exec text(JSON)出力7件から成果物JSONのみ抽出・統合。send_messageは転記確認に使用。raw会話・認証・キャッシュは保存対象外。",
+    "parts": 7,
+    "questionCount": 50,
+    "candidateCount": 128,
+    "pairCount": 106,
+    "sourceCount": 169,
+    "responseCount": 35
+  }
 }
