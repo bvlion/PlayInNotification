@@ -212,6 +212,21 @@
       "isClosed": false,
       "taskRevision": 3,
       "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_japanese_quality_auditor.json"
+    },
+    {
+      "role": "kanji_format_auditor",
+      "path": null,
+      "threadId": null,
+      "parentThreadId": null,
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "high",
+      "measuredModel": null,
+      "measuredEffort": null,
+      "measurementSource": null,
+      "forkTurns": null,
+      "status": "not_started_child_thread_limit",
+      "taskRevision": 3,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_format_auditor.json"
     }
   ],
   "initialRemoteCheck": {
@@ -422,5 +437,18 @@
       "githubModified": false,
       "subagentsStarted": false
     }
+  },
+  "handoff": {
+    "reason": "4子スレッド上限・close機能なし。上限を変更せず不足形式監査のみ新管理セッションへ引継ぐ。",
+    "managerThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+    "childThreadsUsed": [
+      "01a14828-3a04-7732-97cf-b9790e5dde4b",
+      "01a1482a-e397-7db1-b148-31870130d4d6",
+      "01a1482e-ffe0-7603-b671-13dcd23b1432",
+      "01a1482f-37ca-7113-9ac3-16da3ad54c14"
+    ],
+    "remainingAuditor": "kanji_format_auditor",
+    "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+    "nextAction": "版3正誤completed/0・日本語品質completed/0、全50問129候補108組合せ確認済み。形式だけ未実施。4子枠上限・close機能なしのため新管理セッションでkanji_format_auditor gpt-6-luna/highをfork_turns=noneで独立起動。同一版/SHA/全範囲を監査し、全3結果を統合、旧2件の解消確認後にのみawaiting_user_approval。"
   }
 }

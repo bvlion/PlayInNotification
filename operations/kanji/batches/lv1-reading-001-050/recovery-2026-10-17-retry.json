@@ -25,5 +25,27 @@
     "action": "root nextActionをactiveBatchと同期",
     "pr141KnownIdentityLimitationUnchanged": true
   },
-  "nextAction": "版2の不足した日本語品質監査を新規独立担当で再実行中。形式0・正誤1は保存済み。品質受領後に現版に基づき統合し、creatorで版3修正、全監査を新規再実行。"
+  "nextAction": "版3正誤completed/0・日本語品質completed/0、全50問129候補108組合せ確認済み。形式だけ未実施。4子枠上限・close機能なしのため新管理セッションでkanji_format_auditor gpt-6-luna/highをfork_turns=noneで独立起動。同一版/SHA/全範囲を監査し、全3結果を統合、旧2件の解消確認後にのみawaiting_user_approval。",
+  "finalValidation": {
+    "checkedAt": "2026-10-17T04:51:44.094629+00:00",
+    "protectedFilesVerified": 39,
+    "protectedCommentsVerified": 4,
+    "revisions1And2BytesUnchanged": true,
+    "allRevisionSnapshotsRecomputed": true,
+    "revision3QuestionCount": 50,
+    "revision3CandidateCount": 129,
+    "revision3PairCount": 108,
+    "jsonParsed": true,
+    "allTsvRowsAndEvidenceChecked": true,
+    "allIdsAndSourceKeysMatched": true,
+    "noDuplicateAnswersOrCandidates": true,
+    "recordedCandidateReadingsDifferFromPrompt": true,
+    "sameKanjiAndKanaPatternPerQuestion": true,
+    "independentCorrectnessCompleted": true,
+    "independentQualityCompleted": true,
+    "independentFormatCompleted": false,
+    "gitDiffCheck": "passed",
+    "gradle": "アプリ・テスト・ビルド変更なしのため対象外",
+    "knownIdentityLimitations": "PR141本人承認の独立認証は未解決。開始承認元はユーザー会話、転記は本人承認元にしない。"
+  }
 }

@@ -57,7 +57,7 @@
     "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/3",
     "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
     "status": "auditing",
-    "nextAction": "版3正誤completed/0・品質completed/0、全50問129候補108組合せ確認済み。形式のみ未起動（4子枠上限、close機能なし）。新管理セッションで同じ版/SHAの全範囲形式監査のみ独立実行し統合する。全3完了・未解決ゼロならawaiting_user_approval。",
+    "nextAction": "版3正誤completed/0・日本語品質completed/0、全50問129候補108組合せ確認済み。形式だけ未実施。4子枠上限・close機能なしのため新管理セッションでkanji_format_auditor gpt-6-luna/highをfork_turns=noneで独立起動。同一版/SHA/全範囲を監査し、全3結果を統合、旧2件の解消確認後にのみawaiting_user_approval。",
     "assignments": [
       {
         "role": "kanji_creator",
@@ -257,6 +257,21 @@
         "isClosed": false,
         "taskRevision": 3,
         "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_japanese_quality_auditor.json"
+      },
+      {
+        "role": "kanji_format_auditor",
+        "path": null,
+        "threadId": null,
+        "parentThreadId": null,
+        "requestedModel": "gpt-6-luna",
+        "requestedEffort": "high",
+        "measuredModel": null,
+        "measuredEffort": null,
+        "measurementSource": null,
+        "forkTurns": null,
+        "status": "not_started_child_thread_limit",
+        "taskRevision": 3,
+        "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_format_auditor.json"
       }
     ],
     "unresolvedFindings": [
@@ -294,7 +309,7 @@
         "sourceFindingIds": [
           "C-040-NIMOTSU-NIBUTSU"
         ],
-        "status": "open",
+        "status": "revised_pending_reaudit",
         "resolvedRevision": null
       },
       {
@@ -323,7 +338,7 @@
         "sourceFindingIds": [
           "JQ-003-GAKE"
         ],
-        "status": "open",
+        "status": "revised_pending_reaudit",
         "resolvedRevision": null
       }
     ],
@@ -420,5 +435,5 @@
       "resolvedRevision": null
     }
   ],
-  "nextAction": "版3正誤completed/0・品質completed/0、全50問129候補108組合せ確認済み。形式のみ未起動（4子枠上限、close機能なし）。新管理セッションで同じ版/SHAの全範囲形式監査のみ独立実行し統合する。全3完了・未解決ゼロならawaiting_user_approval。"
+  "nextAction": "版3正誤completed/0・日本語品質completed/0、全50問129候補108組合せ確認済み。形式だけ未実施。4子枠上限・close機能なしのため新管理セッションでkanji_format_auditor gpt-6-luna/highをfork_turns=noneで独立起動。同一版/SHA/全範囲を監査し、全3結果を統合、旧2件の解消確認後にのみawaiting_user_approval。"
 }
