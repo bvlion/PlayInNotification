@@ -178,6 +178,40 @@
       "taskRevision": 3,
       "resultPath": "operations/kanji/batches/lv1-reading-001-050/creator-result-3.json",
       "inputMethod": "固定版2全文・統合指摘と旧35件対応履歴・source固定ファイルのみ明示読取。外部辞書の読み取り。"
+    },
+    {
+      "role": "kanji_correctness_auditor",
+      "path": "/root/correctness_r3",
+      "threadId": "01a1482e-ffe0-7603-b671-13dcd23b1432",
+      "parentThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "running",
+      "isClosed": false,
+      "taskRevision": 3,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_correctness_auditor.json"
+    },
+    {
+      "role": "kanji_japanese_quality_auditor",
+      "path": "/root/quality_r3",
+      "threadId": "01a1482f-37ca-7113-9ac3-16da3ad54c14",
+      "parentThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "running",
+      "isClosed": false,
+      "taskRevision": 3,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_japanese_quality_auditor.json"
     }
   ],
   "initialRemoteCheck": {
@@ -283,5 +317,16 @@
     "candidateCount": 129,
     "pairCount": 108,
     "revision2FindingsResponseCount": 2
+  },
+  "auditDeliveryRevision3": {
+    "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+    "directMessages": "全50問のID順・読み・正答・全129候補を両担当へ同じ直接入力として提示。",
+    "completeEvidence": "62,322 bytesの固定evidence.jsonを明示し全文読取・SHA確認を指示。questions.tsvはハッシュ/整合確認、manifestはsnapshot照合のみ許可。",
+    "independence": "fork_turns=none。他監査・統合指摘・creator結果・履歴・ディレクトリ探索禁止。",
+    "isOsReadIsolation": false,
+    "closeCapabilityAvailable": false,
+    "newThreadCountThisManager": 4,
+    "remainingAuditor": "kanji_format_auditor",
+    "remainingAuditorReason": "4子スレッド上限、close機能なし。上限を上げず新管理セッションで不足形式監査のみを独立起動する。"
   }
 }
