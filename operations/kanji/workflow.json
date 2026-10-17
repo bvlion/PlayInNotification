@@ -57,7 +57,7 @@
     "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/2",
     "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
     "status": "auditing",
-    "nextAction": "版2の不足した日本語品質監査を新規独立担当で再実行中。形式0・正誤1は保存済み。品質受領後に現版に基づき統合し、creatorで版3修正、全監査を新規再実行。",
+    "nextAction": "版2全3監査完了。形式0、正誤1、品質1を統合し、旧35指摘の現版状態を更新してcreatorへ版3修正を依頼。",
     "assignments": [
       {
         "role": "kanji_creator",
@@ -200,7 +200,7 @@
         "measurementSource": "local rollout session_meta/turn_context",
         "forkTurns": "none",
         "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
-        "status": "running",
+        "status": "completed",
         "isClosed": false,
         "taskRevision": 2,
         "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_japanese_quality_auditor.json",
@@ -2164,5 +2164,5 @@
       "resolvedRevision": null
     }
   ],
-  "nextAction": "版2の不足した日本語品質監査を新規独立担当で再実行中。形式0・正誤1は保存済み。品質受領後に現版に基づき統合し、creatorで版3修正、全監査を新規再実行。"
+  "nextAction": "版2全3監査完了。形式0、正誤1、品質1を統合し、旧35指摘の現版状態を更新してcreatorへ版3修正を依頼。"
 }

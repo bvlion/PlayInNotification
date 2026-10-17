@@ -157,7 +157,7 @@
       "measurementSource": "local rollout session_meta/turn_context",
       "forkTurns": "none",
       "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
-      "status": "running",
+      "status": "completed",
       "isClosed": false,
       "taskRevision": 2,
       "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_japanese_quality_auditor.json",
@@ -241,6 +241,14 @@
       "fullReadDetail": "TSVとmanifestは全文、evidence.jsonはquestions以外の全項目とquestions 001〜010、011〜030、031〜050に分割した全要素を省略なく閲覧。実バイトSHA-256とファイルハッシュ辞書の正規JSONから算出したsnapshotSha256がすべて指定値に一致。",
       "readmeReadFirst": true,
       "filesOrGitOrGitHubModified": false
+    },
+    "qualityRetryInputVerified": {
+      "method": "管理役のメッセージにある全50問と、指定された固定パスのevidence.jsonを使用した。README.mdを最初に読み、evidence.jsonは文字位置による3分割で全文を読み、切捨てがないことを確認した。questions.tsvはハッシュ計算だけに使用した。",
+      "evidenceBytes": 53208,
+      "evidenceSha256": "db9040eafaca131e6209ae01b98508fc88a991608c6bf021aa459d14db5f793c",
+      "questionsTsvSha256": "05047cc6382d1141724291ceb7b8528975c7e453ca53ef9a8a437c7d9e3de455",
+      "hashesMatch": true,
+      "evidenceReadInFull": true
     }
   }
 }

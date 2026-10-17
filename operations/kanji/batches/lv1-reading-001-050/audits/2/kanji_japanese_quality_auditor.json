@@ -1,0 +1,540 @@
+{
+  "role": "kanji_japanese_quality_auditor",
+  "revision": 2,
+  "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
+  "status": "completed",
+  "inputVerification": {
+    "method": "管理役のメッセージにある全50問と、指定された固定パスのevidence.jsonを使用した。README.mdを最初に読み、evidence.jsonは文字位置による3分割で全文を読み、切捨てがないことを確認した。questions.tsvはハッシュ計算だけに使用した。",
+    "evidenceBytes": 53208,
+    "evidenceSha256": "db9040eafaca131e6209ae01b98508fc88a991608c6bf021aa459d14db5f793c",
+    "questionsTsvSha256": "05047cc6382d1141724291ceb7b8528975c7e453ca53ef9a8a437c7d9e3de455",
+    "hashesMatch": true,
+    "evidenceReadInFull": true
+  },
+  "findings": [
+    {
+      "id": "JQ-003-GAKE",
+      "questionId": "003",
+      "candidate": "崖",
+      "affectedPairs": [
+        [
+          "棘",
+          "崖"
+        ]
+      ],
+      "reason": "「崖」は自然な日本語だが、提示読み「とうげ」から選ぶ誤答としての競合が弱い。「がけ」と「とうげ」は語頭・拍構成・末尾が異なり、清濁や長音の取り違えとして説明できない。入力の説明は地形という意味カテゴリと山の構成要素の共通性に依存している。「山偏を共有」という説明も、山が左にある「峠」と上にある「崖」の違いを捨象している。意味や構成要素が共通するだけの別語を避けるという条件に照らし、適切な競合候補とは判断できない。",
+      "evidence": {
+        "input": "candidateBasisは、山偏を共有する地形名であり、カ行と濁音を含む訓の対応を取り違え得ると説明する。",
+        "dictionary": "デジタル大辞泉で、峠は「とうげ」で山道の上り下りの境目、崖は「がけ」で険しく切り立った所と確認した。辞書は各語の実在を裏付けるが、提示読みに対する混同可能性を裏付けてはいない。",
+        "judgment": "読み全体と字形を比較した定性的な品質判断。",
+        "undetermined": "実際の利用者がこの候補を選ぶ頻度は判断できない。Lv1の数値基準への違反を主張する指摘ではない。"
+      },
+      "sourceUrls": [
+        "https://kotobank.jp/word/峠-103424",
+        "https://kotobank.jp/word/崖-42083"
+      ]
+    }
+  ],
+  "coverage": {
+    "questionCount": 50,
+    "candidateCount": 128,
+    "candidatePairCount": 106,
+    "pairDefinition": "各問で誤答候補を2件選ぶ全ての異なる組合せについて、正答を加えた選択肢を確認した。候補2件の問は1組、候補3件の問は3組で、以下の全問の全組合せを確認済み。",
+    "checkedDimensions": [
+      "全正答と全誤答候補の日本語としての自然さ",
+      "提示読みから各誤答候補を選び得る具体的な競合",
+      "意味カテゴリ・共通接頭部・共通語尾だけに依存していないか",
+      "正答だけが自然な日本語として際立たないか",
+      "全106組合せでの候補の成立",
+      "日常語としての性質と指定Lv1との明白な不整合の有無"
+    ],
+    "questions": [
+      {
+        "questionId": "001",
+        "correct": "足跡",
+        "candidates": [
+          "足音",
+          "足元"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "002",
+        "correct": "愛情",
+        "candidates": [
+          "愛称",
+          "相性",
+          "愛想"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "003",
+        "correct": "峠",
+        "candidates": [
+          "棘",
+          "崖"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "004",
+        "correct": "麓",
+        "candidates": [
+          "袂",
+          "本"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "005",
+        "correct": "岬",
+        "candidates": [
+          "先",
+          "操"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "006",
+        "correct": "時計",
+        "candidates": [
+          "統計",
+          "都会"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "007",
+        "correct": "料理",
+        "candidates": [
+          "良否",
+          "量子",
+          "漁師"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "008",
+        "correct": "会社",
+        "candidates": [
+          "感謝",
+          "代謝"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "009",
+        "correct": "植える",
+        "candidates": [
+          "終える",
+          "増える",
+          "据える"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "010",
+        "correct": "河原",
+        "candidates": [
+          "瓦屋",
+          "川面"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "011",
+        "correct": "合図",
+        "candidates": [
+          "合間",
+          "愛護"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "012",
+        "correct": "相槌",
+        "candidates": [
+          "合口",
+          "合図"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "013",
+        "correct": "砂糖",
+        "candidates": [
+          "作動",
+          "茶道"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "014",
+        "correct": "挨拶",
+        "candidates": [
+          "改札",
+          "開札",
+          "偵察"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "015",
+        "correct": "予定",
+        "candidates": [
+          "余計",
+          "女帝",
+          "予鈴"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "016",
+        "correct": "足音",
+        "candidates": [
+          "足跡",
+          "足元"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "017",
+        "correct": "景色",
+        "candidates": [
+          "形式",
+          "見識"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "018",
+        "correct": "祈り",
+        "candidates": [
+          "実り",
+          "怒り"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "019",
+        "correct": "毛糸",
+        "candidates": [
+          "系統",
+          "生徒",
+          "経度"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "020",
+        "correct": "進む",
+        "candidates": [
+          "済む",
+          "住む",
+          "涼む"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "021",
+        "correct": "近所",
+        "candidates": [
+          "金魚",
+          "近著",
+          "緊張"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "022",
+        "correct": "離れる",
+        "candidates": [
+          "慣れる",
+          "晴れる",
+          "腫れる"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "023",
+        "correct": "願い",
+        "candidates": [
+          "狙い",
+          "苦い",
+          "長い"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "024",
+        "correct": "宛てる",
+        "candidates": [
+          "建てる",
+          "立てる",
+          "果てる"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "025",
+        "correct": "盛り",
+        "candidates": [
+          "係り",
+          "計り",
+          "測り"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "026",
+        "correct": "天井",
+        "candidates": [
+          "戦場",
+          "店長",
+          "洗浄"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "027",
+        "correct": "野菜",
+        "candidates": [
+          "火災",
+          "多彩",
+          "多才"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "028",
+        "correct": "暴れる",
+        "candidates": [
+          "破れる",
+          "敗れる"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "029",
+        "correct": "生姜",
+        "candidates": [
+          "消化",
+          "消火",
+          "商家"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "030",
+        "correct": "寒い",
+        "candidates": [
+          "眠い",
+          "煙い"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "031",
+        "correct": "飴",
+        "candidates": [
+          "網",
+          "虻"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "032",
+        "correct": "悩む",
+        "candidates": [
+          "病む",
+          "止む"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "033",
+        "correct": "旅行",
+        "candidates": [
+          "漁港",
+          "利口",
+          "履行"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "034",
+        "correct": "案内",
+        "candidates": [
+          "安泰",
+          "安寧"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "035",
+        "correct": "哀れ",
+        "candidates": [
+          "荒れ",
+          "割れ"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "036",
+        "correct": "公園",
+        "candidates": [
+          "高原",
+          "光源",
+          "抗原"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "037",
+        "correct": "生垣",
+        "candidates": [
+          "石垣",
+          "板垣",
+          "竹垣"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "038",
+        "correct": "揺れる",
+        "candidates": [
+          "濡れる",
+          "売れる",
+          "暮れる"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "039",
+        "correct": "花火",
+        "candidates": [
+          "花見",
+          "鼻血"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "040",
+        "correct": "荷物",
+        "candidates": [
+          "煮物",
+          "二物"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "041",
+        "correct": "一途",
+        "candidates": [
+          "一致",
+          "一時",
+          "一助"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "042",
+        "correct": "一段",
+        "candidates": [
+          "一旦",
+          "一端",
+          "一念"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "043",
+        "correct": "一番",
+        "candidates": [
+          "一般",
+          "一環",
+          "一貫"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "044",
+        "correct": "一面",
+        "candidates": [
+          "一年",
+          "一念",
+          "一見"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "045",
+        "correct": "仲間",
+        "candidates": [
+          "中身",
+          "仲居"
+        ],
+        "checkedPairCount": 1
+      },
+      {
+        "questionId": "046",
+        "correct": "一心",
+        "candidates": [
+          "一任",
+          "一睡",
+          "一生"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "047",
+        "correct": "一層",
+        "candidates": [
+          "一緒",
+          "一升",
+          "一生"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "048",
+        "correct": "一体",
+        "candidates": [
+          "一代",
+          "一旦",
+          "一端"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "049",
+        "correct": "一杯",
+        "candidates": [
+          "一倍",
+          "一派",
+          "一発"
+        ],
+        "checkedPairCount": 3
+      },
+      {
+        "questionId": "050",
+        "correct": "一部",
+        "candidates": [
+          "一味",
+          "一字",
+          "一時"
+        ],
+        "checkedPairCount": 3
+      }
+    ],
+    "additionalAssessment": "指摘対象以外は、候補の実在だけでなく読み全体の近さも比較した。例えば028は共通の「れる」に加え、前半のあ／や、ば／ぶという具体的な音の対応があり、語尾だけの候補とは判断しなかった。037も意味カテゴリだけでなく、いしがき／いたがき／たけがきと提示読みとの音の対応を確認した。025の「測り」は名詞化として解釈でき、表記の使用頻度を未確認のまま不自然と断定しなかった。"
+  },
+  "limitations": [
+    "入力にはLv1の具体的な語彙範囲・数値基準がない。独自の学年基準や拍差の上限は設けず、全50問について定性的に確認した。一律のLv1適合を保証するものではない。",
+    "誤選択率・対象利用者の選択記録はない。未測定であること自体はfindingsに計上していない。",
+    "各候補の全辞書読みの網羅や正答混入の網羅的保証は、この日本語品質監査では行っていない。",
+    "指定されたREADME.md、固定版evidence.json、TSVのハッシュ計算以外にローカルファイルを参照していない。他担当の監査結果・会話・保存結果は参照していない。",
+    "ファイル、Git、GitHubの変更、問題の作成・修正・確定、追加Subagentの起動は行っていない。"
+  ]
+}
