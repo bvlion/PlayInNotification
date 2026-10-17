@@ -140,10 +140,28 @@
       "measurementSource": "local rollout session_meta/turn_context",
       "forkTurns": "none",
       "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
-      "status": "running",
+      "status": "interrupted_usage_limit_exceeded",
       "isClosed": false,
       "taskRevision": 2,
       "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_japanese_quality_auditor.json"
+    },
+    {
+      "role": "kanji_japanese_quality_auditor",
+      "path": "/root/quality_r2_retry",
+      "threadId": "01a14828-3a04-7732-97cf-b9790e5dde4b",
+      "parentThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "running",
+      "isClosed": false,
+      "taskRevision": 2,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_japanese_quality_auditor.json",
+      "inputMethod": "全50問128候補を直接入力。固定evidence.json全文のみ明示読取・SHA確認。他結果・探索禁止。"
     }
   ],
   "initialRemoteCheck": {
@@ -176,7 +194,7 @@
       "sandboxPolicy": "danger-full-access"
     }
   ],
-  "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17.json",
+  "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17-retry.json",
   "interruption": {
     "reason": "usage_limit_exceeded",
     "date": "2026-10-16",

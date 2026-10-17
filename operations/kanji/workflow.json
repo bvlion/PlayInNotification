@@ -57,7 +57,7 @@
     "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/2",
     "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
     "status": "auditing",
-    "nextAction": "版2正誤completed/1（040二物）。形式0。日本語品質を受領して全指摘統合後、creatorへ修正依頼。",
+    "nextAction": "版2の不足した日本語品質監査を新規独立担当で再実行中。形式0・正誤1は保存済み。品質受領後に現版に基づき統合し、creatorで版3修正、全監査を新規再実行。",
     "assignments": [
       {
         "role": "kanji_creator",
@@ -183,10 +183,28 @@
         "measurementSource": "local rollout session_meta/turn_context",
         "forkTurns": "none",
         "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
-        "status": "running",
+        "status": "interrupted_usage_limit_exceeded",
         "isClosed": false,
         "taskRevision": 2,
         "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_japanese_quality_auditor.json"
+      },
+      {
+        "role": "kanji_japanese_quality_auditor",
+        "path": "/root/quality_r2_retry",
+        "threadId": "01a14828-3a04-7732-97cf-b9790e5dde4b",
+        "parentThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+        "requestedModel": "gpt-6.1-sol",
+        "requestedEffort": "high",
+        "measuredModel": "gpt-6.1-sol",
+        "measuredEffort": "high",
+        "measurementSource": "local rollout session_meta/turn_context",
+        "forkTurns": "none",
+        "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+        "status": "running",
+        "isClosed": false,
+        "taskRevision": 2,
+        "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_japanese_quality_auditor.json",
+        "inputMethod": "全50問128候補を直接入力。固定evidence.json全文のみ明示読取・SHA確認。他結果・探索禁止。"
       }
     ],
     "unresolvedFindings": [
@@ -1160,7 +1178,7 @@
       "revision": 2,
       "record": null
     },
-    "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17.json"
+    "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17-retry.json"
   },
   "nextTarget": {
     "difficulty": 1,
@@ -2146,5 +2164,5 @@
       "resolvedRevision": null
     }
   ],
-  "nextAction": "creatorが35指摘を修正して新revisionを作成。全監査担当の新規コンテキスト再監査が必要"
+  "nextAction": "版2の不足した日本語品質監査を新規独立担当で再実行中。形式0・正誤1は保存済み。品質受領後に現版に基づき統合し、creatorで版3修正、全監査を新規再実行。"
 }

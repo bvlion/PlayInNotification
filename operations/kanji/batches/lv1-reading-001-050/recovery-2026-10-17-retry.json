@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-17T04:39:50.579588+00:00",
+  "checkpointComment": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6226339891",
+  "actorLogin": "bvlion",
+  "actorId": 24517539,
+  "permission": "admin",
+  "permissionUserId": 24517539,
+  "checkpointOrigin": "AI代理進捗投稿。本人承認に転用しない。",
+  "recordCommit": "37c4d2e6913ed7f782c1626c93f341aabdc20c2b",
+  "branchTip": "37c4d2e6913ed7f782c1626c93f341aabdc20c2b",
+  "comparisonStatus": "identical",
+  "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
+  "protectedFilesVerified": 39,
+  "protectedCommentsVerified": 4,
+  "managerThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+  "managerMeasuredModel": "gpt-6.1-sol",
+  "managerMeasuredEffort": "medium",
+  "measurementSource": "local rollout session_meta/turn_context",
+  "permissions": {
+    "filesystem": "unrestricted",
+    "approvalPolicy": "never"
+  },
+  "review142": {
+    "unresolvedThread": "PRRT_kwDOUSX-Vs6taDne",
+    "action": "root nextActionをactiveBatchと同期",
+    "pr141KnownIdentityLimitationUnchanged": true
+  },
+  "nextAction": "版2の不足した日本語品質監査を新規独立担当で再実行中。形式0・正誤1は保存済み。品質受領後に現版に基づき統合し、creatorで版3修正、全監査を新規再実行。"
+}
