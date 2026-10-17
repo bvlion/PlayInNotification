@@ -2,7 +2,7 @@
   "revision": 3,
   "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
   "auditStatuses": {
-    "kanji_correctness_auditor": "pending",
+    "kanji_correctness_auditor": "completed",
     "kanji_format_auditor": "pending",
     "kanji_japanese_quality_auditor": "completed"
   },
@@ -77,8 +77,9 @@
   ],
   "previousFindingsPath": "findings-2.json",
   "creatorResponsesPath": "creator-result-3.json",
-  "integrationDecision": "版3品質全50問129候補108組合せを完了、指摘0。正誤・形式の完了前なので版2の2件は修正確認待ちのまま。",
+  "integrationDecision": "版3正誤0・品質0、両担当が全50問129候補108組合せを完了。形式未実施のため、版2の2指摘は修正確認待ちで保持。",
   "revision3FindingsReceived": {
-    "kanji_japanese_quality_auditor": []
+    "kanji_japanese_quality_auditor": [],
+    "kanji_correctness_auditor": []
   }
 }

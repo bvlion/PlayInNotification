@@ -57,7 +57,7 @@
     "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/3",
     "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
     "status": "auditing",
-    "nextAction": "版3品質completed/0、正誤結果待ち。形式未起動（4子枠上限）。正誤受領後checkpointし、新管理セッションで形式だけを独立監査して統合。",
+    "nextAction": "版3正誤completed/0・品質completed/0、全50問129候補108組合せ確認済み。形式のみ未起動（4子枠上限、close機能なし）。新管理セッションで同じ版/SHAの全範囲形式監査のみ独立実行し統合する。全3完了・未解決ゼロならawaiting_user_approval。",
     "assignments": [
       {
         "role": "kanji_creator",
@@ -236,7 +236,7 @@
         "measurementSource": "local rollout session_meta/turn_context",
         "forkTurns": "none",
         "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
-        "status": "running",
+        "status": "completed",
         "isClosed": false,
         "taskRevision": 3,
         "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_correctness_auditor.json"
@@ -420,5 +420,5 @@
       "resolvedRevision": null
     }
   ],
-  "nextAction": "版3品質completed/0、正誤結果待ち。形式未起動（4子枠上限）。正誤受領後checkpointし、新管理セッションで形式だけを独立監査して統合。"
+  "nextAction": "版3正誤completed/0・品質completed/0、全50問129候補108組合せ確認済み。形式のみ未起動（4子枠上限、close機能なし）。新管理セッションで同じ版/SHAの全範囲形式監査のみ独立実行し統合する。全3完了・未解決ゼロならawaiting_user_approval。"
 }

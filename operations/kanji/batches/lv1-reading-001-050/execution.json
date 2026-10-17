@@ -191,7 +191,7 @@
       "measurementSource": "local rollout session_meta/turn_context",
       "forkTurns": "none",
       "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
-      "status": "running",
+      "status": "completed",
       "isClosed": false,
       "taskRevision": 3,
       "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_correctness_auditor.json"
@@ -368,6 +368,59 @@
       "independence": "他担当の監査結果・会話・保存監査ファイルは参照していない。根拠ファイル内の履歴的説明を、他監査の結論として採用していない。",
       "changesMade": false,
       "additionalSubagentsStarted": false
+    },
+    "correctnessInputVerified": {
+      "mode": "本番・独立監査",
+      "firstRead": "operations/kanji/README.md",
+      "questionInput": "管理役メッセージの50問を受領し、指定されたquestions.tsvとevidence.jsonの全50行を照合した。",
+      "evidenceRead": {
+        "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/evidence.json",
+        "bytes": 62322,
+        "characters": 43190,
+        "displayedCharacterRanges": [
+          [
+            0,
+            16000
+          ],
+          [
+            16000,
+            32000
+          ],
+          [
+            32000,
+            43190
+          ]
+        ],
+        "fullTextRead": true,
+        "sha256": "18d16aed9a9f8797ba580ae3b56e336681c3061456bd3969a2fffcb58fa10974",
+        "matchesAssignedHash": true
+      },
+      "questionsRead": {
+        "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/questions.tsv",
+        "purpose": "ハッシュと全50問の入力整合確認",
+        "bytes": 2040,
+        "sha256": "7070741fee1605db1549e4746469f334c7e754d856c6d1b5d8fd6170d4383e09",
+        "matchesAssignedHash": true,
+        "matchesAllQuestionRows": true
+      },
+      "snapshotVerification": {
+        "manifestReadPurpose": "snapshot算出照合",
+        "method": "questions.tsvとevidence.jsonのSHA-256を持つオブジェクトをキー順に並べ、空白なしJSONとしてUTF-8化しSHA-256を算出",
+        "calculatedSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+        "matchesAssignedSnapshot": true
+      },
+      "externalVerification": {
+        "method": "web.openおよびcurlによる辞書ページの読取。全採用表記のページをcurlで再取得し、HTMLから全見出しと辞書本文を抽出した。",
+        "uniqueWrittenFormsFetched": 170,
+        "emptyDictionaryResults": 0,
+        "bodyComparison": "Unicode正規化とカタカナからひらがなへの変換後、各問の提示読みを本文と照合。別読み見出し、併記表記、本文の一致箇所と読みの注記を確認した。",
+        "retrievalDate": "2026-10-17"
+      },
+      "otherAuditResultsRead": false,
+      "filesModified": false,
+      "gitModified": false,
+      "githubModified": false,
+      "subagentsStarted": false
     }
   }
 }
