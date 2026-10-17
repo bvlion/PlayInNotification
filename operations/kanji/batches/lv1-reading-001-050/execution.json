@@ -1,6 +1,6 @@
 {
   "manager": {
-    "threadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+    "threadId": "01a14835-707f-7af1-9c6b-5a5fa0913d16",
     "requestedModel": "gpt-6.1-sol",
     "requestedEffort": "medium",
     "measuredModel": "gpt-6.1-sol",
@@ -215,18 +215,21 @@
     },
     {
       "role": "kanji_format_auditor",
-      "path": null,
-      "threadId": null,
-      "parentThreadId": null,
+      "path": "/root/format_r3",
+      "threadId": "01a14835-f890-76e1-b499-4d27f4ed71d4",
+      "parentThreadId": "01a14835-707f-7af1-9c6b-5a5fa0913d16",
       "requestedModel": "gpt-6-luna",
       "requestedEffort": "high",
-      "measuredModel": null,
-      "measuredEffort": null,
-      "measurementSource": null,
-      "forkTurns": null,
-      "status": "not_started_child_thread_limit",
+      "measuredModel": "gpt-6-luna",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "status": "completed",
       "taskRevision": 3,
-      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_format_auditor.json"
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_format_auditor.json",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none。session_metaのforked_from_id=null、親IDと担当パスも照合。",
+      "isClosed": false,
+      "inputMethod": "全50行TSVとSHAを直接メッセージ提示。62,322 bytesの根拠は長さ制約により許可された固定evidence.jsonだけを全文分割読取・SHA照合。他結果・探索・書込禁止。"
     }
   ],
   "initialRemoteCheck": {
@@ -267,15 +270,25 @@
       "measurementSource": "local rollout turn_context",
       "approvalPolicy": "never",
       "sandboxPolicy": "danger-full-access"
+    },
+    {
+      "threadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "medium",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "medium",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "approvalPolicy": "never",
+      "sandboxPolicy": "danger-full-access"
     }
   ],
-  "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17-retry.json",
+  "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17-format.json",
   "interruption": {
     "reason": "usage_limit_exceeded",
     "date": "2026-10-16",
     "previousCreatorResult2Saved": false
   },
-  "recoveryCheckpoint": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6226097951",
+  "recoveryCheckpoint": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6229849607",
   "revision2CreatorDelivery": {
     "method": "creatorの公開functions.exec text(JSON)出力7件から成果物JSONのみ抽出・統合。send_messageは転記確認に使用。raw会話・認証・キャッシュは保存対象外。",
     "parts": 7,
@@ -335,14 +348,14 @@
   },
   "auditDeliveryRevision3": {
     "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
-    "directMessages": "全50問のID順・読み・正答・全129候補を両担当へ同じ直接入力として提示。",
+    "directMessages": "全3監査担当へ同じ版3全50問のID順・読み・正答・全129候補を直接提示。形式担当は新管理セッションから同じ固定版を受領。",
     "completeEvidence": "62,322 bytesの固定evidence.jsonを明示し全文読取・SHA確認を指示。questions.tsvはハッシュ/整合確認、manifestはsnapshot照合のみ許可。",
     "independence": "fork_turns=none。他監査・統合指摘・creator結果・履歴・ディレクトリ探索禁止。",
     "isOsReadIsolation": false,
     "closeCapabilityAvailable": false,
     "newThreadCountThisManager": 4,
-    "remainingAuditor": "kanji_format_auditor",
-    "remainingAuditorReason": "4子スレッド上限、close機能なし。上限を上げず新管理セッションで不足形式監査のみを独立起動する。",
+    "remainingAuditor": null,
+    "remainingAuditorReason": null,
     "qualityInputVerified": {
       "readmeReadFirst": true,
       "questionInput": "管理役メッセージの全50問・129候補を使用。questions.tsvはハッシュと入力整合の確認に限定して参照した。",
@@ -436,7 +449,28 @@
       "gitModified": false,
       "githubModified": false,
       "subagentsStarted": false
-    }
+    },
+    "formatInputVerified": {
+      "readme": "operations/kanji/README.md を最初に読了。",
+      "evidence": {
+        "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/evidence.json",
+        "bytes": 62322,
+        "sha256": "18d16aed9a9f8797ba580ae3b56e336681c3061456bd3969a2fffcb58fa10974",
+        "fullRead": "全文を文字位置 0–8000、8000–16000、16000–24000、24000–32000、32000–40000、40000–43190 に分けて読み、末尾まで確認した。"
+      },
+      "questionsTsv": {
+        "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/questions.tsv",
+        "sha256": "7070741fee1605db1549e4746469f334c7e754d856c6d1b5d8fd6170d4383e09",
+        "rows": 50,
+        "evidenceAlignment": "全50行でLv・正答・読み・候補・対象外方向が根拠JSONと一致した。"
+      },
+      "manifest": {
+        "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+        "result": "指定スナップショット値と一致。"
+      },
+      "independence": "指定された固定版、問題、根拠のみを使用し、他担当の監査結果や会話を参照せず独立して確認した。"
+    },
+    "newThreadCountCurrentManager": 1
   },
   "handoff": {
     "reason": "4子スレッド上限・close機能なし。上限を変更せず不足形式監査のみ新管理セッションへ引継ぐ。",
@@ -447,8 +481,22 @@
       "01a1482e-ffe0-7603-b671-13dcd23b1432",
       "01a1482f-37ca-7113-9ac3-16da3ad54c14"
     ],
-    "remainingAuditor": "kanji_format_auditor",
+    "remainingAuditor": null,
     "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
-    "nextAction": "版3正誤completed/0・日本語品質completed/0、全50問129候補108組合せ確認済み。形式だけ未実施。4子枠上限・close機能なしのため新管理セッションでkanji_format_auditor gpt-6-luna/highをfork_turns=noneで独立起動。同一版/SHA/全範囲を監査し、全3結果を統合、旧2件の解消確認後にのみawaiting_user_approval。"
-  }
+    "nextAction": "版3の全50問・正答・129誤答候補と独立3監査結果を提示済み。ユーザーレビューを待つ。問題確定・次範囲・完全自動化・アプリ反映は未承認のため進めない。",
+    "status": "completed",
+    "completedByManagerThreadId": "01a14835-707f-7af1-9c6b-5a5fa0913d16",
+    "historicalNextAction": "版3正誤completed/0・日本語品質completed/0、全50問129候補108組合せ確認済み。形式だけ未実施。4子枠上限・close機能なしのため新管理セッションでkanji_format_auditor gpt-6-luna/highをfork_turns=noneで独立起動。同一版/SHA/全範囲を監査し、全3結果を統合、旧2件の解消確認後にのみawaiting_user_approval。"
+  },
+  "status": "awaiting_user_approval",
+  "nextAction": "版3の全50問・正答・129誤答候補と独立3監査結果を提示済み。ユーザーレビューを待つ。問題確定・次範囲・完全自動化・アプリ反映は未承認のため進めない。",
+  "revision": 3,
+  "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+  "unresolvedFindings": [],
+  "userApproval": {
+    "status": "pending",
+    "revision": 3,
+    "record": null
+  },
+  "automationApproval": null
 }

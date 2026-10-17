@@ -1,0 +1,33 @@
+{
+  "role": "kanji_format_auditor",
+  "revision": 3,
+  "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+  "status": "completed",
+  "findings": [],
+  "coverage": {
+    "questionsChecked": 50,
+    "candidatesChecked": 129,
+    "candidatePairsChecked": 108,
+    "method": "各問で正答と誤答候補の表記長、漢字数、送り仮名の位置と形、文字種を照合し、誤答候補から2件を選ぶ全組合せを確認した。全組合せで形式差から正答を特定できる不一致はなかった。"
+  },
+  "inputVerified": {
+    "readme": "operations/kanji/README.md を最初に読了。",
+    "evidence": {
+      "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/evidence.json",
+      "bytes": 62322,
+      "sha256": "18d16aed9a9f8797ba580ae3b56e336681c3061456bd3969a2fffcb58fa10974",
+      "fullRead": "全文を文字位置 0–8000、8000–16000、16000–24000、24000–32000、32000–40000、40000–43190 に分けて読み、末尾まで確認した。"
+    },
+    "questionsTsv": {
+      "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/questions.tsv",
+      "sha256": "7070741fee1605db1549e4746469f334c7e754d856c6d1b5d8fd6170d4383e09",
+      "rows": 50,
+      "evidenceAlignment": "全50行でLv・正答・読み・候補・対象外方向が根拠JSONと一致した。"
+    },
+    "manifest": {
+      "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+      "result": "指定スナップショット値と一致。"
+    },
+    "independence": "指定された固定版、問題、根拠のみを使用し、他担当の監査結果や会話を参照せず独立して確認した。"
+  }
+}

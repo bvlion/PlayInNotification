@@ -3,10 +3,10 @@
   "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
   "auditStatuses": {
     "kanji_correctness_auditor": "completed",
-    "kanji_format_auditor": "pending",
+    "kanji_format_auditor": "completed",
     "kanji_japanese_quality_auditor": "completed"
   },
-  "unresolvedCount": 2,
+  "unresolvedCount": 0,
   "findings": [
     {
       "id": "C-040-NIMOTSU-NIBUTSU",
@@ -42,8 +42,18 @@
       "sourceFindingIds": [
         "C-040-NIMOTSU-NIBUTSU"
       ],
-      "status": "revised_pending_reaudit",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 3,
+      "resolution": {
+        "creatorResponsePath": "creator-result-3.json",
+        "verification": "版3の全50問129候補108組合せに対する独立3監査が同一版・SHAでcompleted、各指摘0。旧候補は現版に存在しない。",
+        "auditPaths": [
+          "audits/3/kanji_correctness_auditor.json",
+          "audits/3/kanji_format_auditor.json",
+          "audits/3/kanji_japanese_quality_auditor.json"
+        ],
+        "change": "二物を除外し二月へ置換。正答の荷物・煮物は維持。"
+      }
     },
     {
       "id": "JQ-003-GAKE",
@@ -71,15 +81,26 @@
       "sourceFindingIds": [
         "JQ-003-GAKE"
       ],
-      "status": "revised_pending_reaudit",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 3,
+      "resolution": {
+        "creatorResponsePath": "creator-result-3.json",
+        "verification": "版3の全50問129候補108組合せに対する独立3監査が同一版・SHAでcompleted、各指摘0。旧候補は現版に存在しない。",
+        "auditPaths": [
+          "audits/3/kanji_correctness_auditor.json",
+          "audits/3/kanji_format_auditor.json",
+          "audits/3/kanji_japanese_quality_auditor.json"
+        ],
+        "change": "峠・棘・崖の構成を撤回し窓（まど）／的・孫・角へ差替え。"
+      }
     }
   ],
   "previousFindingsPath": "findings-2.json",
   "creatorResponsesPath": "creator-result-3.json",
-  "integrationDecision": "版3正誤0・品質0、両担当が全50問129候補108組合せを完了。形式未実施のため、版2の2指摘は修正確認待ちで保持。",
+  "integrationDecision": "版3の全3独立監査が全50問129候補108組合せを完了、各0指摘。版2の2指摘は版3で解消。版1の35件解消履歴はfindings-2.jsonに保持。ユーザーレビュー待ちで問題未確定。",
   "revision3FindingsReceived": {
     "kanji_japanese_quality_auditor": [],
-    "kanji_correctness_auditor": []
+    "kanji_correctness_auditor": [],
+    "kanji_format_auditor": []
   }
 }

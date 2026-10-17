@@ -1,0 +1,70 @@
+{
+  "checkedAt": "2026-10-17T04:55:52.171815+00:00",
+  "checkpointComment": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6229849607",
+  "actorLogin": "bvlion",
+  "actorId": 24517539,
+  "permission": "admin",
+  "permissionUserId": 24517539,
+  "checkpointOrigin": "AI代理進捗投稿。本人承認に転用しない。",
+  "checkpointBodySha256": "0b22acc662022758d25dd7ceb64d0bdbb950364ba40b606b432cdfd5be997a48",
+  "checkpointCreatedAt": "2026-10-17T04:52:31Z",
+  "checkpointUpdatedAt": "2026-10-17T04:52:31Z",
+  "recordCommit": "f3eb2340557ca1ece1ba3d4acda0cb6c5688216f",
+  "branchTip": "f3eb2340557ca1ece1ba3d4acda0cb6c5688216f",
+  "branchTipRecheckedBeforeResume": true,
+  "comparisonStatus": "identical",
+  "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+  "protectedFilesVerified": 39,
+  "protectedCommentsVerified": 4,
+  "manager": {
+    "threadId": "01a14835-707f-7af1-9c6b-5a5fa0913d16",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedEffort": "medium",
+    "measuredModel": "gpt-6.1-sol",
+    "measuredEffort": "medium",
+    "measurementSource": "local rollout session_meta/turn_context"
+  },
+  "permissions": {
+    "source": "session_environment",
+    "filesystem": "unrestricted",
+    "approvalPolicy": "never"
+  },
+  "review142": {
+    "threadsChecked": 7,
+    "unresolvedThreads": 0,
+    "action": "全既存スレッドは返信・resolve済み。新規未判断指摘なし。",
+    "pr141KnownIdentityLimitationUnchanged": true
+  },
+  "status": "awaiting_user_approval",
+  "nextAction": "版3の全50問・正答・129誤答候補と独立3監査結果を提示済み。ユーザーレビューを待つ。問題確定・次範囲・完全自動化・アプリ反映は未承認のため進めない。",
+  "finalValidation": {
+    "checkedAt": "2026-10-17T04:55:52.171815+00:00",
+    "protectedFilesVerified": 39,
+    "protectedCommentsVerified": 4,
+    "revisions1And2And3BytesUnchanged": true,
+    "allRevisionSnapshotsRecomputed": true,
+    "revision3QuestionCount": 50,
+    "revision3CandidateCount": 129,
+    "revision3PairCount": 108,
+    "jsonParsed": true,
+    "allTsvRowsAndEvidenceChecked": true,
+    "allIdsAndSourceKeysMatched": true,
+    "noDuplicateAnswersOrCandidates": true,
+    "recordedCandidateReadingsDifferFromPrompt": true,
+    "independentCorrectnessCompleted": true,
+    "independentQualityCompleted": true,
+    "independentFormatCompleted": true,
+    "unresolvedCount": 0,
+    "gradle": "アプリ・テスト・ビルド変更なしのため対象外",
+    "knownLimitations": [
+      "Lv1の数値基準・実測誤選択率は未測定。",
+      "OS読み取り隔離ではなく入力制限による独立性。",
+      "開始承認は会話由来。GitHub本人承認の独立した来歴は未証明。PR141の既知制約は未解決。"
+    ],
+    "gitDiffCheck": "passed",
+    "sameKanjiAndKanaPatternPerQuestion": true,
+    "all108CandidatePairsFormatChecked": true,
+    "review50RowsSynchronized": true,
+    "previous35ResolutionsPreserved": true
+  }
+}

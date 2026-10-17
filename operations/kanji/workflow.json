@@ -41,7 +41,7 @@
     "githubApprovalComment": null
   },
   "automationApproval": null,
-  "status": "auditing",
+  "status": "awaiting_user_approval",
   "activeBatch": {
     "batchId": "lv1-reading-001-050",
     "difficulty": 1,
@@ -56,8 +56,8 @@
     "revision": 3,
     "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/3",
     "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
-    "status": "auditing",
-    "nextAction": "版3正誤completed/0・日本語品質completed/0、全50問129候補108組合せ確認済み。形式だけ未実施。4子枠上限・close機能なしのため新管理セッションでkanji_format_auditor gpt-6-luna/highをfork_turns=noneで独立起動。同一版/SHA/全範囲を監査し、全3結果を統合、旧2件の解消確認後にのみawaiting_user_approval。",
+    "status": "awaiting_user_approval",
+    "nextAction": "版3の全50問・正答・129誤答候補と独立3監査結果を提示済み。ユーザーレビューを待つ。問題確定・次範囲・完全自動化・アプリ反映は未承認のため進めない。",
     "assignments": [
       {
         "role": "kanji_creator",
@@ -260,94 +260,30 @@
       },
       {
         "role": "kanji_format_auditor",
-        "path": null,
-        "threadId": null,
-        "parentThreadId": null,
+        "path": "/root/format_r3",
+        "threadId": "01a14835-f890-76e1-b499-4d27f4ed71d4",
+        "parentThreadId": "01a14835-707f-7af1-9c6b-5a5fa0913d16",
         "requestedModel": "gpt-6-luna",
         "requestedEffort": "high",
-        "measuredModel": null,
-        "measuredEffort": null,
-        "measurementSource": null,
-        "forkTurns": null,
-        "status": "not_started_child_thread_limit",
+        "measuredModel": "gpt-6-luna",
+        "measuredEffort": "high",
+        "measurementSource": "local rollout session_meta/turn_context",
+        "forkTurns": "none",
+        "status": "completed",
         "taskRevision": 3,
-        "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_format_auditor.json"
+        "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_format_auditor.json",
+        "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none。session_metaのforked_from_id=null、親IDと担当パスも照合。",
+        "isClosed": false,
+        "inputMethod": "全50行TSVとSHAを直接メッセージ提示。62,322 bytesの根拠は長さ制約により許可された固定evidence.jsonだけを全文分割読取・SHA照合。他結果・探索・書込禁止。"
       }
     ],
-    "unresolvedFindings": [
-      {
-        "id": "C-040-NIMOTSU-NIBUTSU",
-        "questionId": "040",
-        "candidate": "二物",
-        "affectedPairs": [
-          [
-            "煮物",
-            "二物"
-          ]
-        ],
-        "reason": "精選版日本国語大辞典の「に‐ぶつ【二物】」本文に「二つの物。にもつ。」と明記される。読みだけを提示する問題では「二物」の読み「にもつ」を誤答と断定できず、正しい別読みの候補混入が未解決。",
-        "evidence": [
-          {
-            "source": "コトバンク収録・精選版 日本国語大辞典",
-            "entry": "に‐ぶつ【二物】",
-            "text": "二つの物。にもつ。",
-            "retrieval": "web.openとcurlの双方で本文を実取得"
-          },
-          {
-            "source": "笑い学研究21（2014年）「日本における『笑い学』の黎明」65ページ",
-            "text": "言葉遊びの説明で「二物」と「荷物」を同音異義とし、「にもつ」の両義を述べる。",
-            "retrieval": "J-STAGEのPDF本文を実取得。画像取得はタイムアウトしたため画像確認済みとはしない。"
-          }
-        ],
-        "sourceUrls": [
-          "https://kotobank.jp/word/二物-592622",
-          "https://www.jstage.jst.go.jp/article/warai/21/0/21_KJ00009468510/_pdf"
-        ],
-        "unresolved": "「にもつ【二物】」の独立見出しと現代語での使用域は確認できていない。本文に提示読みを認める記載があるため、辞書見出しの代表読み「にぶつ」だけで誤答適格とする判断はできない。",
-        "integrationId": "INT-R2-040",
-        "sourceRole": "kanji_correctness_auditor",
-        "sourceFindingIds": [
-          "C-040-NIMOTSU-NIBUTSU"
-        ],
-        "status": "revised_pending_reaudit",
-        "resolvedRevision": null
-      },
-      {
-        "id": "JQ-003-GAKE",
-        "questionId": "003",
-        "candidate": "崖",
-        "affectedPairs": [
-          [
-            "棘",
-            "崖"
-          ]
-        ],
-        "reason": "「崖」は自然な日本語だが、提示読み「とうげ」から選ぶ誤答としての競合が弱い。「がけ」と「とうげ」は語頭・拍構成・末尾が異なり、清濁や長音の取り違えとして説明できない。入力の説明は地形という意味カテゴリと山の構成要素の共通性に依存している。「山偏を共有」という説明も、山が左にある「峠」と上にある「崖」の違いを捨象している。意味や構成要素が共通するだけの別語を避けるという条件に照らし、適切な競合候補とは判断できない。",
-        "evidence": {
-          "input": "candidateBasisは、山偏を共有する地形名であり、カ行と濁音を含む訓の対応を取り違え得ると説明する。",
-          "dictionary": "デジタル大辞泉で、峠は「とうげ」で山道の上り下りの境目、崖は「がけ」で険しく切り立った所と確認した。辞書は各語の実在を裏付けるが、提示読みに対する混同可能性を裏付けてはいない。",
-          "judgment": "読み全体と字形を比較した定性的な品質判断。",
-          "undetermined": "実際の利用者がこの候補を選ぶ頻度は判断できない。Lv1の数値基準への違反を主張する指摘ではない。"
-        },
-        "sourceUrls": [
-          "https://kotobank.jp/word/峠-103424",
-          "https://kotobank.jp/word/崖-42083"
-        ],
-        "integrationId": "INT-R2-003",
-        "sourceRole": "kanji_japanese_quality_auditor",
-        "sourceFindingIds": [
-          "JQ-003-GAKE"
-        ],
-        "status": "revised_pending_reaudit",
-        "resolvedRevision": null
-      }
-    ],
+    "unresolvedFindings": [],
     "userApproval": {
       "status": "pending",
       "revision": 3,
       "record": null
     },
-    "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17-retry.json"
+    "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17-format.json"
   },
   "nextTarget": {
     "difficulty": 1,
@@ -367,73 +303,6 @@
     "approvedQuestionCount": 168
   },
   "completedBatches": [],
-  "unresolvedFindings": [
-    {
-      "id": "C-040-NIMOTSU-NIBUTSU",
-      "questionId": "040",
-      "candidate": "二物",
-      "affectedPairs": [
-        [
-          "煮物",
-          "二物"
-        ]
-      ],
-      "reason": "精選版日本国語大辞典の「に‐ぶつ【二物】」本文に「二つの物。にもつ。」と明記される。読みだけを提示する問題では「二物」の読み「にもつ」を誤答と断定できず、正しい別読みの候補混入が未解決。",
-      "evidence": [
-        {
-          "source": "コトバンク収録・精選版 日本国語大辞典",
-          "entry": "に‐ぶつ【二物】",
-          "text": "二つの物。にもつ。",
-          "retrieval": "web.openとcurlの双方で本文を実取得"
-        },
-        {
-          "source": "笑い学研究21（2014年）「日本における『笑い学』の黎明」65ページ",
-          "text": "言葉遊びの説明で「二物」と「荷物」を同音異義とし、「にもつ」の両義を述べる。",
-          "retrieval": "J-STAGEのPDF本文を実取得。画像取得はタイムアウトしたため画像確認済みとはしない。"
-        }
-      ],
-      "sourceUrls": [
-        "https://kotobank.jp/word/二物-592622",
-        "https://www.jstage.jst.go.jp/article/warai/21/0/21_KJ00009468510/_pdf"
-      ],
-      "unresolved": "「にもつ【二物】」の独立見出しと現代語での使用域は確認できていない。本文に提示読みを認める記載があるため、辞書見出しの代表読み「にぶつ」だけで誤答適格とする判断はできない。",
-      "integrationId": "INT-R2-040",
-      "sourceRole": "kanji_correctness_auditor",
-      "sourceFindingIds": [
-        "C-040-NIMOTSU-NIBUTSU"
-      ],
-      "status": "revised_pending_reaudit",
-      "resolvedRevision": null
-    },
-    {
-      "id": "JQ-003-GAKE",
-      "questionId": "003",
-      "candidate": "崖",
-      "affectedPairs": [
-        [
-          "棘",
-          "崖"
-        ]
-      ],
-      "reason": "「崖」は自然な日本語だが、提示読み「とうげ」から選ぶ誤答としての競合が弱い。「がけ」と「とうげ」は語頭・拍構成・末尾が異なり、清濁や長音の取り違えとして説明できない。入力の説明は地形という意味カテゴリと山の構成要素の共通性に依存している。「山偏を共有」という説明も、山が左にある「峠」と上にある「崖」の違いを捨象している。意味や構成要素が共通するだけの別語を避けるという条件に照らし、適切な競合候補とは判断できない。",
-      "evidence": {
-        "input": "candidateBasisは、山偏を共有する地形名であり、カ行と濁音を含む訓の対応を取り違え得ると説明する。",
-        "dictionary": "デジタル大辞泉で、峠は「とうげ」で山道の上り下りの境目、崖は「がけ」で険しく切り立った所と確認した。辞書は各語の実在を裏付けるが、提示読みに対する混同可能性を裏付けてはいない。",
-        "judgment": "読み全体と字形を比較した定性的な品質判断。",
-        "undetermined": "実際の利用者がこの候補を選ぶ頻度は判断できない。Lv1の数値基準への違反を主張する指摘ではない。"
-      },
-      "sourceUrls": [
-        "https://kotobank.jp/word/峠-103424",
-        "https://kotobank.jp/word/崖-42083"
-      ],
-      "integrationId": "INT-R2-003",
-      "sourceRole": "kanji_japanese_quality_auditor",
-      "sourceFindingIds": [
-        "JQ-003-GAKE"
-      ],
-      "status": "revised_pending_reaudit",
-      "resolvedRevision": null
-    }
-  ],
-  "nextAction": "版3正誤completed/0・日本語品質completed/0、全50問129候補108組合せ確認済み。形式だけ未実施。4子枠上限・close機能なしのため新管理セッションでkanji_format_auditor gpt-6-luna/highをfork_turns=noneで独立起動。同一版/SHA/全範囲を監査し、全3結果を統合、旧2件の解消確認後にのみawaiting_user_approval。"
+  "unresolvedFindings": [],
+  "nextAction": "版3の全50問・正答・129誤答候補と独立3監査結果を提示済み。ユーザーレビューを待つ。問題確定・次範囲・完全自動化・アプリ反映は未承認のため進めない。"
 }
