@@ -4,10 +4,78 @@
   "auditStatuses": {
     "kanji_correctness_auditor": "completed",
     "kanji_format_auditor": "completed",
-    "kanji_japanese_quality_auditor": "pending"
+    "kanji_japanese_quality_auditor": "completed"
   },
-  "unresolvedCount": 36,
+  "unresolvedCount": 2,
   "findings": [
+    {
+      "id": "C-040-NIMOTSU-NIBUTSU",
+      "questionId": "040",
+      "candidate": "二物",
+      "affectedPairs": [
+        [
+          "煮物",
+          "二物"
+        ]
+      ],
+      "reason": "精選版日本国語大辞典の「に‐ぶつ【二物】」本文に「二つの物。にもつ。」と明記される。読みだけを提示する問題では「二物」の読み「にもつ」を誤答と断定できず、正しい別読みの候補混入が未解決。",
+      "evidence": [
+        {
+          "source": "コトバンク収録・精選版 日本国語大辞典",
+          "entry": "に‐ぶつ【二物】",
+          "text": "二つの物。にもつ。",
+          "retrieval": "web.openとcurlの双方で本文を実取得"
+        },
+        {
+          "source": "笑い学研究21（2014年）「日本における『笑い学』の黎明」65ページ",
+          "text": "言葉遊びの説明で「二物」と「荷物」を同音異義とし、「にもつ」の両義を述べる。",
+          "retrieval": "J-STAGEのPDF本文を実取得。画像取得はタイムアウトしたため画像確認済みとはしない。"
+        }
+      ],
+      "sourceUrls": [
+        "https://kotobank.jp/word/二物-592622",
+        "https://www.jstage.jst.go.jp/article/warai/21/0/21_KJ00009468510/_pdf"
+      ],
+      "unresolved": "「にもつ【二物】」の独立見出しと現代語での使用域は確認できていない。本文に提示読みを認める記載があるため、辞書見出しの代表読み「にぶつ」だけで誤答適格とする判断はできない。",
+      "integrationId": "INT-R2-040",
+      "sourceRole": "kanji_correctness_auditor",
+      "sourceFindingIds": [
+        "C-040-NIMOTSU-NIBUTSU"
+      ],
+      "status": "open",
+      "resolvedRevision": null
+    },
+    {
+      "id": "JQ-003-GAKE",
+      "questionId": "003",
+      "candidate": "崖",
+      "affectedPairs": [
+        [
+          "棘",
+          "崖"
+        ]
+      ],
+      "reason": "「崖」は自然な日本語だが、提示読み「とうげ」から選ぶ誤答としての競合が弱い。「がけ」と「とうげ」は語頭・拍構成・末尾が異なり、清濁や長音の取り違えとして説明できない。入力の説明は地形という意味カテゴリと山の構成要素の共通性に依存している。「山偏を共有」という説明も、山が左にある「峠」と上にある「崖」の違いを捨象している。意味や構成要素が共通するだけの別語を避けるという条件に照らし、適切な競合候補とは判断できない。",
+      "evidence": {
+        "input": "candidateBasisは、山偏を共有する地形名であり、カ行と濁音を含む訓の対応を取り違え得ると説明する。",
+        "dictionary": "デジタル大辞泉で、峠は「とうげ」で山道の上り下りの境目、崖は「がけ」で険しく切り立った所と確認した。辞書は各語の実在を裏付けるが、提示読みに対する混同可能性を裏付けてはいない。",
+        "judgment": "読み全体と字形を比較した定性的な品質判断。",
+        "undetermined": "実際の利用者がこの候補を選ぶ頻度は判断できない。Lv1の数値基準への違反を主張する指摘ではない。"
+      },
+      "sourceUrls": [
+        "https://kotobank.jp/word/峠-103424",
+        "https://kotobank.jp/word/崖-42083"
+      ],
+      "integrationId": "INT-R2-003",
+      "sourceRole": "kanji_japanese_quality_auditor",
+      "sourceFindingIds": [
+        "JQ-003-GAKE"
+      ],
+      "status": "open",
+      "resolvedRevision": null
+    }
+  ],
+  "previousRevisionFindings": [
     {
       "id": "JQ-001-01",
       "questionId": "001",
@@ -35,8 +103,21 @@
       "sourceFindingIds": [
         "JQ-001-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-001-01",
+        "integrationId": "INT-001-01",
+        "questionId": "001",
+        "action": "delete_candidate",
+        "removedCandidates": [
+          "足先"
+        ],
+        "addedCandidates": [],
+        "response": "足先の接頭部だけの理由を撤回し削除。足音・足元の2件を保持。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-004-01",
@@ -61,8 +142,23 @@
       "sourceFindingIds": [
         "JQ-004-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-004-01",
+        "integrationId": "INT-004-01",
+        "questionId": "004",
+        "action": "replace_candidate",
+        "removedCandidates": [
+          "懐"
+        ],
+        "addedCandidates": [
+          "本"
+        ],
+        "response": "ふところの散在する音だけによる説明を撤回。本のもとはふもとから一拍脱落した読み。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-005-01",
@@ -91,8 +187,24 @@
       "sourceFindingIds": [
         "JQ-005-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-005-01",
+        "integrationId": "INT-005-01",
+        "questionId": "005",
+        "action": "replace_candidates",
+        "removedCandidates": [
+          "鷺",
+          "柿"
+        ],
+        "addedCandidates": [
+          "操"
+        ],
+        "response": "柿の語尾きだけの説明を撤回。鷺も音の脱落と清濁の複合に依存するため除外。先・操で構成。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-006-01",
@@ -117,8 +229,25 @@
       "sourceFindingIds": [
         "JQ-006-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-006-01",
+        "integrationId": "INT-006-01",
+        "questionId": "006",
+        "action": "replace_question",
+        "removedCandidates": [
+          "凪",
+          "鷺"
+        ],
+        "addedCandidates": [
+          "統計",
+          "都会"
+        ],
+        "response": "渚を時計へ差替え。音の脱落と入替えを同時に仮定する旧構成を撤回。時計は長音の有無・一母音差で構成。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-007-01",
@@ -152,8 +281,27 @@
       "sourceFindingIds": [
         "JQ-007-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-007-01",
+        "integrationId": "INT-007-01",
+        "questionId": "007",
+        "action": "replace_question",
+        "removedCandidates": [
+          "入船",
+          "入用",
+          "入目"
+        ],
+        "addedCandidates": [
+          "良否",
+          "量子",
+          "漁師"
+        ],
+        "response": "入江を料理へ差替え。いりだけの共通性に依存する旧候補を撤回。料理は全候補が語末一拍差。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-008-01",
@@ -178,8 +326,25 @@
       "sourceFindingIds": [
         "JQ-008-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-008-01",
+        "integrationId": "INT-008-01",
+        "questionId": "008",
+        "action": "replace_question",
+        "removedCandidates": [
+          "早瀬",
+          "浅手"
+        ],
+        "addedCandidates": [
+          "感謝",
+          "代謝"
+        ],
+        "response": "浅瀬を会社へ差替え。瀬や水流の語義だけに依存する旧構成を撤回。会社は各候補と一拍差。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-009-01",
@@ -205,8 +370,26 @@
       "sourceFindingIds": [
         "JQ-009-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-009-01",
+        "integrationId": "INT-009-01",
+        "questionId": "009",
+        "action": "replace_question",
+        "removedCandidates": [
+          "口付け",
+          "名付け"
+        ],
+        "addedCandidates": [
+          "終える",
+          "増える",
+          "据える"
+        ],
+        "response": "味付けを植えるへ差替え。版1の付けだけに依存する候補を撤回。同じ送り仮名えるで全体三拍の冒頭だけが異なる動詞へ変更。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-010-01",
@@ -235,8 +418,21 @@
       "sourceFindingIds": [
         "JQ-010-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-010-01",
+        "integrationId": "INT-010-01",
+        "questionId": "010",
+        "action": "delete_candidate",
+        "removedCandidates": [
+          "河童"
+        ],
+        "addedCandidates": [],
+        "response": "かわ・河だけによる理由を撤回し河童を削除。瓦屋・川面の近い全体読みを保持。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-011-01",
@@ -261,8 +457,23 @@
       "sourceFindingIds": [
         "JQ-011-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-011-01",
+        "integrationId": "INT-011-01",
+        "questionId": "011",
+        "action": "replace_candidate",
+        "removedCandidates": [
+          "合鍵"
+        ],
+        "addedCandidates": [
+          "愛護"
+        ],
+        "response": "あいだけの理由を撤回。あいご／あいずの語末一拍差へ変更。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-012-01",
@@ -291,8 +502,21 @@
       "sourceFindingIds": [
         "JQ-012-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-012-01",
+        "integrationId": "INT-012-01",
+        "questionId": "012",
+        "action": "delete_candidate",
+        "removedCandidates": [
+          "合鍵"
+        ],
+        "addedCandidates": [],
+        "response": "あいと濁音だけによる説明を撤回して合鍵を削除。合口・合図を保持。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-013-01",
@@ -317,8 +541,25 @@
       "sourceFindingIds": [
         "JQ-013-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-013-01",
+        "integrationId": "INT-013-01",
+        "questionId": "013",
+        "action": "replace_question",
+        "removedCandidates": [
+          "素麺",
+          "相貌"
+        ],
+        "addedCandidates": [
+          "作動",
+          "茶道"
+        ],
+        "response": "相撲を砂糖へ差替え。素麺との散在する音の類似による説明を撤回。さとう／さどうという全体の清濁差へ変更。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-015-01",
@@ -354,8 +595,27 @@
       "sourceFindingIds": [
         "JQ-015-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-015-01",
+        "integrationId": "INT-015-01",
+        "questionId": "015",
+        "action": "replace_question",
+        "removedCandidates": [
+          "寝顔",
+          "寝床",
+          "寝袋"
+        ],
+        "addedCandidates": [
+          "余計",
+          "女帝",
+          "予鈴"
+        ],
+        "response": "寝坊を予定へ差替え。寝だけを共有する旧候補を撤回。予定は全候補が一拍の違い。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-016-01",
@@ -384,8 +644,21 @@
       "sourceFindingIds": [
         "JQ-016-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-016-01",
+        "integrationId": "INT-016-01",
+        "questionId": "016",
+        "action": "delete_candidate",
+        "removedCandidates": [
+          "足先"
+        ],
+        "addedCandidates": [],
+        "response": "足の部位という分類だけの理由を撤回して足先を削除。足跡・足元は第三拍差。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-017-01",
@@ -410,8 +683,25 @@
       "sourceFindingIds": [
         "JQ-017-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-017-01",
+        "integrationId": "INT-017-01",
+        "questionId": "017",
+        "action": "replace_question",
+        "removedCandidates": [
+          "足場",
+          "足長"
+        ],
+        "addedCandidates": [
+          "形式",
+          "見識"
+        ],
+        "response": "足早を景色へ差替え。足長とのア段音だけによる説明を撤回。景色は長音・撥音各一拍の挿入と競合。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-018-01",
@@ -436,8 +726,25 @@
       "sourceFindingIds": [
         "JQ-018-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-018-01",
+        "integrationId": "INT-018-01",
+        "questionId": "018",
+        "action": "replace_question",
+        "removedCandidates": [
+          "誤り",
+          "偽り"
+        ],
+        "addedCandidates": [
+          "実り",
+          "怒り"
+        ],
+        "response": "余りを祈りへ差替え。偽りとの語末だけの説明を撤回。同じ送り仮名りで全体三拍の一拍だけが異なる構成へ変更。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-019-01",
@@ -473,8 +780,27 @@
       "sourceFindingIds": [
         "JQ-019-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-019-01",
+        "integrationId": "INT-019-01",
+        "questionId": "019",
+        "action": "replace_question",
+        "removedCandidates": [
+          "雨漏り",
+          "雨降り",
+          "雨曇り"
+        ],
+        "addedCandidates": [
+          "系統",
+          "生徒",
+          "経度"
+        ],
+        "response": "雨宿りを毛糸へ差替え。雨とりだけを共有する構成を撤回。毛糸は長音の有無・冒頭一拍差・清濁差で構成。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-020-01",
@@ -508,8 +834,27 @@
       "sourceFindingIds": [
         "JQ-020-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-020-01",
+        "integrationId": "INT-020-01",
+        "questionId": "020",
+        "action": "replace_question",
+        "removedCandidates": [
+          "編み目",
+          "編み針",
+          "編み棒"
+        ],
+        "addedCandidates": [
+          "済む",
+          "住む",
+          "涼む"
+        ],
+        "response": "編み物を進むへ差替え。編み物関連語の列挙を撤回。進むはす一拍の重なり・清濁差で競合。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-021-01",
@@ -535,8 +880,26 @@
       "sourceFindingIds": [
         "JQ-021-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-021-01",
+        "integrationId": "INT-021-01",
+        "questionId": "021",
+        "action": "replace_question",
+        "removedCandidates": [
+          "鼻筋",
+          "道筋"
+        ],
+        "addedCandidates": [
+          "金魚",
+          "近著",
+          "緊張"
+        ],
+        "response": "粗筋を近所へ差替え。筋だけを共有する旧構成を撤回。近所は全体読みの拗音・清濁・長音の違いで構成。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-022-01",
@@ -562,8 +925,26 @@
       "sourceFindingIds": [
         "JQ-022-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-022-01",
+        "integrationId": "INT-022-01",
+        "questionId": "022",
+        "action": "replace_question",
+        "removedCandidates": [
+          "乱れ",
+          "流れ"
+        ],
+        "addedCandidates": [
+          "慣れる",
+          "晴れる",
+          "腫れる"
+        ],
+        "response": "現れを離れるへ差替え。れだけに依存する構成を撤回。離れるは各候補と一拍の有無で対応。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-023-01",
@@ -599,8 +980,27 @@
       "sourceFindingIds": [
         "JQ-023-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-023-01",
+        "integrationId": "INT-023-01",
+        "questionId": "023",
+        "action": "replace_question",
+        "removedCandidates": [
+          "占い",
+          "償い",
+          "行い"
+        ],
+        "addedCandidates": [
+          "狙い",
+          "苦い",
+          "長い"
+        ],
+        "response": "商いを願いへ差替え。ないだけを共有する構成を撤回。願いは各候補と一拍差。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-025-01",
@@ -634,8 +1034,27 @@
       "sourceFindingIds": [
         "JQ-025-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-025-01",
+        "integrationId": "INT-025-01",
+        "questionId": "025",
+        "action": "replace_question",
+        "removedCandidates": [
+          "詰まり",
+          "決まり",
+          "始まり"
+        ],
+        "addedCandidates": [
+          "係り",
+          "計り",
+          "測り"
+        ],
+        "response": "集まりを盛りへ差替え。まりだけを共有する弱い候補を撤回。盛りは冒頭一拍差の三拍語へ変更。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-026-01",
@@ -661,8 +1080,26 @@
       "sourceFindingIds": [
         "JQ-026-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-026-01",
+        "integrationId": "INT-026-01",
+        "questionId": "026",
+        "action": "replace_question",
+        "removedCandidates": [
+          "後先",
+          "後口"
+        ],
+        "addedCandidates": [
+          "戦場",
+          "店長",
+          "洗浄"
+        ],
+        "response": "後味を天井へ差替え。あとや意味の近さだけによる構成を撤回。天井は各候補と一拍差・清濁差。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-027-01",
@@ -698,8 +1135,27 @@
       "sourceFindingIds": [
         "JQ-027-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-027-01",
+        "integrationId": "INT-027-01",
+        "questionId": "027",
+        "action": "replace_question",
+        "removedCandidates": [
+          "手回し",
+          "根回し",
+          "盥回し"
+        ],
+        "addedCandidates": [
+          "火災",
+          "多彩",
+          "多才"
+        ],
+        "response": "後回しを野菜へ差替え。回しだけを共有する構成を撤回。野菜は各候補と冒頭一拍差。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-028-01",
@@ -728,8 +1184,21 @@
       "sourceFindingIds": [
         "JQ-028-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-028-01",
+        "integrationId": "INT-028-01",
+        "questionId": "028",
+        "action": "delete_candidate",
+        "removedCandidates": [
+          "倒れる"
+        ],
+        "addedCandidates": [],
+        "response": "四拍・れるだけの理由を撤回して倒れるを削除。破れる・敗れるの2件を保持。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-029-01",
@@ -765,8 +1234,27 @@
       "sourceFindingIds": [
         "JQ-029-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-029-01",
+        "integrationId": "INT-029-01",
+        "questionId": "029",
+        "action": "replace_question",
+        "removedCandidates": [
+          "唐揚げ",
+          "厚揚げ",
+          "素揚げ"
+        ],
+        "addedCandidates": [
+          "消化",
+          "消火",
+          "商家"
+        ],
+        "response": "油揚げを生姜へ差替え。揚げる食品の分類だけに依存する構成を撤回。生姜は語末の清濁だけが異なる候補へ変更。唱歌は同じ正当読みを持つため除外。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-030-01",
@@ -792,8 +1280,25 @@
       "sourceFindingIds": [
         "JQ-030-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-030-01",
+        "integrationId": "INT-030-01",
+        "questionId": "030",
+        "action": "replace_question",
+        "removedCandidates": [
+          "少ない",
+          "切ない"
+        ],
+        "addedCandidates": [
+          "眠い",
+          "煙い"
+        ],
+        "response": "危ないを寒いへ差替え。ないだけを共有する構成を撤回。寒いは冒頭一拍だけが異なる形容詞へ変更。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-032-01",
@@ -818,8 +1323,25 @@
       "sourceFindingIds": [
         "JQ-032-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-032-01",
+        "integrationId": "INT-032-01",
+        "questionId": "032",
+        "action": "replace_question",
+        "removedCandidates": [
+          "余り",
+          "偽り"
+        ],
+        "addedCandidates": [
+          "病む",
+          "止む"
+        ],
+        "response": "誤りを悩むへ差替え。偽りとの意味・語尾だけの説明を撤回。悩むは冒頭な一拍の有無で競合。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-033-01",
@@ -854,8 +1376,27 @@
       "sourceFindingIds": [
         "JQ-033-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-033-01",
+        "integrationId": "INT-033-01",
+        "questionId": "033",
+        "action": "replace_question",
+        "removedCandidates": [
+          "波立つ",
+          "役立つ",
+          "旅立つ"
+        ],
+        "addedCandidates": [
+          "漁港",
+          "利口",
+          "履行"
+        ],
+        "response": "泡立つを旅行へ差替え。立つだけを共有する弱い候補を撤回。旅行は冒頭拗音一拍の対応差へ変更。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-034-01",
@@ -891,8 +1432,26 @@
       "sourceFindingIds": [
         "JQ-034-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-034-01",
+        "integrationId": "INT-034-01",
+        "questionId": "034",
+        "action": "replace_question",
+        "removedCandidates": [
+          "捨てる",
+          "育てる",
+          "立てる"
+        ],
+        "addedCandidates": [
+          "安泰",
+          "安寧"
+        ],
+        "response": "慌てるを案内へ差替え。てるだけを共有する構成を撤回。案内は第三拍だけが異なる構成へ変更。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-036-01",
@@ -928,8 +1487,27 @@
       "sourceFindingIds": [
         "JQ-036-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-036-01",
+        "integrationId": "INT-036-01",
+        "questionId": "036",
+        "action": "replace_question",
+        "removedCandidates": [
+          "和菓子",
+          "駄菓子",
+          "干菓子"
+        ],
+        "addedCandidates": [
+          "高原",
+          "光源",
+          "抗原"
+        ],
+        "response": "案山子を公園へ差替え。誤答だけが菓子名となる構成を撤回。公園は全候補のこうげんと一拍の子音差で競合。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-037-01",
@@ -963,8 +1541,25 @@
       "sourceFindingIds": [
         "JQ-037-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-037-01",
+        "integrationId": "INT-037-01",
+        "questionId": "037",
+        "action": "replace_candidates",
+        "removedCandidates": [
+          "生贄",
+          "生花"
+        ],
+        "addedCandidates": [
+          "板垣",
+          "竹垣"
+        ],
+        "response": "生の共通性だけの説明を撤回。石垣を維持し、生垣と全体読みが一拍だけ異なる一般名詞の垣根名を追加。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-038-01",
@@ -1000,8 +1595,27 @@
       "sourceFindingIds": [
         "JQ-038-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-038-01",
+        "integrationId": "INT-038-01",
+        "questionId": "038",
+        "action": "replace_question",
+        "removedCandidates": [
+          "生け贄",
+          "生け簀",
+          "生け魚"
+        ],
+        "addedCandidates": [
+          "濡れる",
+          "売れる",
+          "暮れる"
+        ],
+        "response": "生け花を揺れるへ差替え。生けだけを共有する構成を撤回。揺れるは冒頭一拍差で競合する動詞へ変更。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-039-01",
@@ -1037,8 +1651,26 @@
       "sourceFindingIds": [
         "JQ-039-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-039-01",
+        "integrationId": "INT-039-01",
+        "questionId": "039",
+        "action": "replace_question",
+        "removedCandidates": [
+          "一声",
+          "一口",
+          "一言"
+        ],
+        "addedCandidates": [
+          "花見",
+          "鼻血"
+        ],
+        "response": "一息を花火へ差替え。ひとだけを共有する構成を撤回。花火は最後の一拍だけが異なる三拍語へ変更。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-040-01",
@@ -1072,8 +1704,26 @@
       "sourceFindingIds": [
         "JQ-040-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-040-01",
+        "integrationId": "INT-040-01",
+        "questionId": "040",
+        "action": "replace_question",
+        "removedCandidates": [
+          "一時",
+          "一口",
+          "一言"
+        ],
+        "addedCandidates": [
+          "煮物",
+          "二物"
+        ],
+        "response": "一際を荷物へ差替え。ひと以外に対応の弱い候補を撤回。荷物は各候補と一拍だけ異なる三拍語へ変更。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     },
     {
       "id": "JQ-045-01",
@@ -1109,56 +1759,35 @@
       "sourceFindingIds": [
         "JQ-045-01"
       ],
-      "status": "open",
-      "resolvedRevision": null
+      "status": "resolved",
+      "resolvedRevision": 2,
+      "creatorResponse": {
+        "id": "JQ-045-01",
+        "integrationId": "INT-045-01",
+        "questionId": "045",
+        "action": "replace_question",
+        "removedCandidates": [
+          "一人称",
+          "一人娘",
+          "一人旅"
+        ],
+        "addedCandidates": [
+          "中身",
+          "仲居"
+        ],
+        "response": "一人前を仲間へ差替え。一人という字面だけに依存する旧構成を撤回。仲間は全体三拍の語末だけが異なる構成へ変更。",
+        "unresolved": []
+      },
+      "resolutionEvidence": "版2全50問の独立3監査完了。現版の品質指摘は003崖のみで、この旧指摘の対象候補・旧構成は再指摘なし。旧IDと現版IDの問題差替え履歴はcreator-result-2.json参照。"
     }
   ],
-  "creatorResponsesPath": "creator-result-2.json",
-  "integrationDecision": "旧35件の解消は品質監査待ち。版2新規の正誤1件もopen。管理役も辞書本文のにもつを実閲覧確認。",
+  "creatorResponsesPath": "operations/kanji/batches/lv1-reading-001-050/creator-result-2.json",
+  "integrationDecision": "全3担当の版2全範囲監査を統合。初回35件は版2の変更・独立再監査により解消。003崖（品質）と040二物（正誤）の2件は未解決。多数決で消さず版3修正する。",
   "limitations": [
-    {
-      "id": "JQ-U-LV1",
-      "questionId": "001-050",
-      "candidate": null,
-      "reason": "管理役から、Lv1の対象語彙表・想定正答率・数値基準は未定義との回答を受領した。各問の具体的な懸念は記録したが、全50問を一律にLv1適合と保証することはできない。基準が未定義という理由だけで各問を不適合とも断定していない。"
-    },
-    {
-      "id": "JQ-U-EMPIRICAL",
-      "questionId": "001-050",
-      "candidate": null,
-      "reason": "実際の誤選択率や利用者の選択記録は入力にない。混同可能性の判断は、固定根拠に示された読み・字形・語義と、展開した3択に基づく独立した定性的評価である。"
-    }
-  ],
-  "revision2FindingsReceived": [
-    {
-      "id": "C-040-NIMOTSU-NIBUTSU",
-      "questionId": "040",
-      "candidate": "二物",
-      "affectedPairs": [
-        [
-          "煮物",
-          "二物"
-        ]
-      ],
-      "reason": "精選版日本国語大辞典の「に‐ぶつ【二物】」本文に「二つの物。にもつ。」と明記される。読みだけを提示する問題では「二物」の読み「にもつ」を誤答と断定できず、正しい別読みの候補混入が未解決。",
-      "evidence": [
-        {
-          "source": "コトバンク収録・精選版 日本国語大辞典",
-          "entry": "に‐ぶつ【二物】",
-          "text": "二つの物。にもつ。",
-          "retrieval": "web.openとcurlの双方で本文を実取得"
-        },
-        {
-          "source": "笑い学研究21（2014年）「日本における『笑い学』の黎明」65ページ",
-          "text": "言葉遊びの説明で「二物」と「荷物」を同音異義とし、「にもつ」の両義を述べる。",
-          "retrieval": "J-STAGEのPDF本文を実取得。画像取得はタイムアウトしたため画像確認済みとはしない。"
-        }
-      ],
-      "sourceUrls": [
-        "https://kotobank.jp/word/二物-592622",
-        "https://www.jstage.jst.go.jp/article/warai/21/0/21_KJ00009468510/_pdf"
-      ],
-      "unresolved": "「にもつ【二物】」の独立見出しと現代語での使用域は確認できていない。本文に提示読みを認める記載があるため、辞書見出しの代表読み「にぶつ」だけで誤答適格とする判断はできない。"
-    }
+    "入力にはLv1の具体的な語彙範囲・数値基準がない。独自の学年基準や拍差の上限は設けず、全50問について定性的に確認した。一律のLv1適合を保証するものではない。",
+    "誤選択率・対象利用者の選択記録はない。未測定であること自体はfindingsに計上していない。",
+    "各候補の全辞書読みの網羅や正答混入の網羅的保証は、この日本語品質監査では行っていない。",
+    "指定されたREADME.md、固定版evidence.json、TSVのハッシュ計算以外にローカルファイルを参照していない。他担当の監査結果・会話・保存結果は参照していない。",
+    "ファイル、Git、GitHubの変更、問題の作成・修正・確定、追加Subagentの起動は行っていない。"
   ]
 }
