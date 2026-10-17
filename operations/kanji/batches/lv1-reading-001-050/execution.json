@@ -1,0 +1,502 @@
+{
+  "manager": {
+    "threadId": "01a14835-707f-7af1-9c6b-5a5fa0913d16",
+    "requestedModel": "gpt-6.1-sol",
+    "requestedEffort": "medium",
+    "measuredModel": "gpt-6.1-sol",
+    "measuredEffort": "medium",
+    "measurementSource": "local rollout session_meta/turn_context"
+  },
+  "permissions": {
+    "source": "session_environment",
+    "filesystem": "unrestricted",
+    "approvalPolicy": "never"
+  },
+  "baseCommit": "f9f08dd598b54c85f68b0965973b0e4a93613b13",
+  "agents": [
+    {
+      "role": "kanji_creator",
+      "path": "/root/creator",
+      "threadId": "01a141d9-01d7-7d93-b3ef-5679baeb6380",
+      "parentThreadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "status": "interrupted_usage_limit_exceeded",
+      "isClosed": false,
+      "auditPath": null,
+      "taskRevision": 2,
+      "revision1CreationStatus": "completed",
+      "revision2RevisionStatus": "interrupted_usage_limit_exceeded"
+    },
+    {
+      "role": "kanji_japanese_quality_auditor",
+      "path": "/root/quality_r1",
+      "threadId": "01a141e9-22f8-7330-8c97-d49c70b72d02",
+      "parentThreadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "status": "completed",
+      "isClosed": false,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/1/kanji_japanese_quality_auditor.json"
+    },
+    {
+      "role": "kanji_format_auditor",
+      "path": "/root/format_r1",
+      "threadId": "01a141e8-85b3-7322-8ac1-535b259bae1d",
+      "parentThreadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6-luna",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "status": "completed",
+      "isClosed": false,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/1/kanji_format_auditor.json"
+    },
+    {
+      "role": "kanji_correctness_auditor",
+      "path": "/root/correctness_r1",
+      "threadId": "01a141e7-d08f-7712-8d2d-3c2c1ba07968",
+      "parentThreadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "status": "completed",
+      "isClosed": false,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/1/kanji_correctness_auditor.json"
+    },
+    {
+      "role": "kanji_creator",
+      "path": "/root/creator_r2",
+      "threadId": "01a146e3-f4fe-7743-a764-5ae6eaf0e121",
+      "parentThreadId": "01a146e2-a9ba-7ea0-9a08-17c462981a93",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役の実spawn_agent引数 fork_turns=none",
+      "status": "completed",
+      "isClosed": false,
+      "auditPath": null,
+      "taskRevision": 2,
+      "inputMethod": "明示パスの固定入力を全文読取。findings-1.json全35件・版1・元creator成果物・source/questions.tsv・Issue130/140。",
+      "resultPath": "operations/kanji/batches/lv1-reading-001-050/creator-result-2.json"
+    },
+    {
+      "role": "kanji_format_auditor",
+      "path": "/root/format_r2",
+      "threadId": "01a146f2-3f3f-7140-845f-4546d0d636e3",
+      "parentThreadId": "01a146e2-a9ba-7ea0-9a08-17c462981a93",
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6-luna",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "completed",
+      "isClosed": false,
+      "taskRevision": 2,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_format_auditor.json"
+    },
+    {
+      "role": "kanji_correctness_auditor",
+      "path": "/root/correctness_r2",
+      "threadId": "01a146f1-ec74-7d03-bb10-8672785675ac",
+      "parentThreadId": "01a146e2-a9ba-7ea0-9a08-17c462981a93",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "completed",
+      "isClosed": false,
+      "taskRevision": 2,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_correctness_auditor.json"
+    },
+    {
+      "role": "kanji_japanese_quality_auditor",
+      "path": "/root/quality_r2",
+      "threadId": "01a146f2-968d-7a80-ade5-e31cc5044cf9",
+      "parentThreadId": "01a146e2-a9ba-7ea0-9a08-17c462981a93",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "interrupted_usage_limit_exceeded",
+      "isClosed": false,
+      "taskRevision": 2,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_japanese_quality_auditor.json"
+    },
+    {
+      "role": "kanji_japanese_quality_auditor",
+      "path": "/root/quality_r2_retry",
+      "threadId": "01a14828-3a04-7732-97cf-b9790e5dde4b",
+      "parentThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "completed",
+      "isClosed": false,
+      "taskRevision": 2,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_japanese_quality_auditor.json",
+      "inputMethod": "全50問128候補を直接入力。固定evidence.json全文のみ明示読取・SHA確認。他結果・探索禁止。"
+    },
+    {
+      "role": "kanji_creator",
+      "path": "/root/creator_r3",
+      "threadId": "01a1482a-e397-7db1-b148-31870130d4d6",
+      "parentThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "completed",
+      "isClosed": false,
+      "taskRevision": 3,
+      "resultPath": "operations/kanji/batches/lv1-reading-001-050/creator-result-3.json",
+      "inputMethod": "固定版2全文・統合指摘と旧35件対応履歴・source固定ファイルのみ明示読取。外部辞書の読み取り。"
+    },
+    {
+      "role": "kanji_correctness_auditor",
+      "path": "/root/correctness_r3",
+      "threadId": "01a1482e-ffe0-7603-b671-13dcd23b1432",
+      "parentThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "completed",
+      "isClosed": false,
+      "taskRevision": 3,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_correctness_auditor.json"
+    },
+    {
+      "role": "kanji_japanese_quality_auditor",
+      "path": "/root/quality_r3",
+      "threadId": "01a1482f-37ca-7113-9ac3-16da3ad54c14",
+      "parentThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+      "status": "completed",
+      "isClosed": false,
+      "taskRevision": 3,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_japanese_quality_auditor.json"
+    },
+    {
+      "role": "kanji_format_auditor",
+      "path": "/root/format_r3",
+      "threadId": "01a14835-f890-76e1-b499-4d27f4ed71d4",
+      "parentThreadId": "01a14835-707f-7af1-9c6b-5a5fa0913d16",
+      "requestedModel": "gpt-6-luna",
+      "requestedEffort": "high",
+      "measuredModel": "gpt-6-luna",
+      "measuredEffort": "high",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "forkTurns": "none",
+      "status": "completed",
+      "taskRevision": 3,
+      "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_format_auditor.json",
+      "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none。session_metaのforked_from_id=null、親IDと担当パスも照合。",
+      "isClosed": false,
+      "inputMethod": "全50行TSVとSHAを直接メッセージ提示。62,322 bytesの根拠は長さ制約により許可された固定evidence.jsonだけを全文分割読取・SHA照合。他結果・探索・書込禁止。"
+    }
+  ],
+  "initialRemoteCheck": {
+    "checkpointComment": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6190413757",
+    "actorLogin": "bvlion",
+    "actorId": 24517539,
+    "permission": "admin",
+    "permissionUserId": 24517539,
+    "recordCommit": "b2acb95a9dd23bc88465347f1c42265242e63d22",
+    "baseTip": "f9f08dd598b54c85f68b0965973b0e4a93613b13",
+    "comparisonStatus": "ahead",
+    "note": "旧検証記録。本番承認として使用しない。専用バッチブランチへの移行は今回ユーザーの明示指定。"
+  },
+  "auditDeliveryRevision1": {
+    "context": "all three auditors fork_turns=none; other audit results and integrated findings not sent",
+    "directMessages": "全50行の同一TSV、全134候補の辞書読み、SHA-256、各役割の観点を直接提示。正誤担当には各出典URLを再構成できる全語の番号も提示。",
+    "completeEvidence": "完全な固定evidence.jsonは指定した同一ファイルだけの読み取りを明示許可し、全担当が全内容の読了とSHA-256一致を報告。保存ディレクトリ探索を禁止。全根拠JSONそのものを全文メッセージ転記したわけではない。",
+    "isOsReadIsolation": false,
+    "reviewLimitation": "全文の直接メッセージ提示という今回指示に対し、完全根拠は固定ファイルの明示読取で補っている。新規再監査時は完全根拠も直接入力へ含める必要がある。"
+  },
+  "previousManagers": [
+    {
+      "threadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "medium",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "medium",
+      "measurementSource": "local rollout turn_context",
+      "approvalPolicy": "never",
+      "sandboxPolicy": "danger-full-access"
+    },
+    {
+      "threadId": "01a146e2-a9ba-7ea0-9a08-17c462981a93",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "medium",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "medium",
+      "measurementSource": "local rollout turn_context",
+      "approvalPolicy": "never",
+      "sandboxPolicy": "danger-full-access"
+    },
+    {
+      "threadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+      "requestedModel": "gpt-6.1-sol",
+      "requestedEffort": "medium",
+      "measuredModel": "gpt-6.1-sol",
+      "measuredEffort": "medium",
+      "measurementSource": "local rollout session_meta/turn_context",
+      "approvalPolicy": "never",
+      "sandboxPolicy": "danger-full-access"
+    }
+  ],
+  "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17-format.json",
+  "interruption": {
+    "reason": "usage_limit_exceeded",
+    "date": "2026-10-16",
+    "previousCreatorResult2Saved": false
+  },
+  "recoveryCheckpoint": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6229849607",
+  "revision2CreatorDelivery": {
+    "method": "creatorの公開functions.exec text(JSON)出力7件から成果物JSONのみ抽出・統合。send_messageは転記確認に使用。raw会話・認証・キャッシュは保存対象外。",
+    "parts": 7,
+    "questionCount": 50,
+    "candidateCount": 128,
+    "pairCount": 106,
+    "sourceCount": 169,
+    "responseCount": 35
+  },
+  "auditDeliveryRevision2": {
+    "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
+    "directMessages": "全50問のID/読み/正答/全128候補を同一の直接入力として全担当へ提示。",
+    "completeEvidence": "固定版のquestions.tsv/evidence.json/manifest.jsonだけを明示して全文読取を指示。53,208バイトのevidence全文を3担当へ直接転記すると管理セッション入力容量を圧迫するため、全文直入力を省略し同じ固定ファイルで補った。プラットフォームのハード上限を実測したという意味ではない。",
+    "inputDeviation": "根拠全文の直接メッセージ提示は未実施。固定ファイル全文読取・SHA確認を各担当へ要求し、実際の入力方式を報告させる。",
+    "independence": "3担当はfork_turns=none。他監査・統合指摘・作成履歴・レビュー・ログへのアクセス禁止。",
+    "isOsReadIsolation": false,
+    "newThreadCountThisManager": 4,
+    "closeCapabilityAvailable": false,
+    "formatInputVerified": {
+      "readme": "operations/kanji/README.mdを最初に全文読了。",
+      "files": [
+        "operations/kanji/batches/lv1-reading-001-050/revisions/2/questions.tsv",
+        "operations/kanji/batches/lv1-reading-001-050/revisions/2/evidence.json",
+        "operations/kanji/batches/lv1-reading-001-050/revisions/2/manifest.json"
+      ],
+      "fullRead": "questions.tsv全50行、evidence.json全53,208 bytes/37,788 characters（連続区間に分割、未省略）、manifest全文を読了。",
+      "hashes": {
+        "questions.tsv": "05047cc6382d1141724291ceb7b8528975c7e453ca53ef9a8a437c7d9e3de455",
+        "evidence.json": "db9040eafaca131e6209ae01b98508fc88a991608c6bf021aa459d14db5f793c"
+      },
+      "manifestSnapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
+      "inputMode": "TSV全行は管理役の入力にも含まれていた。根拠JSONは管理役が許可した同版固定ファイルから直接全文読取し、根拠の直接全文メッセージ転記はなし。",
+      "otherAuditsConsulted": false
+    },
+    "correctnessInputVerified": {
+      "method": "管理役の明示許可に従い、固定されたquestions.tsv・evidence.json・manifest.jsonだけを直接読取。",
+      "directFullEvidenceMessageTranscription": false,
+      "fullReadDetail": "TSVとmanifestは全文、evidence.jsonはquestions以外の全項目とquestions 001〜010、011〜030、031〜050に分割した全要素を省略なく閲覧。実バイトSHA-256とファイルハッシュ辞書の正規JSONから算出したsnapshotSha256がすべて指定値に一致。",
+      "readmeReadFirst": true,
+      "filesOrGitOrGitHubModified": false
+    },
+    "qualityRetryInputVerified": {
+      "method": "管理役のメッセージにある全50問と、指定された固定パスのevidence.jsonを使用した。README.mdを最初に読み、evidence.jsonは文字位置による3分割で全文を読み、切捨てがないことを確認した。questions.tsvはハッシュ計算だけに使用した。",
+      "evidenceBytes": 53208,
+      "evidenceSha256": "db9040eafaca131e6209ae01b98508fc88a991608c6bf021aa459d14db5f793c",
+      "questionsTsvSha256": "05047cc6382d1141724291ceb7b8528975c7e453ca53ef9a8a437c7d9e3de455",
+      "hashesMatch": true,
+      "evidenceReadInFull": true
+    }
+  },
+  "revision3CreatorDelivery": {
+    "method": "creator最終公開JSONのみを受領・抽出。旧版複製に2ID差分適用。生ログ・暗号化payloadは保存しない。",
+    "questionCount": 50,
+    "candidateCount": 129,
+    "pairCount": 108,
+    "revision2FindingsResponseCount": 2
+  },
+  "auditDeliveryRevision3": {
+    "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+    "directMessages": "全3監査担当へ同じ版3全50問のID順・読み・正答・全129候補を直接提示。形式担当は新管理セッションから同じ固定版を受領。",
+    "completeEvidence": "62,322 bytesの固定evidence.jsonを明示し全文読取・SHA確認を指示。questions.tsvはハッシュ/整合確認、manifestはsnapshot照合のみ許可。",
+    "independence": "fork_turns=none。他監査・統合指摘・creator結果・履歴・ディレクトリ探索禁止。",
+    "isOsReadIsolation": false,
+    "closeCapabilityAvailable": false,
+    "newThreadCountThisManager": 4,
+    "remainingAuditor": null,
+    "remainingAuditorReason": null,
+    "qualityInputVerified": {
+      "readmeReadFirst": true,
+      "questionInput": "管理役メッセージの全50問・129候補を使用。questions.tsvはハッシュと入力整合の確認に限定して参照した。",
+      "evidenceInput": {
+        "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/evidence.json",
+        "bytes": 62322,
+        "unicodeCharacters": 43190,
+        "fullTextRead": true,
+        "readMethod": "Pythonのread_textによるUnicode文字位置[0:21000]、[21000:36000]、[36000:末尾]を順に出力し、省略なく読了した。",
+        "sha256": "18d16aed9a9f8797ba580ae3b56e336681c3061456bd3969a2fffcb58fa10974",
+        "sha256Matches": true
+      },
+      "tsvInput": {
+        "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/questions.tsv",
+        "bytes": 2040,
+        "sha256": "7070741fee1605db1549e4746469f334c7e754d856c6d1b5d8fd6170d4383e09",
+        "sha256Matches": true,
+        "all50RowsMatchEvidence": true,
+        "idAssignment": "TSV行順001〜050とevidence.jsonのIDを全行照合した。"
+      },
+      "snapshotVerification": {
+        "manifestReadPurpose": "ハッシュとsnapshot算出の照合のみ",
+        "method": "questions.tsvとevidence.jsonの実バイト列からSHA-256を計算し、ファイル名をキー、各ハッシュを値とする辞書をsort_keys=true、separators=(',', ':')でJSON化して、そのUTF-8バイト列のSHA-256を再計算した。",
+        "calculatedSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+        "matches": true
+      },
+      "externalReadMethod": "web.openで以下の辞書本文を必要箇所まで確認した。辞書での実在確認と、日本語品質の評価は分けて行った。",
+      "externalSourceUrls": [
+        "https://kotobank.jp/word/虻-426439",
+        "https://kotobank.jp/word/計り-599882",
+        "https://kotobank.jp/word/係-459437",
+        "https://kotobank.jp/word/瓦屋-468934",
+        "https://kotobank.jp/word/一任-433515",
+        "https://kotobank.jp/word/一睡-434268",
+        "https://kotobank.jp/word/一心-31481",
+        "https://kotobank.jp/word/一見-433281"
+      ],
+      "independence": "他担当の監査結果・会話・保存監査ファイルは参照していない。根拠ファイル内の履歴的説明を、他監査の結論として採用していない。",
+      "changesMade": false,
+      "additionalSubagentsStarted": false
+    },
+    "correctnessInputVerified": {
+      "mode": "本番・独立監査",
+      "firstRead": "operations/kanji/README.md",
+      "questionInput": "管理役メッセージの50問を受領し、指定されたquestions.tsvとevidence.jsonの全50行を照合した。",
+      "evidenceRead": {
+        "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/evidence.json",
+        "bytes": 62322,
+        "characters": 43190,
+        "displayedCharacterRanges": [
+          [
+            0,
+            16000
+          ],
+          [
+            16000,
+            32000
+          ],
+          [
+            32000,
+            43190
+          ]
+        ],
+        "fullTextRead": true,
+        "sha256": "18d16aed9a9f8797ba580ae3b56e336681c3061456bd3969a2fffcb58fa10974",
+        "matchesAssignedHash": true
+      },
+      "questionsRead": {
+        "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/questions.tsv",
+        "purpose": "ハッシュと全50問の入力整合確認",
+        "bytes": 2040,
+        "sha256": "7070741fee1605db1549e4746469f334c7e754d856c6d1b5d8fd6170d4383e09",
+        "matchesAssignedHash": true,
+        "matchesAllQuestionRows": true
+      },
+      "snapshotVerification": {
+        "manifestReadPurpose": "snapshot算出照合",
+        "method": "questions.tsvとevidence.jsonのSHA-256を持つオブジェクトをキー順に並べ、空白なしJSONとしてUTF-8化しSHA-256を算出",
+        "calculatedSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+        "matchesAssignedSnapshot": true
+      },
+      "externalVerification": {
+        "method": "web.openおよびcurlによる辞書ページの読取。全採用表記のページをcurlで再取得し、HTMLから全見出しと辞書本文を抽出した。",
+        "uniqueWrittenFormsFetched": 170,
+        "emptyDictionaryResults": 0,
+        "bodyComparison": "Unicode正規化とカタカナからひらがなへの変換後、各問の提示読みを本文と照合。別読み見出し、併記表記、本文の一致箇所と読みの注記を確認した。",
+        "retrievalDate": "2026-10-17"
+      },
+      "otherAuditResultsRead": false,
+      "filesModified": false,
+      "gitModified": false,
+      "githubModified": false,
+      "subagentsStarted": false
+    },
+    "formatInputVerified": {
+      "readme": "operations/kanji/README.md を最初に読了。",
+      "evidence": {
+        "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/evidence.json",
+        "bytes": 62322,
+        "sha256": "18d16aed9a9f8797ba580ae3b56e336681c3061456bd3969a2fffcb58fa10974",
+        "fullRead": "全文を文字位置 0–8000、8000–16000、16000–24000、24000–32000、32000–40000、40000–43190 に分けて読み、末尾まで確認した。"
+      },
+      "questionsTsv": {
+        "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/questions.tsv",
+        "sha256": "7070741fee1605db1549e4746469f334c7e754d856c6d1b5d8fd6170d4383e09",
+        "rows": 50,
+        "evidenceAlignment": "全50行でLv・正答・読み・候補・対象外方向が根拠JSONと一致した。"
+      },
+      "manifest": {
+        "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+        "result": "指定スナップショット値と一致。"
+      },
+      "independence": "指定された固定版、問題、根拠のみを使用し、他担当の監査結果や会話を参照せず独立して確認した。"
+    },
+    "newThreadCountCurrentManager": 1
+  },
+  "handoff": {
+    "reason": "4子スレッド上限・close機能なし。上限を変更せず不足形式監査のみ新管理セッションへ引継ぐ。",
+    "managerThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+    "childThreadsUsed": [
+      "01a14828-3a04-7732-97cf-b9790e5dde4b",
+      "01a1482a-e397-7db1-b148-31870130d4d6",
+      "01a1482e-ffe0-7603-b671-13dcd23b1432",
+      "01a1482f-37ca-7113-9ac3-16da3ad54c14"
+    ],
+    "remainingAuditor": null,
+    "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+    "nextAction": "版3の全50問・正答・129誤答候補と独立3監査結果を提示済み。ユーザーレビューを待つ。問題確定・次範囲・完全自動化・アプリ反映は未承認のため進めない。",
+    "status": "completed",
+    "completedByManagerThreadId": "01a14835-707f-7af1-9c6b-5a5fa0913d16",
+    "historicalNextAction": "版3正誤completed/0・日本語品質completed/0、全50問129候補108組合せ確認済み。形式だけ未実施。4子枠上限・close機能なしのため新管理セッションでkanji_format_auditor gpt-6-luna/highをfork_turns=noneで独立起動。同一版/SHA/全範囲を監査し、全3結果を統合、旧2件の解消確認後にのみawaiting_user_approval。"
+  },
+  "status": "awaiting_user_approval",
+  "nextAction": "版3の全50問・正答・129誤答候補と独立3監査結果を提示済み。ユーザーレビューを待つ。問題確定・次範囲・完全自動化・アプリ反映は未承認のため進めない。",
+  "revision": 3,
+  "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+  "unresolvedFindings": [],
+  "userApproval": {
+    "status": "pending",
+    "revision": 3,
+    "record": null
+  },
+  "automationApproval": null
+}

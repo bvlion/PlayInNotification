@@ -1,0 +1,333 @@
+{
+  "revision": 3,
+  "status": "completed",
+  "completionMeaning": "ID003・040の修正と根拠整理を完了。独立再監査・問題確定・ユーザー承認は未完了。",
+  "baseRevision": 2,
+  "baseHashes": {
+    "questions.tsv": "05047cc6382d1141724291ceb7b8528975c7e453ca53ef9a8a437c7d9e3de455",
+    "evidence.json": "db9040eafaca131e6209ae01b98508fc88a991608c6bf021aa459d14db5f793c"
+  },
+  "mergeInstructions": "版2を複製し、指定IDのTSV行とquestions配列レコードを置換する。sourcesはキー単位で追加・更新し、各changes.candidateExploration.notAdoptedは既存配列へ追記する。topLevelFieldUpdatesを適用する。他48問、旧版、既存出典、除外履歴、limitationsは保持する。管理役が保存後にハッシュを作成する。",
+  "changes": [
+    {
+      "questionId": "003",
+      "action": "replace_question",
+      "before": {
+        "correct": [
+          "峠",
+          "とうげ"
+        ],
+        "wrongAnswers": [
+          "棘",
+          "崖"
+        ]
+      },
+      "tsvRow": "1\t窓\tまど\t的|孫|角\t-",
+      "evidenceQuestion": [
+        "003",
+        [
+          "窓",
+          "まど"
+        ],
+        [
+          [
+            "的",
+            "まと／てき／いくは／ゆくは"
+          ],
+          [
+            "孫",
+            "まご／そん／ひこ／うまご／むまご"
+          ],
+          [
+            "角",
+            "かど／かく／つの／すみ／つぬ／すぼし／チアオ"
+          ]
+        ],
+        "採光・通風のために壁や屋根へ設ける開口部を指す「まど」の辞書見出し。日常的な住居の語として選定し、新しいLv1数値基準は設けていない。",
+        [
+          [
+            "的",
+            "まと／まどは末尾と／どの清濁だけが異なる。全体二拍と母音列あ・おが一致し、標的を表す一字名詞の訓を窓の訓と取り違える競合を想定する。"
+          ],
+          [
+            "孫",
+            "まご／まどは末尾ご／どの子音だけが異なる。全体二拍・母音列あ・お・冒頭まが一致し、末尾も有声の破裂音どうしである。子の子を表す自然な名詞であり、共通接頭部だけを理由にしていない。"
+          ],
+          [
+            "角",
+            "かど／まどは冒頭か／まの子音だけが異なる。末尾どと全体の母音列あ・おが一致する。物の突き出た部分や曲がり目を表す一字名詞の訓を取り違える競合を想定する。"
+          ]
+        ],
+        [
+          "窗",
+          "牖"
+        ],
+        [
+          "そう"
+        ],
+        []
+      ],
+      "sources": {
+        "窓": "https://kotobank.jp/word/窓-136856",
+        "的": "https://kotobank.jp/word/的-575235",
+        "孫": "https://kotobank.jp/word/孫-441331",
+        "角": "https://kotobank.jp/word/角-43512",
+        "繭": "https://kotobank.jp/word/繭-137237",
+        "眉": "https://kotobank.jp/word/眉-607600"
+      },
+      "candidateExploration": {
+        "notAdopted": [
+          {
+            "questionId": "003",
+            "candidate": "崖",
+            "verifiedReading": "がけ",
+            "reason": "旧問とうげでは全体読みの競合が弱く、地形カテゴリと山の構成要素に依存していた説明を撤回。峠で十分な候補2件を維持できないため問題を差し替える。",
+            "url": "https://kotobank.jp/word/崖-42083",
+            "retrievedOn": "2026-10-17",
+            "verificationSource": "管理役が渡した版2根拠・統合指摘"
+          },
+          {
+            "questionId": "003",
+            "candidate": "繭",
+            "verifiedReading": "まゆ／けん／まよ／まい",
+            "reason": "追加探索した実在語。まどとの比較では末尾ど／ゆの子音と母音がともに変わり、今回採用する候補の子音一つの差より競合の説明が弱い。冒頭まだけを共有する理由では採用しない。",
+            "url": "https://kotobank.jp/word/繭-137237",
+            "retrievedOn": "2026-10-17"
+          },
+          {
+            "questionId": "003",
+            "candidate": "眉",
+            "verifiedReading": "まゆ／び／み／まみえ／まよ／まみ",
+            "reason": "追加探索した実在語。まどとの比較では末尾ど／ゆの子音と母音がともに変わる。共通する冒頭まだけに依存する候補として採用しない。",
+            "url": "https://kotobank.jp/word/眉-607600",
+            "retrievedOn": "2026-10-17"
+          }
+        ]
+      }
+    },
+    {
+      "questionId": "040",
+      "action": "replace_candidate",
+      "before": {
+        "correct": [
+          "荷物",
+          "にもつ"
+        ],
+        "wrongAnswers": [
+          "煮物",
+          "二物"
+        ]
+      },
+      "tsvRow": "1\t荷物\tにもつ\t煮物|二月\t-",
+      "evidenceQuestion": [
+        "040",
+        [
+          "荷物",
+          "にもつ"
+        ],
+        [
+          [
+            "煮物",
+            "にもの"
+          ],
+          [
+            "二月",
+            "にがつ／じげつ／にがち"
+          ]
+        ],
+        "運搬する品物や負担となるものを指す「にもつ」の辞書見出し。日常語としての正答を維持する。",
+        [
+          [
+            "煮物",
+            "にもの／にもつは最後のの／つだけが異なる全体三拍の語。物を含む二字表記で、物の読みもの／もつの対応が直接競合する。煮た料理を指す自然な名詞である。"
+          ],
+          [
+            "二月",
+            "にがつ／にもつは第二拍が／もだけが異なる。冒頭に・末尾つをともに含む全体三拍が対応し、漢字二字の月名の読みを荷物の読みと取り違える競合を想定する。共通するにだけを選定理由にしていない。"
+          ]
+        ],
+        [],
+        [],
+        []
+      ],
+      "sources": {
+        "荷物": "https://kotobank.jp/word/荷物-592928",
+        "煮物": "https://kotobank.jp/word/煮物-110357",
+        "二物": "https://kotobank.jp/word/二物-592622",
+        "二月": "https://kotobank.jp/word/二月-518393",
+        "荷主": "https://kotobank.jp/word/荷主-592522",
+        "煮沸": "https://kotobank.jp/word/煮沸-525640"
+      },
+      "candidateExploration": {
+        "notAdopted": [
+          {
+            "questionId": "040",
+            "candidate": "二物",
+            "verifiedReading": "にぶつ／ふたつもの／にもつ",
+            "reason": "精選版日本国語大辞典本文がにもつを認めていることを再確認。提示読みの正答になり得るため、代表見出しのにぶつだけを根拠に誤答とする判断を撤回して除外。",
+            "url": "https://kotobank.jp/word/二物-592622",
+            "retrievedOn": "2026-10-17"
+          },
+          {
+            "questionId": "040",
+            "candidate": "荷主",
+            "verifiedReading": "にぬし",
+            "reason": "実在語だが、にもつとの比較では後半もつ／ぬしの二拍が変わる。荷の字と物流の意味カテゴリ以外の競合が、煮物・二月より弱いため採用しない。",
+            "url": "https://kotobank.jp/word/荷主-592522",
+            "retrievedOn": "2026-10-17"
+          },
+          {
+            "questionId": "040",
+            "candidate": "煮沸",
+            "verifiedReading": "しゃふつ／しょふつ",
+            "reason": "読みを辞書で確認した結果、にもつとの具体的な競合は弱い。煮の訓と沸の音を機械的に組み合わせた未確認のにふつを選定根拠にできないため採用しない。",
+            "url": "https://kotobank.jp/word/煮沸-525640",
+            "retrievedOn": "2026-10-17"
+          }
+        ]
+      }
+    }
+  ],
+  "topLevelFieldUpdates": {
+    "revision": 3,
+    "retrievedOn": "2026-10-17",
+    "retrievalMethod": "版2の変更なし48問の閲覧記録を継承。版3の003・040と追加探索語はweb.openおよびcurlで辞書本文・見出し・canonical URLを確認。二月は見出しURLのweb.open取得が失敗した後、curlで取得したcanonical URLと大辞泉・精選版本文を確認。",
+    "sourceResolution": "各正答・候補の表記をsourcesのキーとして参照。そのURLが実閲覧出典。",
+    "constructionChecks": {
+      "questionCount": 50,
+      "candidateCount": 129,
+      "candidateCountDistribution": {
+        "2": 21,
+        "3": 29
+      },
+      "allCandidatePairCount": 108,
+      "allQuestionsHaveAtLeastTwoCandidates": true,
+      "allReadingWrongAnswersAreHyphens": true,
+      "allOptionsShareKanjiCountAndKanaPatternWithinEachQuestion": true,
+      "method": "版2をメモリー上で複製して003・040だけを置換し再計算。全179表記の漢字を共通記号へ置換して各問の文字数・文字種・送り仮名位置を照合。全108候補組合せで表記形式は一致する。",
+      "meaning": "作成時の整合確認であり、独立した形式監査の代行ではない。"
+    },
+    "independentAuditStatus": "pending",
+    "userApprovalStatus": "pending",
+    "completionMeaning": "版2の48問を維持し、003・040の修正と根拠整理を完了。版3の独立再監査・問題確定・ユーザー承認を表さない。",
+    "revision3QuestionChecks": [
+      {
+        "questionId": "003",
+        "sourceReadingChecks": [
+          {
+            "written": "窓",
+            "result": "大辞泉と精選版でまどを確認。窗・牖は同じ読みの併記表記なので誤答に使わない。そうの漢字音も記録。",
+            "source": "[コトバンク・窓](https://kotobank.jp/word/窓-136856)"
+          },
+          {
+            "written": "的",
+            "result": "大辞泉のまと・てき、精選版のいくは・ゆくはの見出しと本文を確認。閲覧した語の読み・併記表記にまどは見当たらない。",
+            "source": "[コトバンク・的](https://kotobank.jp/word/的-575235)"
+          },
+          {
+            "written": "孫",
+            "result": "大辞泉・精選版のまご・そん・ひこ・うまご・むまごを確認。古い読みや本文も確認し、まどの記載は見当たらない。",
+            "source": "[コトバンク・孫](https://kotobank.jp/word/孫-441331)"
+          },
+          {
+            "written": "角",
+            "result": "大辞泉・精選版のかど・かく・つの・すみ・つぬ・すぼし・チアオと、字通の字音ろく等を確認。かどには稜の併記があるが、窓の別表記ではない。閲覧範囲にまどは見当たらない。",
+            "source": "[コトバンク・角](https://kotobank.jp/word/角-43512)"
+          }
+        ],
+        "allCandidatePairs": [
+          {
+            "candidates": [
+              "的",
+              "孫"
+            ],
+            "reason": "正答まどに対して、まとは末尾の清濁差、まごは末尾子音の差。双方とも全体二拍と母音列あ・おが一致する。窓・的・孫はすべて漢字一字の実在名詞で、形式の違いは手掛かりにならない。"
+          },
+          {
+            "candidates": [
+              "的",
+              "角"
+            ],
+            "reason": "まとは末尾の清濁、かどは冒頭子音がまどと異なる。それぞれ一つの子音の対応を取り違える競合があり、両候補を同じ意味カテゴリへ寄せた構成ではない。三表記とも漢字一字。"
+          },
+          {
+            "candidates": [
+              "孫",
+              "角"
+            ],
+            "reason": "まごは末尾子音、かどは冒頭子音がまどと異なる。二候補とも全体二拍・母音列あ・おが対応するため、片方の近さだけに依存していない。三表記とも漢字一字。"
+          }
+        ],
+        "qualityMeaning": "辞書は読みと実在性の根拠。上記の競合は作成担当の定性的判断であり、独立監査の合格や実際の誤選択率を表さない。"
+      },
+      {
+        "questionId": "040",
+        "sourceReadingChecks": [
+          {
+            "written": "荷物",
+            "result": "大辞泉・精選版のにもつを再確認。正答の表記・読みを維持する。",
+            "source": "[コトバンク・荷物](https://kotobank.jp/word/荷物-592928)"
+          },
+          {
+            "written": "煮物",
+            "result": "大辞泉・精選版のにものと本文を再確認。閲覧した見出し・本文ににもつの読みは見当たらない。",
+            "source": "[コトバンク・煮物](https://kotobank.jp/word/煮物-110357)"
+          },
+          {
+            "written": "二月",
+            "result": "大辞泉のにがつ・じげつ、精選版本文のにがちも確認。本文にはきさらぎとの同義関係もある。閲覧範囲ににもつを認める記載は見当たらない。",
+            "source": "[コトバンク・二月](https://kotobank.jp/word/二月-518393)"
+          }
+        ],
+        "allCandidatePairs": [
+          {
+            "candidates": [
+              "煮物",
+              "二月"
+            ],
+            "reason": "にもつに対して、にものは末尾の／つ、にがつは第二拍が／もだけが異なる。いずれも全体三拍のうち二拍が対応する実在語。荷物・煮物・二月はすべて漢字二字で、誤答だけが同じ意味カテゴリや同じ接尾辞へ集まる構成でもない。"
+          }
+        ],
+        "qualityMeaning": "辞書は読みと実在性の根拠。競合は作成担当の定性的判断であり、独立監査の合格や実際の誤選択率を表さない。"
+      }
+    ]
+  },
+  "findingsResponses": [
+    {
+      "id": "JQ-003-GAKE",
+      "integrationId": "INT-R2-003",
+      "questionId": "003",
+      "action": "replace_question",
+      "removedCandidates": [
+        "棘",
+        "崖"
+      ],
+      "addedCandidates": [
+        "的",
+        "孫",
+        "角"
+      ],
+      "response": "山の構成要素と地形カテゴリに依存していた崖の説明を撤回。峠で自然な誤答2件を維持できないため、ID003を窓へ差し替えた。全候補について読み全体の具体的な子音差、別読み確認、全3組合せの競合理由を記録した。",
+      "status": "revised_pending_reaudit",
+      "unresolved": []
+    },
+    {
+      "id": "C-040-NIMOTSU-NIBUTSU",
+      "integrationId": "INT-R2-040",
+      "questionId": "040",
+      "action": "replace_candidate",
+      "removedCandidates": [
+        "二物"
+      ],
+      "addedCandidates": [
+        "二月"
+      ],
+      "response": "精選版本文のにもつを再確認し、二物の誤答採用を撤回。荷物・煮物を維持し、二月へ置換した。二月の別読みと本文も確認し、採用2候補の組合せの競合理由を記録した。追加探索した荷主・煮沸は根拠不足のため採用しない。",
+      "status": "revised_pending_reaudit",
+      "unresolved": []
+    }
+  ],
+  "unresolved": [],
+  "nextAction": "管理役が版3を保存し、全50問・全候補を対象として3担当の独立再監査を実施する。",
+  "writesPerformed": false
+}

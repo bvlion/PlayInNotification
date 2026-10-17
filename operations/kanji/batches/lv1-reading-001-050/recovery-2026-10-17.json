@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-10-16T22:44:21.034227+00:00",
+  "checkpointComment": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6204569610",
+  "actorLogin": "bvlion",
+  "actorId": 24517539,
+  "permission": "admin",
+  "permissionUserId": 24517539,
+  "recordCommit": "0c6c5b609dc6ec50ebd984632f71f3228b3e651c",
+  "branchTip": "0c6c5b609dc6ec50ebd984632f71f3228b3e651c",
+  "comparisonStatus": "identical",
+  "snapshotSha256": "37d3dfb30d3fa663f41f66e2ceb062980949e36cec27e5fe0f8dcb8f02028489",
+  "protectedFilesVerified": 39,
+  "protectedCommentsVerified": 4,
+  "knownUncommittedFiles": [
+    "execution.json",
+    "review.md",
+    "workflow.json"
+  ],
+  "otherChanges": [],
+  "interruption": {
+    "date": "2026-10-16",
+    "reason": "usage_limit_exceeded",
+    "managerThreadId": "01a141d8-0768-76d3-9789-57e2c9586f89",
+    "creatorFinalRevision2Saved": false
+  },
+  "approvalSource": "2026-10-16のユーザー会話。2026-10-17に直接続行指示。GitHub転記は本人承認元にしない。",
+  "nextAction": "creatorを指定モデルで実起動し全35指摘を修正後、全3担当の独立再監査",
+  "snapshotDigestRecipe": {
+    "files": [
+      "evidence.json",
+      "questions.tsv"
+    ],
+    "fileDigest": "SHA-256 of exact file bytes",
+    "serialization": "json.dumps(fileSha256Dictionary, sort_keys=True, separators=(comma,colon)), UTF-8; ensure_ascii default True (keys/digests ASCII)",
+    "snapshotDigest": "SHA-256 of serialized dictionary bytes",
+    "manifestExcluded": true,
+    "verifiedSnapshotSha256": "37d3dfb30d3fa663f41f66e2ceb062980949e36cec27e5fe0f8dcb8f02028489"
+  }
+}

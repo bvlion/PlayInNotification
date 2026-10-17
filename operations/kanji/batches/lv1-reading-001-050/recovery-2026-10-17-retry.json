@@ -1,0 +1,51 @@
+{
+  "checkedAt": "2026-10-17T04:39:50.579588+00:00",
+  "checkpointComment": "https://github.com/bvlion/PlayInNotification/issues/140#issuecomment-6226339891",
+  "actorLogin": "bvlion",
+  "actorId": 24517539,
+  "permission": "admin",
+  "permissionUserId": 24517539,
+  "checkpointOrigin": "AI代理進捗投稿。本人承認に転用しない。",
+  "recordCommit": "37c4d2e6913ed7f782c1626c93f341aabdc20c2b",
+  "branchTip": "37c4d2e6913ed7f782c1626c93f341aabdc20c2b",
+  "comparisonStatus": "identical",
+  "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
+  "protectedFilesVerified": 39,
+  "protectedCommentsVerified": 4,
+  "managerThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+  "managerMeasuredModel": "gpt-6.1-sol",
+  "managerMeasuredEffort": "medium",
+  "measurementSource": "local rollout session_meta/turn_context",
+  "permissions": {
+    "filesystem": "unrestricted",
+    "approvalPolicy": "never"
+  },
+  "review142": {
+    "unresolvedThread": "PRRT_kwDOUSX-Vs6taDne",
+    "action": "root nextActionをactiveBatchと同期",
+    "pr141KnownIdentityLimitationUnchanged": true
+  },
+  "nextAction": "版3正誤completed/0・日本語品質completed/0、全50問129候補108組合せ確認済み。形式だけ未実施。4子枠上限・close機能なしのため新管理セッションでkanji_format_auditor gpt-6-luna/highをfork_turns=noneで独立起動。同一版/SHA/全範囲を監査し、全3結果を統合、旧2件の解消確認後にのみawaiting_user_approval。",
+  "finalValidation": {
+    "checkedAt": "2026-10-17T04:51:44.094629+00:00",
+    "protectedFilesVerified": 39,
+    "protectedCommentsVerified": 4,
+    "revisions1And2BytesUnchanged": true,
+    "allRevisionSnapshotsRecomputed": true,
+    "revision3QuestionCount": 50,
+    "revision3CandidateCount": 129,
+    "revision3PairCount": 108,
+    "jsonParsed": true,
+    "allTsvRowsAndEvidenceChecked": true,
+    "allIdsAndSourceKeysMatched": true,
+    "noDuplicateAnswersOrCandidates": true,
+    "recordedCandidateReadingsDifferFromPrompt": true,
+    "sameKanjiAndKanaPatternPerQuestion": true,
+    "independentCorrectnessCompleted": true,
+    "independentQualityCompleted": true,
+    "independentFormatCompleted": false,
+    "gitDiffCheck": "passed",
+    "gradle": "アプリ・テスト・ビルド変更なしのため対象外",
+    "knownIdentityLimitations": "PR141本人承認の独立認証は未解決。開始承認元はユーザー会話、転記は本人承認元にしない。"
+  }
+}
