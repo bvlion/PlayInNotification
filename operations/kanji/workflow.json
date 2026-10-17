@@ -41,7 +41,7 @@
     "githubApprovalComment": null
   },
   "automationApproval": null,
-  "status": "revising",
+  "status": "auditing",
   "activeBatch": {
     "batchId": "lv1-reading-001-050",
     "difficulty": 1,
@@ -53,11 +53,11 @@
     "sourceBranch": "feature/issue-130-difficult-kanji",
     "sourceCommit": "51c8797801c0045e26d84039ba4326f659e72e66",
     "workBranch": "codex/issue-140-lv1-reading-001-050",
-    "revision": 2,
-    "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/2",
-    "snapshotSha256": "a7f5ea86b52fd5958dd8be353f038ea4545923149950c63a52b2d58b30366ab3",
-    "status": "revising",
-    "nextAction": "版2全3監査完了、旧35件解消・現版未解決2件（003崖/040二物）。新creatorへ統合指摘を渡してrevision3を作成し全3監査を新規再実行。",
+    "revision": 3,
+    "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/3",
+    "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+    "status": "auditing",
+    "nextAction": "版3作成完了。003を窓へ差替え、040二物を二月へ変更。全50問129候補108組合せの独立3再監査が必要。4子スレッド上限を守り不足担当はcheckpointして新管理セッションへ引継ぐ。",
     "assignments": [
       {
         "role": "kanji_creator",
@@ -205,6 +205,24 @@
         "taskRevision": 2,
         "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/2/kanji_japanese_quality_auditor.json",
         "inputMethod": "全50問128候補を直接入力。固定evidence.json全文のみ明示読取・SHA確認。他結果・探索禁止。"
+      },
+      {
+        "role": "kanji_creator",
+        "path": "/root/creator_r3",
+        "threadId": "01a1482a-e397-7db1-b148-31870130d4d6",
+        "parentThreadId": "01a14827-bb69-7240-b1da-6e497ffffddd",
+        "requestedModel": "gpt-6.1-sol",
+        "requestedEffort": "high",
+        "measuredModel": "gpt-6.1-sol",
+        "measuredEffort": "high",
+        "measurementSource": "local rollout session_meta/turn_context",
+        "forkTurns": "none",
+        "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
+        "status": "completed",
+        "isClosed": false,
+        "taskRevision": 3,
+        "resultPath": "operations/kanji/batches/lv1-reading-001-050/creator-result-3.json",
+        "inputMethod": "固定版2全文・統合指摘と旧35件対応履歴・source固定ファイルのみ明示読取。外部辞書の読み取り。"
       }
     ],
     "unresolvedFindings": [
@@ -277,7 +295,7 @@
     ],
     "userApproval": {
       "status": "pending",
-      "revision": 2,
+      "revision": 3,
       "record": null
     },
     "recoveryRecord": "operations/kanji/batches/lv1-reading-001-050/recovery-2026-10-17-retry.json"
@@ -335,7 +353,7 @@
       "sourceFindingIds": [
         "C-040-NIMOTSU-NIBUTSU"
       ],
-      "status": "open",
+      "status": "revised_pending_reaudit",
       "resolvedRevision": null
     },
     {
@@ -364,9 +382,9 @@
       "sourceFindingIds": [
         "JQ-003-GAKE"
       ],
-      "status": "open",
+      "status": "revised_pending_reaudit",
       "resolvedRevision": null
     }
   ],
-  "nextAction": "版2全3監査完了、旧35件解消・現版未解決2件（003崖/040二物）。新creatorへ統合指摘を渡してrevision3を作成し全3監査を新規再実行。"
+  "nextAction": "版3作成完了。003を窓へ差替え、040二物を二月へ変更。全50問129候補108組合せの独立3再監査が必要。4子スレッド上限を守り不足担当はcheckpointして新管理セッションへ引継ぐ。"
 }
