@@ -208,7 +208,7 @@
       "measurementSource": "local rollout session_meta/turn_context",
       "forkTurns": "none",
       "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
-      "status": "running",
+      "status": "completed",
       "isClosed": false,
       "taskRevision": 3,
       "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_japanese_quality_auditor.json"
@@ -327,6 +327,47 @@
     "closeCapabilityAvailable": false,
     "newThreadCountThisManager": 4,
     "remainingAuditor": "kanji_format_auditor",
-    "remainingAuditorReason": "4子スレッド上限、close機能なし。上限を上げず新管理セッションで不足形式監査のみを独立起動する。"
+    "remainingAuditorReason": "4子スレッド上限、close機能なし。上限を上げず新管理セッションで不足形式監査のみを独立起動する。",
+    "qualityInputVerified": {
+      "readmeReadFirst": true,
+      "questionInput": "管理役メッセージの全50問・129候補を使用。questions.tsvはハッシュと入力整合の確認に限定して参照した。",
+      "evidenceInput": {
+        "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/evidence.json",
+        "bytes": 62322,
+        "unicodeCharacters": 43190,
+        "fullTextRead": true,
+        "readMethod": "Pythonのread_textによるUnicode文字位置[0:21000]、[21000:36000]、[36000:末尾]を順に出力し、省略なく読了した。",
+        "sha256": "18d16aed9a9f8797ba580ae3b56e336681c3061456bd3969a2fffcb58fa10974",
+        "sha256Matches": true
+      },
+      "tsvInput": {
+        "path": "operations/kanji/batches/lv1-reading-001-050/revisions/3/questions.tsv",
+        "bytes": 2040,
+        "sha256": "7070741fee1605db1549e4746469f334c7e754d856c6d1b5d8fd6170d4383e09",
+        "sha256Matches": true,
+        "all50RowsMatchEvidence": true,
+        "idAssignment": "TSV行順001〜050とevidence.jsonのIDを全行照合した。"
+      },
+      "snapshotVerification": {
+        "manifestReadPurpose": "ハッシュとsnapshot算出の照合のみ",
+        "method": "questions.tsvとevidence.jsonの実バイト列からSHA-256を計算し、ファイル名をキー、各ハッシュを値とする辞書をsort_keys=true、separators=(',', ':')でJSON化して、そのUTF-8バイト列のSHA-256を再計算した。",
+        "calculatedSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
+        "matches": true
+      },
+      "externalReadMethod": "web.openで以下の辞書本文を必要箇所まで確認した。辞書での実在確認と、日本語品質の評価は分けて行った。",
+      "externalSourceUrls": [
+        "https://kotobank.jp/word/虻-426439",
+        "https://kotobank.jp/word/計り-599882",
+        "https://kotobank.jp/word/係-459437",
+        "https://kotobank.jp/word/瓦屋-468934",
+        "https://kotobank.jp/word/一任-433515",
+        "https://kotobank.jp/word/一睡-434268",
+        "https://kotobank.jp/word/一心-31481",
+        "https://kotobank.jp/word/一見-433281"
+      ],
+      "independence": "他担当の監査結果・会話・保存監査ファイルは参照していない。根拠ファイル内の履歴的説明を、他監査の結論として採用していない。",
+      "changesMade": false,
+      "additionalSubagentsStarted": false
+    }
   }
 }

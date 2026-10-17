@@ -57,7 +57,7 @@
     "snapshotPath": "operations/kanji/batches/lv1-reading-001-050/revisions/3",
     "snapshotSha256": "80497069ab15f112715ff938e14ae7cee388a57f412eb7734a8af997a04ec457",
     "status": "auditing",
-    "nextAction": "版3作成完了。003を窓へ差替え、040二物を二月へ変更。全50問129候補108組合せの独立3再監査が必要。4子スレッド上限を守り不足担当はcheckpointして新管理セッションへ引継ぐ。",
+    "nextAction": "版3品質completed/0、正誤結果待ち。形式未起動（4子枠上限）。正誤受領後checkpointし、新管理セッションで形式だけを独立監査して統合。",
     "assignments": [
       {
         "role": "kanji_creator",
@@ -253,7 +253,7 @@
         "measurementSource": "local rollout session_meta/turn_context",
         "forkTurns": "none",
         "forkTurnsEvidence": "管理役実spawn_agent引数 fork_turns=none",
-        "status": "running",
+        "status": "completed",
         "isClosed": false,
         "taskRevision": 3,
         "auditPath": "operations/kanji/batches/lv1-reading-001-050/audits/3/kanji_japanese_quality_auditor.json"
@@ -420,5 +420,5 @@
       "resolvedRevision": null
     }
   ],
-  "nextAction": "版3作成完了。003を窓へ差替え、040二物を二月へ変更。全50問129候補108組合せの独立3再監査が必要。4子スレッド上限を守り不足担当はcheckpointして新管理セッションへ引継ぐ。"
+  "nextAction": "版3品質completed/0、正誤結果待ち。形式未起動（4子枠上限）。正誤受領後checkpointし、新管理セッションで形式だけを独立監査して統合。"
 }

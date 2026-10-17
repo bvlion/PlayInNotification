@@ -4,7 +4,7 @@
   "auditStatuses": {
     "kanji_correctness_auditor": "pending",
     "kanji_format_auditor": "pending",
-    "kanji_japanese_quality_auditor": "pending"
+    "kanji_japanese_quality_auditor": "completed"
   },
   "unresolvedCount": 2,
   "findings": [
@@ -77,5 +77,8 @@
   ],
   "previousFindingsPath": "findings-2.json",
   "creatorResponsesPath": "creator-result-3.json",
-  "integrationDecision": "版2の2件は修正済み報告。版3全3監査まで解消とは認定しない。"
+  "integrationDecision": "版3品質全50問129候補108組合せを完了、指摘0。正誤・形式の完了前なので版2の2件は修正確認待ちのまま。",
+  "revision3FindingsReceived": {
+    "kanji_japanese_quality_auditor": []
+  }
 }
